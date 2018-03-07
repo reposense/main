@@ -189,6 +189,17 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
+    /**
+     * Removes all {@code tag} that are not in used by any {@code Person} in this {@code AddressBook}.
+     */
+    private void removeUnusedTags() {
+        Set<Tag> tagsInPersons = persons.asObservableList().stream()
+                .map(Person::getTags)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+        tags.setTags(tagsInPersons);
+    }
+
     //// util methods
 
     @Override
