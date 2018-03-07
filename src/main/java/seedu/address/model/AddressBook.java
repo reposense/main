@@ -155,10 +155,38 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     /**
      *
-     * Removes {@code t} from all persons in this {@code AddressBook}.
+     * Removes {@code tag} from all persons in this {@code AddressBook}.
      */
-    public void removeTag(Tag t) {
-        
+    public void removeTag(Tag tag) {
+        try {
+            for (Person person : persons) {
+                removeTagFromPerson(tag, person);
+            }
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("Impossible: AddressBook should contain this person");
+        }
+    }
+
+    /**
+     * Removes {@code tag} from {@code person} in this {@code AddressBook}.
+     * @throws PersonNotFoundException if the {@code person} is not in this {@code AddressBook}.
+     */
+    private void removeTagFromPerson(Tag tag, Person person) throws PersonNotFoundException {
+        Set<Tag> newTags = new HashSet<>(person.getTags());
+
+        if (!newTags.remove(tag)){
+            return;
+        }
+
+        Person newPerson =
+                new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), newTags);
+
+        try {
+            updatePerson(person, newPerson);
+        } catch (DuplicatePersonException dpe) {
+            throw new AssertionError("AddressBook should not have duplicate person " +
+                    "after updating person's tag.")
+        }
     }
 
     //// util methods
