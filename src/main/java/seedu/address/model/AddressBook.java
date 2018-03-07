@@ -186,7 +186,7 @@ public class AddressBook implements ReadOnlyAddressBook {
             updatePerson(person, newPerson);
         } catch (DuplicatePersonException dpe) {
             throw new AssertionError("AddressBook should not have duplicate person " +
-                    "after updating person's tag.")
+                    "after updating person's tag.");
         }
     }
 
