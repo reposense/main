@@ -153,6 +153,14 @@ public class AddressBook implements ReadOnlyAddressBook {
         tags.add(t);
     }
 
+    /**
+     *
+     * Removes {@code t} from all persons in this {@code AddressBook}.
+     */
+    public void removeTag(Tag t) {
+        
+    }
+
     //// util methods
 
     @Override
