@@ -806,12 +806,78 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
 
+|`* * *` |new user |access the user guide |find out how to use fancy features of the application
+
+|`* * *` |user |add new player|
+
+|`* * *` |user |add player’s address |mail him important documents
+
+|`* * *` |user |add player’s contact number |contact him when needed
+
+|`* * *` |user |add player’s email |email him when needed
+
+|`* * *` |user |add player’s jersey number |easily identify them during the game
+
+|`* * *` |user |add player’s lineup status |organise the lineup (e.g. main team, reserves)
+
+|`* * *` |user |add player’s position |easily pick my lineup for match
+
+|`* * *` |user |delete player |remove him if I kick him out from the team or he quits
+
+|`* * *` |user |edit player’s allocated team |move players between teams
+
+|`* * *` |user |edit player’s contact number |
+
+|`* * *` |user |edit player’s email |
+
+|`* * *` |user |edit player’s jersey number |
+
+|`* * *` |user |edit player’s number of demerits (Y/R cards) |fine/bench the player easily
+
+|`* * *` |user |find a player by name |locate a person without going through the whole list
+
+|`* * *` |new user |see a list of instructions available |navigate and use the application with
+ease
+
 |`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
 
-|`*` |user with many persons in the address book |sort persons by name |locate a person easily
+|`* *` |user |add player remarks |for self note
+
+
+|`* *` |user |add player’s avatar |for facial recognition
+
+|`* *` |user |add player’s match stats (e.g. goals scored) |decide the lineup, give award
+
+|`* *` |user |autofill command |perform task quickly
+
+|`* *` |user |edit player remarks |for self note
+
+|`* *` |user |edit player’s address |
+
+|`* *` |user |edit player’s avatar |
+
+|`* *` |user |edit player’s lineup status |organise the lineup (e.g. main team, reserves)
+
+|`* *` |user |edit player’s match stats |decide the lineup, give award
+
+|`* *` |user |edit player’s position |easily pick my lineup for match
+
+|`* *` |user |find player by team name |locate a team without going through the whole list
+
+|`* *` |user |password login |If user wants to protect certain information
+
+|`* *` |user |submit feedback to developers |developers can improve the application constantly
+
+|`*` |user |edit player’s name |
+
+|`*` |user with many persons in the address book |sort by player name |locate a person easily
+
+|`*` |user |sort by team name |identify group lineup easily
+
+
 |=======================================================================
 
-_{More to be added}_
+
 
 [appendix]
 == Use Cases
