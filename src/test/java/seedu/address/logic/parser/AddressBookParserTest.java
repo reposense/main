@@ -51,7 +51,8 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_addAlias() throws Exception {
         Person person = new PersonBuilder().build();
-        AddCommand command = (AddCommand) parser.parseCommand(AddCommand.COMMAND_ALIAS + " " + PersonUtil.getPersonDetails(person));
+        AddCommand command = (AddCommand) parser.parseCommand(AddCommand.COMMAND_ALIAS + " "
+                + PersonUtil.getPersonDetails(person));
         assertEquals(new AddCommand(person), command);
     }
 
@@ -168,7 +169,7 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_selectAlias() throws Exception {
         SelectCommand command = (SelectCommand) parser.parseCommand(
-                SelectCommand.COMMAND_ALIAS+ " " + INDEX_FIRST_PERSON.getOneBased());
+                SelectCommand.COMMAND_ALIAS + " " + INDEX_FIRST_PERSON.getOneBased());
         assertEquals(new SelectCommand(INDEX_FIRST_PERSON), command);
     }
 
