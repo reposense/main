@@ -806,7 +806,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |delete a person |remove entries that I no longer need
 
-|`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
+|`* * *` |user |find a person by name |locate details of players without having to go through the entire list
 
 |`* * *` |new user |access the user guide |find out how to use fancy features of the application
 
@@ -872,7 +872,7 @@ ease
 
 |`*` |user |edit player’s name |
 
-|`*` |user with many persons in the address book |sort by player name |locate a person easily
+|`*` |user with many players in the team managing application |sort by player name |locate a person easily
 
 |`*` |user |sort by team name |identify group lineup easily
 
@@ -988,7 +988,7 @@ _{More to be added}_
 == Non Functional Requirements
 
 .  Should work on any mainstream OS as long as it has Java 1.8.0_60 or higher installed.
-.  Should be able to hold up to 150 persons without a noticeable sluggishness in performance for typical usage.
+.  Should be able to hold up to 150 players without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 .  Works on both 32-bit and 64-bit machines
 .  Should respond within 1 second of query
@@ -999,7 +999,7 @@ _{More to be added}_
 .  Should be an open-source project.
 .  Development be cost effective or free.
 .  App should be able to work offline.
-.  Should save and backup the state of the addressbook regularly.
+.  Should save and backup the state of the team managing application regularly.
 .  Current versions must be backward compatible with older versions to support undo.
 .  The user interface should be simple and minimise distractions so that user can continue with their work in a focused manner.
 
