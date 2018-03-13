@@ -13,7 +13,7 @@ We are a team based in the http://www.comp.nus.edu.sg[School of Computing, Natio
 
 === Codee Ong
 image::[insert pic].jpg[width="150", align="left"]
-{empty}[http://www.comp.nus.edu.sg/~damithch[homepage]] [https://github.com/damithc[github]] [<<johndoe#, portfolio>>]
+{empty}[https://github.com/codeeong[github]] [<<codeeong#, portfolio>>]
 
 Role: Developer
 Responsibilties:
@@ -31,7 +31,7 @@ Responsibilities:
 
 === Syafiq
 image::[insert pic].jpg[width="150", align="left"]
-{empty}[http://github.com/yijinl[github]] [<<johndoe#, portfolio>>]
+{empty}[http://github.com/lithiumlkid[github]] [<<syafiq#, portfolio>>]
 
 Role: Developer +
 Responsibilities:
@@ -40,7 +40,7 @@ Responsibilities:
 
 === Loh Tian Wei
 image::[insert pic].jpg[width="150", align="left"]
-{empty}[http://github.com/m133225[github]] [<<johndoe#, portfolio>>]
+{empty}[http://github.com/lohtianwei[github]] [<<tianwei#, portfolio>>]
 
 Role: Developer +
 Responsibilities:
