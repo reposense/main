@@ -1,4 +1,4 @@
-= AddressBook Level 4 - Developer Guide
+= My Team Manager (MTM) - Developer Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -884,7 +884,7 @@ ease
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the `CCM` and the *Team Manager* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is the `MTM` and the *Team Manager* is the `user`, unless specified otherwise)
 
 [discrete]
 === Use case: Add player
@@ -892,7 +892,7 @@ ease
 *MSS*
 
 1.  User enter command to add
-2.  CCM prompt user of format to enter player's name and details
+2.  MTM prompt user of format to enter player's name and details
 3.  User enter player's name and details in required format
 4.  User press enter to insert person into storage
 +
@@ -904,7 +904,7 @@ Use case ends.
 * 4a. User did not enter any details.
 +
 [none]
-** 4a1. CCM inform user that it is an invalid add command.
+** 4a1. MTM inform user that it is an invalid add command.
 +
 Use case ends.
 
@@ -915,7 +915,7 @@ Use case ends.
 
 1.  User enter command to find
 2.  User enter player's name
-3.  CCM display list of players found
+3.  MTM display list of players found
 4.  User enter command to edit player's team using index of displayed list
 +
 Use case ends.
@@ -926,7 +926,7 @@ Use case ends.
 * 2a. Player name does not exist.
 +
 [none]
-** 2a1. CCM inform user that player does not exist.
+** 2a1. MTM inform user that player does not exist.
 +
 Use case ends.
 
@@ -937,7 +937,7 @@ Use case ends.
 
 1.  User enter command to find team
 2.  User enter team name
-3.  CCM display list of players in team
+3.  MTM display list of players in team
 +
 Use case ends.
 
@@ -947,7 +947,7 @@ Use case ends.
 * 2a. Team name does not exist.
 +
 [none]
-** 2a1. CCM informs user that team name does not exist
+** 2a1. MTM informs user that team name does not exist
 +
 Use case ends.
 
@@ -958,9 +958,9 @@ Use case ends.
 
 1.  User enter command to find
 2.  User enter player's name
-3.  CCM display list of players found
+3.  MTM display list of players found
 4.  User enter remove command and index associated with player
-5.  CCM displays player that is removed and updated list of players
+5.  MTM displays player that is removed and updated list of players
 +
 Use case ends.
 
@@ -970,7 +970,7 @@ Use case ends.
 * 4a. Invalid index entered.
 +
 [none]
-** 4a1. CCM informs user that index is invalid.
+** 4a1. MTM informs user that index is invalid.
 ** 4a2. User enters valid index.
 +
 Use case resumes at step 5.
@@ -1013,14 +1013,11 @@ Windows, Linux, Unix, OS-X
 [[private-contact-detail]] Private contact detail::
 A contact detail that is not meant to be shared with others
 
-[[ccm]] Codee's Championship Manager (CCM)::
-The name of this application
-
 [[lineuo]] Lineup::
 A list of players that are playing for a match, with their positions specified
 
 [[user-guide]] User Guide::
-A documentation on the functionalities and usability of <<ccm,CCM>>
+A documentation on the functionality and usability of MTM
 
 [appendix]
 == Product Survey
