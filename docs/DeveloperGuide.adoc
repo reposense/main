@@ -14,6 +14,10 @@ endif::[]
 
 By: `F14-B1`      Since: `Jun 2016`      Licence: `MIT`
 
+== Overview
+
+My Team Manager (MTM) is a desktop based application ...
+
 == Setting up
 
 === Prerequisites
