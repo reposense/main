@@ -174,17 +174,26 @@ Finds a player named Betsy and selects the 1st person in the results of the `fin
 
 === Listing entered commands : `history`
 
-Lists all the commands that you have entered in reverse chronological order. +
-Alias: `h` +
-Format: `history`
+You have been extensively using MTM and in the midst of entering more commands, you could not remember what commands you have entered? MTM allows you to look at all your past commands that you have entered in reverse chronological order.
+
+Format: `history` +
+Alias: `h`
 
 [NOTE]
 ====
 Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and next input respectively in the command box.
 ====
 
+[TIP]
+.*Outcome*
+====
+A list of your previously entered command will be shown to you.
+====
+
 // tag::undoredo[]
 === Undoing previous command : `undo`
+
+Have you entered a wrong command or might have
 
 Restores the address book to the state before the previous _undoable_ command was executed. +
 Alias: `u` +
