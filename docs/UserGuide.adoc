@@ -163,14 +163,14 @@ The index *must be a positive integer* `1, 2, 3, ...`
 Your selected player will have their details displayed on the details pane on MTM.
 ====
 
-Examples:
+Here are a few valid examples on how you can use the `select` command:
 [NOTE]
 * `list` +
 `select 2` +
-Selects the 2nd person in the address book.
+Displays the list of all players and selects the 2nd person in that list.
 * `find Betsy` +
 `select 1` +
-Selects the 1st person in the results of the `find` command.
+Finds a player named Betsy and selects the 1st person in the results of the `find` command.
 
 === Listing entered commands : `history`
 
