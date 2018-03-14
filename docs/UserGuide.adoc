@@ -144,9 +144,9 @@ Deletes the 2nd person in the address book.
 `delete 1` +
 Deletes the 1st person in the results of the `find` command.
 
-=== Selecting a person : `select`
+=== Selecting a player : `select`
 
-Identified the person you're looking for and want to see more details about the player? MTM offers you the ability to view details of your specified player via an index shown in the current listing of players.
+Identified the player you're looking for and want to see more details about the player? MTM offers you the ability to view details of your specified player via an index shown in the current listing of players.
 
 Format: `select INDEX` +
 Alias: `s`
@@ -167,10 +167,10 @@ Here are a few valid examples on how you can use the `select` command:
 [NOTE]
 * `list` +
 `select 2` +
-Displays the list of all players and selects the 2nd person in that list.
+Displays the list of all players and selects the 2nd player in that list.
 * `find Betsy` +
 `select 1` +
-Finds a player named Betsy and selects the 1st person in the results of the `find` command.
+Finds a player named Betsy and selects the 1st player in the results of the `find` command.
 
 === Listing entered commands : `history`
 
