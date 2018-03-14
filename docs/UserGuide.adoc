@@ -299,8 +299,8 @@ _{explain how the user can enable/disable data encryption}_
 ^|Example
 
 >|add / a
-|add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...
-|add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague
+|add n/NAME e/EMAIL tm/TEAM [p/PHONE_NUMBER] [a/ADDRESS] [j/JERSEY_NUMBER] [s/SCORE] [po/POSITION] [r/REMARKS] [t/TAG]...
+|add n/Ronaldo e/ronaldo@soccer.com tm/Real Madrid p/92331322 a/Portugal j/17 s/999 po/Striker r/Always play him /tfamous
 
 >|clear / c
 |clear
