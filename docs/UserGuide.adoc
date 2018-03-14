@@ -269,7 +269,7 @@ _{explain how the user can enable/disable data encryption}_
 
 |clear
 |`clear`
-|Removes all player's information in the application
+d|Removes all player's information in the application
 
 |delete
 |`delete INDEX`
@@ -285,11 +285,11 @@ _{explain how the user can enable/disable data encryption}_
 
 |list
 |`list`
-|List all the players
+d|List all the players
 
 |help
 |`help`
-|Shows the user guide
+d|Shows the user guide
 
 |select
 |`select INDEX`
@@ -297,14 +297,14 @@ _{explain how the user can enable/disable data encryption}_
 
 |history
 |`history`
-|Display the list of commands entered previously
+d|Display the list of commands entered previously
 
 |undo
 |`undo`
-|Undo the previous command
+d|Undo the previous command
 
 |Redo
 |`redo`
-|Redo the previous command
+d|Redo the previous command
 
 |===
