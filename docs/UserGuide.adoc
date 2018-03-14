@@ -257,55 +257,54 @@ _{explain how the user can enable/disable data encryption}_
 
 == Command Summary
 
-.List of Commands
-[cols="1a,3a,5a"]
+[cols="^1s, >6m, >6m", options="header"]
 |===
-|Command
-|Parameter
-|Example
+^|Command
+^|Parameter
+^|Example
 
-|*add*
+|add
 |`add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
 |`add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 
-|*clear*
+|clear
 |`clear`
-|
+|Removes all player's information in the application
 
-|*delete*
+|delete
 |`delete INDEX`
 |`delete 3`
 
-|*edit*
+|edit
 |`edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
 |`edit 2 n/James Lee e/jameslee@example.com`
 
-|*find*
+|find
 |`find KEYWORD [MORE_KEYWORDS]`
 |`find James Jake`
 
-|*list*
+|list
 |`list`
-|
+|List all the players
 
-|*help*
+|help
 |`help`
-|
+|Shows the user guide
 
-|*select*
+|select
 |`select INDEX`
 |`select 2`
 
-|*history*
+|history
 |`history`
-|
+|Display the list of commands entered previously
 
-|*undo*
+|undo
 |`undo`
-|
+|Undo the previous command
 
-|*Redo*
+|Redo
 |`redo`
-|
+|Redo the previous command
 
 |===
