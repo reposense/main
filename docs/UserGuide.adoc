@@ -174,7 +174,7 @@ Finds a player named Betsy and selects the 1st person in the results of the `fin
 
 === Listing entered commands : `history`
 
-You have been extensively using MTM and in the midst of entering more commands, you could not remember what commands you have entered? MTM allows you to look at all your past commands that you have entered in reverse chronological order.
+Have you been extensively using MTM and in the midst of entering more commands, you could not remember what commands you have entered? MTM allows you to look at all your past commands that you have entered in reverse chronological order.
 
 Format: `history` +
 Alias: `h`
