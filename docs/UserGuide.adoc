@@ -264,47 +264,47 @@ _{explain how the user can enable/disable data encryption}_
 ^|Example
 
 |add
-|`add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
-|`add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+|add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...
+|add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague
 
 |clear
-|`clear`
+|clear
 d|Removes all player's information in the application
 
 |delete
-|`delete INDEX`
-|`delete 3`
+|delete INDEX
+|delete 3
 
 |edit
-|`edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
-|`edit 2 n/James Lee e/jameslee@example.com`
+|edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...
+|edit 2 n/James Lee e/jameslee@example.com
 
 |find
-|`find KEYWORD [MORE_KEYWORDS]`
-|`find James Jake`
+|find KEYWORD [MORE_KEYWORDS]
+|find James Jake
 
 |list
-|`list`
+|list
 d|List all the players
 
 |help
-|`help`
+|help
 d|Shows the user guide
 
 |select
-|`select INDEX`
-|`select 2`
+|select INDEX
+|select 2
 
 |history
-|`history`
+|history
 d|Display the list of commands entered previously
 
 |undo
-|`undo`
+|undo
 d|Undo the previous command
 
 |Redo
-|`redo`
+|redo
 d|Redo the previous command
 
 |===
