@@ -148,8 +148,8 @@ Deletes the 1st person in the results of the `find` command.
 
 Identified the person you're looking for and want to see more details about the player? MTM offers you the ability to view details of your specified player via an index shown in the current listing of players.
 
-Format: `select INDEX`
-Alias: `s` +
+Format: `select INDEX` +
+Alias: `s`
 
 [NOTE]
 ====
