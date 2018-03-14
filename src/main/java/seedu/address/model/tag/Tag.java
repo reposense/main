@@ -10,9 +10,11 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Tag {
 
     public static final String MESSAGE_TAG_CONSTRAINTS = "Tags names should be alphanumeric";
+    public static final String MESSAGE_TAG_COLOUR_CONSTRAINTS = "Tag colours should be strings";
     public static final String TAG_VALIDATION_REGEX = "\\p{Alnum}+";
 
     public final String tagName;
+    private String tagColour;
 
     /**
      * Constructs a {@code Tag}.
@@ -23,6 +25,20 @@ public class Tag {
         requireNonNull(tagName);
         checkArgument(isValidTagName(tagName), MESSAGE_TAG_CONSTRAINTS);
         this.tagName = tagName;
+        this.tagColour = "blue";
+    }
+
+    public String getTagName() { return this.tagName; }
+
+    public String getTagColour() { return this.tagColour; }
+
+    /**
+     * Changes the {@code tagColour} for {@code tagName}'s label
+     */
+    public void changeTagColour(String colour) {
+        System.out.println("in Tag.java: " + "colour is "+ colour);
+        System.out.println("in Tag.java: " + "tag is "+ getTagName());
+        this.tagColour = colour;
     }
 
     /**
