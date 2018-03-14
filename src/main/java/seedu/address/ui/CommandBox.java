@@ -12,6 +12,7 @@ import seedu.address.commons.events.ui.NewResultAvailableEvent;
 import seedu.address.logic.ListElementPointer;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.CommandTrie;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -23,6 +24,7 @@ public class CommandBox extends UiPart<Region> {
     public static final String ERROR_STYLE_CLASS = "error";
     private static final String FXML = "CommandBox.fxml";
 
+    private CommandTrie commandTrie;
     private final Logger logger = LogsCenter.getLogger(CommandBox.class);
     private final Logic logic;
     private ListElementPointer historySnapshot;
@@ -33,6 +35,7 @@ public class CommandBox extends UiPart<Region> {
     public CommandBox(Logic logic) {
         super(FXML);
         this.logic = logic;
+        commandTrie = logic.getCommandTrie();
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
         historySnapshot = logic.getHistorySnapshot();
@@ -54,6 +57,10 @@ public class CommandBox extends UiPart<Region> {
         case DOWN:
             keyEvent.consume();
             navigateToNextInput();
+            break;
+        case TAB:
+            keyEvent.consume();
+            handleAutoComplete();
             break;
         default:
             // let JavaFx handle the keypress
@@ -146,6 +153,21 @@ public class CommandBox extends UiPart<Region> {
         }
 
         styleClass.add(ERROR_STYLE_CLASS);
+    }
+
+    /**
+     * Handles the Tab button pressed event.
+     */
+    private void handleAutoComplete() {
+        String input = commandTextField.getText();
+        try {
+            String command = commandTrie.attemptAutoComplete(input);
+            this.replaceText(command);
+        } catch (NullPointerException e) {
+            //No command exists in trie or no trie exists
+            setStyleToIndicateCommandFailure();
+            logger.info("Autocomplete failed with input: " + input);
+        }
     }
 
 }
