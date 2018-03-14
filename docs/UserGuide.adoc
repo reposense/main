@@ -231,15 +231,23 @@ Calling the first `undo` command will reverse the `clear` command, and the subse
 
 === Redoing the previously undone command : `redo`
 
-Reverses the most recent `undo` command. +
-Alias: `r` +
-Format: `redo`
+You accidentally called the `undo` command too many times and need a way to quickly reverse that? MTM allows you to redo the most recent `undo` command.
 
-Examples:
+Format: `redo` +
+Alias: `r`
+
+[TIP]
+.*Outcome*
+====
+Previously executed `undo` command will be reversed and MTM will be in its previous state.
+====
+
+Here are a few valid examples on how you can use the `redo` command:
 
 * `delete 1` +
-`undo` (reverses the `delete 1` command) +
-`redo` (reapplies the `delete 1` command) +
+`undo` +
+`redo` +
+Calling the `undo` command will reverse the `delete 1` command and the subsequent `redo` command will reapply the `delete 1` command.
 
 * `delete 1` +
 `redo` +
@@ -247,10 +255,12 @@ The `redo` command fails as there are no `undo` commands executed previously.
 
 * `delete 1` +
 `clear` +
-`undo` (reverses the `clear` command) +
-`undo` (reverses the `delete 1` command) +
-`redo` (reapplies the `delete 1` command) +
-`redo` (reapplies the `clear` command) +
+`undo` +
+`undo` +
+`redo` +
+`redo` +
+Calling the first `undo` command will reverse the `clear` command, and the subsequent `undo` command will reverse the `delete 1` command. +
+Calling the first `redo` command will reapply the `delete 1` command, and the subsequent `redo` command will reapply the `clear` command.
 // end::undoredo[]
 
 === Clearing all entries : `clear`
