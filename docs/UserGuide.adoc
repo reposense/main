@@ -146,18 +146,27 @@ Deletes the 1st person in the results of the `find` command.
 
 === Selecting a person : `select`
 
-Selects the person identified by the index number used in the last person listing. +
-Alias: `d` +
+Identified the person you're looking for and want to see more details about the player? MTM offers you the ability to view details of your specified player via an index shown in the current listing of players.
+
+Alias: `s` +
 Format: `select INDEX`
 
+[NOTE]
+====
 ****
-* Selects the person and loads the Google search page the person at the specified `INDEX`.
 * The index refers to the index number shown in the most recent listing.
 * The index *must be a positive integer* `1, 2, 3, ...`
 ****
+====
+
+[TIP]
+.Outcome
+====
+Your selected player will have their details displayed on the details pane on MTM.
+====
 
 Examples:
-
+[NOTE]
 * `list` +
 `select 2` +
 Selects the 2nd person in the address book.
@@ -257,33 +266,33 @@ _{explain how the user can enable/disable data encryption}_
 
 == Command Summary
 
-[cols="^1s, >6m, >6m", options="header"]
+[cols="^1s, >2m, >2m", options="header"]
 |===
-^|Command
+^|Command / Alias
 ^|Parameter
 ^|Example
 
-|add
+|add / a
 |add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...
 |add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague
 
-|clear
+|clear / c
 |clear
 d|Removes all player's information in the application
 
-|delete
+|delete / d
 |delete INDEX
 |delete 3
 
-|edit
+|edit / e
 |edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...
 |edit 2 n/James Lee e/jameslee@example.com
 
-|find
+|find / f
 |find KEYWORD [MORE_KEYWORDS]
 |find James Jake
 
-|list
+|list / l
 |list
 d|List all the players
 
@@ -291,19 +300,19 @@ d|List all the players
 |help
 d|Shows the user guide
 
-|select
+|select / s
 |select INDEX
 |select 2
 
-|history
+|history / h
 |history
 d|Display the list of commands entered previously
 
-|undo
+|undo / u
 |undo
 d|Undo the previous command
 
-|Redo
+|redo / r
 |redo
 d|Redo the previous command
 
