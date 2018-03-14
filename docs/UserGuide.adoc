@@ -257,19 +257,55 @@ _{explain how the user can enable/disable data encryption}_
 
 == Command Summary
 
-* *Add* `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +
-e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-* *Clear* : `clear`
-* *Delete* : `delete INDEX` +
-e.g. `delete 3`
-* *Edit* : `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
-e.g. `edit 2 n/James Lee e/jameslee@example.com`
-* *Find* : `find KEYWORD [MORE_KEYWORDS]` +
-e.g. `find James Jake`
-* *List* : `list`
-* *Help* : `help`
-* *Select* : `select INDEX` +
-e.g.`select 2`
-* *History* : `history`
-* *Undo* : `undo`
-* *Redo* : `redo`
+.List of Commands
+[cols="1a,3a,5a"]
+|===
+|Command
+|Parameter
+|Example
+
+|*add*
+|`add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
+|`add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+
+|*clear*
+|`clear`
+|
+
+|*delete*
+|`delete INDEX`
+|`delete 3`
+
+|*edit*
+|`edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
+|`edit 2 n/James Lee e/jameslee@example.com`
+
+|*find*
+|`find KEYWORD [MORE_KEYWORDS]`
+|`find James Jake`
+
+|*list*
+|`list`
+|
+
+|*help*
+|`help`
+|
+
+|*select*
+|`select INDEX`
+|`select 2`
+
+|*history*
+|`history`
+|
+
+|*undo*
+|`undo`
+|
+
+|*Redo*
+|`redo`
+|
+
+|===
