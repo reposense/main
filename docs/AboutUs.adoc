@@ -26,6 +26,8 @@ image::jordanc.jpg[width="150", align="left"]
 
 Role: Developer +
 Responsibilities:
+* RemarkCommand
+* Enhance Add with Optional Parameters
 
 '''
 
