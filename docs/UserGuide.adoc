@@ -324,37 +324,41 @@ Give a remark to the specified player at index 5 with the remark "MVP Player".
 ^|Parameter
 ^|Example
 
+>|help
+|help
+d|Shows the user guide
+
 >|add / a
 |add n/NAME e/EMAIL tm/TEAM [p/PHONE_NUMBER] [a/ADDRESS] [j/JERSEY_NUMBER] [s/SCORE] [po/POSITION] [r/REMARKS] [t/TAG]...
 |add n/Ronaldo e/ronaldo@soccer.com tm/Real Madrid p/92331322 a/Portugal j/17 s/999 po/Striker r/Always play him /tfamous
-
->|clear / c
-|clear
-d|Removes all player's information in the application
-
->|delete / d
-|delete INDEX
-|delete 3
 
 >|edit / e
 |edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...
 |edit 2 n/James Lee e/jameslee@example.com
 
->|find / f
-|find KEYWORD [MORE_KEYWORDS]
-|find James Jake
+>|remark / rm
+|remark INDEX [r/REMARK]
+|remark 4 r/Gotta go faster
+
+>|delete / d
+|delete INDEX
+|delete 3
 
 >|list / l
 |list
 d|List all the players
 
->|help
-|help
-d|Shows the user guide
+>|find / f
+|find KEYWORD [MORE_KEYWORDS]
+|find James Jake
 
 >|select / s
 |select INDEX
 |select 2
+
+>|clear / c
+|clear
+d|Removes all player's information in the application
 
 >|history / h
 |history
