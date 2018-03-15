@@ -18,7 +18,7 @@ public class Remark {
      *
      * @param remark Any remark
      */
-    public Remark(String remark){
+    public Remark(String remark) {
         requireNonNull(remark);
         this.value = remark;
     }
