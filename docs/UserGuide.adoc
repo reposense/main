@@ -285,6 +285,32 @@ There is no need to save manually.
 _{explain how the user can enable/disable data encryption}_
 // end::dataencryption[]
 
+=== Noting down a remark for player: `remark`
+
+When you need to drop yourself a self-note with regards to a specific player you're managing, you can make a self-note
+of a specific player easily by giving the player a remark for you to remember by.
+
+Format: `remark INDEX [r/REMARK]` +
+Alias: `rm`
+
+[NOTE]
+By leaving out `r/REMARK`, the command acts as a remark removal.
+
+[TIP]
+.*Outcome*
+====
+Your specified player will either be given a new remark or have its existing remark removed.
+====
+
+Here are a few valid examples on how you can use the `remark` command:
+
+* `remark 1` +
+Removes the remark from the specified player at index 1.
+
+* `remark 5 r/MVP Player` +
+Give a remark to the specified player at index 5 with the remark "MVP Player".
+
+
 == FAQ
 
 *Q*: How do I transfer my data to another Computer? +
