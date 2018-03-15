@@ -9,6 +9,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import org.junit.Test;
 
 import seedu.address.logic.commands.RemarkCommand;
+import seedu.address.model.person.Remark;
 
 public class RemarkCommandParserTest {
 
@@ -20,12 +21,12 @@ public class RemarkCommandParserTest {
     @Test
     public void parse_indexSpecified_success() throws Exception {
         // with remark
-        RemarkCommand expectedCommand = new RemarkCommand(INDEX_FIRST_PERSON, REMARK_NONEMPTY);
+        RemarkCommand expectedCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(REMARK_NONEMPTY));
         String userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_REMARK + " " + REMARK_NONEMPTY;
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // without remark
-        expectedCommand = new RemarkCommand(INDEX_FIRST_PERSON, REMARK_EMPTY);
+        expectedCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(REMARK_EMPTY));
         userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_REMARK + REMARK_EMPTY;
         assertParseSuccess(parser, userInput, expectedCommand);
     }
