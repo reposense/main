@@ -10,17 +10,12 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.SetCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
-import seedu.address.model.tag.UniqueTagList;
 
 /**
  * This class is to check whether Set Command was input correctly
  */
 public class SetCommandParser implements Parser<SetCommand> {
 
-    private static final String[] TAG_COLOR_STYLES =
-        { "teal", "red", "yellow", "blue", "orange", "brown", "green", "pink", "black", "grey" };
-
-    private final UniqueTagList allTags = new UniqueTagList();
     /**
      * Parses the given {@code String} of arguments in the context of the SetCommand
      * and returns an SetCommand object for execution.
@@ -39,13 +34,7 @@ public class SetCommandParser implements Parser<SetCommand> {
         try {
             Tag tag = ParserUtil.parseTag(argMultimap.getValue(PREFIX_TAG).get());
             String colour = ParserUtil.parseTagColour(argMultimap.getValue(PREFIX_TAG_COLOUR).get());
-            boolean isValidColour = false;
-            for (String tcs : TAG_COLOR_STYLES) {
-                if (colour.equals(tcs)) {
-                    isValidColour = true;
-                }
-            }
-            if (!isValidColour) {
+            if (!tag.isValidTagColour(colour)) {
                 throw new ParseException(
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE));
             }

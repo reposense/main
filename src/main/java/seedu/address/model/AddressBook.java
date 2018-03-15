@@ -161,9 +161,6 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void setTagColour(Tag tag, String colour) {
         for (Tag t : tags) {
             if (t.getTagName().equals(tag.getTagName())) {
-                System.out.println("Addressbook.java found tag!");
-                System.out.println("tag is "+ t.getTagName());
-                System.out.println("colour is "+ colour);
                 t.changeTagColour(colour);
             }
         }

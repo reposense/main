@@ -43,13 +43,22 @@ public class SetCommand extends Command {
     public CommandResult execute() {
         requireNonNull(model);
         boolean isTagValid = model.setTagColour(tagToSet, tagColour);
-        if (!isTagValid) {
+        if (!tagToSet.isValidTagName(tagToSet.getTagName()) || !isTagValid) {
             return new CommandResult(String.format(MESSAGE_INVALID_TAG));
         }
         return new CommandResult(String.format(MESSAGE_SUCCESS, tagToSet.toString(), tagColour));
     }
 
-
+    @Override
+    public boolean equals(Object other) {
+        // Check if
+        // (a) Object is the same object
+        // (b) Object is an instance of the object and that toSet, tag and color are the same
+        return other == this // short circuit if same object
+                || (other instanceof SetCommand // instanceof handles nulls
+                && this.tagToSet.getTagName().equals(((SetCommand) other).tagToSet.getTagName()))
+                && this.tagColour.equals(((SetCommand) other).tagColour);
+    }
 
 }
 
