@@ -57,6 +57,16 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 * Parameters can be in any order e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 ====
 
+=== Autocomplete
+
+After typing in the first few characters of a command, pressing kbd:[tab] will fill in the rest of the item.
+
+To see parameters for a command, press tab after the whole command is typed in. Pressing tab again will remove the parameters.
+
+Text will turn red if the input has no parameters or if no matching command exists.
+
+If there are multiple possible commands for a given input, i.e. 'e' could be 'edit', 'exit', or 'export', then a dropdown box will appear with the possible commands. These can be navigated using mouse or arrow keys. Then, press enter to select the desired command.
+
 === Viewing help : `help`
 
 Format: `help`
@@ -65,15 +75,16 @@ Format: `help`
 
 Adds a person to the address book +
 Alias: `a` +
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
+Format: `add n/NAME  e/EMAIL  tm/TEAM [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [s/SCORE] [po/POSITION] [r/REMARKS] [t/TAG]...`
 
 [TIP]
-A person can have any number of tags (including 0)
+A person can have any number of tags (including 0).
 
 Examples:
 
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/Ronaldo p/92331322 e/ronaldo@soccer.com a/Portugal tm/Real Madrid j/17 s/999 po/Striker r/Always play him`
 
 === Listing all persons : `list`
 
