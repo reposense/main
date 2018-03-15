@@ -17,7 +17,11 @@ By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
 
 == Introduction
 
-AddressBook Level 4 (AB4) is for those who *prefer to use a desktop app for managing contacts*. More importantly, AB4 is *optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB4 can get your contact management tasks done faster than traditional GUI apps. Interested? Jump to the <<Quick Start>> to get started. Enjoy!
+My Team Manager (MTM) is for *football team managers* who prefer to conduct management of their teams on their computers.
+This is a Command Line Interface (CLI) application where you, as a team manager, will be able to enter and organise details
+of the players you are managing. The players will be organised into their respective teams, and you can include details such
+as their positions and demerits, so that you can easily pick the lineup for matches. +
+Head to 'Quick Start' to get started with My Team Manager!
 
 == Quick Start
 
@@ -230,25 +234,31 @@ The `redo` command fails as there are no `undo` commands executed previously.
 
 === Clearing all entries : `clear`
 
-Clears all entries from the address book. +
+You can clear all entries from the address book with the 'clear' command. +
 Alias: `c` +
 Format: `clear`
 
+=== Setting Colour of tags : `setTagColour`
+
+You can set the tags to a colour of your choice with the 'setColourTag' command. +
+Alias: `stc` +
+Format: `setTagColour`
+
+=== Sorting players by tag: `sort`
+
+You can sort the players by tags with the 'sort' command. +
+Alias: `stc` +
+Format: `setTagColour`
+
 === Exiting the program : `exit`
 
-Exits the program. +
+You can exit the program by entering the 'exit' command. +
 Format: `exit`
 
 === Saving the data
 
-Address book data are saved in the hard disk automatically after any command that changes the data. +
-There is no need to save manually.
-
-// tag::dataencryption[]
-=== Encrypting data files `[coming in v2.0]`
-
-_{explain how the user can enable/disable data encryption}_
-// end::dataencryption[]
+There is no need to save anything manually as My Team Manager will save
+any data entered directly to the hard drive.
 
 == FAQ
 
