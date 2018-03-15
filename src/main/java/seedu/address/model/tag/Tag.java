@@ -25,7 +25,7 @@ public class Tag {
         requireNonNull(tagName);
         checkArgument(isValidTagName(tagName), MESSAGE_TAG_CONSTRAINTS);
         this.tagName = tagName;
-        this.tagColour = "blue";
+        this.tagColour = "teal";
     }
 
     public String getTagName() { return this.tagName; }
