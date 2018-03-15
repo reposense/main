@@ -180,7 +180,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
 
         Person newPerson =
-                new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), newTags);
+                new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), person.getRemark(), newTags);
 
         try {
             updatePerson(person, newPerson);
