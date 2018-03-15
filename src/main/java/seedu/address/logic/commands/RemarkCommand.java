@@ -56,6 +56,6 @@ public class RemarkCommand extends UndoableCommand {
         // state check
         RemarkCommand e = (RemarkCommand) other;
         return index.equals(e.index)
-                && index.equals(e.index);
+                && remark.equals(e.remark);
     }
 }
