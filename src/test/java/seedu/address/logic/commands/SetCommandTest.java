@@ -7,6 +7,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import javafx.collections.ObservableList;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -79,6 +80,13 @@ public class SetCommandTest {
                 assertFalse(tag.getTagColour().equals("pink"));
             }
         }
+        resetAllTagsToDefault();
+    }
 
+    public void resetAllTagsToDefault() {
+        ObservableList<Tag> allTags = model.getAddressBook().getTagList();
+        for (Tag t : allTags) {
+            t.changeTagColour("teal");
+        }
     }
 }
