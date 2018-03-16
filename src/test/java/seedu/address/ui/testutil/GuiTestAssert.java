@@ -50,7 +50,7 @@ public class GuiTestAssert {
      * Returns the color style for {@code tagName}'s label. The tag's color is determined by looking up the color
      * of {@tagColour}
      *
-     * @see PersonCard#getTagColorStyleFor(String)
+     * @see PersonCard getTagColorStyleFor(String)
      */
     private static String getTagColorStyleFor(String tagName) {
         switch (tagName) {

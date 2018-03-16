@@ -175,7 +175,6 @@ public class ParserUtil {
     public static String parseTagColour(String tagColour) throws IllegalValueException {
         requireNonNull(tagColour);
         String trimmedTagColour = tagColour.trim();
-        System.out.println("ParserUtil: trimmedTagColour = "+ trimmedTagColour);
         if (!trimmedTagColour.getClass().equals(String.class) ||  (trimmedTagColour.contains(" "))){
             throw new IllegalValueException(Tag.MESSAGE_TAG_COLOUR_CONSTRAINTS);
         }

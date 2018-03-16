@@ -14,23 +14,11 @@ public class XmlAdaptedTag {
     @XmlValue
     private String tagName;
 
-//    @XmlElement
-//    private String tagColour;
-
     /**
      * Constructs an XmlAdaptedTag.
      * This is the no-arg constructor that is required by JAXB.
      */
     public XmlAdaptedTag() {}
-//
-//    /**
-//     * Constructs a {@code XmlAdaptedTag} with the given {@code tagName}.
-//     */
-//    public XmlAdaptedTag(String tagName, String tagColour) {
-//        this.tagName = tagName;
-//        this.tagColour = tagColour;
-//    }
-
 
     /**
      * Constructs a {@code XmlAdaptedTag} with the given {@code tagName}.
@@ -57,9 +45,6 @@ public class XmlAdaptedTag {
         if (!Tag.isValidTagName(tagName)) {
             throw new IllegalValueException(Tag.MESSAGE_TAG_CONSTRAINTS);
         }
-//        if (!Tag.isValidTagColour(tagColour)) {
-//            throw new IllegalValueException(Tag.MESSAGE_TAG_COLOUR_CONSTRAINTS);
-//        }
         return new Tag(tagName);
     }
 

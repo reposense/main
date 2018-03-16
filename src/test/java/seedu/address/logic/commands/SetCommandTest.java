@@ -55,11 +55,11 @@ public class SetCommandTest {
         assertFalse(testCommand == null);
         assertFalse(testCommandTwo == null);
 
-        //Test to check different tag string returns false
+        //Test to check that different tag string returns false
         assertFalse(testCommand.equals(new SetCommand(tagTwo, "teal")));
         assertFalse(testCommandTwo.equals(new SetCommand(tagTwo, "teal")));
 
-        //Test to check different color string returns false
+        //Test to check that different color strings returns false
         assertFalse(testCommand.equals(new SetCommand(tagOne, "red")));
         assertFalse(testCommandTwo.equals(new SetCommand(tagTwo, "red")));
     }
@@ -79,12 +79,12 @@ public class SetCommandTest {
         assertTrue(command.execute().feedbackToUser.equals("tag [friends] colour changed to red"));
 
         //Check if friends tags are set to color
-        command = new SetCommand(new Tag("friends"), "red");
+        command = new SetCommand(new Tag("friends"), "teal");
         command.setData(model, new CommandHistory(), new UndoRedoStack());
-        assertTrue(command.execute().feedbackToUser.equals("tag [friends] colour changed to red"));
+        assertTrue(command.execute().feedbackToUser.equals("tag [friends] colour changed to teal"));
         for (Tag tag : model.getAddressBook().getTagList()) {
             if ("friends".equals(tag.tagName)) {
-                assertTrue(tag.getTagColour().equals("red"));
+                assertTrue(tag.getTagColour().equals("teal"));
                 assertFalse(tag.getTagColour().equals("pink"));
             }
         }

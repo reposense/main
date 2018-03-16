@@ -52,8 +52,6 @@ public class Tag {
      * Changes the {@code tagColour} for {@code tagName}'s label
      */
     public void changeTagColour(String colour) {
-        System.out.println("in Tag.java: " + "colour is "+ colour);
-        System.out.println("in Tag.java: " + "tag is "+ getTagName());
         this.tagColour = colour;
     }
 
