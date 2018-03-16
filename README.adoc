@@ -14,17 +14,18 @@ ifndef::env-github[]
 image::images/Ui.png[width="600"]
 endif::[]
 
-* My Team Manager (MTM) is a desktop based team managing application for football team managers.
-* MTM helps you manage your players effectively and keep track of the team's schedule.
-* MTM provides you with a a GUI but most of the user interactions are done using a keyboard.
-* It is a Java sample application intended for students learning Software Engineering while using Java as the main programming language.
-* It is *written in OOP fashion*. It provides a *reasonably well-written* code example that is *significantly bigger* (around 6 KLoC)than what students usually write in beginner-level SE modules.
+My Team Manager (MTM) is a desktop based team managing application for football team managers. +
+
+MTM is equipped with multiple features in helping you efficiently and effectively manage your players, while keeping track of the team's schedule. +
+
+With MTM's aesthetically pleasing graphical user interface, viewing critical information will be of ease. Never again lose track of your training schedule or manually reminding your team of it. +
+
+Come and take a look at our link:./UserGuide.adoc[User Guide] to get started with MTM now.
 
 == Site Map
 
 * <<UserGuide#, User Guide>>
 * <<DeveloperGuide#, Developer Guide>>
-* <<LearningOutcomes#, Learning Outcomes>>
 * <<AboutUs#, About Us>>
 * <<ContactUs#, Contact Us>>
 
