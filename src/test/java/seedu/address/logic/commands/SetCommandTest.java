@@ -4,8 +4,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
@@ -23,8 +21,8 @@ import seedu.address.model.tag.Tag;
 public class SetCommandTest {
 
     private Model model;
-    Tag tagOne = new Tag("testTagOne");
-    Tag tagTwo = new Tag("testTagTwo");
+    private Tag tagOne = new Tag("testTagOne");
+    private Tag tagTwo = new Tag("testTagTwo");
 
     @Before
     public void setUp() {
@@ -47,13 +45,6 @@ public class SetCommandTest {
         assertFalse(testCommand.equals(new ListCommand()));
         assertFalse(testCommand.equals(new EditCommand(INDEX_FIRST_PERSON, DESC_AMY)));
 
-        //Test for same object
-        assertTrue(testCommand.equals(testCommand));
-        assertTrue(testCommandTwo.equals(testCommandTwo));
-
-        //Test to check for null
-        assertFalse(testCommand == null);
-        assertFalse(testCommandTwo == null);
 
         //Test to check that different tag string returns false
         assertFalse(testCommand.equals(new SetCommand(tagTwo, "teal")));
