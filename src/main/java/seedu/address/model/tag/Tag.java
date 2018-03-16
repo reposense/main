@@ -10,8 +10,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Tag {
 
     public static final String MESSAGE_TAG_CONSTRAINTS = "Tags names should be a string";
-    public static final String MESSAGE_TAG_COLOUR_CONSTRAINTS = "Tag colours should be one of these colours:" +
-        "teal, red, yellow, blue, orange, brown, green, pink, black, grey";
+    public static final String MESSAGE_TAG_COLOUR_CONSTRAINTS = "Tag colours should be one of these colours:"
+        + "teal, red, yellow, blue, orange, brown, green, pink, black, grey";
     public static final String TAG_VALIDATION_REGEX = "\\p{Alnum}+";
     private static final String[] TAG_COLOR_STYLES =
         { "teal", "red", "yellow", "blue", "orange", "brown", "green", "pink", "black", "grey" };
@@ -44,9 +44,13 @@ public class Tag {
         this.tagColour = tagColour;
     }
 
-    public String getTagName() { return this.tagName; }
+    public String getTagName() {
+        return this.tagName;
+    }
 
-    public String getTagColour() { return this.tagColour; }
+    public String getTagColour() {
+        return this.tagColour;
+    }
 
     /**
      * Changes the {@code tagColour} for {@code tagName}'s label
