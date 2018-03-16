@@ -16,7 +16,7 @@ image::codeeo.jpg[width="150", align="left"]
 {empty}[https://github.com/codeeong[github]] [<<codeeong#, portfolio>>]
 
 Role: Developer +
-Responsibilities:
+Responsibilities: UI Component
 
 '''
 
@@ -25,7 +25,8 @@ image::jordanc.jpg[width="150", align="left"]
 {empty}[http://github.com/jordancjq[github]] [<<jordanchong#, portfolio>>]
 
 Role: Developer +
-Responsibilities:
+Responsibilities: Model Component
+
 * RemarkCommand
 * Enhance Add with Optional Parameters
 
@@ -35,8 +36,8 @@ Responsibilities:
 image::syafiq.jpg[width="150", align="left"]
 {empty}[http://github.com/lithiumlkid[github]] [<<syafiq#, portfolio>>]
 
-Role: Developer +
-Responsibilities:
+Role: Head Developer +
+Responsibilities: Storage Component
 
 '''
 
@@ -45,6 +46,6 @@ image::ltianwei.jpg[width="150", align="left"]
 {empty}[http://github.com/lohtianwei[github]] [<<lohtianwei#, portfolio>>]
 
 Role: Developer +
-Responsibilities:
+Responsibilities: Logic Component
 
 '''
