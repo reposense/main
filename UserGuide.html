@@ -40,17 +40,18 @@
 <li><a href="#undoing-previous-command-code-undo-code">3.10. Undoing previous command : <code>undo</code></a></li>
 <li><a href="#redoing-the-previously-undone-command-code-redo-code">3.11. Redoing the previously undone command : <code>redo</code></a></li>
 <li><a href="#clearing-all-entries-code-clear-code">3.12. Clearing all entries : <code>clear</code></a></li>
-<li><a href="#exiting-the-program-code-exit-code">3.13. Exiting the program : <code>exit</code></a></li>
-<li><a href="#saving-the-data">3.14. Saving the data</a></li>
-<li><a href="#encrypting-data-files-code-coming-in-v2-0-code">3.15. Encrypting data files <code>[coming in v2.0]</code></a></li>
-<li><a href="#noting-down-a-remark-for-player-code-remark-code">3.16. Noting down a remark for player: <code>remark</code></a></li>
-<li><a href="#creating-a-team-code-create-code-code-coming-in-v2-0-code">3.17. Creating a team: <code>create</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#assigning-player-to-teams-code-assign-code-code-coming-in-v2-0-code">3.18. Assigning player to teams: <code>assign</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code">3.19. Scheduling trainings for team <code>schedule</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code">3.20. Sending reminder emails to players: <code>send</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#viewing-other-teams-being-managed-code-view-code-code-coming-in-v2-0-code">3.21. Viewing other teams being managed: <code>view</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code">3.22. Giving feedback to developers: <code>feedback</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#giving-demerit-to-players-based-on-performance-code-demerit-code-coming-in-v2-0">3.23. Giving demerit to players based on performance: <code>demerit</code> [Coming in v2.0]</a></li>
+<li><a href="#setting-colour-of-tags-code-settagcolour-code">3.13. Setting Colour of tags : <code>setTagColour</code></a></li>
+<li><a href="#sorting-players-by-tag-code-sort-code">3.14. Sorting players by tag: <code>sort</code></a></li>
+<li><a href="#exiting-the-program-code-exit-code">3.15. Exiting the program : <code>exit</code></a></li>
+<li><a href="#saving-the-data">3.16. Saving the data</a></li>
+<li><a href="#noting-down-a-remark-for-player-code-remark-code">3.17. Noting down a remark for player: <code>remark</code></a></li>
+<li><a href="#creating-a-team-code-create-code-code-coming-in-v2-0-code">3.18. Creating a team: <code>create</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#assigning-player-to-teams-code-assign-code-code-coming-in-v2-0-code">3.19. Assigning player to teams: <code>assign</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code">3.20. Scheduling trainings for team <code>schedule</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code">3.21. Sending reminder emails to players: <code>send</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#viewing-other-teams-being-managed-code-view-code-code-coming-in-v2-0-code">3.22. Viewing other teams being managed: <code>view</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code">3.23. Giving feedback to developers: <code>feedback</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#giving-demerit-to-players-based-on-performance-code-demerit-code-coming-in-v2-0">3.24. Giving demerit to players based on performance: <code>demerit</code> [Coming in v2.0]</a></li>
 </ul>
 </li>
 <li><a href="#faq">4. FAQ</a></li>
@@ -62,7 +63,11 @@
 <h2 id="introduction"><a class="link" href="#introduction">1. Introduction</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>My Team Manager (MTM) is for those who <strong>prefer to use a desktop app for managing contacts</strong>. More importantly, MTM is <strong>optimized for those who prefer to work with a Command Line Interface</strong> (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, MTM can get your contact management tasks done faster than traditional GUI apps. Interested? Jump to the <a href="#quick-start">Section 2, &#8220;Quick Start&#8221;</a> to get started. Enjoy!</p>
+<p>My Team Manager (MTM) is for <strong>football team managers</strong> who prefer to conduct management of their teams on their computers.
+This is a Command Line Interface (CLI) application where you, as a team manager, will be able to enter and organise details
+of the players you are managing. The players will be organised into their respective teams, and you can include details such
+as their positions and demerits, so that you can easily pick the lineup for matches.<br>
+Head to <a href="#quick-start">Section 2, &#8220;Quick Start&#8221;</a> to get started with My Team Manager!</p>
 </div>
 </div>
 </div>
@@ -579,33 +584,43 @@ Calling the first <code>redo</code> command will reapply the <code>delete 1</cod
 <div class="sect2">
 <h3 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">3.12. Clearing all entries : <code>clear</code></a></h3>
 <div class="paragraph">
-<p>Clears all entries from the address book.<br>
+<p>You can clear all entries from the address book with the 'clear' command.<br>
 Alias: <code>c</code><br>
 Format: <code>clear</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">3.13. Exiting the program : <code>exit</code></a></h3>
+<h3 id="setting-colour-of-tags-code-settagcolour-code"><a class="link" href="#setting-colour-of-tags-code-settagcolour-code">3.13. Setting Colour of tags : <code>setTagColour</code></a></h3>
 <div class="paragraph">
-<p>Exits the program.<br>
+<p>You can set the tags to a colour of your choice with the 'setColourTag' command.<br>
+Alias: <code>stc</code><br>
+Format: <code>setTagColour</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sorting-players-by-tag-code-sort-code"><a class="link" href="#sorting-players-by-tag-code-sort-code">3.14. Sorting players by tag: <code>sort</code></a></h3>
+<div class="paragraph">
+<p>You can sort the players by tags with the 'sort' command.<br>
+Alias: <code>stc</code><br>
+Format: <code>setTagColour</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">3.15. Exiting the program : <code>exit</code></a></h3>
+<div class="paragraph">
+<p>You can exit the program by entering the 'exit' command.<br>
 Format: <code>exit</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-the-data"><a class="link" href="#saving-the-data">3.14. Saving the data</a></h3>
+<h3 id="saving-the-data"><a class="link" href="#saving-the-data">3.16. Saving the data</a></h3>
 <div class="paragraph">
-<p>Address book data are saved in the hard disk automatically after any command that changes the data.<br>
-There is no need to save manually.</p>
+<p>There is no need to save anything manually as My Team Manager will save
+any data entered directly to the hard drive.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="encrypting-data-files-code-coming-in-v2-0-code"><a class="link" href="#encrypting-data-files-code-coming-in-v2-0-code">3.15. Encrypting data files <code>[coming in v2.0]</code></a></h3>
-<div class="paragraph">
-<p><em>{explain how the user can enable/disable data encryption}</em></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="noting-down-a-remark-for-player-code-remark-code"><a class="link" href="#noting-down-a-remark-for-player-code-remark-code">3.16. Noting down a remark for player: <code>remark</code></a></h3>
+<h3 id="noting-down-a-remark-for-player-code-remark-code"><a class="link" href="#noting-down-a-remark-for-player-code-remark-code">3.17. Noting down a remark for player: <code>remark</code></a></h3>
 <div class="paragraph">
 <p>When you need to drop yourself a self-note with regards to a specific player you&#8217;re managing, you can make a self-note
 of a specific player easily by giving the player a remark for you to remember by.</p>
@@ -658,31 +673,31 @@ Give a remark to the specified player at index 5 with the remark "MVP Player".</
 </div>
 </div>
 <div class="sect2">
-<h3 id="creating-a-team-code-create-code-code-coming-in-v2-0-code"><a class="link" href="#creating-a-team-code-create-code-code-coming-in-v2-0-code">3.17. Creating a team: <code>create</code> <code>[Coming in v2.0]</code></a></h3>
+<h3 id="creating-a-team-code-create-code-code-coming-in-v2-0-code"><a class="link" href="#creating-a-team-code-create-code-code-coming-in-v2-0-code">3.18. Creating a team: <code>create</code> <code>[Coming in v2.0]</code></a></h3>
 
 </div>
 <div class="sect2">
-<h3 id="assigning-player-to-teams-code-assign-code-code-coming-in-v2-0-code"><a class="link" href="#assigning-player-to-teams-code-assign-code-code-coming-in-v2-0-code">3.18. Assigning player to teams: <code>assign</code> <code>[Coming in v2.0]</code></a></h3>
+<h3 id="assigning-player-to-teams-code-assign-code-code-coming-in-v2-0-code"><a class="link" href="#assigning-player-to-teams-code-assign-code-code-coming-in-v2-0-code">3.19. Assigning player to teams: <code>assign</code> <code>[Coming in v2.0]</code></a></h3>
 
 </div>
 <div class="sect2">
-<h3 id="scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code"><a class="link" href="#scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code">3.19. Scheduling trainings for team <code>schedule</code> <code>[Coming in v2.0]</code></a></h3>
+<h3 id="scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code"><a class="link" href="#scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code">3.20. Scheduling trainings for team <code>schedule</code> <code>[Coming in v2.0]</code></a></h3>
 
 </div>
 <div class="sect2">
-<h3 id="sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code"><a class="link" href="#sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code">3.20. Sending reminder emails to players: <code>send</code> <code>[Coming in v2.0]</code></a></h3>
+<h3 id="sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code"><a class="link" href="#sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code">3.21. Sending reminder emails to players: <code>send</code> <code>[Coming in v2.0]</code></a></h3>
 
 </div>
 <div class="sect2">
-<h3 id="viewing-other-teams-being-managed-code-view-code-code-coming-in-v2-0-code"><a class="link" href="#viewing-other-teams-being-managed-code-view-code-code-coming-in-v2-0-code">3.21. Viewing other teams being managed: <code>view</code> <code>[Coming in v2.0]</code></a></h3>
+<h3 id="viewing-other-teams-being-managed-code-view-code-code-coming-in-v2-0-code"><a class="link" href="#viewing-other-teams-being-managed-code-view-code-code-coming-in-v2-0-code">3.22. Viewing other teams being managed: <code>view</code> <code>[Coming in v2.0]</code></a></h3>
 
 </div>
 <div class="sect2">
-<h3 id="giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code"><a class="link" href="#giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code">3.22. Giving feedback to developers: <code>feedback</code> <code>[Coming in v2.0]</code></a></h3>
+<h3 id="giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code"><a class="link" href="#giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code">3.23. Giving feedback to developers: <code>feedback</code> <code>[Coming in v2.0]</code></a></h3>
 
 </div>
 <div class="sect2">
-<h3 id="giving-demerit-to-players-based-on-performance-code-demerit-code-coming-in-v2-0"><a class="link" href="#giving-demerit-to-players-based-on-performance-code-demerit-code-coming-in-v2-0">3.23. Giving demerit to players based on performance: <code>demerit</code> [Coming in v2.0]</a></h3>
+<h3 id="giving-demerit-to-players-based-on-performance-code-demerit-code-coming-in-v2-0"><a class="link" href="#giving-demerit-to-players-based-on-performance-code-demerit-code-coming-in-v2-0">3.24. Giving demerit to players based on performance: <code>demerit</code> [Coming in v2.0]</a></h3>
 
 </div>
 </div>
@@ -780,7 +795,7 @@ Give a remark to the specified player at index 5 with the remark "MVP Player".</
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-03-15 20:14:19 UTC
+Last updated 2018-03-16 02:06:23 UTC
 </div>
 </div>
 </body>
