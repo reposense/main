@@ -34,7 +34,7 @@ public class SetCommandTest {
 
         SetCommand testCommand = new SetCommand(tagOne, "teal");
         SetCommand testCommandTwo = new SetCommand(tagOne, "teal");
-        //Test to ensure command is strictly a RemarkCommand
+        //Test to ensure command is strictly a SetCommand
         assertFalse(testCommand.equals(new AddCommand(CARL)));
         assertFalse(testCommand.equals(new ClearCommand()));
         assertFalse(testCommand.equals(new DeleteCommand(INDEX_FIRST_PERSON)));
