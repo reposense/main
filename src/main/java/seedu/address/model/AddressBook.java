@@ -17,6 +17,9 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+import seedu.address.model.team.Team;
+import seedu.address.model.team.UniqueTeamList;
+import seedu.address.model.team.exceptions.DuplicateTeamException;
 
 /**
  * Wraps all data at the address-book level
@@ -26,6 +29,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
     private final UniqueTagList tags;
+    private final UniqueTeamList teams;
 
     /*
      * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
@@ -37,6 +41,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     {
         persons = new UniquePersonList();
         tags = new UniqueTagList();
+        teams = new UniqueTeamList();
     }
 
     public AddressBook() {}
@@ -199,6 +204,15 @@ public class AddressBook implements ReadOnlyAddressBook {
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
         tags.setTags(tagsInPersons);
+    }
+
+    /**
+     * Creates a team in the manager.
+     *
+     * @throws DuplicateTeamException if an equivalent team already exists.
+     */
+    public void createTeam(Team t) throws DuplicateTeamException {
+        teams.add(t);
     }
 
     //// util methods
