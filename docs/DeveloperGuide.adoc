@@ -1,4 +1,4 @@
-= My Team Manager (MTM) - Developer Guide
+= My Team Manager - Developer Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -16,7 +16,18 @@ By: `F14-B1`      Since: `Jun 2016`      Licence: `MIT`
 
 == Overview
 
-My Team Manager (MTM) is a desktop based application ...
+My Team Manager (MTM) is a team managing application for football coaches. MTM is designed to be quick and easy for you to manage a team of players without the need of a mouse.
+
+This developer's guide provides information that will not only show the design principles of the project, but allow you to understand the different implementations, and give you the opportunity to get started with being a contributor or as a reference for experienced developer.
+
+This developer's guide consist of the following sections.
+
+* Setting up
+* Design
+* Implementation
+* Documentation
+* Testing
+* Dev Ops
 
 == Setting up
 
