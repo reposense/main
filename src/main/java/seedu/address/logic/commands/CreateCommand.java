@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.team.Team;
 
 /**
  * Creates a team to the application
@@ -21,13 +22,13 @@ public class CreateCommand extends UndoableCommand {
     public static final String MESSAGE_SUCCESS = "New team created: %1$s";
     public static final String MESSAGE_DUPLICATE_TEAM = "This team already exist in the application";
 
-    private final String toCreate;
+    private final Team toCreate;
 
     /**
      * Creates a CreateCommand to add the specified (@code Team)
      *
      */
-    public CreateCommand(String team) {
+    public CreateCommand(Team team) {
         requireNonNull(team);
         this.toCreate = team;
     }

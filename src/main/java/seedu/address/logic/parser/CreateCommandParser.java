@@ -4,6 +4,8 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 
 import seedu.address.logic.commands.CreateCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.team.Team;
+import seedu.address.model.team.TeamName;
 
 /**
  * Parses input arguments and creates a new CreateCommand object
@@ -22,6 +24,8 @@ public class CreateCommandParser implements Parser<CreateCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, CreateCommand.MESSAGE_USAGE));
         }
 
-        return new CreateCommand(trimmedArgs);
+        TeamName teamName = new TeamName(trimmedArgs);
+
+        return new CreateCommand(new Team(teamName));
     }
 }
