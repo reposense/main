@@ -21,7 +21,7 @@ public class CreateCommand extends UndoableCommand {
             + "Arsenal";
 
     public static final String MESSAGE_SUCCESS = "New team created: %1$s";
-    public static final String MESSAGE_DUPLICATE_TEAM = "This team already exist in the application";
+    public static final String MESSAGE_DUPLICATE_TEAM = "This team already exist in the manager";
 
     private final Team toCreate;
 
@@ -42,7 +42,8 @@ public class CreateCommand extends UndoableCommand {
         } catch (DuplicateTeamException e) {
             throw new CommandException(MESSAGE_DUPLICATE_TEAM);
         }
-        throw new CommandException(String.format(MESSAGE_SUCCESS, this.toCreate));
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toCreate));
     }
 
     @Override
