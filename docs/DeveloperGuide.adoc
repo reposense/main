@@ -432,6 +432,13 @@ There is currently no implementation for this feature. Coming soon!
 
 ==== Design Consideration
 
+=== Show Best XI
+
+==== Current Implementation
+The `showBest` command is able to show the current team's best 11 players. There is however functional implementation for this feature yet. Coming soon!
+
+==== Design Consideration
+
 === Configuration
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
