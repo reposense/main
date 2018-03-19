@@ -33,7 +33,7 @@ public class CreateCommand extends UndoableCommand {
     }
 
     public CommandResult executeUndoableCommand() throws CommandException {
-        throw new CommandException("Test create command");
+        throw new CommandException(String.format(MESSAGE_SUCCESS, this.toCreate));
     }
 
     @Override
