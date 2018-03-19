@@ -179,7 +179,7 @@ Your selected player will have their details displayed on the details pane on MT
 ====
 
 Here are a few valid examples on how you can use the `select` command:
-[NOTE]
+
 * `list` +
 `select 2` +
 Displays the list of all players and selects the 2nd player in that list.
@@ -290,11 +290,24 @@ You can set the tags to a colour of your choice with the 'setColourTag' command.
 Alias: `stc` +
 Format: `setTagColour`
 
-=== Sorting players by tag: `sort`
+=== Sorting players by field: `sort`
 
-You can sort the players by tags with the 'sort' command. +
-Alias: `stc` +
-Format: `setTagColour`
+You can sort the players by fields with the 'sort' command. Players can be sorted in both ascending or descending order. +
+Alias: `so` +
+Format: `sort` FIELD ORDER
+
+[NOTE]
+====
+Current version of `sort` supports the following fields: Name, Phone, Email & Address.
+====
+
+Here are a few valid examples on how you can use the `sort` command:
+
+* `sort` name asc +
+This will sort the address book by names, in alphabetical order.
+
+* `sort` name dsc +
+This will sort the address book by names, in reverse alphabetical order.
 
 === Exiting the program : `exit`
 
@@ -344,6 +357,17 @@ Give a remark to the specified player at index 5 with the remark "MVP Player".
 === Giving feedback to developers: `feedback` `[Coming in v2.0]`
 
 === Giving demerit to players based on performance: `demerit` [Coming in v2.0]
+
+=== Show Best XI players: `showBest` [Coming in v2.0]
+
+If you went to see your current best 11 players in your team based on their respective stats, this command
+is for you.
+
+Alias: `sb` +
+Format: `showBest`
+
+=== Set various fields to private: [Coming in v2.0]
+{explain how fields of players can be set private}
 
 == FAQ
 
