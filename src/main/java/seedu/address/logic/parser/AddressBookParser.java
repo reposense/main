@@ -83,7 +83,7 @@ public class AddressBookParser {
 
         case CreateCommand.COMMAND_WORD:
         case CreateCommand.COMMAND_ALIAS:
-            return new CreateCommand();
+            return new CreateCommandParser().parse(arguments);
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
