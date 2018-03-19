@@ -33,7 +33,13 @@ public class Team {
 
     @Override
     public String toString() {
-        return teamName + ", " + players.asObservableList().size() + " players";
+        final StringBuilder builder = new StringBuilder();
+        builder.append(getTeamName())
+                .append(", ")
+                .append(players.asObservableList().size())
+                .append(" players: ");
+        getTeamPlayers().forEach(builder::append);
+        return builder.toString();
         // TODO: refine later
     }
 
