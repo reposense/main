@@ -31,7 +31,13 @@ This developer's guide consist of the following sections.
 
 == Setting up
 
+The following pointers teach you how to get started with developing on our application. You’ll learn how to prepare yourself with the project on IntelliJ and run it.. Then, you’ll update configurations in IntelliJ to easily match the coding standards and you’ll be ready to start coding.
+
+But before you start, there are two fundamental prerequisites you should about MTM:
+
 === Prerequisites
+
+MTM needs to be written in Java 8 language and will be better written in an integrated development environment (IDE) such as IntelliJ.
 
 . *JDK `1.8.0_60`* or later
 +
@@ -49,7 +55,12 @@ Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plu
 
 === Setting up the project in your computer
 
+Before you begin, ensure that you’ve done the following step on GitHub.
+
 . Fork this repo, and clone the fork to your computer
+
+Upon completion of the GitHub's portion on setting up, you can proceed to set up your project on IntelliJ.
+
 . Open IntelliJ (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first)
 . Set up the correct JDK version for Gradle
 .. Click `Configure` > `Project Defaults` > `Project Structure`
@@ -63,10 +74,14 @@ This will generate all resources required by the application and tests.
 
 === Verifying the setup
 
+Now that you’ve properly setup your project, you can verify that you have done everything properly.
+
 . Run the `seedu.address.MainApp` and try a few commands
 . <<Testing,Run the tests>> to ensure they all pass.
 
 === Configurations to do before writing code
+
+You have verified the setup and you’re all ready to dive into the code, but before you do, check out the following configurations that will help you make your coding more integrated and accurate.
 
 ==== Configuring the coding style
 
@@ -99,7 +114,7 @@ Optionally, you can set up AppVeyor as a second CI (see <<UsingAppVeyor#, UsingA
 [NOTE]
 Having both Travis and AppVeyor ensures your App works on both Unix-based platforms and Windows-based platforms (Travis is Unix-based and AppVeyor is Windows-based)
 
-==== Getting started with coding
+=== Getting started with coding
 
 When you are ready to start coding,
 
