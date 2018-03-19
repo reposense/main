@@ -80,6 +80,10 @@ public class AddressBookParser {
         case HistoryCommand.COMMAND_ALIAS:
             return new HistoryCommand();
 
+        case CreateCommand.COMMAND_WORD:
+        case CreateCommand.COMMAND_ALIAS:
+            return new CreateCommand();
+
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
 
