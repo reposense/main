@@ -64,6 +64,10 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.tags.setTags(tags);
     }
 
+    public void setTeams(List<Team> teams) throws DuplicateTeamException {
+        this.teams.setTeams(teams);
+    }
+
     /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
@@ -73,11 +77,15 @@ public class AddressBook implements ReadOnlyAddressBook {
         List<Person> syncedPersonList = newData.getPersonList().stream()
                 .map(this::syncWithMasterTagList)
                 .collect(Collectors.toList());
+        List<Team> syncedTeamList = newData.getTeamList();
 
         try {
             setPersons(syncedPersonList);
+            setTeams(syncedTeamList);
         } catch (DuplicatePersonException e) {
             throw new AssertionError("AddressBooks should not have duplicate persons");
+        } catch (DuplicateTeamException e) {
+            throw new AssertionError("MTM should not have duplicate teams");
         }
     }
 
@@ -231,6 +239,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public ObservableList<Tag> getTagList() {
         return tags.asObservableList();
+    }
+
+    @Override
+    public ObservableList<Team> getTeamList() {
+        return teams.asObservableList();
     }
 
     @Override
