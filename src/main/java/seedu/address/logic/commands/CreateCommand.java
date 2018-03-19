@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.team.Team;
+import seedu.address.model.team.exceptions.DuplicateTeamException;
 
 /**
  * Creates a team to the application
@@ -33,7 +34,14 @@ public class CreateCommand extends UndoableCommand {
         this.toCreate = team;
     }
 
+    @Override
     public CommandResult executeUndoableCommand() throws CommandException {
+        requireNonNull(model);
+        try {
+            model.createTeam(toCreate);
+        } catch (DuplicateTeamException e) {
+            throw new CommandException(MESSAGE_DUPLICATE_TEAM);
+        }
         throw new CommandException(String.format(MESSAGE_SUCCESS, this.toCreate));
     }
 
