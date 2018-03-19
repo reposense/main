@@ -429,6 +429,19 @@ Upon finding a matching command, attemptAutoComplete returns it and replaces the
 
 One class, command collection, is used to hold the set of commands and a map from each command word to the command usage. This is used by the trie to both construct the command trie and autocomplete from a command word to a command word and its usage. This static class simply contains a set of each command's command word that is statically initialized and used by the commandTrie class.
 
+=== Enhanced add with optional parameters
+
+==== Current Implementation
+The `add` command has been altered from its original mechanism. Modification has been made ...
+
+==== Design Consideration
+
+=== Remark feature
+
+==== Current Implementation
+
+==== Design Consideration
+
 === Configuration
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
