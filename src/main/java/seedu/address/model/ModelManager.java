@@ -16,6 +16,8 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.team.Team;
+import seedu.address.model.team.exceptions.DuplicateTeamException;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -86,6 +88,11 @@ public class ModelManager extends ComponentManager implements Model {
         addressBook.removeTag(tag);
     }
 
+    @Override
+    public synchronized void createTeam(Team team) throws DuplicateTeamException {
+        addressBook.createTeam(team);
+        indicateAddressBookChanged();
+    }
     //=========== Filtered Person List Accessors =============================================================
 
     /**
