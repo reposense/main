@@ -19,8 +19,8 @@ public class SortCommand extends UndoableCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sorts players in address book "
             + "by fields in either ascending or descending order.\n"
             + "Parameters: KEYWORD [FIELD][ORDER]\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + BY_ASCENDING;
+            + "Example: " + COMMAND_WORD
+            + " name " + BY_ASCENDING;
 
     public static final String MESSAGE_SUCCESS = "Players in address book have been sorted.";
     public static final String MESSAGE_EMPTY_BOOK = "No player(s) to sort.";
