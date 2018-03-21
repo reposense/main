@@ -173,7 +173,7 @@ public class ParserUtil {
     public static Optional<String> parseValue(Optional<String> value) {
         return Optional.of(value.orElse(UNSPECIFIED_FIELD));
     }
-  
+
     /**
      * Parses a {@code String tagColour} into a {@code String ta}.
      * Leading and trailing whitespaces will be trimmed.
