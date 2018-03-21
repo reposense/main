@@ -148,4 +148,18 @@ public class CommandBox extends UiPart<Region> {
         styleClass.add(ERROR_STYLE_CLASS);
     }
 
+    /**
+     * Handles the Tab button pressed event. Attempts to autocomplete current input.
+     */
+    private void handleAutoComplete() {
+        String input = commandTextField.getText();
+        try {
+            String command = commandTrie.attemptAutoComplete(input);
+            this.replaceText(command);
+        } catch (NullPointerException e) {
+            //No command exists in trie or no trie exists
+            setStyleToIndicateCommandFailure();
+            logger.info("Autocomplete failed with input: " + input);
+        }
+    }
 }
