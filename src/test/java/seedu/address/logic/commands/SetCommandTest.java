@@ -7,7 +7,6 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
-import javafx.collections.ObservableList;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,6 +18,11 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.tag.Tag;
 
+import javafx.collections.ObservableList;
+
+/**
+ * This is the unit test for {@code SetCommand}.
+ */
 public class SetCommandTest {
 
     private Model model;
