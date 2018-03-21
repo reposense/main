@@ -167,6 +167,9 @@ public class ParserUtil {
         return tagSet;
     }
 
+    /**
+     * Parses a {@code Optional<String> value} into the specified value or {@code UNSPECIFIED_FIELD} if is empty
+     */
     public static Optional<String> parseValue(Optional<String> value) {
         return Optional.of(value.orElse(UNSPECIFIED_FIELD));
     }
