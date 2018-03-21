@@ -865,7 +865,7 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 [appendix]
 == Product Scope
 
-*Target user profile*:
+=== Target user profile:
 
 * football team managers
 * has a need to manage a significant number of contacts
@@ -874,7 +874,38 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 * prefers typing over mouse input
 * is reasonably comfortable using CLI apps
 
-*Value proposition*: Exclusive application for management of footballers and football teams that provides an enhanced listing of footballers and convenient lookup on updated information of players.
+=== Value proposition:
+Exclusive application for management of footballers and football teams that provides an enhanced listing of footballers and convenient lookup on updated information of players.
+
+=== Feature Contribution
+* Codee +
+ ** Major - Revamp MTM’s whole GUI for ease of viewing teams and players’ details +
+ e.g. remove browser panel, add player details panel, change person card +
+ ** Minor - Command to set the colour of tags to colour of choice
+
+* Jordan
+ ** Major - Creation of Team and related functions +
+        e.g. assignment of players,
+        viewing of teams,
+        formation of team,
+        indicate and set upcoming match
+
+ ** Minor
+    *** Remark command
+    *** Enhanced add with optional field
+
+* Syafiq
+ ** Major
+    *** Create a new player class that contains more information about the players +
+ e.g. Position, Rating (0 - 5 Star),  Remarks +
+    *** Update add, edit ,list, sort to include these fields accordingly. +
+ ** Minor - Autocomplete command
+
+* Tianwei
+ ** Major - privacy
+    *** Set private field and passwords
+    *** Make accounts
+ ** Minor - Sorting players by different fields
 
 [appendix]
 == User Stories

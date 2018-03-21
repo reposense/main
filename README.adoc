@@ -15,10 +15,24 @@ image::images/Ui.png[width="600"]
 endif::[]
 
 My Team Manager (MTM) is a desktop based team managing application for football team managers. +
+It uses a Command Line Interface (CLI).
 
-MTM is equipped with multiple features in helping you efficiently and effectively manage your players, while keeping track of the team's schedule. +
+MTM is equipped with multiple features in helping you efficiently
+and effectively manage your players, while keeping track of the team's schedule. +
 
-With MTM's aesthetically pleasing graphical user interface, viewing critical information will be of ease. Never again lose track of your training schedule or manually reminding your team of it. +
+With MTM's aesthetically pleasing graphical user interface, viewing critical information will be quick and painless.
+Never lose track of your training schedule again! +
+
+Say goodbye to manual tracking of information on excel sheet after excel sheet!
+
+== What MTM Can Do - Key Features
+
+* Set up Teams
+* Add Players to Teams
+* Add Player's personal details, position, season statistics, demerits, etc.
+* View, Edit and Delete Players
+* Sort players by field of choice
+* Manage Schedule of Teams
 
 Come and take a look at our link:./UserGuide.adoc[User Guide] to get started with MTM now.
 
