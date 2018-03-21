@@ -31,6 +31,9 @@
         <phone>95352563</phone>
         <email>heinz@example.com</email>
         <address>wall street</address>
+        <tagged>
+        <tagName>friends</tagName>
+        </tagged>
     </persons>
     <persons>
         <name>Daniel Meier</name>

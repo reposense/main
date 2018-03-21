@@ -55,7 +55,7 @@ public class PersonCard extends UiPart<Region> {
      */
     private void initTags(Person person) {
         person.getTags().forEach(tag -> {
-            Label tagLabel = new Label(tag.tagName);
+            Label tagLabel = new Label(tag.getTagName());
             tagLabel.getStyleClass().add(tag.getTagColour());
             tags.getChildren().add(tagLabel);
         });
