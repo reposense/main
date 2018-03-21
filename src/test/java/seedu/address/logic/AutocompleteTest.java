@@ -5,8 +5,6 @@ import org.junit.Test;
 
 import seedu.address.logic.commands.CommandTrie;
 
-
-
 public class AutocompleteTest {
 
     private CommandTrie commandTrie;

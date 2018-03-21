@@ -1,9 +1,7 @@
 package seedu.address.logic.commands;
 
-import static java.util.Objects.requireNonNull;
-
 /**
- * Class for Trie Node object.
+ * Represents a Trie Node object. Contains a character, a reference to sibling Trie Node and child Trie Node .
  */
 public class TrieNode {
     private TrieNode sibling;
@@ -11,8 +9,7 @@ public class TrieNode {
 
     private char key;
 
-    public TrieNode(char key , TrieNode sibling, TrieNode child) {
-        requireNonNull(key);
+    TrieNode(char key, TrieNode sibling, TrieNode child) {
         this.key = key;
         this.sibling = sibling;
         this.child = child;

@@ -5,10 +5,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Class for the Trie of possible commands.
- * Stores all possible commands for the addressbook.
- * Used for autocomplete functionality by returning
- * a possible command via the attemptAutoComplete function.
+ * Trie of possible commands. Stores all possible commands for the addressbook.
+ * Used for autocomplete functionality by returning a possible command via the attemptAutoComplete function.
  */
 public class CommandTrie {
 
@@ -72,7 +70,7 @@ public class CommandTrie {
     }
 
     /**
-     * Indicates whether or note a node is a endOfWord
+     * Indicates whether a node is a endOfWord
      */
     private boolean isEndOfWord(TrieNode current) {
         return !current.hasSibling() && !current.hasChild();
