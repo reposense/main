@@ -1,9 +1,14 @@
 package seedu.address.ui;
 
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Side;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
@@ -25,20 +30,26 @@ public class CommandBox extends UiPart<Region> {
     private static final String FXML = "CommandBox.fxml";
 
     private CommandTrie commandTrie;
+    private Set<String> commandSet;
     private final Logger logger = LogsCenter.getLogger(CommandBox.class);
     private final Logic logic;
     private ListElementPointer historySnapshot;
+    private final ContextMenu suggestions;
+
 
     @FXML
     private TextField commandTextField;
 
-    public CommandBox(Logic logic) {
+    CommandBox(Logic logic) {
         super(FXML);
         this.logic = logic;
         commandTrie = logic.getCommandTrie();
+        commandSet = commandTrie.getCommandSet();
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
         historySnapshot = logic.getHistorySnapshot();
+        suggestions = new ContextMenu();
+        commandTextField.setContextMenu(suggestions);
     }
 
     /**
@@ -63,6 +74,9 @@ public class CommandBox extends UiPart<Region> {
             handleAutoComplete();
             break;
         default:
+            if (suggestions.isShowing()) {
+                suggestions.hide();
+            }
             // let JavaFx handle the keypress
         }
     }
@@ -162,11 +176,30 @@ public class CommandBox extends UiPart<Region> {
         String input = commandTextField.getText();
         try {
             String command = commandTrie.attemptAutoComplete(input);
-            this.replaceText(command);
+            if (input.equals(command)) {
+                setStyleToIndicateCommandFailure();
+                showSuggestions(commandTrie.getOptions(input));
+            } else if (commandSet.contains(command)) {
+                this.replaceText(command);
+            } else if (commandSet.contains(input)) {
+                this.replaceText(input + command);
+            }
         } catch (NullPointerException e) {
-            //No command exists in trie or no trie exists
             setStyleToIndicateCommandFailure();
-            logger.info("Autocomplete failed with input: " + input);
         }
+    }
+
+    /**
+     * Handles the construction of the ContextMenu for autocomplete failure
+     * @param options representing potential completion options
+     */
+    private void showSuggestions(List<String> options) {
+        suggestions.getItems().clear();
+        for (String option : options) {
+            MenuItem item = new MenuItem(option);
+            item.setOnAction(event -> replaceText(item.getText()));
+            suggestions.getItems().add(item);
+        }
+        suggestions.show(commandTextField, Side.BOTTOM, 0.0, 0.0);
     }
 }
