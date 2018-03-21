@@ -10,6 +10,8 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 import org.junit.Before;
 import org.junit.Test;
 
+import javafx.collections.ObservableList;
+
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -17,8 +19,6 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.tag.Tag;
-
-import javafx.collections.ObservableList;
 
 /**
  * This is the unit test for {@code SetCommand}.
@@ -87,6 +87,9 @@ public class SetCommandTest {
         resetAllTagsToDefault();
     }
 
+    /**
+     * This method allows all tags to be set to the default colour "teal"
+     */
     public void resetAllTagsToDefault() {
         ObservableList<Tag> allTags = model.getAddressBook().getTagList();
         for (Tag t : allTags) {
