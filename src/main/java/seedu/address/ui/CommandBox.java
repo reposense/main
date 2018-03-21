@@ -190,8 +190,8 @@ public class CommandBox extends UiPart<Region> {
     }
 
     /**
-     * Handles the construction of the ContextMenu for autocomplete failure
-     * @param options representing potential completion options
+     * Populates ContextMenu and shows it to user
+     * @param options the options with matching prefix found in Command Trie
      */
     private void showSuggestions(List<String> options) {
         suggestions.getItems().clear();

@@ -37,7 +37,6 @@ public class CommandTrie {
         commandMap.put(FindCommand.COMMAND_WORD, FindCommand.MESSAGE_PARAMETERS);
         commandMap.put(SelectCommand.COMMAND_WORD, SelectCommand.MESSAGE_PARAMETERS);
 
-
     }
 
     /**
