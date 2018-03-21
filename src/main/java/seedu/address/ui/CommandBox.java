@@ -156,7 +156,7 @@ public class CommandBox extends UiPart<Region> {
     }
 
     /**
-     * Handles the Tab button pressed event.
+     * Handles the Tab button pressed event. Attempts to autocomplete current input.
      */
     private void handleAutoComplete() {
         String input = commandTextField.getText();
