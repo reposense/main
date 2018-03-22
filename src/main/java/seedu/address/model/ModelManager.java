@@ -14,6 +14,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.NoPlayerException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 
@@ -82,8 +83,31 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    @Override
+    public void sortPlayers(String field, String order) throws NoPlayerException {
+        addressBook.sortPlayersBy(field, order);
+        indicateAddressBookChanged();
+    }
+
     public void deleteTag(Tag tag) {
         addressBook.removeTag(tag);
+    }
+
+    @Override
+    public boolean setTagColour(Tag tag, String colour) {
+        ObservableList<Tag> allTags = addressBook.getTagList();
+        boolean isTagValid = false;
+        for (Tag t : allTags) {
+            if (t.getTagName().equals(tag.getTagName())) {
+                isTagValid = true;
+                break;
+            }
+        }
+        if (!isTagValid) {
+            return false;
+        }
+        addressBook.setTagColour(tag, colour);
+        return isTagValid;
     }
 
     //=========== Filtered Person List Accessors =============================================================

@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.NoPlayerException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 
@@ -46,7 +47,17 @@ public interface Model {
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
 
+    /**
+     * Sorts players in address book by field in asc or desc order
+     * @param field
+     * @param order
+     */
+    void sortPlayers(String field, String order) throws NoPlayerException;
+
     /** Removes the given {@code tag} from all {@code Person}s. */
     void deleteTag(Tag tag);
+
+    /** sets the given {@code tag} to color. */
+    boolean setTagColour(Tag tag, String colour);
 
 }

@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.NoPlayerException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
@@ -115,6 +116,10 @@ public class AddressBook implements ReadOnlyAddressBook {
         removeUnusedTags();
     }
 
+    public void sortPlayersBy(String field, String order) throws NoPlayerException {
+        persons.sortBy(field, order);
+    }
+
     /**
      *  Updates the master tag list to include tags in {@code person} that are not in the list.
      *  @return a copy of this {@code person} such that every tag in this person points to a Tag object in the master
@@ -133,7 +138,8 @@ public class AddressBook implements ReadOnlyAddressBook {
         final Set<Tag> correctTagReferences = new HashSet<>();
         personTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
         return new Person(
-                person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), correctTagReferences);
+                person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), person.getRemark(),
+                correctTagReferences);
     }
 
     /**
@@ -152,6 +158,18 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     public void addTag(Tag t) throws UniqueTagList.DuplicateTagException {
         tags.add(t);
+    }
+
+    /**
+     *
+     * Sets the colour of {@code tag}.
+     */
+    public void setTagColour(Tag tag, String colour) {
+        for (Tag t : tags) {
+            if (t.getTagName().equals(tag.getTagName())) {
+                t.changeTagColour(colour);
+            }
+        }
     }
 
     /**
@@ -180,7 +198,8 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
 
         Person newPerson =
-                new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), newTags);
+                new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
+                        person.getRemark(), newTags);
 
         try {
             updatePerson(person, newPerson);

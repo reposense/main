@@ -3,6 +3,9 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,7 +13,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.NoPlayerException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
+
 
 /**
  * A list of persons that enforces uniqueness between its elements and does not allow nulls.
@@ -99,6 +104,80 @@ public class UniquePersonList implements Iterable<Person> {
      */
     public ObservableList<Person> asObservableList() {
         return FXCollections.unmodifiableObservableList(internalList);
+    }
+
+    /**
+     * Sorts players by selected field in asc or desc order.
+     * @return
+     */
+    public void sortBy(String field, String order) throws NoPlayerException {
+        if (internalList.size() < 1) {
+            throw new NoPlayerException();
+        }
+
+        Comparator<Person> comparator = null;
+
+        Comparator<Person> nameComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getName().fullName.compareTo(p2.getName().fullName);
+            }
+        };
+
+        Comparator<Person> phoneComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getPhone().value.compareTo(p2.getPhone().value);
+            }
+        };
+
+        Comparator<Person> emailComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getEmail().value.compareTo(p2.getEmail().value);
+            }
+        };
+
+        Comparator<Person> addressComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getAddress().value.compareTo(p2.getAddress().value);
+            }
+        };
+
+        switch (field) {
+        case "name":
+            comparator = nameComparator;
+            break;
+
+        case "phone":
+            comparator = phoneComparator;
+            break;
+
+        case "email":
+            comparator = emailComparator;
+            break;
+
+        case "address":
+            comparator = addressComparator;
+            break;
+
+        default:
+            throw new AssertionError("Invalid field parameter entered...\n");
+        }
+
+        switch (order) {
+        case "asc":
+            Collections.sort(internalList, comparator);
+            break;
+
+        case "desc":
+            Collections.sort(internalList, Collections.reverseOrder(comparator));
+            break;
+
+        default:
+            throw new AssertionError("Invalid field parameter entered...\n");
+        }
     }
 
     @Override
