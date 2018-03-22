@@ -13,8 +13,6 @@ import seedu.address.model.person.Person;
 public class PersonCard extends UiPart<Region> {
 
     private static final String FXML = "PersonListCard.fxml";
-    private static final String[] TAG_COLOR_STYLES =
-        { "teal", "red", "yellow", "blue", "orange", "brown", "green", "pink", "black", "grey" };
 
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
@@ -39,6 +37,8 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
+    private Label remark;
+    @FXML
     private FlowPane tags;
 
     public PersonCard(Person person, int displayedIndex) {
@@ -48,17 +48,9 @@ public class PersonCard extends UiPart<Region> {
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
+        remark.setText(person.getRemark().value);
         email.setText(person.getEmail().value);
         initTags(person);
-    }
-
-    /**
-     * Returns the color style for {@code tagName}'s label.
-     */
-    private String getTagColorStyleFor(String tagName) {
-        // we use the hash code of the tag name to generate a random color, so that the color remain consistent
-        // between different runs of the program while still making it random enough between tags.
-        return TAG_COLOR_STYLES[Math.abs(tagName.hashCode()) % TAG_COLOR_STYLES.length];
     }
 
     /**
@@ -67,7 +59,7 @@ public class PersonCard extends UiPart<Region> {
     private void initTags(Person person) {
         person.getTags().forEach(tag -> {
             Label tagLabel = new Label(tag.tagName);
-            tagLabel.getStyleClass().add(getTagColorStyleFor(tag.tagName));
+            tagLabel.getStyleClass().add(tag.getTagColour());
             tags.getChildren().add(tagLabel);
         });
     }

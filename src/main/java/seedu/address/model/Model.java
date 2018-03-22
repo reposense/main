@@ -53,4 +53,7 @@ public interface Model {
 
     /** Create the given team */
     void createTeam(Team team) throws DuplicateTeamException;
+  
+    /** sets the given {@code tag} to color. */
+    boolean setTagColour(Tag tag, String colour);
 }

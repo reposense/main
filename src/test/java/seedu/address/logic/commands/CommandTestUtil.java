@@ -40,6 +40,9 @@ public class CommandTestUtil {
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
     public static final String VALID_TAG_UNUSED = "unused";
+    public static final String VALID_REMARK_AMY = "MVP of all time";
+    public static final String VALID_REMARK_BOB = "Need 5 more training!";
+    public static final String VALID_REMARK_EMPTY = "";
     public static final String VALID_TEAM_ARSENAL = "Arsenal";
     public static final String VALID_TEAM_BARCELONA = "Barcelona";
 
