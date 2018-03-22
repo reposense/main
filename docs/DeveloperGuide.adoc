@@ -1,4 +1,4 @@
-= My Team Manager (MTM) - Developer Guide
+= My Team Manager - Developer Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -16,11 +16,28 @@ By: `F14-B1`      Since: `Jun 2016`      Licence: `MIT`
 
 == Overview
 
-My Team Manager (MTM) is a desktop based application ...
+My Team Manager (MTM) is a team managing application for football coaches. MTM is designed to be quick and easy for you to manage a team of players without the need of a mouse.
+
+This developer's guide provides information that will not only show the design principles of the project, but allow you to understand the different implementations, and give you the opportunity to get started with being a contributor or as a reference for experienced developer.
+
+This developer's guide consist of the following sections.
+
+* Setting up
+* Design
+* Implementation
+* Documentation
+* Testing
+* Dev Ops
 
 == Setting up
 
+The following pointers teach you how to get started with developing on our application. You’ll learn how to prepare yourself with the project on IntelliJ and run it.. Then, you’ll update configurations in IntelliJ to easily match the coding standards and you’ll be ready to start coding.
+
+But before you start, there are two fundamental prerequisites you should about MTM:
+
 === Prerequisites
+
+MTM needs to be written in Java 8 language and will be better written in an integrated development environment (IDE) such as IntelliJ.
 
 . *JDK `1.8.0_60`* or later
 +
@@ -38,7 +55,12 @@ Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plu
 
 === Setting up the project in your computer
 
+Before you begin, ensure that you’ve done the following step on GitHub.
+
 . Fork this repo, and clone the fork to your computer
+
+Upon completion of the GitHub's portion on setting up, you can proceed to set up your project on IntelliJ.
+
 . Open IntelliJ (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first)
 . Set up the correct JDK version for Gradle
 .. Click `Configure` > `Project Defaults` > `Project Structure`
@@ -52,10 +74,14 @@ This will generate all resources required by the application and tests.
 
 === Verifying the setup
 
+Now that you’ve properly setup your project, you can verify that you have done everything properly.
+
 . Run the `seedu.address.MainApp` and try a few commands
 . <<Testing,Run the tests>> to ensure they all pass.
 
 === Configurations to do before writing code
+
+You have verified the setup and you’re all ready to dive into the code, but before you do, check out the following configurations that will help you make your coding more integrated and accurate.
 
 ==== Configuring the coding style
 
@@ -88,7 +114,7 @@ Optionally, you can set up AppVeyor as a second CI (see <<UsingAppVeyor#, UsingA
 [NOTE]
 Having both Travis and AppVeyor ensures your App works on both Unix-based platforms and Windows-based platforms (Travis is Unix-based and AppVeyor is Windows-based)
 
-==== Getting started with coding
+=== Getting started with coding
 
 When you are ready to start coding,
 
@@ -417,6 +443,200 @@ it will attempt to provide the user with possible commands for a given input. In
 Upon finding a matching command, attemptAutoComplete returns it and replaces the text in the CommandLine. If the no matching command is found, the text is turned red.
 
 One class, command collection, is used to hold the set of commands and a map from each command word to the command usage. This is used by the trie to both construct the command trie and autocomplete from a command word to a command word and its usage. This static class simply contains a set of each command's command word that is statically initialized and used by the commandTrie class.
+
+'''
+
+=== Optional Fields for Add Mechanism
+This mechanism enhances the original implementation of the `add` command. The required fields that are mandatory to be filled by the user are `n/NAME` and `e/EMAIL`. This implementation of making fields optional for `AddCommand` allows user to add players without their full information, and can be updated accordingly when the user retrieves their full information.
+
+The following sequence diagram illustrates the operation of the enhancement made to `add` command:
+
+//<insert sequence diagram>
+
+_Figure : Sequence Diagram of Enhanced `add` Command_
+
+Code snippet from `ParserUtil.java` that shows the implementation of when a field is left empty. "<UNSPECIFED>" string will be return when the value passed in is empty.
+
+[source, java]
+----
+public class ParserUtil {
+
+    // ... model code ...
+
+    public static final String UNSPECIFIED_FIELD = "<UNSPECIFIED>";
+
+    // ... model code ...
+
+    public static Optional<String> parseValue(Optional<String> value) {
+        return Optional.of(value.orElse(UNSPECIFIED_FIELD));
+    }
+
+    // ... model code ...
+}
+----
+
+Code snippet from `AddCommandParser.java` that shows the usage of parsing fields that are set as optional.
+
+[source,java]
+----
+public AddCommand parse(String args) throws ParseException {
+
+    // ... logic code ...
+
+    if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_EMAIL)
+        || !argMultimap.getPreamble().isEmpty()) {
+        throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+    }
+
+    try {
+
+    // ... logic code ...
+
+        Phone phone = ParserUtil.parsePhone(
+            ParserUtil.parseValue(argMultimap.getValue(PREFIX_PHONE)).get());
+        Address address = ParserUtil.parseAddress(
+            ParserUtil.parseValue(argMultimap.getValue(PREFIX_ADDRESS)).get());
+
+        // ... logic code ...
+
+        Person person = new Person(name, phone, email, address, tagList);
+
+        return new AddCommand(person);
+    } catch (IllegalValueException ive) {
+        throw new ParseException(ive.getMessage(), ive);
+    }
+
+    // ... logic code ...
+}
+----
+
+Code snippet from `Address.java` that shows an example of an optional field being valid when not specified.
+
+[source, java]
+----
+public class Address {
+
+    // ... model code ...
+
+    public static boolean isValidAddress(String test) {
+        return test.matches(ADDRESS_VALIDATION_REGEX) || test.equals(UNSPECIFIED_FIELD);
+    }
+}
+----
+
+==== Design Consideration
+
+===== Aspect: Implementation of Optional fields
+* **Alternative 1 (current choice):** Set a default value for unspecified fields and parse fields that are mandatory
+** Pros: Easy to implement as fields are still filled with information even though user did not specify
+** Cons: Unattractice display of fields when it is unspecified.
+* **Alternative 2:** Require users to input all fields
+** Pros: Re-use current implementation and easier to clean up code
+** Cons: Less flexibilty given to the user when adding a player into the application
+
+'''
+
+=== Remark Mechanism
+The 'remark' mechanism is facilitated by `RemarkCommand`. The mechanism allows user to perform the adding, editing, and deleting of a single remark to a specified `Person` via the `index` from the list shown in the `UI`. The field `remark` is similar to the other fields of `Person`, hence some of its logic in `AddCommand.java` and `EditCommand.java` needs to be updated.
+
+The mechanism uses the command `remark` and a `r/` prefix to add, edit, and delete a single remark of a `Person`. When the user leaves the remark as empty after the `r/` prefix, it is an indication to delete the remark, and when it is valid, it either create a new remark for that `Person` or overwrites the current existing remark.
+
+The following sequence diagram illustrates the operation of the `remark` command:
+
+//<insert sequence diagram>
+
+_Figure : Sequence Diagram of `remark` Command_
+
+The `remark` field is not required when adding or editing a `Person`, however it will be initialized to an empty string or retrieved to fit the implementation of the other fields.
+
+Code snippet from `AddCommandParser.java` that shows that remark is initialized as empty.
+
+[source, java]
+----
+public AddCommand parse(String args) throws ParseException {
+
+    // ... logic code ...
+
+    try {
+
+        // ... logic code ...
+
+        Remark remark = new Remark("");
+
+        Person person = new Person(name, phone, email, address, remark, tagList);
+
+        return new AddCommand(person);
+    } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+    }
+
+    // ... logic code ...
+}
+----
+
+Code snippet from `EditCommand.java` that shows that remark is being retrieved.
+
+[source, java]
+----
+private static Person createEditedPerson(Person personToEdit,
+    EditPersonDescriptor editPersonDescriptor) {
+
+    // ... logic code ...
+
+    Remark updatedRemark = personToEdit.getRemark();
+
+    return new Person(updatedName, updatedPhone, updatedEmail,
+        updatedAddress, updatedRemark, updatedTags);
+}
+----
+
+[TIP]
+====
+The field `remark` is found in `Person`, however it is not be modified via `add` or `edit` commands. +
+All functions related to `remark` is done strictly via the `remark` command.
+====
+
+[TIP]
+====
+Only one `remark` is saved at a time. If the user `remark` on the same person, it will be overwritten.
+====
+
+==== Design Considerations
+
+===== Aspect: Implementation of `Remark` command
+* **Alternative 1 (current choice):** Creates an additional `remark` field in `Person`
+** Pros: Follows the existing style of similar fields, making implementation easier
+** Cons: Could only have 1 remark per person, unless `remark` mechanism follows the `tag` mechanism to have multiple remarks
+* **Alternative 2:** Have a list of remarks that associates with the specified `Person`
+** Pros: Can have multiple remarks associating with a specific `Person`
+** Cons: Harder to maintain, more complicated
+
+===== Aspect: How `remark` works
+* **Alternative 1 (current choice):** Standalone command that add, edit, and delete remarks from `Person`
+** Pros:
+** Cons:
+* **Alternative 2:** Usage of `edit` command to change or remove remark from `Person`
+** Pros:
+** Cons:
+**
+
+'''
+
+=== Team Mechanism
+
+The 'create team' feature is facilitated by `CreateCommand` class. It allows users to create team into the application with the specified team namte. The team will be shown in
+
+The command word for creating a team is `create`.
+
+==== Design Considerations
+
+===== Aspect:
+* **Alternative 1 (current choice):**
+** Pros:
+** Cons:
+* **Alternative 2:**
+** Pros:
+** Cons:
 
 === Configuration
 
