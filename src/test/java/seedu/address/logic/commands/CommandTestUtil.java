@@ -41,7 +41,7 @@ public class CommandTestUtil {
     public static final String VALID_TAG_FRIEND = "friend";
     public static final String VALID_TAG_UNUSED = "unused";
     public static final String VALID_TEAM_ARSENAL = "Arsenal";
-    public static final String VALID_TEAM_BARCENLONA = "Barcelona";
+    public static final String VALID_TEAM_BARCELONA = "Barcelona";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;

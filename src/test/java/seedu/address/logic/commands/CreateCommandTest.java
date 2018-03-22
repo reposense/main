@@ -3,7 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_ARSENAL;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_BARCENLONA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_BARCELONA;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
@@ -97,7 +97,7 @@ public class CreateCommandTest {
         assertFalse(standardCommand.equals(new ClearCommand()));
 
         // different team name -> returns false
-        assertFalse(standardCommand.equals(new CreateCommand(new Team(new TeamName(VALID_TEAM_BARCENLONA)))));
+        assertFalse(standardCommand.equals(new CreateCommand(new Team(new TeamName(VALID_TEAM_BARCELONA)))));
     }
 
     /**
