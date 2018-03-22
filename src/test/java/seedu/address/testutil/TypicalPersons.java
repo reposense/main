@@ -97,20 +97,20 @@ public class TypicalPersons {
         List<Person> personList;
 
         switch(field) {
-            case "name":
-                personList = getTypicalPersons();
-                break;
-            case "phone":
-                personList = getTypicalPersonsSortedByPhone();
-                break;
-            case "email":
-                personList = getTypicalPersonsSortedByEmail();
-                break;
-            case "address":
-                personList = getTypicalPersonsSortedByAddress();
-                break;
-            default:
-                personList = getTypicalPersons();
+        case "name":
+            personList = getTypicalPersons();
+            break;
+        case "phone":
+            personList = getTypicalPersonsSortedByPhone();
+            break;
+        case "email":
+            personList = getTypicalPersonsSortedByEmail();
+            break;
+        case "address":
+            personList = getTypicalPersonsSortedByAddress();
+            break;
+        default:
+            personList = getTypicalPersons();
         }
 
         if (order.equals("desc")) {

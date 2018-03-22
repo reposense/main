@@ -1,9 +1,9 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.SortCommand.MESSAGE_USAGE;
 import static seedu.address.logic.commands.SortCommand.BY_ASCENDING;
 import static seedu.address.logic.commands.SortCommand.BY_DESCENDING;
+import static seedu.address.logic.commands.SortCommand.MESSAGE_USAGE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -16,7 +16,7 @@ public class SortCommandParserTest {
     private SortCommandParser parser = new SortCommandParser();
 
     @Test
-    public void noArguments_throwsParseException(){
+    public void noArguments_throwsParseException() {
         assertParseFailure(parser, "     ", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
     }
 
@@ -50,7 +50,7 @@ public class SortCommandParserTest {
                 new SortCommand("name", BY_ASCENDING));
 
         //valid input for sort by name in desc order
-        assertParseSuccess(parser,"name" + " " + BY_DESCENDING,
+        assertParseSuccess(parser, "name" + " " + BY_DESCENDING,
                 new SortCommand("name", BY_DESCENDING));
 
         //valid input for sort by address in asc order
@@ -58,7 +58,7 @@ public class SortCommandParserTest {
                 new SortCommand("address", BY_ASCENDING));
 
         //valid input for sort by address in desc order
-        assertParseSuccess(parser,"address" + " " + BY_DESCENDING,
+        assertParseSuccess(parser, "address" + " " + BY_DESCENDING,
                 new SortCommand("address", BY_DESCENDING));
 
         //valid input for sort by phone in asc order
@@ -66,7 +66,7 @@ public class SortCommandParserTest {
                 new SortCommand("phone", BY_ASCENDING));
 
         //valid input for sort by phone in desc order
-        assertParseSuccess(parser,"phone" + " " + BY_DESCENDING,
+        assertParseSuccess(parser, "phone" + " " + BY_DESCENDING,
                 new SortCommand("phone", BY_DESCENDING));
 
         //valid input for sort by email in asc order
@@ -74,7 +74,7 @@ public class SortCommandParserTest {
                 new SortCommand("email", BY_ASCENDING));
 
         //valid input for sort by email in desc order
-        assertParseSuccess(parser,"email" + " " + BY_DESCENDING,
+        assertParseSuccess(parser, "email" + " " + BY_DESCENDING,
                 new SortCommand("email", BY_DESCENDING));
     }
 }

@@ -1,16 +1,15 @@
 package seedu.address.logic.commands;
 
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.SortCommand.MESSAGE_SUCCESS;
+import static seedu.address.testutil.TypicalPersons.getEmptyAddressBook;
 import static seedu.address.testutil.TypicalPersons.getSortedAddressBook;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
-import static seedu.address.testutil.TypicalPersons.getEmptyAddressBook;
-import static seedu.address.logic.commands.SortCommand.MESSAGE_SUCCESS;
-
 
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.junit.rules.ExpectedException;
+
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -46,13 +45,13 @@ public class SortCommandTest {
     }
 
     @Test
-    public void emptySortField_throwsNullPointerEx(){
+    public void emptySortField_throwsNullPointerEx() {
         error.expect(NullPointerException.class);
         new SortCommand("name", "");
     }
 
     @Test
-    public void emptySortOrder_throwsNullPointerEx(){
+    public void emptySortOrder_throwsNullPointerEx() {
         error.expect(NullPointerException.class);
         new SortCommand("", "asc");
     }
