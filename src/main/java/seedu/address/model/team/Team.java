@@ -12,15 +12,15 @@ import seedu.address.model.person.UniquePersonList;
  */
 public class Team {
 
+    private static final UniquePersonList players = new UniquePersonList();
+
     private final TeamName teamName;
-    private final UniquePersonList players;
 
     /**
      * Every field must be present and not null.
      */
     public Team(TeamName teamName) {
         this.teamName = teamName;
-        this.players = new UniquePersonList();
     }
 
     public TeamName getTeamName() {
