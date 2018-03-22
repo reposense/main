@@ -145,7 +145,7 @@ public class AddCommandTest {
         public void createTeam(Team team) {
             fail("This method should not be be called.");
         }
-        
+
         @Override
         public boolean setTagColour(Tag tag, String colour) {
             fail("This method should not be called.");
