@@ -423,7 +423,114 @@ One class, command collection, is used to hold the set of commands and a map fro
 ==== Current Implementation
 The `sort` command is currently able to sort players by name, phone, email or address, in either ascending or descending order. Support for more fields will be added in subsequent updates.
 
+* The `sort` command is parsed through `SortCommandParser` which hands control to the `SortCommand` class.
+
+* Java Collections Sort API is used together with a custom `Comparator` in this implementation
+
+Sorting is facilitated by the `SortCommand` which uses method `sortPlayers` to ultimately call method `sortBy` in UniquePersonList for the actual sorting as shown in this code snippet:
+[source, java]
+----
+        switch (field) {
+                case "name":
+                    comparator = nameComparator;
+                    break;
+
+                case "phone":
+                    comparator = phoneComparator;
+                    break;
+
+                case "email":
+                    comparator = emailComparator;
+                    break;
+
+                case "address":
+                    comparator = addressComparator;
+                    break;
+
+                default:
+                    throw new AssertionError("Invalid field parameter entered...\n");
+                }
+
+        switch (order) {
+        case "asc":
+            Collections.sort(internalList, comparator);
+            break;
+
+        case "desc":
+            Collections.sort(internalList, Collections.reverseOrder(comparator));
+            break;
+
+        default:
+            throw new AssertionError("Invalid field parameter entered...\n");
+        }
+    }
+----
+
+The code above utilises a custom `Comparator` defined in the code below:
+[source, java]
+----
+Comparator<Person> nameComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getName().fullName.compareTo(p2.getName().fullName);
+            }
+        };
+
+        Comparator<Person> phoneComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getPhone().value.compareTo(p2.getPhone().value);
+            }
+        };
+
+        Comparator<Person> emailComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getEmail().value.compareTo(p2.getEmail().value);
+            }
+        };
+
+        Comparator<Person> addressComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getAddress().value.compareTo(p2.getAddress().value);
+            }
+        };
+----
+
+The following sequence diagram shows the program flow when `sort` is used: <image>
+
+[NOTE]
+If address book is empty, a `NoPlayerException` will be thrown by `sortBy` method in UniquePlayerList.
+
 ==== Design Consideration
+
+===== Aspect: Implementation of `sort`
+
+* **Alternative 1 (current choice):** Sorting is done in `UniquePersonList`
+** Pros: Sorting methods resides in class that handles most operations done to list. Future changes to implementation would be easier.
+** Cons: Complicated flow of control passed between classes
+* **Alternative 2:** Sorting is done in `SortCommand`
+** Pros: Easier to trace flow of control as lesser passing between classes
+** Cons: Unnecessary coupling if `UniquePersonList` has to rely on `SortCommand`
+
+===== Aspect: Sort by multiple fields
+
+* **Alternative 1 (current choice):** Sort can only be done by 1 field
+** Pros: Easy to implement. Input is straightforward.
+** Cons: Unable to fine tune to great detail how teams are sorted and displayed
+* **Alternative 2:** Sort can be done by multiple fields
+** Pros:  Able to fine tune to great detail how teams are sorted and displayed
+** Cons: Unnecessary as team managers would not need to sort players by multiple fields
+
+===== Aspect: Sort Persistence
+
+* **Alternative 1 (current choice):** Address book is saved after sorting.
+** Pros: Easy to implement. Allows team managers to use preferred sort pattern in every session.
+** Cons: Previous order of players will be lost.
+* **Alternative 2:** Address book is not saved after sorting.
+** Pros: Good if team manager wants to sort players for current session only
+** Cons: Sort order is lost when program exits. More memory is used to sort a list and reverse it after.
 
 === Setting various player fields to private
 
