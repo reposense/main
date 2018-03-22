@@ -38,7 +38,7 @@ public class SortCommand extends UndoableCommand {
     public String getOrder() {
         return this.order;
     }
-    
+
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         try {

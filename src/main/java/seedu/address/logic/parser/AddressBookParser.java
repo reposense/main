@@ -100,15 +100,15 @@ public class AddressBookParser {
         case RedoCommand.COMMAND_WORD:
         case RedoCommand.COMMAND_ALIAS:
             return new RedoCommand();
-            
+
         case SetCommand.COMMAND_WORD:
         case SetCommand.COMMAND_ALIAS:
             return new SetCommandParser().parse(arguments);
-            
+
         case SortCommand.COMMAND_WORD:
         case SortCommand.COMMAND_ALIAS:
             return new SortCommandParser().parse(arguments);
-            
+
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
