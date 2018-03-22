@@ -1,15 +1,15 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.SortCommand.BY_ASCENDING;
-import static seedu.address.logic.commands.SortCommand.BY_DESCENDING;
+//import static seedu.address.logic.commands.SortCommand.BY_ASCENDING;
+//import static seedu.address.logic.commands.SortCommand.BY_DESCENDING;
 import static seedu.address.logic.commands.SortCommand.MESSAGE_USAGE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
-import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+//import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.Test;
 
-import seedu.address.logic.commands.SortCommand;
+//import seedu.address.logic.commands.SortCommand;
 
 public class SortCommandParserTest {
 
@@ -42,7 +42,7 @@ public class SortCommandParserTest {
         assertParseFailure(parser, "name",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
     }
-/*
+    /*
     @Test
     public void parse_validArguments_success() {
         //valid input for sort by name in asc order
@@ -76,5 +76,6 @@ public class SortCommandParserTest {
         //valid input for sort by email in desc order
         assertParseSuccess(parser, "email" + " " + BY_DESCENDING,
                 new SortCommand("email", BY_DESCENDING));
-    }*/
+    }
+    */
 }
