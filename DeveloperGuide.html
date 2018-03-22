@@ -50,6 +50,7 @@
 <li><a href="#logging">4.3. Logging</a></li>
 <li><a href="#Implementation-Configuration">4.4. Autocomplete</a></li>
 <li><a href="#configuration">4.5. Configuration</a></li>
+<li><a href="#set-tag-colour-feature">4.6. Set Tag Colour feature</a></li>
 </ul>
 </li>
 <li><a href="#documentation">5. Documentation</a>
@@ -972,6 +973,107 @@ it will attempt to provide the user with possible commands for a given input. In
 <h3 id="configuration"><a class="link" href="#configuration">4.5. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: <code>config.json</code>).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="set-tag-colour-feature"><a class="link" href="#set-tag-colour-feature">4.6. Set Tag Colour feature</a></h3>
+<div class="sect3">
+<h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">4.6.1. Current Implementation</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>Set</code> Command is an entirely new command that will allow the user to assign a colour to a specific tag.</p>
+</li>
+<li>
+<p>This mechanism is facilitated by the <code>SetCommandParser</code>, which creates and returns a new <code>SetCommand</code>.</p>
+</li>
+<li>
+<p>The following diagrams show the inheritance for the commands: &lt;image&gt;</p>
+</li>
+<li>
+<p>In <code>SetCommandParser</code>, which implements the <code>Parser</code> interface, it parses the arguments inputted into the CLI, and checks whether
+the arguments are valid.<br></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>SetCommandParser</code> is implemented as such:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>public class SetCommandParser implements Parser&lt;SetCommand&gt; {
+
+    public SetCommand parse(String args) throws ParseException {
+
+    // ...parse arguments and check for invalid arguments...</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>SetCommand</code> inherits the abstract <code>Command</code> class. After <code>execute()</code> is called in <code>SetCommand</code>, the tag colour is set through the logic portions of <code>ModelManager</code> and <code>AddressBook</code>, then
+lastly changes <code>tagColour</code> attribute within the <code>Tag</code> object itself.<br></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>SetCommand</code> is implemented in this way:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>public class SetCommand extends Command {
+
+    @Override
+    public CommandResult execute() {
+    // ...set colour logic...</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The following sequence diagram shows how the set command operation works:
+&lt;image&gt;</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">4.6.2. Design Considerations</a></h4>
+<div class="sect4">
+<h5 id="aspect-implementation-of-code-undoablecommand-code-2"><a class="link" href="#aspect-implementation-of-code-undoablecommand-code-2">Aspect: Implementation of <code>UndoableCommand</code></a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Inherit from <code>Command</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Does not involve complicated undo/redo tests, simple and quicker implementation,
+lessen chances of mistakes made in implementation.</p>
+</li>
+<li>
+<p>Cons: User cannot use the <code>undo/redo</code> command.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2 :</strong> Inherit from <code>UndoableCommand</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: User can utilise the <code>undo/redo</code> command.</p>
+</li>
+<li>
+<p>Cons: Hard for developers to implement extra tests, not very necessary as users can just as easily type
+out the colour they would like to change their tag to; it is a short command, especially with the <code>stc</code> alias.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2758,7 +2860,7 @@ Expected: Similar to previous.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-03-22 16:20:56 UTC
+Last updated 2018-03-22 17:29:40 UTC
 </div>
 </div>
 </body>
