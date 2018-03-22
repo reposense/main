@@ -10,7 +10,7 @@ import seedu.address.model.tag.Tag;
 /**
  * A ui for displaying the team currently chosen
  */
-public class TeamDisplay extends UiPart<Region>{
+public class TeamDisplay extends UiPart<Region> {
 
     private static final String FXML = "TeamDisplay.fxml";
 
