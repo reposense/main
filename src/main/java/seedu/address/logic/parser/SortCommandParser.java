@@ -26,7 +26,7 @@ public class SortCommandParser implements Parser<SortCommand> {
         }
 
         //eliminates spaces
-        String[] argKeywords = trimmedArgs.split("\\s");
+        String[] argKeywords = trimmedArgs.split("\\s+");
 
         //accounts for caps entries
         for (int i = 0; i < argKeywords.length; i++) {
