@@ -12,9 +12,8 @@ import seedu.address.model.person.UniquePersonList;
  */
 public class Team {
 
-    private static final UniquePersonList players = new UniquePersonList();
-
     private final TeamName teamName;
+    private final UniquePersonList players = new UniquePersonList();
 
     /**
      * Every field must be present and not null.
