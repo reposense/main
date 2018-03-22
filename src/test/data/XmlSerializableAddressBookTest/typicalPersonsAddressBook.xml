@@ -32,7 +32,8 @@
         <email>heinz@example.com</email>
         <address>wall street</address>
         <tagged>
-        <tagName>friends</tagName>
+            <tagName>friends</tagName>
+            <tagColour>teal</tagColour>
         </tagged>
     </persons>
     <persons>
