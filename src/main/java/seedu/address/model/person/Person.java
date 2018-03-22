@@ -8,6 +8,7 @@ import java.util.Set;
 
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+import seedu.address.model.team.TeamName;
 
 /**
  * Represents a Person in the address book.
@@ -20,19 +21,22 @@ public class Person {
     private final Email email;
     private final Address address;
     private final Remark remark;
+    private final TeamName teamName;
 
     private final UniqueTagList tags;
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Remark remark, Set<Tag> tags) {
+    public Person(Name name, Phone phone, Email email, Address address, Remark remark, TeamName teamName,
+                  Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.remark = remark;
+        this.teamName = teamName;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
     }
@@ -55,6 +59,10 @@ public class Person {
 
     public Remark getRemark() {
         return remark;
+    }
+
+    public TeamName getTeamName() {
+        return teamName;
     }
 
     /**
@@ -85,7 +93,7 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, remark, teamName, tags);
     }
 
     @Override

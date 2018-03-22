@@ -2,6 +2,7 @@ package seedu.address.model.team;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
+import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
 
 /**
  * Represents a Team's name in the application.
@@ -34,7 +35,7 @@ public class TeamName {
      * Returns true if a given string is a valid team name.
      */
     public static boolean isValidName(String test) {
-        return test.matches(NAME_VALIDATION_REGEX);
+        return test.matches(NAME_VALIDATION_REGEX) || test.equals(UNSPECIFIED_FIELD);
     }
 
     @Override

@@ -15,6 +15,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.team.TeamName;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -165,6 +166,29 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses {@code String teamName} into an {@code TeamName}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static TeamName parseTeamName(String teamName) throws IllegalValueException {
+        requireNonNull(teamName);
+        String trimmedTeamName = teamName.trim();
+        if (!TeamName.isValidName(trimmedTeamName)) {
+            throw new IllegalValueException(TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+        }
+
+        return new TeamName(trimmedTeamName);
+    }
+
+    /**
+     * Parses a {@code Optional<String> teamName} into an {@code Optional<TeamName>} if {@code teamName} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<TeamName> parseTeamName(Optional<String> teamName) throws IllegalValueException {
+        requireNonNull(teamName);
+        return teamName.isPresent() ? Optional.of(parseTeamName(teamName.get())) : Optional.empty();
     }
 
     /**

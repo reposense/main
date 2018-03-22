@@ -74,7 +74,7 @@ public class RemarkCommand extends UndoableCommand {
 
         personToEdit = lastShownList.get(index.getZeroBased());
         editedPerson = new Person(personToEdit.getName(), personToEdit.getPhone(), personToEdit.getEmail(),
-                personToEdit.getAddress(), remark, personToEdit.getTags());
+                personToEdit.getAddress(), remark, personToEdit.getTeamName(), personToEdit.getTags());
     }
 
     @Override

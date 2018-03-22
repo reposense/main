@@ -147,7 +147,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         personTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
         return new Person(
                 person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), person.getRemark(),
-                correctTagReferences);
+                person.getTeamName(), correctTagReferences);
     }
 
     /**
@@ -207,7 +207,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         Person newPerson =
                 new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
-                        person.getRemark(), newTags);
+                        person.getRemark(), person.getTeamName(), newTags);
 
         try {
             updatePerson(person, newPerson);
