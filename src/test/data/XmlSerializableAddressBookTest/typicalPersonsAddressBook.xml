@@ -8,6 +8,7 @@
         <email>alice@example.com</email>
         <address>123, Jurong West Ave 6, #08-111</address>
         <remark></remark>
+        <teamName>&lt;UNSPECIFIED&gt;</teamName>
         <tagged>
             <tagName>friends</tagName>
             <tagColour>teal</tagColour>
@@ -19,6 +20,7 @@
         <email>johnd@example.com</email>
         <address>311, Clementi Ave 2, #02-25</address>
         <remark></remark>
+        <teamName>&lt;UNSPECIFIED&gt;</teamName>
         <tagged>
             <tagName>friends</tagName>
             <tagColour>teal</tagColour>
@@ -34,6 +36,7 @@
         <email>heinz@example.com</email>
         <address>wall street</address>
         <remark></remark>
+        <teamName>&lt;UNSPECIFIED&gt;</teamName>
     </persons>
     <persons>
         <name>Daniel Meier</name>
@@ -41,6 +44,7 @@
         <email>cornelia@example.com</email>
         <address>10th street</address>
         <remark></remark>
+        <teamName>&lt;UNSPECIFIED&gt;</teamName>
     </persons>
     <persons>
         <name>Elle Meyer</name>
@@ -48,6 +52,7 @@
         <email>werner@example.com</email>
         <address>michegan ave</address>
         <remark></remark>
+        <teamName>&lt;UNSPECIFIED&gt;</teamName>
     </persons>
     <persons>
         <name>Fiona Kunz</name>
@@ -55,6 +60,7 @@
         <email>lydia@example.com</email>
         <address>little tokyo</address>
         <remark></remark>
+        <teamName>&lt;UNSPECIFIED&gt;</teamName>
     </persons>
     <persons>
         <name>George Best</name>
@@ -62,6 +68,7 @@
         <email>anna@example.com</email>
         <address>4th street</address>
         <remark>Could be famous</remark>
+        <teamName>&lt;UNSPECIFIED&gt;</teamName>
     </persons>
     <tags>
         <tagName>friends</tagName>
