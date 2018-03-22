@@ -113,7 +113,8 @@ public class EditCommand extends UndoableCommand {
         TeamName updatedTeamName = personToEdit.getTeamName();
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark, updatedTeamName, updatedTags);
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark,
+                updatedTeamName, updatedTags);
     }
 
     @Override

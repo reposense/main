@@ -13,7 +13,6 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.tag.Tag;
-import seedu.address.model.team.Team;
 import seedu.address.model.team.TeamName;
 
 /**
@@ -33,8 +32,8 @@ public class SampleDataUtil {
                 new Address("Blk 11 Ang Mo Kio Street 74, #11-04"), new Remark(""), new TeamName("<UNSPECIFIED>"),
                 getTagSet("neighbours")),
             new Person(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
-                new Address("Blk 436 Serangoon Gardens Street 26, #16-43"), new Remark(""), new TeamName("<UNSPECIFIED>"),
-                getTagSet("family")),
+                new Address("Blk 436 Serangoon Gardens Street 26, #16-43"), new Remark(""),
+                    new TeamName("<UNSPECIFIED>"), getTagSet("family")),
             new Person(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
                 new Address("Blk 47 Tampines Street 20, #17-35"), new Remark(""), new TeamName("<UNSPECIFIED>"),
                 getTagSet("classmates")),
