@@ -422,6 +422,54 @@ One class, command collection, is used to hold the set of commands and a map fro
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
+=== Set Tag Colour feature
+==== Current Implementation
+* The `Set` Command is an entirely new command that will allow the user to assign a colour to a specific tag.
+* This mechanism is facilitated by the `SetCommandParser`, which creates and returns a new `SetCommand`.
+* The following diagrams show the inheritance for the commands: <image>
+* In `SetCommandParser`, which implements the `Parser` interface, it parses the arguments inputted into the CLI, and checks whether
+the arguments are valid. +
+
+`SetCommandParser` is implemented as such:
+----
+public class SetCommandParser implements Parser<SetCommand> {
+
+    public SetCommand parse(String args) throws ParseException {
+
+    // ...parse arguments and check for invalid arguments...
+
+----
+* `SetCommand` inherits the abstract `Command` class. After `execute()` is called in `SetCommand`, the tag colour is set through the logic portions of `ModelManager` and `AddressBook`, then
+lastly changes `tagColour` attribute within the `Tag` object itself. +
+
+`SetCommand` is implemented in this way:
+----
+public class SetCommand extends Command {
+
+    @Override
+    public CommandResult execute() {
+    // ...set colour logic...
+----
+
+* The following sequence diagram shows how the set command operation works:
+<image>
+
+==== Design Considerations
+
+===== Aspect: Implementation of `UndoableCommand`
+
+* **Alternative 1 (current choice):** Inherit from `Command`
+** Pros: Does not involve complicated undo/redo tests, simple and quicker implementation,
+lessen chances of mistakes made in implementation.
+** Cons: User cannot use the `undo/redo` command.
+* **Alternative 2 :** Inherit from `UndoableCommand`
+** Pros: User can utilise the `undo/redo` command.
+** Cons: Hard for developers to implement extra tests, not very necessary as users can just as easily type
+out the colour they would like to change their tag to; it is a short command, especially with the `stc` alias.
+
+// end::settagcolour[]
+
+
 == Documentation
 
 We use asciidoc for writing documentation.
