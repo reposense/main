@@ -8,6 +8,7 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.AMY;
 import static seedu.address.testutil.TypicalPersons.BOB;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalTeams.CHELSEA;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,7 +61,8 @@ public class AddressBookTest {
         // Repeat ALICE twice
         List<Person> newPersons = Arrays.asList(ALICE, ALICE);
         List<Tag> newTags = new ArrayList<>(ALICE.getTags());
-        AddressBookStub newData = new AddressBookStub(newPersons, newTags);
+        List<Team> newTeams = Arrays.asList(CHELSEA);
+        AddressBookStub newData = new AddressBookStub(newPersons, newTags, newTeams);
 
         thrown.expect(AssertionError.class);
         addressBook.resetData(newData);
