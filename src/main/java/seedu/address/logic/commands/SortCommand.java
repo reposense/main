@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.exceptions.NoPlayerException;
 
@@ -27,6 +29,9 @@ public class SortCommand extends UndoableCommand {
     private final String order;
 
     public SortCommand(String field, String order) {
+        requireNonNull(field);
+        requireNonNull(order);
+
         this.field = field;
         this.order = order;
     }
