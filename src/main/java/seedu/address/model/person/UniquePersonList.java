@@ -3,11 +3,11 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -146,37 +146,37 @@ public class UniquePersonList implements Iterable<Person> {
         };
 
         switch (field) {
-            case "name":
-                comparator = nameComparator;
-                break;
+        case "name":
+            comparator = nameComparator;
+            break;
 
-            case "phone":
-                comparator = phoneComparator;
-                break;
+        case "phone":
+            comparator = phoneComparator;
+            break;
 
-            case "email":
-                comparator = emailComparator;
-                break;
+        case "email":
+            comparator = emailComparator;
+            break;
 
-            case "address":
-                comparator = addressComparator;
-                break;
+        case "address":
+            comparator = addressComparator;
+            break;
 
-            default:
-                throw new AssertionError("Invalid field parameter entered...\n");
+        default:
+            throw new AssertionError("Invalid field parameter entered...\n");
         }
 
         switch (order) {
-            case "asc":
-                Collections.sort(internalList, comparator);
-                break;
+        case "asc":
+            Collections.sort(internalList, comparator);
+            break;
 
-            case "desc":
-                Collections.sort(internalList, Collections.reverseOrder(comparator));
-                break;
+        case "desc":
+            Collections.sort(internalList, Collections.reverseOrder(comparator));
+            break;
 
-            default:
-                throw new AssertionError("Invalid field parameter entered...\n");
+        default:
+            throw new AssertionError("Invalid field parameter entered...\n");
         }
     }
 

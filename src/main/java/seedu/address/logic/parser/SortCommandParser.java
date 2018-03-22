@@ -8,7 +8,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 /**
  * Parses input arguments and creates a new SortCommand object with field and order parameters provided
  */
-public class SortCommandParser implements Parser<SortCommand>{
+public class SortCommandParser implements Parser<SortCommand> {
     @Override
     public SortCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
@@ -24,6 +24,6 @@ public class SortCommandParser implements Parser<SortCommand>{
             argKeywords[i] = argKeywords[i].toLowerCase();
         }
 
-        return new SortCommand(argKeywords[0],argKeywords[1]);
+        return new SortCommand(argKeywords[0], argKeywords[1]);
     }
 }

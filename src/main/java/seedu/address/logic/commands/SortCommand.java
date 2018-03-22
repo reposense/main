@@ -1,8 +1,6 @@
 package seedu.address.logic.commands;
 
 import seedu.address.logic.commands.exceptions.CommandException;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static java.util.Objects.requireNonNull;
 import seedu.address.model.person.exceptions.NoPlayerException;
 
 /**
