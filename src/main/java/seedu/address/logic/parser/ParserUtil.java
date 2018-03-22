@@ -188,6 +188,9 @@ public class ParserUtil {
      */
     public static Optional<TeamName> parseTeamName(Optional<String> teamName) throws IllegalValueException {
         requireNonNull(teamName);
+        if (teamName.get().equals(UNSPECIFIED_FIELD)) {
+            throw new IllegalValueException(TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+        }
         return teamName.isPresent() ? Optional.of(parseTeamName(teamName.get())) : Optional.empty();
     }
 
