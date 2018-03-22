@@ -47,13 +47,13 @@ public class SortCommandTest {
     @Test
     public void emptySortField_throwsNullPointerEx() {
         error.expect(NullPointerException.class);
-        new SortCommand("name", "");
+        new SortCommand("name", null);
     }
 
     @Test
     public void emptySortOrder_throwsNullPointerEx() {
         error.expect(NullPointerException.class);
-        new SortCommand("", "asc");
+        new SortCommand(null, "asc");
     }
 
     @Test
