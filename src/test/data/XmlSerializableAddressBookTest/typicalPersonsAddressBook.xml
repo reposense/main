@@ -33,6 +33,10 @@
         <phone>95352563</phone>
         <email>heinz@example.com</email>
         <address>wall street</address>
+        <tagged>
+            <tagName>friends</tagName>
+            <tagColour>teal</tagColour>
+        </tagged>
         <remark></remark>
     </persons>
     <persons>
