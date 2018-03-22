@@ -1,7 +1,7 @@
 package seedu.address.testutil;
 
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_ARSENAL;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_BARCENLONA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_BARCELONA;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +22,7 @@ public class TypicalTeams {
 
     // Manually added - Team's details found in {@code CommandTestUtil}
     public static final Team ARSENAL = new Team(new TeamName(VALID_TEAM_ARSENAL));
-    public static final Team BARCELONA = new Team(new TeamName(VALID_TEAM_BARCENLONA));
+    public static final Team BARCELONA = new Team(new TeamName(VALID_TEAM_BARCELONA));
 
     private TypicalTeams() {} // prevents instantiation
 
