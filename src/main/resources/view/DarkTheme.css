@@ -397,3 +397,7 @@
     -fx-text-fill: black;
     -fx-background-color: grey;
 }
+
+.team-panel {
+    -fx-background-color: black;
+}

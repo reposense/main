@@ -15,6 +15,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.team.TeamName;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -29,6 +30,7 @@ public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final String MESSAGE_INSUFFICIENT_PARTS = "Number of parts must be more than 1.";
+    public static final String UNSPECIFIED_FIELD = "<UNSPECIFIED>";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -164,6 +166,40 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses {@code String teamName} into an {@code TeamName}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static TeamName parseTeamName(String teamName) throws IllegalValueException {
+        requireNonNull(teamName);
+        String trimmedTeamName = teamName.trim();
+        if (!TeamName.isValidName(trimmedTeamName)) {
+            throw new IllegalValueException(TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+        }
+
+        return new TeamName(trimmedTeamName);
+    }
+
+    /**
+     * Parses a {@code Optional<String> teamName} into an {@code Optional<TeamName>} if {@code teamName} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<TeamName> parseTeamName(Optional<String> teamName) throws IllegalValueException {
+        requireNonNull(teamName);
+        return teamName.isPresent() ? Optional.of(parseTeamName(teamName.get())) : Optional.empty();
+    }
+
+    /**
+     * Parses a {@code Optional<String> value} into the specified value or {@code UNSPECIFIED_FIELD} if is empty
+     */
+    public static Optional<String> parseValue(Optional<String> value) throws IllegalValueException {
+        if (value.isPresent() && value.get().equals(UNSPECIFIED_FIELD)) {
+            throw new IllegalValueException("help");
+        } else {
+            return Optional.of(value.orElse(UNSPECIFIED_FIELD));
+        }
     }
 
     /**

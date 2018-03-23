@@ -1,5 +1,9 @@
 package seedu.address.logic.commands;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -12,6 +16,7 @@ public class CommandTrie {
 
     private TrieNode root = null;
     private Set<String> commandSet;
+    private Map<String, String> commandMap;
 
     public CommandTrie() {
         commandSet = Stream.of(
@@ -24,6 +29,14 @@ public class CommandTrie {
         for (String command : commandSet) {
             this.insert(command);
         }
+
+        commandMap = new HashMap<>();
+        commandMap.put(AddCommand.COMMAND_WORD, AddCommand.MESSAGE_PARAMETERS);
+        commandMap.put(DeleteCommand.COMMAND_WORD, DeleteCommand.MESSAGE_PARAMETERS);
+        commandMap.put(EditCommand.COMMAND_WORD, EditCommand.MESSAGE_PARAMETERS);
+        commandMap.put(FindCommand.COMMAND_WORD, FindCommand.MESSAGE_PARAMETERS);
+        commandMap.put(SelectCommand.COMMAND_WORD, SelectCommand.MESSAGE_PARAMETERS);
+
     }
 
     /**
@@ -83,32 +96,81 @@ public class CommandTrie {
     public String attemptAutoComplete(String input) throws NullPointerException {
         StringBuilder output = new StringBuilder();
 
-        char[] inputArray = input.toLowerCase().toCharArray();
-        TrieNode temp = root;
-        int i = 0;
-
-        while (!isEndOfWord(temp)) {
-            if (i < inputArray.length) {
-                if (temp.getKey() == inputArray[i]) {
-                    output.append(inputArray[i]);
-                    temp = temp.getChild();
-                    i++;
-                } else {
-                    temp = temp.getSibling();
-                }
-            } else if (temp.hasSibling()) {
-                //more than one matching command(to enhance in v1.3)
-                return input;
-            } else {
-                output.append(temp.getKey());
-                temp = temp.getChild();
+        if (commandSet.contains(input)) {
+            if (commandMap.containsKey(input)) {
+                output.append(" ");
+                output.append(commandMap.get(input));
             }
-        }
-        output.append(temp.getKey());
+        } else {
+            char[] inputArray = input.toLowerCase().toCharArray();
+            TrieNode temp = root;
+            int i = 0;
 
+            while (!isEndOfWord(temp)) {
+                if (i < inputArray.length) {
+                    if (temp.getKey() == inputArray[i]) {
+                        output.append(inputArray[i]);
+                        temp = temp.getChild();
+                        i++;
+                    } else {
+                        temp = temp.getSibling();
+                    }
+                } else if (temp.hasSibling()) {
+                    return input;
+                } else {
+                    output.append(temp.getKey());
+                    temp = temp.getChild();
+                }
+            }
+            output.append(temp.getKey());
+        }
         return output.toString();
     }
 
+    public Set<String> getCommandSet() {
+        return commandSet;
+    }
 
+    /**
+     * @return a list of all possible commands for the given input
+     */
+    public List<String> getOptions(String input) {
+        char[] inputArray = input.toLowerCase().toCharArray();
+        TrieNode start = root;
+        int i = 0;
 
+        while (!isEndOfWord(start) && i < inputArray.length) {
+            if (start.getKey() == inputArray[i]) {
+                i++;
+                start = start.getChild();
+            } else {
+                start = start.getSibling();
+            }
+        }
+
+        return findOptions(start, input);
+    }
+
+    /**
+     * Traverses the trie and gets possible options
+     */
+    private List<String> findOptions(TrieNode start, String stub) {
+        List<String> options = new ArrayList<>();
+        StringBuilder output = new StringBuilder();
+        output.append(stub);
+
+        if (isEndOfWord(start)) {
+            output.append(start.getKey());
+            options.add(output.toString());
+            return options;
+        }
+        if (start.hasSibling()) {
+            options.addAll(findOptions(start.getSibling(), output.toString()));
+        }
+        if (start.hasChild()) {
+            output.append(start.getKey());
+            options.addAll(findOptions(start.getChild(), output.toString()));
+        }
+        return options;
+    }
 }

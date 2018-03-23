@@ -180,7 +180,7 @@ Your selected player will have their details displayed on the details pane on MT
 ====
 
 Here are a few valid examples on how you can use the `select` command:
-[NOTE]
+
 * `list` +
 `select 2` +
 Displays the list of all players and selects the 2nd player in that list.
@@ -291,11 +291,24 @@ You can set the tags to a colour of your choice with the 'setColourTag' command.
 Alias: `stc` +
 Format: `setTagColour`
 
-=== Sorting players by tag: `sort`
+=== Sorting players by field: `sort`
 
-You can sort the players by tags with the 'sort' command. +
-Alias: `stc` +
-Format: `setTagColour`
+You can sort the players by fields with the 'sort' command. Players can be sorted in both ascending or descending order. +
+Alias: `so` +
+Format: `sort` FIELD ORDER
+
+[NOTE]
+====
+Current version of `sort` supports the following fields: Name, Phone, Email & Address.
+====
+
+Here are a few valid examples on how you can use the `sort` command:
+
+* `sort` name asc +
+This will sort the address book by names, in alphabetical order.
+
+* `sort` name dsc +
+This will sort the address book by names, in reverse alphabetical order.
 
 === Exiting the program : `exit`
 
@@ -334,7 +347,105 @@ Give a remark to the specified player at index 5 with the remark "MVP Player".
 
 === Creating a team: `create` `[Coming in v2.0]`
 
+What is a team management application without the functionality of creating a team? This command allows you to create a team that can be assigned to players.
+
+Format: `create TEAM_NAME` +
+Alias: `ct`
+
+[TIP]
+.*Outcome*
+====
+Your newly specified team will be created with the name you have given wihtout any players in it.
+====
+
+Here are a few valid examples on how you can use the `create` command:
+
+* `create Arsenal`
+Creates a new team with the name "Arsenal".
+
+* `create Liverpool`
+Creates another new team with the name "Liverpool"
+
+=== Viewing a team: `view` `[Coming in v2.0]`
+
+With the ability to manage different teams, you will be able to list all players currently in a team easily with this command.
+Format: `view TEAM_NAME`
+Alias: `v`
+
+[TIP]
+.*Outcome*
+====
+Displays the list of players will that are in the team specified.
+====
+
+Here are a few valid examples on how you can use the `view` command:
+
+* `view Arsenal`
+List all players in the team "Arsenal".
+
+* `view Liverpool`
+List all players in the team "Liverpool".
+
 === Assigning player to teams: `assign` `[Coming in v2.0]`
+
+Have a player without a team, or have yet to assigned one during the addition of player into MTM, you can call this command to assign that player to a particular team of your choice.
+
+Format: `assign INDEX TEAM_NAME`
+Alias: `ap`
+
+[TIP]
+.*Outcome*
+====
+Your specified player via index will be assigned to the specified team.
+====
+
+Here are a few valid examples on how you can use the `create` command:
+
+* `list`
+* `assign 3 Arsenal`
+View the full list of players in MTM and assign the player with index 3 to team "Arsenal".
+
+* `find John`
+* `assign 1 Liverpool`
+Find a player by the name of "John" and assign the player with index 1 to team "Liverpool".
+
+=== Set an upcoming match with an opposing team: `setmatch` `[Coming in v2.0]`
+
+With this command, it gives you a convenient way to keep track of the upcoming match of a team.
+
+Format: `setmatch TEAM_NAME OPPONENT_TEAM_NAME DATE`
+Alias: `sm`
+
+[TIP]
+.*Outcome*
+====
+The upcoming match of the team will be captured and displayed to you.
+====
+
+Here are a few valid examples on how you can use the `create` command:
+
+* `view Arsenal`
+* `setmatch Arsenal Liverpool 14/03/2018`
+Display the list of players in team "Arsenal" and set an upcoming match for Arsenal with Liverpool on 14/03/2018.
+
+=== View the team's next upcoming match: nextmatch
+
+Easily determine the up and coming match with the team so that you never miss an important date.
+
+Format: `nextmatch TEAM_NAME`
+Alias: `nm`
+
+[TIP]
+.*Outcome*
+====
+Displays the date and opponent for the upcoming match of the team specified.
+====
+
+Here are a few valid examples on how you can use the `create` command:
+
+* `view Arsenal`
+* `nextmatch`
+Displays the list of players in team "Arsenal" and view the next upcoming match for "Arsenal".
 
 === Scheduling trainings for team `schedule` `[Coming in v2.0]`
 
@@ -344,7 +455,18 @@ Give a remark to the specified player at index 5 with the remark "MVP Player".
 
 === Giving feedback to developers: `feedback` `[Coming in v2.0]`
 
-=== Giving demerit to players based on performance: `demerit` [Coming in v2.0]
+=== Giving demerit to players based on performance: `demerit` `[Coming in v2.0]`
+
+=== Show Best XI players: `showBest` [Coming in v2.0]
+
+If you went to see your current best 11 players in your team based on their respective stats, this command
+is for you.
+
+Alias: `sb` +
+Format: `showBest`
+
+=== Set various fields to private: [Coming in v2.0]
+{explain how fields of players can be set private}
 
 == FAQ
 

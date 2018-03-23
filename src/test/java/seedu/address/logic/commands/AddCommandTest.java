@@ -23,8 +23,10 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.NoPlayerException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.team.Team;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -103,6 +105,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void sortPlayers(String field, String order) throws NoPlayerException {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public void resetData(ReadOnlyAddressBook newData) {
             fail("This method should not be called.");
         }
@@ -138,6 +145,11 @@ public class AddCommandTest {
         @Override
         public void deleteTag(Tag tag) {
             fail("This method should not be called.");
+        }
+
+        @Override
+        public void createTeam(Team team) {
+            fail("This method should not be be called.");
         }
 
         @Override

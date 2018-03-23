@@ -24,6 +24,7 @@ public class XmlAdaptedTag {
 
     /**
      * Constructs a {@code XmlAdaptedTag} with the given {@code tagName}.
+
      */
     public XmlAdaptedTag(String tagName) {
         this.tagName = tagName;
@@ -60,7 +61,7 @@ public class XmlAdaptedTag {
         if (!Tag.isValidTagColour(tagColour)) {
             throw new IllegalValueException(Tag.MESSAGE_TAG_COLOUR_CONSTRAINTS);
         }
-        return new Tag(tagName);
+        return new Tag(tagName, tagColour);
     }
 
     @Override

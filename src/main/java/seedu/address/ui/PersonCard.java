@@ -37,6 +37,10 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
+    private Label remark;
+    @FXML
+    private Label teamName;
+    @FXML
     private FlowPane tags;
 
     public PersonCard(Person person, int displayedIndex) {
@@ -46,7 +50,9 @@ public class PersonCard extends UiPart<Region> {
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
+        remark.setText(person.getRemark().value);
         email.setText(person.getEmail().value);
+        teamName.setText(person.getTeamName().fullName);
         initTags(person);
     }
 
@@ -55,7 +61,7 @@ public class PersonCard extends UiPart<Region> {
      */
     private void initTags(Person person) {
         person.getTags().forEach(tag -> {
-            Label tagLabel = new Label(tag.tagName);
+            Label tagLabel = new Label(tag.getTagName());
             tagLabel.getStyleClass().add(tag.getTagColour());
             tags.getChildren().add(tagLabel);
         });
