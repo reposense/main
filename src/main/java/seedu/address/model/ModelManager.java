@@ -17,6 +17,8 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.NoPlayerException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.team.Team;
+import seedu.address.model.team.exceptions.DuplicateTeamException;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -94,6 +96,12 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public synchronized void createTeam(Team team) throws DuplicateTeamException {
+        addressBook.createTeam(team);
+        indicateAddressBookChanged();
+    }
+
+    @Override
     public boolean setTagColour(Tag tag, String colour) {
         ObservableList<Tag> allTags = addressBook.getTagList();
         boolean isTagValid = false;
@@ -109,9 +117,7 @@ public class ModelManager extends ComponentManager implements Model {
         addressBook.setTagColour(tag, colour);
         return isTagValid;
     }
-
     //=========== Filtered Person List Accessors =============================================================
-
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
      * {@code addressBook}
