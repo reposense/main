@@ -289,13 +289,13 @@ Format: `clear`
 
 You can set the tags to a colour of your choice with the 'setColourTag' command. +
 Alias: `stc` +
-Format: `setTagColour`
+Format: `setTagColour t/TAG tc/TAG_COLOUR`
 
 === Sorting players by field: `sort`
 
 You can sort the players by fields with the 'sort' command. Players can be sorted in both ascending or descending order. +
 Alias: `so` +
-Format: `sort` FIELD ORDER
+Format: `sort FIELD ORDER`
 
 [NOTE]
 ====

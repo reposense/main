@@ -30,6 +30,8 @@ public class RemarkCommand extends UndoableCommand {
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_REMARK + "Must put on field";
 
+    public static final String MESSAGE_PARAMETERS = "INDEX";
+
     public static final String MESSAGE_ADD_REMARK_SUCCESS = "Remark added to: %1$s";
     public static final String MESSAGE_DELETE_REMARK_SUCCESS = "Remark removed from: %1$s";
 

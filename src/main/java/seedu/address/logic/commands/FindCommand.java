@@ -16,7 +16,7 @@ public class FindCommand extends Command {
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " alice bob charlie";
 
-    public static final String MESSAGE_PARAMETERS = "[KEYWORD]";
+    public static final String MESSAGE_PARAMETERS = "KEYWORD [MORE KEYWORD]";
 
     private final NameContainsKeywordsPredicate predicate;
 

@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import seedu.address.model.person.Remark;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +25,9 @@ public class CommandTrie {
                 EditCommand.COMMAND_WORD, ExitCommand.COMMAND_WORD, FindCommand.COMMAND_WORD,
                 AddCommand.COMMAND_WORD, ClearCommand.COMMAND_WORD, DeleteCommand.COMMAND_WORD,
                 HelpCommand.COMMAND_WORD, SelectCommand.COMMAND_WORD, HistoryCommand.COMMAND_WORD,
-                ListCommand.COMMAND_WORD, RedoCommand.COMMAND_WORD,  UndoCommand.COMMAND_WORD
+                ListCommand.COMMAND_WORD, RedoCommand.COMMAND_WORD,  UndoCommand.COMMAND_WORD,
+                SortCommand.COMMAND_WORD, SetCommand.COMMAND_WORD, RemarkCommand.COMMAND_WORD,
+                CreateCommand.COMMAND_WORD
         ).collect(Collectors.toSet());
 
         for (String command : commandSet) {
@@ -36,6 +40,10 @@ public class CommandTrie {
         commandMap.put(EditCommand.COMMAND_WORD, EditCommand.MESSAGE_PARAMETERS);
         commandMap.put(FindCommand.COMMAND_WORD, FindCommand.MESSAGE_PARAMETERS);
         commandMap.put(SelectCommand.COMMAND_WORD, SelectCommand.MESSAGE_PARAMETERS);
+        commandMap.put(SortCommand.COMMAND_WORD, SortCommand.MESSAGE_PARAMETERS);
+        commandMap.put(SetCommand.COMMAND_WORD, SetCommand.MESSAGE_PARAMETERS);
+        commandMap.put(RemarkCommand.COMMAND_WORD, RemarkCommand.MESSAGE_PARAMETERS);
+        commandMap.put(CreateCommand.COMMAND_WORD, CreateCommand.MESSAGE_PARAMETERS);
 
     }
 

@@ -16,13 +16,15 @@ public class SetCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sets the colour of tags to the colour of choice "
             + "Parameters: "
-            + "[" + PREFIX_TAG + "TAG] "
-            + "[" + PREFIX_TAG_COLOUR + "TAG_COLOUR]\n"
+            + PREFIX_TAG + "TAG "
+            + PREFIX_TAG_COLOUR + "TAG_COLOUR\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_TAG + "friends "
             + PREFIX_TAG_COLOUR + "green\n"
             + "Colours to choose from are : teal, red, yellow, blue, orange, brown, \n"
             + "green, pink, black, grey\n";
+
+    public static final String MESSAGE_PARAMETERS = PREFIX_TAG + "TAG " + PREFIX_TAG_COLOUR + "TAG_COLOUR";
 
     public static final String MESSAGE_INVALID_TAG = "tag is invalid! Please input a valid tag name!";
     public static final String MESSAGE_SUCCESS = "tag %1$s colour changed to %2$s";
