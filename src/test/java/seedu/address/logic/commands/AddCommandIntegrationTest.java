@@ -7,6 +7,7 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 import org.junit.Before;
 import org.junit.Test;
 
+import seedu.address.commons.core.Messages;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.model.Model;
@@ -35,7 +36,8 @@ public class AddCommandIntegrationTest {
         expectedModel.addPerson(validPerson);
 
         assertCommandSuccess(prepareCommand(validPerson, model), model,
-                String.format(AddCommand.MESSAGE_SUCCESS, validPerson), expectedModel);
+                String.format(AddCommand.MESSAGE_SUCCESS + "\n" + Messages.MESSAGE_TEAM_NOT_FOUND, validPerson),
+                expectedModel);
     }
 
     @Test

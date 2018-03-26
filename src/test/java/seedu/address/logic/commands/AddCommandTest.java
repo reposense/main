@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import javafx.collections.ObservableList;
+import seedu.address.commons.core.Messages;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -27,6 +28,8 @@ import seedu.address.model.person.exceptions.NoPlayerException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.team.Team;
+import seedu.address.model.team.TeamName;
+import seedu.address.model.team.exceptions.TeamNotFoundException;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -47,7 +50,8 @@ public class AddCommandTest {
 
         CommandResult commandResult = getAddCommandForPerson(validPerson, modelStub).execute();
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validPerson), commandResult.feedbackToUser);
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS + "\n" + Messages.MESSAGE_TEAM_NOT_FOUND, validPerson),
+                commandResult.feedbackToUser);
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
@@ -153,6 +157,12 @@ public class AddCommandTest {
         }
 
         @Override
+        public void assignPersonToTeam(Person person, TeamName teamName)
+                throws TeamNotFoundException, DuplicatePersonException {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public boolean setTagColour(Tag tag, String colour) {
             fail("This method should not be called.");
             return false;
@@ -184,6 +194,12 @@ public class AddCommandTest {
         public void addPerson(Person person) throws DuplicatePersonException {
             requireNonNull(person);
             personsAdded.add(person);
+        }
+
+        @Override
+        public void assignPersonToTeam(Person person, TeamName teamName)
+            throws TeamNotFoundException, DuplicatePersonException {
+            throw new TeamNotFoundException();
         }
 
         @Override
