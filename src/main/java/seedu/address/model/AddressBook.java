@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -106,6 +107,10 @@ public class AddressBook implements ReadOnlyAddressBook {
         // TODO: the tags master list will be updated even though the below line fails.
         // This can cause the tags master list to have additional tags that are not tagged to any person
         // in the person list.
+        if (!teams.contains(person.getTeamName())) {
+            person = new Person(p.getName(), p.getPhone(), p.getEmail(), p.getAddress(), p.getRemark(),
+                    new TeamName(UNSPECIFIED_FIELD), p.getTags());
+        }
         persons.add(person);
     }
 

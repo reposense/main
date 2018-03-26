@@ -35,6 +35,25 @@ public class UniqueTeamList implements Iterable<Team> {
     }
 
     /**
+     * Returns true if the list contains an equivalent team as the given argument.
+     */
+    public boolean contains(TeamName toCheck) {
+        requireNonNull(toCheck);
+        return internalList.stream().anyMatch(t -> t.getTeamName().equals(toCheck));
+    }
+
+    /**
+     * Returns {@code Team} that is specified by {@code toGet}.
+     */
+    public Team getTeam(TeamName toGet) throws TeamNotFoundException {
+        requireNonNull(toGet);
+        if (!contains(toGet)) {
+            throw new TeamNotFoundException();
+        }
+        return internalList.stream().filter(t -> t.getTeamName().equals(toGet)).findFirst().get();
+    }
+
+    /**
      * Adds a team to the list.
      *
      * @throws DuplicateTeamException if the team to add is a duplicate of an existing team in the list.
