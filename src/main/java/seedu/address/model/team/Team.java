@@ -30,6 +30,10 @@ public class Team {
         return players.asObservableList();
     }
 
+    public UniquePersonList getUniqueTeamPlayers() {
+        return players;
+    }
+
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
@@ -46,8 +50,7 @@ public class Team {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Team // instanceof handles nulls
-                && this.teamName.equals(((Team) other).teamName))
-                && this.players.equals(((Team) other).players);
+                && this.teamName.equals(((Team) other).teamName));
     }
 
     @Override
