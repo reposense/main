@@ -18,7 +18,9 @@ import seedu.address.model.person.exceptions.NoPlayerException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.team.Team;
+import seedu.address.model.team.TeamName;
 import seedu.address.model.team.exceptions.DuplicateTeamException;
+import seedu.address.model.team.exceptions.TeamNotFoundException;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -98,6 +100,14 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void createTeam(Team team) throws DuplicateTeamException {
         addressBook.createTeam(team);
+        indicateAddressBookChanged();
+    }
+
+    @Override
+    public synchronized void assignPersonToTeam(Person person, TeamName teamName)
+            throws TeamNotFoundException, DuplicatePersonException {
+        addressBook.assignPersonToTeam(person, teamName);
+        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         indicateAddressBookChanged();
     }
 

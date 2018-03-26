@@ -19,8 +19,10 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.team.Team;
+import seedu.address.model.team.TeamName;
 import seedu.address.model.team.UniqueTeamList;
 import seedu.address.model.team.exceptions.DuplicateTeamException;
+import seedu.address.model.team.exceptions.TeamNotFoundException;
 
 /**
  * Wraps all data at the address-book level
@@ -235,11 +237,19 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     /**
      * Creates a team in the manager.
-     *
      * @throws DuplicateTeamException if an equivalent team already exists.
      */
     public void createTeam(Team t) throws DuplicateTeamException {
         teams.add(t);
+    }
+
+    /**
+     * Assigns a {@code person} to a {@code team}.
+     * @throws TeamNotFoundException if the {@code team} is not found in this {@code AddressBook}.
+     */
+    public void assignPersonToTeam(Person person, TeamName teamName)
+            throws TeamNotFoundException, DuplicatePersonException {
+        teams.assignPersonToTeam(person, teams.getTeam(teamName));
     }
 
     //// util methods

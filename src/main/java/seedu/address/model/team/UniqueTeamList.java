@@ -9,6 +9,8 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.CollectionUtil;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.team.exceptions.DuplicateTeamException;
 import seedu.address.model.team.exceptions.TeamNotFoundException;
 
@@ -92,6 +94,22 @@ public class UniqueTeamList implements Iterable<Team> {
             throw new TeamNotFoundException();
         }
         return teamFoundAndDeleted;
+    }
+
+    /**
+     * Assign a {@code person} to a {@code team}.
+     * @throws TeamNotFoundException if no such team could be found in the list
+     * @throws DuplicatePersonException if person already exist in the team
+     */
+    public void assignPersonToTeam(Person person, Team target) throws DuplicatePersonException {
+        requireNonNull(person);
+        requireNonNull(target);
+
+        if (target.getTeamPlayers().contains(person)) {
+            throw new DuplicatePersonException();
+        }
+
+        target.getUniqueTeamPlayers().add(person);
     }
 
     /**
