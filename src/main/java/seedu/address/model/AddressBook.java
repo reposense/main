@@ -18,6 +18,9 @@ import seedu.address.model.person.exceptions.NoPlayerException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+import seedu.address.model.team.Team;
+import seedu.address.model.team.UniqueTeamList;
+import seedu.address.model.team.exceptions.DuplicateTeamException;
 
 /**
  * Wraps all data at the address-book level
@@ -27,6 +30,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
     private final UniqueTagList tags;
+    private final UniqueTeamList teams;
 
     /*
      * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
@@ -38,6 +42,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     {
         persons = new UniquePersonList();
         tags = new UniqueTagList();
+        teams = new UniqueTeamList();
     }
 
     public AddressBook() {}
@@ -60,6 +65,10 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.tags.setTags(tags);
     }
 
+    public void setTeams(List<Team> teams) throws DuplicateTeamException {
+        this.teams.setTeams(teams);
+    }
+
     /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
@@ -69,11 +78,15 @@ public class AddressBook implements ReadOnlyAddressBook {
         List<Person> syncedPersonList = newData.getPersonList().stream()
                 .map(this::syncWithMasterTagList)
                 .collect(Collectors.toList());
+        List<Team> syncedTeamList = newData.getTeamList();
 
         try {
             setPersons(syncedPersonList);
+            setTeams(syncedTeamList);
         } catch (DuplicatePersonException e) {
             throw new AssertionError("AddressBooks should not have duplicate persons");
+        } catch (DuplicateTeamException e) {
+            throw new AssertionError("MTM should not have duplicate teams");
         }
     }
 
@@ -139,7 +152,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         personTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
         return new Person(
                 person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), person.getRemark(),
-                correctTagReferences);
+                person.getTeamName(), correctTagReferences);
     }
 
     /**
@@ -199,7 +212,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         Person newPerson =
                 new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
-                        person.getRemark(), newTags);
+                        person.getRemark(), person.getTeamName(), newTags);
 
         try {
             updatePerson(person, newPerson);
@@ -220,6 +233,15 @@ public class AddressBook implements ReadOnlyAddressBook {
         tags.setTags(tagsInPersons);
     }
 
+    /**
+     * Creates a team in the manager.
+     *
+     * @throws DuplicateTeamException if an equivalent team already exists.
+     */
+    public void createTeam(Team t) throws DuplicateTeamException {
+        teams.add(t);
+    }
+
     //// util methods
 
     @Override
@@ -236,6 +258,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public ObservableList<Tag> getTagList() {
         return tags.asObservableList();
+    }
+
+    @Override
+    public ObservableList<Team> getTeamList() {
+        return teams.asObservableList();
     }
 
     @Override

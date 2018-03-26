@@ -8,6 +8,7 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.AMY;
 import static seedu.address.testutil.TypicalPersons.BOB;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalTeams.CHELSEA;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +23,9 @@ import org.junit.rules.ExpectedException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.team.Team;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.PersonBuilder;
 
@@ -59,7 +62,20 @@ public class AddressBookTest {
         // Repeat ALICE twice
         List<Person> newPersons = Arrays.asList(ALICE, ALICE);
         List<Tag> newTags = new ArrayList<>(ALICE.getTags());
-        AddressBookStub newData = new AddressBookStub(newPersons, newTags);
+        List<Team> newTeams = Arrays.asList(CHELSEA);
+        AddressBookStub newData = new AddressBookStub(newPersons, newTags, newTeams);
+
+        thrown.expect(AssertionError.class);
+        addressBook.resetData(newData);
+    }
+
+    @Test
+    public void resetData_withDuplicateTeams_throwsAssertionError() {
+        // Repeat CHELSEA twice
+        List<Person> newPersons = Arrays.asList(BOB);
+        List<Tag> newTags = new ArrayList<>(BOB.getTags());
+        List<Team> newTeams = Arrays.asList(CHELSEA, CHELSEA);
+        AddressBookStub newData = new AddressBookStub(newPersons, newTags, newTeams);
 
         thrown.expect(AssertionError.class);
         addressBook.resetData(newData);
@@ -85,6 +101,12 @@ public class AddressBookTest {
         AddressBook expectedAddressBook = new AddressBookBuilder().withPerson(AMY).build();
 
         assertEquals(expectedAddressBook, addressBookUpdatedToAmy);
+    }
+
+    @Test
+    public void removePerson_nonExistentPerson_throwsPersonNotFoundException() throws Exception {
+        thrown.expect(PersonNotFoundException.class);
+        addressBookWithBobAndAmy.removePerson(ALICE);
     }
 
     @Test
@@ -114,10 +136,12 @@ public class AddressBookTest {
     private static class AddressBookStub implements ReadOnlyAddressBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
         private final ObservableList<Tag> tags = FXCollections.observableArrayList();
+        private final ObservableList<Team> teams = FXCollections.observableArrayList();
 
-        AddressBookStub(Collection<Person> persons, Collection<? extends Tag> tags) {
+        AddressBookStub(Collection<Person> persons, Collection<? extends Tag> tags, Collection<Team> teams) {
             this.persons.setAll(persons);
             this.tags.setAll(tags);
+            this.teams.setAll(teams);
         }
 
         @Override
@@ -128,6 +152,11 @@ public class AddressBookTest {
         @Override
         public ObservableList<Tag> getTagList() {
             return tags;
+        }
+
+        @Override
+        public ObservableList<Team> getTeamList() {
+            return teams;
         }
     }
 
