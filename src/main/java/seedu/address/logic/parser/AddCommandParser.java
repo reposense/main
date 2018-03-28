@@ -45,13 +45,14 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         try {
             Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).get();
-            Phone phone = ParserUtil.parsePhone(ParserUtil.parseValue(argMultimap.getValue(PREFIX_PHONE))).get();
+            Phone phone = ParserUtil.parsePhone(ParserUtil.parseValue(argMultimap.getValue(PREFIX_PHONE),
+                    Phone.MESSAGE_PHONE_CONSTRAINTS)).get();
             Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL)).get();
             Address address = ParserUtil.parseAddress(ParserUtil.parseValue(argMultimap
-                    .getValue(PREFIX_ADDRESS))).get();
+                    .getValue(PREFIX_ADDRESS), Address.MESSAGE_ADDRESS_CONSTRAINTS)).get();
             Remark remark = new Remark("");
-            TeamName teamName = ParserUtil.parseTeamName(ParserUtil.parseValue(argMultimap.getValue(PREFIX_TEAMNAME)))
-                    .get();
+            TeamName teamName = ParserUtil.parseTeamName(ParserUtil.parseValue(argMultimap.getValue(PREFIX_TEAMNAME),
+                    TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS)).get();
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
             Person person = new Person(name, phone, email, address, remark, teamName, tagList);
