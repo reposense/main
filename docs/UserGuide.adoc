@@ -16,16 +16,22 @@ endif::[]
 By: `F14-B1`      Since: `Jun 2016`      Licence: `MIT`
 
 == Introduction
+My Team Manager (MTM) is a link:https://en.wikipedia.org/wiki/Command-line_interface[Command-Line Interface] (CLI) based address book application for *football team managers*.
+It is a one-stop solution to help you manage your player's contact details in an efficient and convenient manner.
+Using MTM, you can organize players into teams, view player statistics, and, generate player line-ups.
 
-My Team Manager (MTM) is for *football team managers* who prefer to conduct management of their teams on their computers.
-This is a Command Line Interface (CLI) application where you, as a team manager, will be able to enter and organise details
-of the players you are managing. The players will be organised into their respective teams, and you can include details such
-as their positions and demerits, so that you can easily pick the lineup for matches. +
 Head to <<Quick Start>> to get started with My Team Manager!
+
+// My Team Manager (MTM) is for *football team managers* who prefer to conduct management of their teams on their computers.
+// This is a Command Line Interface (CLI) application where you will be able to enter and organise details
+// of the players you are managing. The players will be organised into their respective teams, and you can include details such
+// as their positions and demerits, so that you can easily pick the lineup for matches. +
+// Head to <<Quick Start>> to get started with My Team Manager!
 
 == Quick Start
 
 .  Ensure you have Java version `1.8.0_60` or later installed in your Computer.
+.  You can download Java 8 link:http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[here].
 +
 [NOTE]
 Having any Java 8 version is not enough. +
@@ -61,74 +67,110 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 * Parameters can be in any order e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 ====
 
-=== Autocomplete
+=== Tab Autocomplete
 
 After typing in the first few characters of a command, pressing kbd:[tab] will fill in the rest of the item.
 
-To see parameters for a command, press tab after the whole command is typed in. Pressing tab again will remove the parameters.
+To view the parameters for a command, press tab after the whole command is typed in. Pressing tab again will remove the parameters.
+
+[TIP]
+You can use the autocompleted parameters as a template after viewing them.
 
 Text will turn red if the input has no parameters or if no matching command exists.
 
-If there are multiple possible commands for a given input, i.e. 'e' could be 'edit', 'exit', or 'export', then a dropdown box will appear with the possible commands. These can be navigated using mouse or arrow keys. Then, press enter to select the desired command.
+If there are multiple possible commands for a given input, i.e. 'e' could be 'edit', 'exit', or 'export',
+then a dropdown box will appear with the possible commands. These can be navigated using mouse or arrow keys. Press enter to select the desired command.
 
 === Viewing help : `help`
 
 Format: `help`
 
-=== Adding a person: `add`
+=== Adding a player: `add`
 
-Adds a person to the address book +
-Alias: `a` +
-Format: `add n/NAME  e/EMAIL  tm/TEAM [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [s/SCORE] [po/POSITION] [r/REMARKS] [t/TAG]...`
+Adds a player to the address book.
+
+Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]...` +
+
+The table below explains the correct inputs for the parameters.
+
+[width="80%",cols="1,2,2",options="header"]
+|=========================================================
+|Parameter |Input type |Example
+|n/NAME |Player name | n/Ronaldo
+|e/EMAIL |Player's email address | a/ronaldo@soccer.com
+|tm/TEAM |Player's Team | tm/Real Madrid
+|a/ADDRESS |Player's address| a/Blk 123 Bukit Batok St 21
+|p/PHONE_NUMBER| Player's phone number| p/92343433
+|j/JERSEY_NUMBER| Player's jersey number| j/17
+|ra/RATING| Player's performance rating (Any integer from 1 to 5)| ra/5
+|po/POSITION| Player's postion (1 for Striker, 2 for Midfiled, 3 for Defender, 4 for Goalkeeper)| po/1
+|r/REMARK| Your remark for the player| r/My best player
+|t/TAG| Your tag for the player| t/Injured
+
+|=========================================================
+
+[NOTE]
+A player can only be added to an existing team.
+If you have not created the team yet, you can create one first using the <<Creating a team: `create` `[Since v1.2]`, `create`>> command.
 
 [TIP]
-A person can have any number of tags (including 0).
+A player can have any number of tags (including 0).
+
+Alias: `a`
+
+Output: The added player should appear in the player list panel.
 
 Examples:
 
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
-* `add n/Ronaldo p/92331322 e/ronaldo@soccer.com a/Portugal tm/Real Madrid j/17 s/999 po/Striker r/Always play him`
+* `add n/Mo Salah e/mo@soccer.com` +
+Adds a player named `Mo Salah` with email `mo@soccer.com`.
+* `add n/Ronaldo p/92331322 e/ronaldo@soccer.com a/Portugal tm/Real Madrid j/17 ra/5 po/1 r/Always play him` +
+Adds a player named Ronaldo with phone number `92331322`, email `ronaldo@soccer.com`, address `Portugal`,
+team `Real Madrid`, jersey number `17`, rating `5`, position Striker, with remark `"Always play him"`.
 
-=== Listing all persons : `list`
+=== Listing all players : `list`
 
-Shows a list of all persons in the address book. +
-Alias: `l` +
-Format: `list`
+Shows a list of all players in the address book.
 
-=== Editing a person : `edit`
+Format: `list` +
+Alias: `l`
 
-You may edit an existing player in the address book with the 'edit' command. +
-Alias: `e` +
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
+=== Editing a player : `edit`
+
+You may edit an existing player in the address book with the 'edit' command.
+
+Format: `edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]...` +
+
+Alias: `e`
 
 ****
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
+* Edits the player at the specified `INDEX`. The index refers to the index number shown in the last player listing. The index *must be a positive integer* 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* When you edit tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person's tags by typing `t/` without specifying any tags after it.
+* When you edit tags, the existing tags of the player will be removed i.e adding of tags is not cumulative.
+* You can remove all the player's tags by typing `t/` without specifying any tags after it.
 ****
 
 Examples:
 
 * `edit 1 p/91234567 e/johndoe@example.com` +
-Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
+Edits the phone number and email address of the 1st player to be `91234567` and `johndoe@example.com` respectively.
 * `edit 2 n/Betsy Crower t/` +
-Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+Edits the name of the 2nd player to be `Betsy Crower` and clears all existing tags.
 
-=== Locating persons by name: `find`
+=== Locating players by name: `find`
 
-You can find a player whose names contain any of the given keywords with this command. +
-Alias: `f` +
-Format: `find KEYWORD [MORE_KEYWORDS]`
+You can find a player whose names contain any of the given keywords with this command.
+
+Format: `find KEYWORD [MORE_KEYWORDS]` +
+Alias: `f`
 
 ****
 * The search is case insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Players matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 ****
 
 Examples:
@@ -136,13 +178,14 @@ Examples:
 * `find John` +
 Returns `john` and `John Doe`
 * `find Betsy Tim John` +
-Returns any person having names `Betsy`, `Tim`, or `John`
+Returns any player having names `Betsy`, `Tim`, or `John`
 
-=== Deleting a person : `delete`
+=== Deleting a player : `delete`
 
-Should you want to delete a player from the address book, you may use this command. +
-Alias: `d` +
-Format: `delete INDEX`
+Should you want to delete a player from the address book, you may use this command.
+
+Format: `delete INDEX` +
+Alias: `d`
 
 ****
 * Deletes the player at the specified `INDEX`.
@@ -161,7 +204,10 @@ Deletes the 1st player in the results of the `find` command.
 
 === Selecting a player : `select`
 
-Identified the player you're looking for and want to see more details about the player? MTM offers you the ability to view details of your specified player via an index shown in the current listing of players.
+Identified the player you're looking for and want to see more details about the player?
+MTM offers you the ability to view details of your specified player via an index shown in the current listing of players.
+Alternatively, you can just scroll to the player you want, click their card,
+and their details will be displayed on the right hand side of the screen.
 
 Format: `select INDEX` +
 Alias: `s`
@@ -179,7 +225,7 @@ Your selected player will have their details displayed on the details pane on MT
 ====
 
 Here are a few valid examples on how you can use the `select` command:
-[NOTE]
+
 * `list` +
 `select 2` +
 Displays the list of all players and selects the 2nd player in that list.
@@ -280,25 +326,42 @@ Calling the first `redo` command will reapply the `delete 1` command, and the su
 
 === Clearing all entries : `clear`
 
-You can clear all entries from the address book with the 'clear' command. +
-Alias: `c` +
-Format: `clear`
+You can clear all entries from the address book with the 'clear' command.
 
-=== Setting Colour of tags : `setTagColour`
+Format: `clear` +
+Alias: `c`
 
-You can set the tags to a colour of your choice with the 'setColourTag' command. +
-Alias: `stc` +
-Format: `setTagColour`
+=== Setting colour of tags : `setTagColour`
 
-=== Sorting players by tag: `sort`
+You can set the tags to a colour of your choice with the 'setColourTag' command.
 
-You can sort the players by tags with the 'sort' command. +
-Alias: `stc` +
-Format: `setTagColour`
+Format: `setTagColour` +
+Alias: `stc`
+
+=== Sorting players by field: `sort`
+
+You can sort the players by fields with the 'sort' command. Players can be sorted in both ascending or descending order.
+
+Format: `sort` FIELD ORDER +
+Alias: `so`
+
+[NOTE]
+====
+Current version of `sort` supports the following fields: Name, Phone, Email & Address.
+====
+
+Here are a few valid examples on how you can use the `sort` command:
+
+* `sort` name asc +
+This will sort the address book by names, in alphabetical order.
+
+* `sort` name dsc +
+This will sort the address book by names, in reverse alphabetical order.
 
 === Exiting the program : `exit`
 
-You can exit the program by entering the 'exit' command. +
+You can exit the program by entering the 'exit' command.
+
 Format: `exit`
 
 === Saving the data
@@ -306,7 +369,7 @@ Format: `exit`
 There is no need to save anything manually as My Team Manager will save
 any data entered directly to the hard drive.
 
-=== Noting down a remark for player: `remark`
+=== Noting down a remark for player: `remark` `[Since v1.1]`
 
 When you need to drop yourself a self-note with regards to a specific player you're managing, you can make a self-note
 of a specific player easily by giving the player a remark for you to remember by.
@@ -315,7 +378,9 @@ Format: `remark INDEX [r/REMARK]` +
 Alias: `rm`
 
 [NOTE]
+====
 By leaving out `r/REMARK`, the command acts as a remark removal.
+====
 
 [TIP]
 .*Outcome*
@@ -331,9 +396,148 @@ Removes the remark from the specified player at index 1.
 * `remark 5 r/MVP Player` +
 Give a remark to the specified player at index 5 with the remark "MVP Player".
 
-=== Creating a team: `create` `[Coming in v2.0]`
+=== Creating a team: `create` `[Since v1.2]`
 
-=== Assigning player to teams: `assign` `[Coming in v2.0]`
+What is a team management application without the functionality of creating a team? This command allows you to create a team that can be assigned to players.
+
+Format: `create TEAM_NAME` +
+Alias: `ct`
+
+[TIP]
+.*Outcome*
+====
+Your newly specified team will be created with the name you have given without any players in it, and your team name will appear in the team bar below.
+====
+
+Here are a few valid examples on how you can use the `create` command:
+
+* `create Arsenal` +
+Creates a new team with the name "Arsenal".
+
+* `create Liverpool` +
+Creates another new team with the name "Liverpool"
+
+=== Viewing a team: `view` `[Since v1.3]`
+
+With the ability to manage different teams, you will be able to list all players currently in a team easily with this command.
+Format: `view TEAM_NAME`
+Alias: `v`
+
+[TIP]
+.*Outcome*
+====
+Displays the list of players will that are in the team specified on the left panel.
+====
+
+Here are a few valid examples on how you can use the `view` command:
+
+* `view Arsenal` +
+List all players in the team "Arsenal".
+
+* `view Liverpool` +
+List all players in the team "Liverpool".
+
+=== Assigning player to teams: `assign` `[Since v1.3]`
+
+Have a player without a team, or have yet to assigned one during the addition of player into MTM, you can call this command to assign that player to a particular team of your choice.
+
+Format: `assign INDEX TEAM_NAME`
+Alias: `ap`
+
+[TIP]
+.*Outcome*
+====
+Your specified player via index will be assigned to the specified team.
+====
+
+Here are a few valid examples on how you can use the `create` command:
+
+* `list`
+* `assign 3 Arsenal` +
+View the full list of players in MTM and assign the player with index 3 to team "Arsenal".
+
+* `find John`
+* `assign 1 Liverpool` +
+Find a player by the name of "John" and assign the player with index 1 to team "Liverpool".
+
+=== Set an upcoming match with an opposing team: `setmatch` `[Coming in v2.0]`
+
+With this command, it gives you a convenient way to keep track of the upcoming match of a team.
+
+Format: `setmatch TEAM_NAME OPPONENT_TEAM_NAME DATE` +
+Alias: `sm`
+
+[NOTE]
+====
+Date format to be entered is in `DD/MM/YYYY`.
+====
+
+[TIP]
+.*Outcome*
+====
+The upcoming match of the team will be captured and displayed to you.
+====
+
+Here are a few valid examples on how you can use the `create` command:
+
+* `view Arsenal`
+* `setmatch Arsenal Liverpool 14/03/2018` +
+Display the list of players in team "Arsenal" and set an upcoming match for Arsenal with Liverpool on 14/03/2018.
+
+=== View the team's next upcoming match: `nextmatch` `[Coming in v2.0]`
+
+Easily determine the up and coming match with the team so that you never miss an important date.
+
+Format: `nextmatch TEAM_NAME`
+Alias: `nm`
+
+[TIP]
+.*Outcome*
+====
+Displays the date and opponent for the upcoming match of the team specified.
+====
+
+Here are a few valid examples on how you can use the `create` command:
+
+* `view Arsenal`
+* `nextmatch Arsenal` +
+Displays the list of players in team "Arsenal" and view the next upcoming match for "Arsenal".
+
+=== Removing a team: `remove` `[Coming in v1.4]`
+
+No longer managing the team or the team has been disbanded, you can easily remove the team from MTM.
+
+Format: `remove TEAM_NAME` +
+Alias: `rt`
+
+[NOTE]
+====
+Removing a team will automatically update all affected players' `Team` field. +
+Players without a team will need to be re-assigned.
+====
+
+[TIP]
+.*Outcome*
+====
+Remove the specified team and update all affected players.
+====
+
+Here are a few valid examples of how you can use the `remove` command:
+
+* `view Arsenal`
+* `remove Arsenal` +
+Display the list of players in team "Arsenal" and remove the team.
+
+=== Show Best XI players: `showBest` [Coming in v2.0]
+
+If you went to see your current best 11 players in your team based on their respective stats, this command
+is for you.
+
+Alias: `sb` +
+Format: `showBest`
+
+=== Set various fields to private: [Coming in v2.0]
+{explain how fields of players can be set private}
 
 === Scheduling trainings for team `schedule` `[Coming in v2.0]`
 
@@ -343,7 +547,7 @@ Give a remark to the specified player at index 5 with the remark "MVP Player".
 
 === Giving feedback to developers: `feedback` `[Coming in v2.0]`
 
-=== Giving demerit to players based on performance: `demerit` [Coming in v2.0]
+=== Giving demerit to players based on performance: `demerit` `[Coming in v2.0]`
 
 == FAQ
 
@@ -352,58 +556,124 @@ Give a remark to the specified player at index 5 with the remark "MVP Player".
 
 == Command Summary
 
-[cols="^1s, >2m, >2m", options="header"]
+[cols="^1s, ^1s, <2m, <2m", options="header"]
 |===
-^|Command / Alias
+^|Command
+^|Alias
 ^|Parameter
 ^|Example
 
->|help
+4.1+^|General Commands
+
+|`help`
+|`NONE`
 |help
 d|Shows the user guide
 
->|add / a
-|add n/NAME e/EMAIL tm/TEAM [p/PHONE_NUMBER] [a/ADDRESS] [j/JERSEY_NUMBER] [s/SCORE] [po/POSITION] [r/REMARKS] [t/TAG]...
-|add n/Ronaldo e/ronaldo@soccer.com tm/Real Madrid p/92331322 a/Portugal j/17 s/999 po/Striker r/Always play him /tfamous
+|`exit`
+|`NONE`
+|exit
+d|Exits the application
 
->|edit / e
-|edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...
-|edit 2 n/James Lee e/jameslee@example.com
-
->|remark / rm
-|remark INDEX [r/REMARK]
-|remark 4 r/Gotta go faster
-
->|delete / d
-|delete INDEX
-|delete 3
-
->|list / l
-|list
-d|List all the players
-
->|find / f
-|find KEYWORD [MORE_KEYWORDS]
-|find James Jake
-
->|select / s
-|select INDEX
-|select 2
-
->|clear / c
-|clear
-d|Removes all player's information in the application
-
->|history / h
+|`history`
+|`h`
 |history
 d|Display the list of commands entered previously
 
->|undo / u
+|`undo`
+|`u`
 |undo
 d|Undo the previous command
 
->|redo / r
+|`redo`
+|`r`
 |redo
 d|Redo the previous command
+
+|`clear`
+|`c`
+|clear
+d|Removes all information in the application
+
+4.1+^|Player's Related Commands
+
+|`add`
+|`a`
+|add n/NAME e/EMAIL tm/TEAM [p/PHONE_NUMBER] [a/ADDRESS] [j/JERSEY_NUMBER] [s/SCORE] [po/POSITION] [r/REMARKS] [t/TAG]...
+|add n/Ronaldo e/ronaldo@soccer.com tm/Real Madrid p/92331322 a/Portugal j/17 s/999 po/Striker r/Always play him /tfamous
+
+|`remark`
+|`rm`
+|remark INDEX [r/REMARK]
+|remark 4 r/Gotta go faster
+
+|`edit`
+|`e`
+|edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...
+|edit 2 n/James Lee e/jameslee@example.com
+
+|`delete`
+|`d`
+|delete INDEX
+|delete 3
+
+|`list`
+|`l`
+|list
+d|List all the players
+
+|`sort`
+|`so`
+|sort FIELD ORDER
+|sort name asc
+
+|`find`
+|`f`
+|find KEYWORD [MORE_KEYWORDS]
+|find James Jake
+
+|`select`
+|`s`
+|select INDEX
+|select 2
+
+4.1+^|Team's Related Commands
+
+|`create`
+|`ct`
+|create TEAM_NAME
+|create Arsenal
+
+|`assign`
+|`ap`
+|assign TEAM_NAME INDEX [INDEX]...
+|assign Barcelona 1 2 3
+
+|`view`
+|`vt`
+|view TEAM_NAME
+|view Liverpool
+
+|`remove`
+|`rt`
+|remove TEAM_NAME
+|remove Real Madrid
+
+|`setmatch`
+|`sm`
+|setmatch TEAM_NAME OPPONENT_TEAM_NAME DATE
+|setmatch Arsenal Barcelona 23/05/2018
+
+|`nextmatch`
+|`nm`
+|nextmatch TEAM_NAME
+|nextmatch Arsenal
+
+4.1+^|Useful Commands
+
+|`setTagColour`
+|`stc`
+|setTagColour TAG COLOUR
+|setTagColour friends yellow
 
 |===

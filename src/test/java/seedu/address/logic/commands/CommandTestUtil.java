@@ -43,6 +43,8 @@ public class CommandTestUtil {
     public static final String VALID_REMARK_AMY = "MVP of all time";
     public static final String VALID_REMARK_BOB = "Need 5 more training!";
     public static final String VALID_REMARK_EMPTY = "";
+    public static final String VALID_TEAM_ARSENAL = "Arsenal";
+    public static final String VALID_TEAM_BARCELONA = "Barcelona";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
