@@ -2,8 +2,11 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -43,6 +46,26 @@ public class ParserUtil {
             throw new IllegalValueException(MESSAGE_INVALID_INDEX);
         }
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
+    }
+
+    /**
+     * Parses {@code String oneBasedIndexes} into a {@code List<Index>} and returns it. Leading and trailing
+     * whitespaces will be trimmed.
+     */
+    public static List<Index> parseIndexes(String oneBasedIndexes) throws IllegalValueException {
+        String trimmedIndexes = oneBasedIndexes.trim();
+
+        String[] splitOneBasedIndexes = trimmedIndexes.split("\\s+");
+
+        Set<String> uniqueIndexes = new HashSet<>(Arrays.asList(splitOneBasedIndexes));
+
+        List<Index> indexList = new ArrayList<>();
+
+        for (String index : uniqueIndexes) {
+            indexList.add(parseIndex(index));
+        }
+
+        return indexList;
     }
 
     /**
@@ -194,9 +217,10 @@ public class ParserUtil {
     /**
      * Parses a {@code Optional<String> value} into the specified value or {@code UNSPECIFIED_FIELD} if is empty
      */
-    public static Optional<String> parseValue(Optional<String> value) throws IllegalValueException {
+    public static Optional<String> parseValue(Optional<String> value, String messageConstraints)
+            throws IllegalValueException {
         if (value.isPresent() && value.get().equals(UNSPECIFIED_FIELD)) {
-            throw new IllegalValueException("help");
+            throw new IllegalValueException(messageConstraints);
         } else {
             return Optional.of(value.orElse(UNSPECIFIED_FIELD));
         }
