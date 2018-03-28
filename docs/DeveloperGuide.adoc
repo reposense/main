@@ -1,6 +1,7 @@
 = My Team Manager - Developer Guide
 :toc:
 :toc-title:
+:toclevels: 3
 :toc-placement: preamble
 :sectnums:
 :imagesDir: images
@@ -22,18 +23,18 @@ This developer's guide provides information that will not only show the design p
 
 This developer's guide consist of the following sections.
 
-* Setting up
-* Design
-* Implementation
-* Documentation
-* Testing
-* Dev Ops
+* <<Setting up>>
+* <<Design>>
+* <<Implementation>>
+* <<Documentation>>
+* <<Testing>>
+* <<Dev Ops>>
 
 == Setting up
 
 The following pointers teach you how to get started with developing on our application. You’ll learn how to prepare yourself with the project on IntelliJ and run it.. Then, you’ll update configurations in IntelliJ to easily match the coding standards and you’ll be ready to start coding.
 
-But before you start, there are two fundamental prerequisites you should about MTM:
+But before you start, there are two fundamental prerequisites you should know about MTM:
 
 === Prerequisites
 
@@ -43,14 +44,16 @@ MTM needs to be written in Java 8 language and will be better written in an inte
 +
 [NOTE]
 Having any Java 8 version is not enough. +
-This app will not work with earlier versions of Java 8.
+This app will not work with earlier versions of Java 8. +
+You can download Java 8 from link:http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151[here].
 +
 
 . *IntelliJ* IDE
 +
 [NOTE]
 IntelliJ by default has Gradle and JavaFx plugins installed. +
-Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plugins` to re-enable them.
+Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plugins` to re-enable them. +
+You can download IntelliJ from link:https://www.jetbrains.com/idea/download/#section=windows[here].
 
 
 === Setting up the project in your computer
@@ -119,7 +122,7 @@ Having both Travis and AppVeyor ensures your App works on both Unix-based platfo
 When you are ready to start coding,
 
 1. Get some sense of the overall design by reading <<Design-Architecture>>.
-2. Take a look at <<GetStartedProgramming>>.
+2. Dive right in and get started with programming.
 
 == Design
 
@@ -190,7 +193,7 @@ image::UiClassDiagram.png[width="800"]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `PlayerDetails` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
@@ -260,9 +263,34 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+=== Pre-existing
+
+==== Configuration
+
+Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
+
+// tag::logging[]
+==== Logging
+
+We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
+
+* The logging level can be controlled using the `logLevel` setting in the configuration file (See <<Implementation-Configuration>>)
+* The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level
+* Currently log messages are output through: `Console` and to a `.log` file.
+
+*Logging Levels*
+
+* `SEVERE` : Critical problem detected which may possibly cause the termination of the application
+* `WARNING` : Can continue, but with caution
+* `INFO` : Information showing the noteworthy actions by the App
+* `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
+
+[[Implementation-Configuration]]
+// end::logging[]
+
 // tag::undoredo[]
-=== Undo/Redo feature
-==== Current Implementation
+==== Undo/Redo feature
+===== Current Implementation
 
 The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides inside `LogicManager`. It supports undoing and redoing of commands that modifies the state of the address book (e.g. `add`, `edit`). Such commands will inherit from `UndoableCommand`.
 
@@ -346,9 +374,9 @@ The following activity diagram summarize what happens inside the `UndoRedoStack`
 
 image::UndoRedoActivityDiagram.png[width="650"]
 
-==== Design Considerations
+===== Design Considerations
 
-===== Aspect: Implementation of `UndoableCommand`
+====== Aspect: Implementation of `UndoableCommand`
 
 * **Alternative 1 (current choice):** Add a new abstract method `executeUndoableCommand()`
 ** Pros: We will not lose any undone/redone functionality as it is now part of the default behaviour. Classes that deal with `Command` do not have to know that `executeUndoableCommand()` exist.
@@ -357,7 +385,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Pros: Does not involve the template pattern, easier for new developers to understand.
 ** Cons: Classes that inherit from `UndoableCommand` must remember to call `super.execute()`, or lose the ability to undo/redo.
 
-===== Aspect: How undo & redo executes
+====== Aspect: How undo & redo executes
 
 * **Alternative 1 (current choice):** Saves the entire address book.
 ** Pros: Easy to implement.
@@ -367,7 +395,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Cons: We must ensure that the implementation of each individual command are correct.
 
 
-===== Aspect: Type of commands that can be undone/redone
+====== Aspect: Type of commands that can be undone/redone
 
 * **Alternative 1 (current choice):** Only include commands that modifies the address book (`add`, `clear`, `edit`).
 ** Pros: We only revert changes that are hard to change back (the view can easily be re-modified as no data are * lost).
@@ -388,65 +416,99 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
-// tag::dataencryption[]
-=== [Proposed] Data Encryption
+=== Additional Functions Enhancements
 
-_{Explain here how the data encryption feature will be implemented}_
+// tag::remark[]
+==== Remark Mechanism
+===== Current Implementation
+The 'remark' mechanism is facilitated by `RemarkCommand`. The mechanism allows user to perform the adding, editing, and deleting of a single remark to a specified `Person` via the `index` from the list shown in the `UI`. The field `remark` is similar to the other fields of `Person`, hence some of its logic in `AddCommand.java` and `EditCommand.java` needs to be updated.
 
-// end::dataencryption[]
+The mechanism uses the command `remark` and a `r/` prefix to add, edit, and delete a single remark of a `Person`. When the user leaves the remark as empty after the `r/` prefix, it is an indication to delete the remark, and when it is valid, it either create a new remark for that `Person` or overwrites the current existing remark.
 
-=== Logging
+The following sequence diagram illustrates the operation of the `remark` command:
 
-We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
+//<insert sequence diagram>
 
-* The logging level can be controlled using the `logLevel` setting in the configuration file (See <<Implementation-Configuration>>)
-* The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level
-* Currently log messages are output through: `Console` and to a `.log` file.
+_Figure : Sequence Diagram of `remark` Command_
 
-*Logging Levels*
+The `remark` field is not required when adding or editing a `Person`, however it will be initialized to an empty string or retrieved to fit the implementation of the other fields.
 
-* `SEVERE` : Critical problem detected which may possibly cause the termination of the application
-* `WARNING` : Can continue, but with caution
-* `INFO` : Information showing the noteworthy actions by the App
-* `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
+Code snippet from `AddCommandParser.java` that shows that remark is initialized as empty.
 
-[[Implementation-Configuration]]
-
-=== Autocomplete
-
-The autocomplete feature works by handling the Tab key pressed event, searching for any commands with matching prefix and returns one if found. The command strings are stored a Trie data structure, named CommandTrie, for optimal search.
-
+[source, java]
 ----
-public class CommandTrie {
-    String attemptAutoComplete (String input);
-    void insert (String input);
-    Set<String> getCommandSet();
+public AddCommand parse(String args) throws ParseException {
+
+    // ... logic code ...
+
+    try {
+
+        // ... logic code ...
+
+        Remark remark = new Remark("");
+
+        Person person = new Person(name, phone, email, address, remark, tagList);
+
+        return new AddCommand(person);
+    } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+    }
+
+    // ... logic code ...
 }
 ----
 
-The trie is made up of node classes which only have three fields. The sibling field represents a character on the same level as the current one. The child represents a next possible letter. For example in the words edit and exit the node for 'd' would have a child 'i' and a sibling 'x'. 'x' would have a child 'i'.
+Code snippet from `EditCommand.java` that shows that remark is being retrieved.
 
+[source, java]
 ----
-public class Node {
+private static Person createEditedPerson(Person personToEdit,
+    EditPersonDescriptor editPersonDescriptor) {
 
-    private Node sibling;
-    private Node child;
-    private char key;
-    ...
+    // ... logic code ...
+
+    Remark updatedRemark = personToEdit.getRemark();
+
+    return new Person(updatedName, updatedPhone, updatedEmail,
+        updatedAddress, updatedRemark, updatedTags);
 }
-
 ----
-Upon the pressing of the tab key, the command box calls attemptAutoComplete, in the commandTrie class. This method will traverse the trie using the content of the command box.
-If the input has a character not present in the trie, then the attempt fails. If the trie parses through the input but reaches a node with a sibling option,
-it will attempt to provide the user with possible commands for a given input. In this case, a dropdown box will appear in the UI that lists the possible commands for the user.
 
-Upon finding a matching command, attemptAutoComplete returns it and replaces the text in the CommandLine. If the no matching command is found, the text is turned red.
+[TIP]
+====
+The field `remark` is found in `Person`, however it is not be modified via `add` or `edit` commands. +
+All functions related to `remark` is done strictly via the `remark` command.
+====
 
-One class, command collection, is used to hold the set of commands and a map from each command word to the command usage. This is used by the trie to both construct the command trie and autocomplete from a command word to a command word and its usage. This static class simply contains a set of each command's command word that is statically initialized and used by the commandTrie class.
+[TIP]
+====
+Only one `remark` is saved at a time. If the user `remark` on the same person, it will be overwritten.
+====
 
-=== Sorting players by fields
+===== Design Considerations
+====== Aspect: Implementation of `Remark` command
 
-==== Current Implementation
+* **Alternative 1 (current choice):** Creates an additional `remark` field in `Person`
+** Pros: Follows the existing style of similar fields, making implementation easier
+** Cons: Could only have 1 remark per person, unless `remark` mechanism follows the `tag` mechanism to have multiple remarks
+* **Alternative 2:** Have a list of remarks that associates with the specified `Person`
+** Pros: Can have multiple remarks associating with a specific `Person`
+** Cons: Harder to maintain, more complicated
+// end::remark[]
+
+// tag::privatefield[]
+==== Setting various player fields to private `[coming in v1.5]`
+===== Current Implementation
+
+There is currently no implementation for this feature. Coming soon!
+
+===== Design Consideration
+// end::privatefield[]
+
+// tag:sorting[]
+==== Sorting players by fields
+===== Current Implementation
+
 The `sort` command is currently able to sort players by name, phone, email or address, in either ascending or descending order. Support for more fields will be added in subsequent updates.
 
 * The `sort` command is parsed through `SortCommandParser` which hands control to the `SortCommand` class.
@@ -457,25 +519,25 @@ Sorting is facilitated by the `SortCommand` which uses method `sortPlayers` to u
 [source, java]
 ----
         switch (field) {
-                case "name":
-                    comparator = nameComparator;
-                    break;
+        case "name":
+            comparator = nameComparator;
+            break;
 
-                case "phone":
-                    comparator = phoneComparator;
-                    break;
+        case "phone":
+            comparator = phoneComparator;
+            break;
 
-                case "email":
-                    comparator = emailComparator;
-                    break;
+        case "email":
+            comparator = emailComparator;
+            break;
 
-                case "address":
-                    comparator = addressComparator;
-                    break;
+        case "address":
+            comparator = addressComparator;
+            break;
 
-                default:
-                    throw new AssertionError("Invalid field parameter entered...\n");
-                }
+        default:
+            throw new AssertionError("Invalid field parameter entered...\n");
+        }
 
         switch (order) {
         case "asc":
@@ -529,9 +591,8 @@ The following sequence diagram shows the program flow when `sort` is used: <imag
 [NOTE]
 If address book is empty, a `NoPlayerException` will be thrown by `sortBy` method in UniquePlayerList.
 
-==== Design Consideration
-
-===== Aspect: Implementation of `sort`
+===== Design Consideration
+====== Aspect: Implementation of `sort`
 
 * **Alternative 1 (current choice):** Sorting is done in `UniquePersonList`
 ** Pros: Sorting methods resides in class that handles most operations done to list. Future changes to implementation would be easier.
@@ -540,7 +601,7 @@ If address book is empty, a `NoPlayerException` will be thrown by `sortBy` metho
 ** Pros: Easier to trace flow of control as lesser passing between classes
 ** Cons: Unnecessary coupling if `UniquePersonList` has to rely on `SortCommand`
 
-===== Aspect: Sort by multiple fields
+====== Aspect: Sort by multiple fields
 
 * **Alternative 1 (current choice):** Sort can only be done by 1 field
 ** Pros: Easy to implement. Input is straightforward.
@@ -549,7 +610,7 @@ If address book is empty, a `NoPlayerException` will be thrown by `sortBy` metho
 ** Pros:  Able to fine tune to great detail how teams are sorted and displayed
 ** Cons: Unnecessary as team managers would not need to sort players by multiple fields
 
-===== Aspect: Sort Persistence
+====== Aspect: Sort Persistence
 
 * **Alternative 1 (current choice):** Address book is saved after sorting.
 ** Pros: Easy to implement. Allows team managers to use preferred sort pattern in every session.
@@ -557,24 +618,115 @@ If address book is empty, a `NoPlayerException` will be thrown by `sortBy` metho
 * **Alternative 2:** Address book is not saved after sorting.
 ** Pros: Good if team manager wants to sort players for current session only
 ** Cons: Sort order is lost when program exits. More memory is used to sort a list and reverse it after.
+// end::sorting[]
 
-=== Setting various player fields to private
+// tag::team[]
+==== Team Mechanism
+===== Current Implementation
 
-==== Current Implementation
-There is currently no implementation for this feature. Coming soon!
+The team mechanism is created to provide better organizational methods to the user for organizing their players. We achieved it by introducing a `UniqueTeamList` into the application which consists of a list of `Team` objects.
 
-==== Design Consideration
+`Team` objects consist of `TeamName` object, which is used to uniquely identify the team, and `UniquePersonList` object which stores the information of `Person` objects which is identical to those found in `UniquePersonList` in `addressbook`.
 
-=== Show Best XI
+Code snippet from `Team.java` that shows the attributes of `Team`.
 
-==== Current Implementation
+[source, java]
+----
+public class Team {
+
+    private final TeamName teamName;
+    private final UniquePersonList players = new UniquePersonList();
+
+    // ... model method ...
+}
+----
+
+Since `Person` stored in `Team` is referencing to the `Person` in `addressbook`, any changes made to `Person` will be immediately reflected. An additional `TeamName` field is also added to `Person` so that the user can quickly determine the team the player is in.
+
+Code snippet from `AddCommand.java` that shows the reference to `Person` in `UniquePersonList` in `addressbnook`.
+
+[source, java]
+----
+public CommandResult executeUndoableCommand() throws CommandException {
+    requireNonNull(model);
+    try {
+        model.addPerson(toAdd);
+        model.assignPersonToTeam(toAdd, toAdd.getTeamName());
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+    } catch (DuplicatePersonException e) {
+        throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+    }
+}
+----
+
+Currently, with the `Team` mechanism, additional commands such as `create`, `remove`, and `editteam` gives the user basic functionality for team management. Additionally, commands like `assign`, `view`, `setmatch`, and `viewmatch` gives the user more practical uses in managing multiple teams.
+
+The following sequence diagram illustrates the operation of the `Team` mechanism and some of its respective commands:
+
+_Figure : Sequence Diagram of `Team` mechanism_
+
+===== Design Considerations
+====== Aspect: Implementation of `Team`
+
+* **Alternative 1 (current choice):** `Team` object stores the reference to `Person` objects that is also in `UniquePersonList` and `TeamName` is also an attribute of `Person`
+** Pros: Changes made to `Person` will be reflected on all references, easier lookup of person belonging in which team
+** Cons: Checks need to be done thoroughly to ensure that code does not break when changes are made
+* **Alternative 2:** `Team` object is stored in `Person` object as an attribute
+** Pros: Logical thought process to include `Team` as an attribute
+** Cons: Excess storage wasted due to duplicated data of `Team` in every `Person`
+// end::team[]
+
+// tag::showbestxi[]
+==== Show Best XI `[coming in v1.5]`
+===== Current Implementation
+
 The `showBest` command is able to show the current team's best 11 players. There is however functional implementation for this feature yet. Coming soon!
 
-==== Design Consideration
+===== Design Consideration
+// end::showbestxi[]
 
-'''
+=== Usability Enhancements
 
-=== Optional Fields for Add Mechanism
+// tag::autocomplete[]
+==== Tab Autocomplete
+===== Current Implementation
+
+The tab autocomplete feature works by handling the Tab key pressed event, searching for any commands with matching prefix and returns one if found.
+The command strings are stored in a Trie data structure, named `CommandTrie`, for optimal search.
+
+[source, java]
+----
+public class CommandTrie {
+    String attemptAutoComplete (String input);
+    void insert (String input);
+    Set<String> getCommandSet();
+}
+----
+
+The trie is made up of `TrieNode` objects which contains three objects. The `TrieNode sibling` represents a character on the same level as the current one. The `TrieNode child` represents a next possible letter.
+For example in the words `edit` and `exit`, the node for `d` would have a child `i` and a sibling `x`. `x` would have a child `i`.
+
+[source, java]
+----
+public class TrieNode {
+
+    private TrieNode sibling;
+    private TrieNode child;
+    private char key;
+    ...
+}
+
+----
+Upon the pressing of the tab key, the command box calls `attemptAutoComplete`, in the `commandTrie` class. With the content of the command box as the query, attemptAutoComplete searches for the query using the standard Trie search algortihm.
+If the query prefix itself is not present in the trie, then the attempt fails. If the query reaches a `TrieNode` with a `sibling` or `child` `TrieNode`,
+it will provide the user with possible commands for a given input. In this case, a dropdown box will appear in the UI that lists the possible commands for the user.
+
+Upon finding a matching command, `attemptAutoComplete` returns it and replaces the text in the Command Line. If the no matching command is found, the text is turned red.
+// end::autocomplete[]
+
+// tag::enhancedadd[]
+==== Optional Fields for Add Mechanism
+===== Current Implementation
 This mechanism enhances the original implementation of the `add` command. The required fields that are mandatory to be filled by the user are `n/NAME` and `e/EMAIL`. This implementation of making fields optional for `AddCommand` allows user to add players without their full information, and can be updated accordingly when the user retrieves their full information.
 
 The following sequence diagram illustrates the operation of the enhancement made to `add` command:
@@ -652,159 +804,70 @@ public class Address {
 }
 ----
 
-==== Design Consideration
+===== Design Consideration
+====== Aspect: Implementation of Optional fields
 
-===== Aspect: Implementation of Optional fields
 * **Alternative 1 (current choice):** Set a default value for unspecified fields and parse fields that are mandatory
 ** Pros: Easy to implement as fields are still filled with information even though user did not specify
 ** Cons: Unattractice display of fields when it is unspecified.
 * **Alternative 2:** Require users to input all fields
 ** Pros: Re-use current implementation and easier to clean up code
 ** Cons: Less flexibilty given to the user when adding a player into the application
+// end::enhancedadd[]
 
-'''
+// tag::settagcolour[]
+==== Set Tag Colour feature
+===== Current Implementation
 
-=== Remark Mechanism
-The 'remark' mechanism is facilitated by `RemarkCommand`. The mechanism allows user to perform the adding, editing, and deleting of a single remark to a specified `Person` via the `index` from the list shown in the `UI`. The field `remark` is similar to the other fields of `Person`, hence some of its logic in `AddCommand.java` and `EditCommand.java` needs to be updated.
-
-The mechanism uses the command `remark` and a `r/` prefix to add, edit, and delete a single remark of a `Person`. When the user leaves the remark as empty after the `r/` prefix, it is an indication to delete the remark, and when it is valid, it either create a new remark for that `Person` or overwrites the current existing remark.
-
-The following sequence diagram illustrates the operation of the `remark` command:
-
-//<insert sequence diagram>
-
-_Figure : Sequence Diagram of `remark` Command_
-
-The `remark` field is not required when adding or editing a `Person`, however it will be initialized to an empty string or retrieved to fit the implementation of the other fields.
-
-Code snippet from `AddCommandParser.java` that shows that remark is initialized as empty.
-
-[source, java]
-----
-public AddCommand parse(String args) throws ParseException {
-
-    // ... logic code ...
-
-    try {
-
-        // ... logic code ...
-
-        Remark remark = new Remark("");
-
-        Person person = new Person(name, phone, email, address, remark, tagList);
-
-        return new AddCommand(person);
-    } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
-    }
-
-    // ... logic code ...
-}
-----
-
-Code snippet from `EditCommand.java` that shows that remark is being retrieved.
-
-[source, java]
-----
-private static Person createEditedPerson(Person personToEdit,
-    EditPersonDescriptor editPersonDescriptor) {
-
-    // ... logic code ...
-
-    Remark updatedRemark = personToEdit.getRemark();
-
-    return new Person(updatedName, updatedPhone, updatedEmail,
-        updatedAddress, updatedRemark, updatedTags);
-}
-----
-
-[TIP]
-====
-The field `remark` is found in `Person`, however it is not be modified via `add` or `edit` commands. +
-All functions related to `remark` is done strictly via the `remark` command.
-====
-
-[TIP]
-====
-Only one `remark` is saved at a time. If the user `remark` on the same person, it will be overwritten.
-====
-
-==== Design Considerations
-
-===== Aspect: Implementation of `Remark` command
-* **Alternative 1 (current choice):** Creates an additional `remark` field in `Person`
-** Pros: Follows the existing style of similar fields, making implementation easier
-** Cons: Could only have 1 remark per person, unless `remark` mechanism follows the `tag` mechanism to have multiple remarks
-* **Alternative 2:** Have a list of remarks that associates with the specified `Person`
-** Pros: Can have multiple remarks associating with a specific `Person`
-** Cons: Harder to maintain, more complicated
-
-===== Aspect: How `remark` works
-* **Alternative 1 (current choice):** Standalone command that add, edit, and delete remarks from `Person`
-** Pros:
-** Cons:
-* **Alternative 2:** Usage of `edit` command to change or remove remark from `Person`
-** Pros:
-** Cons:
-**
-
-'''
-
-=== Team Mechanism
-
-The 'create team' feature is facilitated by `CreateCommand` class. It allows users to create team into the application with the specified team namte. The team will be shown in
-
-The command word for creating a team is `create`.
-
-==== Design Considerations
-
-===== Aspect:
-* **Alternative 1 (current choice):**
-** Pros:
-** Cons:
-* **Alternative 2:**
-** Pros:
-** Cons:
-
-=== Configuration
-
-Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
-
-=== Set Tag Colour feature
-==== Current Implementation
 * The `Set` Command is an entirely new command that will allow the user to assign a colour to a specific tag.
 * This mechanism is facilitated by the `SetCommandParser`, which creates and returns a new `SetCommand`.
 * The following diagrams show the inheritance for the commands: <image>
-* In `SetCommandParser`, which implements the `Parser` interface, it parses the arguments inputted into the CLI, and checks whether
-the arguments are valid. +
+* In `SetCommandParser`, which implements the `Parser` interface, it parses the arguments inputted into the CLI, and checks whether the arguments are valid.
 
 `SetCommandParser` is implemented as such:
+
+[source, java]
 ----
 public class SetCommandParser implements Parser<SetCommand> {
 
     public SetCommand parse(String args) throws ParseException {
 
     // ...parse arguments and check for invalid arguments...
-
+  }
+}
 ----
+
 * `SetCommand` inherits the abstract `Command` class. After `execute()` is called in `SetCommand`, the tag colour is set through the logic portions of `ModelManager` and `AddressBook`, then
 lastly changes `tagColour` attribute within the `Tag` object itself. +
 
 `SetCommand` is implemented in this way:
+
+[source, java]
 ----
 public class SetCommand extends Command {
+
+    private final Tag tagToSet;
+    private final String tagColour;
+
+    public SetCommand(Tag tag, String colour) {
+        requireNonNull(tag);
+        tagToSet = tag;
+        tagColour = colour;
+    }
 
     @Override
     public CommandResult execute() {
     // ...set colour logic...
+    }
+
+}
 ----
 
 * The following sequence diagram shows how the set command operation works:
 <image>
 
-==== Design Considerations
-
-===== Aspect: Implementation of `UndoableCommand`
+===== Design Considerations
+====== Aspect: Implementation of `UndoableCommand`
 
 * **Alternative 1 (current choice):** Inherit from `Command`
 ** Pros: Does not involve complicated undo/redo tests, simple and quicker implementation,
@@ -814,13 +877,86 @@ lessen chances of mistakes made in implementation.
 ** Pros: User can utilise the `undo/redo` command.
 ** Cons: Hard for developers to implement extra tests, not very necessary as users can just as easily type
 out the colour they would like to change their tag to; it is a short command, especially with the `stc` alias.
-
 // end::settagcolour[]
 
+=== UI Enhancements
+
+// tag::teamDisplay[]
+==== Team Display Bar
+===== Current Implementation
+
+* The Team Display Bar is implemented as `TeamDisplay` in the UI Component and renders `TeamDisplay.fxml`.
+* It is called from `MainWindow` and will be highlighting
+the current team that has been selected in the Command Line Interface by the user.
+* It calls the `Team` model and displays the `Person` cards associated with that `Team`.
+
+Code snippet from 'TeamDisplay' to show initialisation of UI component:
+
+[source, java]
+----
+public class TeamDisplay extends UiPart<Region> {
+
+    private static final String FXML = "TeamDisplay.fxml";
+
+    public TeamDisplay() {
+        super(FXML);
+        // ...team display code...
+    }
+}
+----
+
+===== Design Considerations
+====== Aspect: User Experience
+
+* **Alternative 1 (current choice):** `TeamDisplay` is placed underneath the `ResultDisplay` and above the `PersonListPanel`.
+** Pros: Located at an obvious location for the user to view the team currently selected.
+** Cons: There will be less space for the `ResultDisplay` and `CommandBox`.
+* **Alternative 2:** `TeamDisplay` is placed on the left of the `PersonListPanel` as a vertical bar.
+** Pros: There will be more space for the `ResultDisplay` and `CommandBox`.
+** Cons: It is less obvious to the user as it is at the side.
+// end::teamDisplay[]
+
+// tag::PlayerDetails[]
+==== Player Details Pane
+===== Current Implementation
+
+* The `Player Details` pane is implemented as `PlayerDetails` in the UI Component. It is called from `PlayerListPanel`.
+* It renders `PlayerDetails.fxml` and displays the selected `PersonCard`.
+* It calls the `Person` model and displays the fields in the `Person` model that are not displayed in the left panel.
+
+Code snippet from 'PlayerDetails' to show initialisation of UI component:
+
+[source, java]
+----
+public class PlayerDetails extends UiPart<Region> {
+
+    private static final String FXML = "PlayerDetails.fxml";
+    public final Person person;
+
+    public PlayerDetails(Person person) {
+        super(FXML);
+        this.person = person;
+        //....player details code...
+    }
+
+}
+----
+
+===== Design Considerations
+====== Aspect: User Experience
+
+* **Alternative 1 (current choice):** `PlayerDetails` is placed on the right of `Person List Panel`, replacing the `BrowserPanel`.
+** Pros: It is the only large unused space in the software left and is right beside the `Person List Panel`, thus is the logical
+place to look at after selection of a person card.
+** Cons: This is a lot of whitespace in the pane as are not many fields.
+* **Alternative 2:** `PlayerDetails` pane size is reduced and the extra space is repurposed.
+** Pros: There will be more space for another new feature e.g. calendar.
+** Cons: It can only be implemented in v2.0 due to time constraints in development.
+// end::playerDetails[]
 
 == Documentation
 
-We use asciidoc for writing documentation.
+We use https://asciidoctor.org[asciidoc] for writing documentation.
 
 [NOTE]
 We chose asciidoc over Markdown because asciidoc, although a bit more complex than Markdown, provides more flexibility in formatting.
@@ -930,285 +1066,285 @@ A project often depends on third-party libraries. For example, Address Book depe
 a. Include those libraries in the repo (this bloats the repo size) +
 b. Require developers to download those libraries manually (this creates extra work for developers)
 
-[[GetStartedProgramming]]
-[appendix]
-== Suggested Programming Tasks to Get Started
-
-Suggested path for new programmers:
-
-1. First, add small local-impact (i.e. the impact of the change does not go beyond the component) enhancements to one component at a time. Some suggestions are given in <<GetStartedProgramming-EachComponent>>.
-
-2. Next, add a feature that touches multiple components to learn how to implement an end-to-end feature across all components. <<GetStartedProgramming-RemarkCommand>> explains how to go about adding such a feature.
-
-[[GetStartedProgramming-EachComponent]]
-=== Improving each component
-
-Each individual exercise in this section is component-based (i.e. you would not need to modify the other components to get it to work).
-
-[discrete]
-==== `Logic` component
-
-*Scenario:* You are in charge of `logic`. During dog-fooding, your team realize that it is troublesome for the user to type the whole command in order to execute a command. Your team devise some strategies to help cut down the amount of typing necessary, and one of the suggestions was to implement aliases for the command words. Your job is to implement such aliases.
-
-[TIP]
-Do take a look at <<Design-Logic>> before attempting to modify the `Logic` component.
-
-. Add a shorthand equivalent alias for each of the individual commands. For example, besides typing `clear`, the user can also type `c` to remove all persons in the list.
-+
-****
-* Hints
-** Just like we store each individual command word constant `COMMAND_WORD` inside `*Command.java` (e.g.  link:{repoURL}/src/main/java/seedu/address/logic/commands/FindCommand.java[`FindCommand#COMMAND_WORD`], link:{repoURL}/src/main/java/seedu/address/logic/commands/DeleteCommand.java[`DeleteCommand#COMMAND_WORD`]), you need a new constant for aliases as well (e.g. `FindCommand#COMMAND_ALIAS`).
-** link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] is responsible for analyzing command words.
-* Solution
-** Modify the switch statement in link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser#parseCommand(String)`] such that both the proper command word and alias can be used to execute the same intended command.
-** Add new tests for each of the aliases that you have added.
-** Update the user guide to document the new aliases.
-** See this https://github.com/se-edu/addressbook-level4/pull/785[PR] for the full solution.
-****
-
-[discrete]
-==== `Model` component
-
-*Scenario:* You are in charge of `model`. One day, the `logic`-in-charge approaches you for help. He wants to implement a command such that the user is able to remove a particular tag from everyone in the address book, but the model API does not support such a functionality at the moment. Your job is to implement an API method, so that your teammate can use your API to implement his command.
-
-[TIP]
-Do take a look at <<Design-Model>> before attempting to modify the `Model` component.
-
-. Add a `removeTag(Tag)` method. The specified tag will be removed from everyone in the address book.
-+
-****
-* Hints
-** The link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model`] and the link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] API need to be updated.
-** Think about how you can use SLAP to design the method. Where should we place the main logic of deleting tags?
-**  Find out which of the existing API methods in  link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] and link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`] classes can be used to implement the tag removal logic. link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] allows you to update a person, and link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`] allows you to update the tags.
-* Solution
-** Implement a `removeTag(Tag)` method in link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`]. Loop through each person, and remove the `tag` from each person.
-** Add a new API method `deleteTag(Tag)` in link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`]. Your link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`] should call `AddressBook#removeTag(Tag)`.
-** Add new tests for each of the new public methods that you have added.
-** See this https://github.com/se-edu/addressbook-level4/pull/790[PR] for the full solution.
-*** The current codebase has a flaw in tags management. Tags no longer in use by anyone may still exist on the link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`]. This may cause some tests to fail. See issue  https://github.com/se-edu/addressbook-level4/issues/753[`#753`] for more information about this flaw.
-*** The solution PR has a temporary fix for the flaw mentioned above in its first commit.
-****
-
-[discrete]
-==== `Ui` component
-
-*Scenario:* You are in charge of `ui`. During a beta testing session, your team is observing how the users use your address book application. You realize that one of the users occasionally tries to delete non-existent tags from a contact, because the tags all look the same visually, and the user got confused. Another user made a typing mistake in his command, but did not realize he had done so because the error message wasn't prominent enough. A third user keeps scrolling down the list, because he keeps forgetting the index of the last person in the list. Your job is to implement improvements to the UI to solve all these problems.
-
-[TIP]
-Do take a look at <<Design-Ui>> before attempting to modify the `UI` component.
-
-. Use different colors for different tags inside person cards. For example, `friends` tags can be all in brown, and `colleagues` tags can be all in yellow.
-+
-**Before**
-+
-image::getting-started-ui-tag-before.png[width="300"]
-+
-**After**
-+
-image::getting-started-ui-tag-after.png[width="300"]
-+
-****
-* Hints
-** The tag labels are created inside link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[the `PersonCard` constructor] (`new Label(tag.tagName)`). https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/Label.html[JavaFX's `Label` class] allows you to modify the style of each Label, such as changing its color.
-** Use the .css attribute `-fx-background-color` to add a color.
-** You may wish to modify link:{repoURL}/src/main/resources/view/DarkTheme.css[`DarkTheme.css`] to include some pre-defined colors using css, especially if you have experience with web-based css.
-* Solution
-** You can modify the existing test methods for `PersonCard` 's to include testing the tag's color as well.
-** See this https://github.com/se-edu/addressbook-level4/pull/798[PR] for the full solution.
-*** The PR uses the hash code of the tag names to generate a color. This is deliberately designed to ensure consistent colors each time the application runs. You may wish to expand on this design to include additional features, such as allowing users to set their own tag colors, and directly saving the colors to storage, so that tags retain their colors even if the hash code algorithm changes.
-****
-
-. Modify link:{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java[`NewResultAvailableEvent`] such that link:{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java[`ResultDisplay`] can show a different style on error (currently it shows the same regardless of errors).
-+
-**Before**
-+
-image::getting-started-ui-result-before.png[width="200"]
-+
-**After**
-+
-image::getting-started-ui-result-after.png[width="200"]
-+
-****
-* Hints
-** link:{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java[`NewResultAvailableEvent`] is raised by link:{repoURL}/src/main/java/seedu/address/ui/CommandBox.java[`CommandBox`] which also knows whether the result is a success or failure, and is caught by link:{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java[`ResultDisplay`] which is where we want to change the style to.
-** Refer to link:{repoURL}/src/main/java/seedu/address/ui/CommandBox.java[`CommandBox`] for an example on how to display an error.
-* Solution
-** Modify link:{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java[`NewResultAvailableEvent`] 's constructor so that users of the event can indicate whether an error has occurred.
-** Modify link:{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java[`ResultDisplay#handleNewResultAvailableEvent(NewResultAvailableEvent)`] to react to this event appropriately.
-** You can write two different kinds of tests to ensure that the functionality works:
-*** The unit tests for `ResultDisplay` can be modified to include verification of the color.
-*** The system tests link:{repoURL}/src/test/java/systemtests/AddressBookSystemTest.java[`AddressBookSystemTest#assertCommandBoxShowsDefaultStyle() and AddressBookSystemTest#assertCommandBoxShowsErrorStyle()`] to include verification for `ResultDisplay` as well.
-** See this https://github.com/se-edu/addressbook-level4/pull/799[PR] for the full solution.
-*** Do read the commits one at a time if you feel overwhelmed.
-****
-
-. Modify the link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] to show the total number of people in the address book.
-+
-**Before**
-+
-image::getting-started-ui-status-before.png[width="500"]
-+
-**After**
-+
-image::getting-started-ui-status-after.png[width="500"]
-+
-****
-* Hints
-** link:{repoURL}/src/main/resources/view/StatusBarFooter.fxml[`StatusBarFooter.fxml`] will need a new `StatusBar`. Be sure to set the `GridPane.columnIndex` properly for each `StatusBar` to avoid misalignment!
-** link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] needs to initialize the status bar on application start, and to update it accordingly whenever the address book is updated.
-* Solution
-** Modify the constructor of link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] to take in the number of persons when the application just started.
-** Use link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter#handleAddressBookChangedEvent(AddressBookChangedEvent)`] to update the number of persons whenever there are new changes to the addressbook.
-** For tests, modify link:{repoURL}/src/test/java/guitests/guihandles/StatusBarFooterHandle.java[`StatusBarFooterHandle`] by adding a state-saving functionality for the total number of people status, just like what we did for save location and sync status.
-** For system tests, modify link:{repoURL}/src/test/java/systemtests/AddressBookSystemTest.java[`AddressBookSystemTest`] to also verify the new total number of persons status bar.
-** See this https://github.com/se-edu/addressbook-level4/pull/803[PR] for the full solution.
-****
-
-[discrete]
-==== `Storage` component
-
-*Scenario:* You are in charge of `storage`. For your next project milestone, your team plans to implement a new feature of saving the address book to the cloud. However, the current implementation of the application constantly saves the address book after the execution of each command, which is not ideal if the user is working on limited internet connection. Your team decided that the application should instead save the changes to a temporary local backup file first, and only upload to the cloud after the user closes the application. Your job is to implement a backup API for the address book storage.
-
-[TIP]
-Do take a look at <<Design-Storage>> before attempting to modify the `Storage` component.
-
-. Add a new method `backupAddressBook(ReadOnlyAddressBook)`, so that the address book can be saved in a fixed temporary location.
-+
-****
-* Hint
-** Add the API method in link:{repoURL}/src/main/java/seedu/address/storage/AddressBookStorage.java[`AddressBookStorage`] interface.
-** Implement the logic in link:{repoURL}/src/main/java/seedu/address/storage/StorageManager.java[`StorageManager`] and link:{repoURL}/src/main/java/seedu/address/storage/XmlAddressBookStorage.java[`XmlAddressBookStorage`] class.
-* Solution
-** See this https://github.com/se-edu/addressbook-level4/pull/594[PR] for the full solution.
-****
-
-[[GetStartedProgramming-RemarkCommand]]
-=== Creating a new command: `remark`
-
-By creating this command, you will get a chance to learn how to implement a feature end-to-end, touching all major components of the app.
-
-*Scenario:* You are a software maintainer for `addressbook`, as the former developer team has moved on to new projects. The current users of your application have a list of new feature requests that they hope the software will eventually have. The most popular request is to allow adding additional comments/notes about a particular contact, by providing a flexible `remark` field for each contact, rather than relying on tags alone. After designing the specification for the `remark` command, you are convinced that this feature is worth implementing. Your job is to implement the `remark` command.
-
-==== Description
-Edits the remark for a person specified in the `INDEX`. +
-Format: `remark INDEX r/[REMARK]`
-
-Examples:
-
-* `remark 1 r/Likes to drink coffee.` +
-Edits the remark for the first person to `Likes to drink coffee.`
-* `remark 1 r/` +
-Removes the remark for the first person.
-
-==== Step-by-step Instructions
-
-===== [Step 1] Logic: Teach the app to accept 'remark' which does nothing
-Let's start by teaching the application how to parse a `remark` command. We will add the logic of `remark` later.
-
-**Main:**
-
-. Add a `RemarkCommand` that extends link:{repoURL}/src/main/java/seedu/address/logic/commands/UndoableCommand.java[`UndoableCommand`]. Upon execution, it should just throw an `Exception`.
-. Modify link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] to accept a `RemarkCommand`.
-
-**Tests:**
-
-. Add `RemarkCommandTest` that tests that `executeUndoableCommand()` throws an Exception.
-. Add new test method to link:{repoURL}/src/test/java/seedu/address/logic/parser/AddressBookParserTest.java[`AddressBookParserTest`], which tests that typing "remark" returns an instance of `RemarkCommand`.
-
-===== [Step 2] Logic: Teach the app to accept 'remark' arguments
-Let's teach the application to parse arguments that our `remark` command will accept. E.g. `1 r/Likes to drink coffee.`
-
-**Main:**
-
-. Modify `RemarkCommand` to take in an `Index` and `String` and print those two parameters as the error message.
-. Add `RemarkCommandParser` that knows how to parse two arguments, one index and one with prefix 'r/'.
-. Modify link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] to use the newly implemented `RemarkCommandParser`.
-
-**Tests:**
-
-. Modify `RemarkCommandTest` to test the `RemarkCommand#equals()` method.
-. Add `RemarkCommandParserTest` that tests different boundary values
-for `RemarkCommandParser`.
-. Modify link:{repoURL}/src/test/java/seedu/address/logic/parser/AddressBookParserTest.java[`AddressBookParserTest`] to test that the correct command is generated according to the user input.
-
-===== [Step 3] Ui: Add a placeholder for remark in `PersonCard`
-Let's add a placeholder on all our link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] s to display a remark for each person later.
-
-**Main:**
-
-. Add a `Label` with any random text inside link:{repoURL}/src/main/resources/view/PersonListCard.fxml[`PersonListCard.fxml`].
-. Add FXML annotation in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] to tie the variable to the actual label.
-
-**Tests:**
-
-. Modify link:{repoURL}/src/test/java/guitests/guihandles/PersonCardHandle.java[`PersonCardHandle`] so that future tests can read the contents of the remark label.
-
-===== [Step 4] Model: Add `Remark` class
-We have to properly encapsulate the remark in our link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`] class. Instead of just using a `String`, let's follow the conventional class structure that the codebase already uses by adding a `Remark` class.
-
-**Main:**
-
-. Add `Remark` to model component (you can copy from link:{repoURL}/src/main/java/seedu/address/model/person/Address.java[`Address`], remove the regex and change the names accordingly).
-. Modify `RemarkCommand` to now take in a `Remark` instead of a `String`.
-
-**Tests:**
-
-. Add test for `Remark`, to test the `Remark#equals()` method.
-
-===== [Step 5] Model: Modify `Person` to support a `Remark` field
-Now we have the `Remark` class, we need to actually use it inside link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`].
-
-**Main:**
-
-. Add `getRemark()` in link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`].
-. You may assume that the user will not be able to use the `add` and `edit` commands to modify the remarks field (i.e. the person will be created without a remark).
-. Modify link:{repoURL}/src/main/java/seedu/address/model/util/SampleDataUtil.java/[`SampleDataUtil`] to add remarks for the sample data (delete your `addressBook.xml` so that the application will load the sample data when you launch it.)
-
-===== [Step 6] Storage: Add `Remark` field to `XmlAdaptedPerson` class
-We now have `Remark` s for `Person` s, but they will be gone when we exit the application. Let's modify link:{repoURL}/src/main/java/seedu/address/storage/XmlAdaptedPerson.java[`XmlAdaptedPerson`] to include a `Remark` field so that it will be saved.
-
-**Main:**
-
-. Add a new Xml field for `Remark`.
-
-**Tests:**
-
-. Fix `invalidAndValidPersonAddressBook.xml`, `typicalPersonsAddressBook.xml`, `validAddressBook.xml` etc., such that the XML tests will not fail due to a missing `<remark>` element.
-
-===== [Step 6b] Test: Add withRemark() for `PersonBuilder`
-Since `Person` can now have a `Remark`, we should add a helper method to link:{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java[`PersonBuilder`], so that users are able to create remarks when building a link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`].
-
-**Tests:**
-
-. Add a new method `withRemark()` for link:{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java[`PersonBuilder`]. This method will create a new `Remark` for the person that it is currently building.
-. Try and use the method on any sample `Person` in link:{repoURL}/src/test/java/seedu/address/testutil/TypicalPersons.java[`TypicalPersons`].
-
-===== [Step 7] Ui: Connect `Remark` field to `PersonCard`
-Our remark label in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] is still a placeholder. Let's bring it to life by binding it with the actual `remark` field.
-
-**Main:**
-
-. Modify link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`]'s constructor to bind the `Remark` field to the `Person` 's remark.
-
-**Tests:**
-
-. Modify link:{repoURL}/src/test/java/seedu/address/ui/testutil/GuiTestAssert.java[`GuiTestAssert#assertCardDisplaysPerson(...)`] so that it will compare the now-functioning remark label.
-
-===== [Step 8] Logic: Implement `RemarkCommand#execute()` logic
-We now have everything set up... but we still can't modify the remarks. Let's finish it up by adding in actual logic for our `remark` command.
-
-**Main:**
-
-. Replace the logic in `RemarkCommand#execute()` (that currently just throws an `Exception`), with the actual logic to modify the remarks of a person.
-
-**Tests:**
-
-. Update `RemarkCommandTest` to test that the `execute()` logic works.
-
-==== Full Solution
-
-See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-by-step solution.
+// [[GetStartedProgramming]]
+// [appendix]
+// == Suggested Programming Tasks to Get Started
+//
+// Suggested path for new programmers:
+//
+// 1. First, add small local-impact (i.e. the impact of the change does not go beyond the component) enhancements to one component at a time. Some suggestions are given in <<GetStartedProgramming-EachComponent>>.
+//
+// 2. Next, add a feature that touches multiple components to learn how to implement an end-to-end feature across all components. <<GetStartedProgramming-RemarkCommand>> explains how to go about adding such a feature.
+//
+// [[GetStartedProgramming-EachComponent]]
+// === Improving each component
+//
+// Each individual exercise in this section is component-based (i.e. you would not need to modify the other components to get it to work).
+//
+// [discrete]
+// ==== `Logic` component
+//
+// *Scenario:* You are in charge of `logic`. During dog-fooding, your team realize that it is troublesome for the user to type the whole command in order to execute a command. Your team devise some strategies to help cut down the amount of typing necessary, and one of the suggestions was to implement aliases for the command words. Your job is to implement such aliases.
+//
+// [TIP]
+// Do take a look at <<Design-Logic>> before attempting to modify the `Logic` component.
+//
+// . Add a shorthand equivalent alias for each of the individual commands. For example, besides typing `clear`, the user can also type `c` to remove all persons in the list.
+// +
+// ****
+// * Hints
+// ** Just like we store each individual command word constant `COMMAND_WORD` inside `*Command.java` (e.g.  link:{repoURL}/src/main/java/seedu/address/logic/commands/FindCommand.java[`FindCommand#COMMAND_WORD`], link:{repoURL}/src/main/java/seedu/address/logic/commands/DeleteCommand.java[`DeleteCommand#COMMAND_WORD`]), you need a new constant for aliases as well (e.g. `FindCommand#COMMAND_ALIAS`).
+// ** link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] is responsible for analyzing command words.
+// * Solution
+// ** Modify the switch statement in link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser#parseCommand(String)`] such that both the proper command word and alias can be used to execute the same intended command.
+// ** Add new tests for each of the aliases that you have added.
+// ** Update the user guide to document the new aliases.
+// ** See this https://github.com/se-edu/addressbook-level4/pull/785[PR] for the full solution.
+// ****
+//
+// [discrete]
+// ==== `Model` component
+//
+// *Scenario:* You are in charge of `model`. One day, the `logic`-in-charge approaches you for help. He wants to implement a command such that the user is able to remove a particular tag from everyone in the address book, but the model API does not support such a functionality at the moment. Your job is to implement an API method, so that your teammate can use your API to implement his command.
+//
+// [TIP]
+// Do take a look at <<Design-Model>> before attempting to modify the `Model` component.
+//
+// . Add a `removeTag(Tag)` method. The specified tag will be removed from everyone in the address book.
+// +
+// ****
+// * Hints
+// ** The link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model`] and the link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] API need to be updated.
+// ** Think about how you can use SLAP to design the method. Where should we place the main logic of deleting tags?
+// **  Find out which of the existing API methods in  link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] and link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`] classes can be used to implement the tag removal logic. link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] allows you to update a person, and link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`] allows you to update the tags.
+// * Solution
+// ** Implement a `removeTag(Tag)` method in link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`]. Loop through each person, and remove the `tag` from each person.
+// ** Add a new API method `deleteTag(Tag)` in link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`]. Your link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`] should call `AddressBook#removeTag(Tag)`.
+// ** Add new tests for each of the new public methods that you have added.
+// ** See this https://github.com/se-edu/addressbook-level4/pull/790[PR] for the full solution.
+// *** The current codebase has a flaw in tags management. Tags no longer in use by anyone may still exist on the link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`]. This may cause some tests to fail. See issue  https://github.com/se-edu/addressbook-level4/issues/753[`#753`] for more information about this flaw.
+// *** The solution PR has a temporary fix for the flaw mentioned above in its first commit.
+// ****
+//
+// [discrete]
+// ==== `Ui` component
+//
+// *Scenario:* You are in charge of `ui`. During a beta testing session, your team is observing how the users use your address book application. You realize that one of the users occasionally tries to delete non-existent tags from a contact, because the tags all look the same visually, and the user got confused. Another user made a typing mistake in his command, but did not realize he had done so because the error message wasn't prominent enough. A third user keeps scrolling down the list, because he keeps forgetting the index of the last person in the list. Your job is to implement improvements to the UI to solve all these problems.
+//
+// [TIP]
+// Do take a look at <<Design-`Ui`>> before attempting to modify the `UI` component.
+//
+// . Use different colors for different tags inside person cards. For example, `friends` tags can be all in brown, and `colleagues` tags can be all in yellow.
+// +
+// **Before**
+// +
+// image::getting-started-ui-tag-before.png[width="300"]
+// +
+// **After**
+// +
+// image::getting-started-ui-tag-after.png[width="300"]
+// +
+// ****
+// * Hints
+// ** The tag labels are created inside link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[the `PersonCard` constructor] (`new Label(tag.tagName)`). https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/Label.html[JavaFX's `Label` class] allows you to modify the style of each Label, such as changing its color.
+// ** Use the .css attribute `-fx-background-color` to add a color.
+// ** You may wish to modify link:{repoURL}/src/main/resources/view/DarkTheme.css[`DarkTheme.css`] to include some pre-defined colors using css, especially if you have experience with web-based css.
+// * Solution
+// ** You can modify the existing test methods for `PersonCard` 's to include testing the tag's color as well.
+// ** See this https://github.com/se-edu/addressbook-level4/pull/798[PR] for the full solution.
+// *** The PR uses the hash code of the tag names to generate a color. This is deliberately designed to ensure consistent colors each time the application runs. You may wish to expand on this design to include additional features, such as allowing users to set their own tag colors, and directly saving the colors to storage, so that tags retain their colors even if the hash code algorithm changes.
+// ****
+//
+// . Modify link:{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java[`NewResultAvailableEvent`] such that link:{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java[`ResultDisplay`] can show a different style on error (currently it shows the same regardless of errors).
+// +
+// **Before**
+// +
+// image::getting-started-ui-result-before.png[width="200"]
+// +
+// **After**
+// +
+// image::getting-started-ui-result-after.png[width="200"]
+// +
+// ****
+// * Hints
+// ** link:{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java[`NewResultAvailableEvent`] is raised by link:{repoURL}/src/main/java/seedu/address/ui/CommandBox.java[`CommandBox`] which also knows whether the result is a success or failure, and is caught by link:{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java[`ResultDisplay`] which is where we want to change the style to.
+// ** Refer to link:{repoURL}/src/main/java/seedu/address/ui/CommandBox.java[`CommandBox`] for an example on how to display an error.
+// * Solution
+// ** Modify link:{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java[`NewResultAvailableEvent`] 's constructor so that users of the event can indicate whether an error has occurred.
+// ** Modify link:{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java[`ResultDisplay#handleNewResultAvailableEvent(NewResultAvailableEvent)`] to react to this event appropriately.
+// ** You can write two different kinds of tests to ensure that the functionality works:
+// *** The unit tests for `ResultDisplay` can be modified to include verification of the color.
+// *** The system tests link:{repoURL}/src/test/java/systemtests/AddressBookSystemTest.java[`AddressBookSystemTest#assertCommandBoxShowsDefaultStyle() and AddressBookSystemTest#assertCommandBoxShowsErrorStyle()`] to include verification for `ResultDisplay` as well.
+// ** See this https://github.com/se-edu/addressbook-level4/pull/799[PR] for the full solution.
+// *** Do read the commits one at a time if you feel overwhelmed.
+// ****
+//
+// . Modify the link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] to show the total number of people in the address book.
+// +
+// **Before**
+// +
+// image::getting-started-ui-status-before.png[width="500"]
+// +
+// **After**
+// +
+// image::getting-started-ui-status-after.png[width="500"]
+// +
+// ****
+// * Hints
+// ** link:{repoURL}/src/main/resources/view/StatusBarFooter.fxml[`StatusBarFooter.fxml`] will need a new `StatusBar`. Be sure to set the `GridPane.columnIndex` properly for each `StatusBar` to avoid misalignment!
+// ** link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] needs to initialize the status bar on application start, and to update it accordingly whenever the address book is updated.
+// * Solution
+// ** Modify the constructor of link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] to take in the number of persons when the application just started.
+// ** Use link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter#handleAddressBookChangedEvent(AddressBookChangedEvent)`] to update the number of persons whenever there are new changes to the addressbook.
+// ** For tests, modify link:{repoURL}/src/test/java/guitests/guihandles/StatusBarFooterHandle.java[`StatusBarFooterHandle`] by adding a state-saving functionality for the total number of people status, just like what we did for save location and sync status.
+// ** For system tests, modify link:{repoURL}/src/test/java/systemtests/AddressBookSystemTest.java[`AddressBookSystemTest`] to also verify the new total number of persons status bar.
+// ** See this https://github.com/se-edu/addressbook-level4/pull/803[PR] for the full solution.
+// ****
+//
+// [discrete]
+// ==== `Storage` component
+//
+// *Scenario:* You are in charge of `storage`. For your next project milestone, your team plans to implement a new feature of saving the address book to the cloud. However, the current implementation of the application constantly saves the address book after the execution of each command, which is not ideal if the user is working on limited internet connection. Your team decided that the application should instead save the changes to a temporary local backup file first, and only upload to the cloud after the user closes the application. Your job is to implement a backup API for the address book storage.
+//
+// [TIP]
+// Do take a look at <<Design-Storage>> before attempting to modify the `Storage` component.
+//
+// . Add a new method `backupAddressBook(ReadOnlyAddressBook)`, so that the address book can be saved in a fixed temporary location.
+// +
+// ****
+// * Hint
+// ** Add the API method in link:{repoURL}/src/main/java/seedu/address/storage/AddressBookStorage.java[`AddressBookStorage`] interface.
+// ** Implement the logic in link:{repoURL}/src/main/java/seedu/address/storage/StorageManager.java[`StorageManager`] and link:{repoURL}/src/main/java/seedu/address/storage/XmlAddressBookStorage.java[`XmlAddressBookStorage`] class.
+// * Solution
+// ** See this https://github.com/se-edu/addressbook-level4/pull/594[PR] for the full solution.
+// ****
+//
+// [[GetStartedProgramming-RemarkCommand]]
+// === Creating a new command: `remark`
+//
+// By creating this command, you will get a chance to learn how to implement a feature end-to-end, touching all major components of the app.
+//
+// *Scenario:* You are a software maintainer for `addressbook`, as the former developer team has moved on to new projects. The current users of your application have a list of new feature requests that they hope the software will eventually have. The most popular request is to allow adding additional comments/notes about a particular contact, by providing a flexible `remark` field for each contact, rather than relying on tags alone. After designing the specification for the `remark` command, you are convinced that this feature is worth implementing. Your job is to implement the `remark` command.
+//
+// ==== Description
+// Edits the remark for a person specified in the `INDEX`. +
+// Format: `remark INDEX r/[REMARK]`
+//
+// Examples:
+//
+// * `remark 1 r/Likes to drink coffee.` +
+// Edits the remark for the first person to `Likes to drink coffee.`
+// * `remark 1 r/` +
+// Removes the remark for the first person.
+//
+// ==== Step-by-step Instructions
+//
+// ===== [Step 1] Logic: Teach the app to accept 'remark' which does nothing
+// Let's start by teaching the application how to parse a `remark` command. We will add the logic of `remark` later.
+//
+// **Main:**
+//
+// . Add a `RemarkCommand` that extends link:{repoURL}/src/main/java/seedu/address/logic/commands/UndoableCommand.java[`UndoableCommand`]. Upon execution, it should just throw an `Exception`.
+// . Modify link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] to accept a `RemarkCommand`.
+//
+// **Tests:**
+//
+// . Add `RemarkCommandTest` that tests that `executeUndoableCommand()` throws an Exception.
+// . Add new test method to link:{repoURL}/src/test/java/seedu/address/logic/parser/AddressBookParserTest.java[`AddressBookParserTest`], which tests that typing "remark" returns an instance of `RemarkCommand`.
+//
+// ===== [Step 2] Logic: Teach the app to accept 'remark' arguments
+// Let's teach the application to parse arguments that our `remark` command will accept. E.g. `1 r/Likes to drink coffee.`
+//
+// **Main:**
+//
+// . Modify `RemarkCommand` to take in an `Index` and `String` and print those two parameters as the error message.
+// . Add `RemarkCommandParser` that knows how to parse two arguments, one index and one with prefix 'r/'.
+// . Modify link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] to use the newly implemented `RemarkCommandParser`.
+//
+// **Tests:**
+//
+// . Modify `RemarkCommandTest` to test the `RemarkCommand#equals()` method.
+// . Add `RemarkCommandParserTest` that tests different boundary values
+// for `RemarkCommandParser`.
+// . Modify link:{repoURL}/src/test/java/seedu/address/logic/parser/AddressBookParserTest.java[`AddressBookParserTest`] to test that the correct command is generated according to the user input.
+//
+// ===== [Step 3] Ui: Add a placeholder for remark in `PersonCard`
+// Let's add a placeholder on all our link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] s to display a remark for each person later.
+//
+// **Main:**
+//
+// . Add a `Label` with any random text inside link:{repoURL}/src/main/resources/view/PersonListCard.fxml[`PersonListCard.fxml`].
+// . Add FXML annotation in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] to tie the variable to the actual label.
+//
+// **Tests:**
+//
+// . Modify link:{repoURL}/src/test/java/guitests/guihandles/PersonCardHandle.java[`PersonCardHandle`] so that future tests can read the contents of the remark label.
+//
+// ===== [Step 4] Model: Add `Remark` class
+// We have to properly encapsulate the remark in our link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`] class. Instead of just using a `String`, let's follow the conventional class structure that the codebase already uses by adding a `Remark` class.
+//
+// **Main:**
+//
+// . Add `Remark` to model component (you can copy from link:{repoURL}/src/main/java/seedu/address/model/person/Address.java[`Address`], remove the regex and change the names accordingly).
+// . Modify `RemarkCommand` to now take in a `Remark` instead of a `String`.
+//
+// **Tests:**
+//
+// . Add test for `Remark`, to test the `Remark#equals()` method.
+//
+// ===== [Step 5] Model: Modify `Person` to support a `Remark` field
+// Now we have the `Remark` class, we need to actually use it inside link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`].
+//
+// **Main:**
+//
+// . Add `getRemark()` in link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`].
+// . You may assume that the user will not be able to use the `add` and `edit` commands to modify the remarks field (i.e. the person will be created without a remark).
+// . Modify link:{repoURL}/src/main/java/seedu/address/model/util/SampleDataUtil.java/[`SampleDataUtil`] to add remarks for the sample data (delete your `addressBook.xml` so that the application will load the sample data when you launch it.)
+//
+// ===== [Step 6] Storage: Add `Remark` field to `XmlAdaptedPerson` class
+// We now have `Remark` s for `Person` s, but they will be gone when we exit the application. Let's modify link:{repoURL}/src/main/java/seedu/address/storage/XmlAdaptedPerson.java[`XmlAdaptedPerson`] to include a `Remark` field so that it will be saved.
+//
+// **Main:**
+//
+// . Add a new Xml field for `Remark`.
+//
+// **Tests:**
+//
+// . Fix `invalidAndValidPersonAddressBook.xml`, `typicalPersonsAddressBook.xml`, `validAddressBook.xml` etc., such that the XML tests will not fail due to a missing `<remark>` element.
+//
+// ===== [Step 6b] Test: Add withRemark() for `PersonBuilder`
+// Since `Person` can now have a `Remark`, we should add a helper method to link:{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java[`PersonBuilder`], so that users are able to create remarks when building a link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`].
+//
+// **Tests:**
+//
+// . Add a new method `withRemark()` for link:{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java[`PersonBuilder`]. This method will create a new `Remark` for the person that it is currently building.
+// . Try and use the method on any sample `Person` in link:{repoURL}/src/test/java/seedu/address/testutil/TypicalPersons.java[`TypicalPersons`].
+//
+// ===== [Step 7] Ui: Connect `Remark` field to `PersonCard`
+// Our remark label in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] is still a placeholder. Let's bring it to life by binding it with the actual `remark` field.
+//
+// **Main:**
+//
+// . Modify link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`]'s constructor to bind the `Remark` field to the `Person` 's remark.
+//
+// **Tests:**
+//
+// . Modify link:{repoURL}/src/test/java/seedu/address/ui/testutil/GuiTestAssert.java[`GuiTestAssert#assertCardDisplaysPerson(...)`] so that it will compare the now-functioning remark label.
+//
+// ===== [Step 8] Logic: Implement `RemarkCommand#execute()` logic
+// We now have everything set up... but we still can't modify the remarks. Let's finish it up by adding in actual logic for our `remark` command.
+//
+// **Main:**
+//
+// . Replace the logic in `RemarkCommand#execute()` (that currently just throws an `Exception`), with the actual logic to modify the remarks of a person.
+//
+// **Tests:**
+//
+// . Update `RemarkCommandTest` to test that the `execute()` logic works.
+//
+// ==== Full Solution
+//
+// See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-by-step solution.
 
 [appendix]
 == Product Scope
@@ -1260,91 +1396,99 @@ Exclusive application for management of footballers and football teams that prov
 
 Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (unlikely to have) - `*`
 
-[width="59%",cols="22%,<23%,<25%,<30%",options="header",]
+[width="75%",cols="^8%,^23%,<25%,<30%",options="header",]
 |=======================================================================
 |Priority |As a ... |I want to ... |So that I can...
 
+4.1+^s|First Time User Stories
+
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
-
-|`* * *` |user |add a new person |
-
-|`* * *` |user |delete a person |remove entries that I no longer need
-
-|`* * *` |user |find a person by name |locate details of players without having to go through the entire list
 
 |`* * *` |new user |access the user guide |find out how to use fancy features of the application
 
-|`* * *` |user |add new player|
+|`* * *` |new user |see a list of instructions available |navigate and use the application easily
 
-|`* * *` |user |add player’s address |mail him important documents
+4.1+^s|Player Related User Stories
 
-|`* * *` |user |add player’s contact number |contact him when needed
+|`* * *` |team manager |add a new player|
 
-|`* * *` |user |add player’s email |email him when needed
+|`* * *` |team manager |add player’s address |mail him important documents
 
-|`* * *` |user |add player’s jersey number |easily identify them during the game
+|`* * *` |team manager |add player’s contact number |contact him when needed
 
-|`* * *` |user |add player’s lineup status |organise the lineup (e.g. main team, reserves)
+|`* * *` |team manager |add player’s email |email him when needed
 
-|`* * *` |user |add player’s position |easily pick my lineup for match
+|`* * *` |team manager |add player’s jersey number |easily identify them during the game
 
-|`* * *` |user |delete player |remove him if I kick him out from the team or he quits
+|`* * *` |team manager |add player’s position |easily pick my lineup for match
 
-|`* * *` |user |edit player’s allocated team |move players between teams
+|`* * *` |team manager |add player's ratings |easily identify the better players
 
-|`* * *` |user |edit player’s contact number |
+|`* * *` |team manager |delete a player |remove him if I kick him out from the team or he quits
 
-|`* * *` |user |edit player’s email |
+|`* * *` |team manager |find a player by name |locate details of players without having to go through the entire list
 
-|`* * *` |user |edit player’s jersey number |
+|`* * *` |team manager |edit player’s contact number |
 
-|`* * *` |user |edit player’s number of demerits (Y/R cards) |fine/bench the player easily
+|`* * *` |team manager |edit player’s email |
 
-|`* * *` |user |find a player by name |locate a person without going through the whole list
+|`* * *` |team manager |edit player’s jersey number |
 
-|`* * *` |new user |see a list of instructions available |navigate and use the application with
-ease
+|`* *` |team manager |add player’s match stats (e.g. goals scored) |decide the lineup, give award
 
-|`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
+|`* *` |team manager |add player remarks |for self note
 
-|`* *` |user |add player remarks |for self note
+|`* *` |team manager |add player’s avatar |for facial recognition
 
+|`* *` |team manager |edit player’s position |easily pick my lineup for match
 
-|`* *` |user |add player’s avatar |for facial recognition
+|`* *` |team manager |edit player’s address |
 
-|`* *` |user |add player’s match stats (e.g. goals scored) |decide the lineup, give award
+|`* *` |team manager |edit player’s avatar |
 
-|`* *` |user |autofill command |perform task quickly
+|`* *` |team manager |edit player remarks |for self note
 
-|`* *` |user |edit player remarks |for self note
+|`* *` |team manager |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
 
-|`* *` |user |edit player’s address |
+|`*` |team manager |edit player’s name |
 
-|`* *` |user |edit player’s avatar |
+|`*` |team manager with many players in the team managing application |sort by player name |locate a person easily
 
-|`* *` |user |edit player’s lineup status |organise the lineup (e.g. main team, reserves)
+4.1+^s|Team Related User Stories
 
-|`* *` |user |edit player’s match stats |decide the lineup, give award
+|`* * *` |team manager |create teams |organize and manage my players through their respective team
 
-|`* *` |user |edit player’s position |easily pick my lineup for match
+|`* * *` |team manager |assign player to teams |identify the team that the player is playing for
 
-|`* *` |user |find player by team name |locate a team without going through the whole list
+|`* * *` |team manager |view players in specified team |identify the lineup of the team and which player belongs to which team
 
-|`* *` |user |password login |If user wants to protect certain information
+|`* * *` |team manager |remove teams |remove teams that I no longer managed
 
-|`* *` |user |submit feedback to developers |developers can improve the application constantly
+|`* *` |team manager |set match with competing team |acknowledge and plan training session for the team
 
-|`*` |user |edit player’s name |
+|`* *` |team manager |view upcoming match |keep track of the upcoming matches with opponent teams
 
-|`*` |user with many players in the team managing application |sort by player name |locate a person easily
+|`* *` |team manager |edit player’s allocated team |move players between teams
 
-|`*` |user |sort by team name |identify group lineup easily
+|`* *` |team manager |schedule training programs for team |I do not have any conflicting schedule between different teams
 
+|`* *` |team manager |send reminder to team of schedule |my players does not forget about training session
+
+|`*` |team manager |sort by team name |identify group lineup easily
+
+4.1+^s|Additional User Stories
+
+|`* *` |team manager who remembers better with visual |set colours to tags |easily identify the tag that I have set to players
+
+|`* *` |team manager |autofill command |perform task quickly
+
+|`* *` |team manager |password login |if team manager wants to protect certain information
+
+|`* *` |team manager |submit feedback to developers |developers can improve the application constantly
 
 |=======================================================================
 
-
-
+// TODO: fix and add more use cases
 [appendix]
 == Use Cases
 
