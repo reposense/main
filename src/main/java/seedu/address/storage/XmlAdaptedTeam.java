@@ -46,7 +46,7 @@ public class XmlAdaptedTeam {
      */
     public XmlAdaptedTeam(Team source) {
         teamName = source.getTeamName().toString();
-        persons.addAll(source.getTeamPlayers().stream().map(XmlAdaptedPerson::new).collect(Collectors.toList()));
+        //persons.addAll(source.getTeamPlayers().stream().map(XmlAdaptedPerson::new).collect(Collectors.toList()));
     }
 
     /**

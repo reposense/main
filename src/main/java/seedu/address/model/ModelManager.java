@@ -117,6 +117,13 @@ public class ModelManager extends ComponentManager implements Model {
         addressBook.setTagColour(tag, colour);
         return isTagValid;
     }
+
+    @Override
+    public ObservableList<Team> getInitTeamList() {
+        System.out.println("in model manager");
+        return addressBook.getTeamList();
+    }
+
     //=========== Filtered Person List Accessors =============================================================
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
