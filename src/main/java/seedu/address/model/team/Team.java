@@ -12,6 +12,9 @@ import seedu.address.model.person.UniquePersonList;
  */
 public class Team {
 
+    public static final String TEAM_VALIDATION_REGEX = "\\p{Alnum}+";
+    public static final String MESSAGE_TEAM_CONSTRAINTS = "Team names should be a string";
+
     private final TeamName teamName;
     private final UniquePersonList players = new UniquePersonList();
 
@@ -28,6 +31,13 @@ public class Team {
 
     public ObservableList<Person> getTeamPlayers() {
         return players.asObservableList();
+    }
+
+    /**
+     * Returns true if a given string is a valid team name.
+     */
+    public static boolean isValidTeamName(String test) {
+        return test.matches(TEAM_VALIDATION_REGEX);
     }
 
     @Override
