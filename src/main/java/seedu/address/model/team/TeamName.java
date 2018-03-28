@@ -10,7 +10,8 @@ import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
  */
 public class TeamName {
     public static final String MESSAGE_TEAM_NAME_CONSTRAINTS =
-            "Team name should only contain alphanumeric characters and spaces, and it should not be blank";
+            "Team name should only contain alphanumeric characters and spaces,"
+            + " and it should not be blank or consist of only numbers";
 
     /*
      * The first character of the team name must not be a whitespace,
