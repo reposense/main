@@ -11,8 +11,6 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.team.Team;
 import seedu.address.model.team.TeamName;
 import seedu.address.model.team.exceptions.DuplicateTeamException;
-import seedu.address.model.team.exceptions.TeamNotFoundException;
-
 /**
  * The API of the Model component.
  */
@@ -66,7 +64,7 @@ public interface Model {
 
     /** Assign person to team */
     void assignPersonToTeam(Person person, TeamName teamName)
-            throws TeamNotFoundException, DuplicatePersonException;
+            throws DuplicatePersonException;
 
     /** sets the given {@code tag} to color. */
     boolean setTagColour(Tag tag, String colour);

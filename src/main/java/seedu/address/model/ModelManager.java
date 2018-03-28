@@ -20,7 +20,6 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.team.Team;
 import seedu.address.model.team.TeamName;
 import seedu.address.model.team.exceptions.DuplicateTeamException;
-import seedu.address.model.team.exceptions.TeamNotFoundException;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -104,8 +103,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public synchronized void assignPersonToTeam(Person person, TeamName teamName)
-            throws TeamNotFoundException, DuplicatePersonException {
+    public synchronized void assignPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
         addressBook.assignPersonToTeam(person, teamName);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         indicateAddressBookChanged();
