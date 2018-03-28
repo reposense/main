@@ -400,6 +400,7 @@
 
 .team-panel {
     -fx-background-color: #121a28;
+    -fx-text-fill: white;
 }
 
 .player-details-container {
