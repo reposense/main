@@ -2,7 +2,6 @@ package seedu.address.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
@@ -36,8 +35,6 @@ public class PlayerDetails extends UiPart<Region> {
     private Label address;
     @FXML
     private Label email;
-    @FXML
-    private FlowPane tags;
 
     public PlayerDetails(Person person) {
         super(FXML);
@@ -46,17 +43,6 @@ public class PlayerDetails extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
-        initTags(person);
     }
 
-    /**
-     * Creates the tag labels for {@code person}.
-     */
-    private void initTags(Person person) {
-        person.getTags().forEach(tag -> {
-            Label tagLabel = new Label(tag.getTagName());
-            tagLabel.getStyleClass().add(tag.getTagColour());
-            tags.getChildren().add(tagLabel);
-        });
-    }
 }
