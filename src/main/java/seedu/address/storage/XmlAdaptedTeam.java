@@ -22,6 +22,13 @@ public class XmlAdaptedTeam {
     @XmlElement
     private List<XmlAdaptedPerson> persons;
 
+
+    /**
+     * Constructs an XmlAdaptedTeam.
+     * This is the no-arg constructor that is required by JAXB.
+     */
+    public XmlAdaptedTeam() {}
+
     /**
      * Constructs a {@code XmlAdaptedTeam} with the given {@code teamName}.
 
