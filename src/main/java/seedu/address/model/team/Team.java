@@ -1,14 +1,16 @@
 package seedu.address.model.team;
 
+import java.util.List;
 import java.util.Objects;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 /**
  * Represents a Team in the application.
- * Guarantees: details are present and not null, field values are validated, immutable
+ * Guarantees: details are present and not null, field values are validated, im!mutable
  */
 public class Team {
 
@@ -20,6 +22,19 @@ public class Team {
      */
     public Team(TeamName teamName) {
         this.teamName = teamName;
+    }
+
+    /**
+     * Constructs {@code Team} with {@code teamName} and {@code players}.
+     * Every field must be present and not null.
+     */
+    public Team(TeamName teamName, List<Person> players) {
+        this.teamName = teamName;
+        try {
+            this.players.setPersons(players);
+        } catch (DuplicatePersonException dpe) {
+            throw new AssertionError("Team should not have duplicated person from loading from database");
+        }
     }
 
     public TeamName getTeamName() {

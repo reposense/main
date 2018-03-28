@@ -45,11 +45,8 @@ public class UniqueTeamList implements Iterable<Team> {
     /**
      * Returns {@code Team} that is specified by {@code toGet}.
      */
-    public Team getTeam(TeamName toGet) throws TeamNotFoundException {
+    public Team getTeam(TeamName toGet) {
         requireNonNull(toGet);
-        if (!contains(toGet)) {
-            throw new TeamNotFoundException();
-        }
         return internalList.stream().filter(t -> t.getTeamName().equals(toGet)).findFirst().get();
     }
 
@@ -117,7 +114,6 @@ public class UniqueTeamList implements Iterable<Team> {
 
     /**
      * Assign a {@code person} to a {@code team}.
-     * @throws TeamNotFoundException if no such team could be found in the list
      * @throws DuplicatePersonException if person already exist in the team
      */
     public void assignPersonToTeam(Person person, Team target) throws DuplicatePersonException {
