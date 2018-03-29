@@ -1,7 +1,5 @@
 package seedu.address.logic.commands;
 
-import seedu.address.model.person.Remark;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

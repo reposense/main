@@ -21,9 +21,12 @@ import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.JerseyNumber;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Position;
+import seedu.address.model.person.Rating;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -31,15 +34,15 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.team.TeamName;
 
 /**
- * Edits the details of an existing person in the address book.
+ * Edits the details of an existing player in the address book.
  */
 public class EditCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "edit";
     public static final String COMMAND_ALIAS = "e";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
-            + "by the index number used in the last person listing. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the player identified "
+            + "by the index number used in the last player listing. "
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "NAME] "
@@ -60,7 +63,7 @@ public class EditCommand extends UndoableCommand {
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This player already exists in the address book.";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
@@ -69,8 +72,8 @@ public class EditCommand extends UndoableCommand {
     private Person editedPerson;
 
     /**
-     * @param index of the person in the filtered person list to edit
-     * @param editPersonDescriptor details to edit the person with
+     * @param index of the player in the filtered player list to edit
+     * @param editPersonDescriptor details to edit the player with
      */
     public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
         requireNonNull(index);
@@ -87,7 +90,7 @@ public class EditCommand extends UndoableCommand {
         } catch (DuplicatePersonException dpe) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         } catch (PersonNotFoundException pnfe) {
-            throw new AssertionError("The target person cannot be missing");
+            throw new AssertionError("The target player cannot be missing");
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedPerson));
@@ -119,9 +122,13 @@ public class EditCommand extends UndoableCommand {
         Remark updatedRemark = personToEdit.getRemark();
         TeamName updatedTeamName = personToEdit.getTeamName();
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+        Rating updatedRating = editPersonDescriptor.getRating().orElse(personToEdit.getRating());
+        JerseyNumber updatedJerseyNumber = editPersonDescriptor.getJerseyNumber()
+                .orElse(personToEdit.getJerseyNumber());
+        Position updatedPosition = editPersonDescriptor.getPosition().orElse(personToEdit.getPosition());
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark,
-                updatedTeamName, updatedTags);
+                updatedTeamName, updatedTags, updatedRating, updatedPosition, updatedJerseyNumber);
     }
 
     @Override
@@ -144,8 +151,8 @@ public class EditCommand extends UndoableCommand {
     }
 
     /**
-     * Stores the details to edit the person with. Each non-empty field value will replace the
-     * corresponding field value of the person.
+     * Stores the details to edit the player with. Each non-empty field value will replace the
+     * corresponding field value of the player.
      */
     public static class EditPersonDescriptor {
         private Name name;
@@ -153,6 +160,9 @@ public class EditCommand extends UndoableCommand {
         private Email email;
         private Address address;
         private Set<Tag> tags;
+        private Rating rating;
+        private Position position;
+        private JerseyNumber jerseyNumber;
 
         public EditPersonDescriptor() {}
 
@@ -166,13 +176,17 @@ public class EditCommand extends UndoableCommand {
             setEmail(toCopy.email);
             setAddress(toCopy.address);
             setTags(toCopy.tags);
+            setRating(toCopy.rating);
+            setPosition(toCopy.position);
+            setJerseyNumber(toCopy.jerseyNumber);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(this.name, this.phone, this.email, this.address, this.tags);
+            return CollectionUtil.isAnyNonNull(this.name, this.phone, this.email, this.address, this.tags,
+                    this.rating, this.position, this.jerseyNumber);
         }
 
         public void setName(Name name) {
@@ -224,6 +238,30 @@ public class EditCommand extends UndoableCommand {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
         }
 
+        public void setRating(Rating rating) {
+            this.rating = rating;
+        }
+
+        public Optional<Rating> getRating() {
+            return Optional.ofNullable(rating);
+        }
+
+        public void setPosition(Position position) {
+            this.position = position;
+        }
+
+        public Optional<Position> getPosition() {
+            return Optional.ofNullable(position);
+        }
+
+        public void setJerseyNumber(JerseyNumber jerseyNumber) {
+            this.jerseyNumber = jerseyNumber;
+        }
+
+        public Optional<JerseyNumber> getJerseyNumber() {
+            return Optional.ofNullable(jerseyNumber);
+        }
+
         @Override
         public boolean equals(Object other) {
             // short circuit if same object
@@ -243,7 +281,10 @@ public class EditCommand extends UndoableCommand {
                     && getPhone().equals(e.getPhone())
                     && getEmail().equals(e.getEmail())
                     && getAddress().equals(e.getAddress())
-                    && getTags().equals(e.getTags());
+                    && getTags().equals(e.getTags())
+                    && getRating().equals(e.getRating())
+                    && getPosition().equals(e.getPosition())
+                    && getJerseyNumber().equals(e.getJerseyNumber());
         }
     }
 }
