@@ -30,11 +30,19 @@ public class XmlAdaptedPerson {
     @XmlElement(required = true)
     private String phone;
     @XmlElement(required = true)
+    private Boolean phonePrivacy;
+    @XmlElement(required = true)
     private String email;
+    @XmlElement(required = true)
+    private Boolean emailPrivacy;
     @XmlElement(required = true)
     private String address;
     @XmlElement(required = true)
+    private Boolean addressPrivacy;
+    @XmlElement(required = true)
     private String remark;
+    @XmlElement(required = true)
+    private Boolean remarkPrivacy;
     @XmlElement(required = true)
     private String teamName;
 
@@ -72,6 +80,12 @@ public class XmlAdaptedPerson {
         address = source.getAddress().value;
         remark = source.getRemark().value;
         teamName = source.getTeamName().fullName;
+
+        phonePrivacy = source.getPhone().isPrivate();
+        emailPrivacy = source.getEmail().isPrivate();
+        addressPrivacy = source.getAddress().isPrivate();
+        remarkPrivacy = source.getRemark().isPrivate();
+
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
@@ -124,6 +138,22 @@ public class XmlAdaptedPerson {
         final Remark remark = new Remark(this.remark);
 
         final TeamName teamName = new TeamName(this.teamName);
+
+        if (phonePrivacy == null) {
+            phonePrivacy = false;
+        }
+
+        if (emailPrivacy == null) {
+            emailPrivacy = false;
+        }
+
+        if (addressPrivacy == null) {
+            addressPrivacy = false;
+        }
+
+        if (remarkPrivacy == null) {
+            remarkPrivacy = false;
+        }
 
         final Set<Tag> tags = new HashSet<>(personTags);
         return new Person(name, phone, email, address, remark, teamName, tags);

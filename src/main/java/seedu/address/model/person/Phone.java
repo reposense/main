@@ -15,6 +15,7 @@ public class Phone {
             "Phone numbers can only contain numbers, and should be at least 3 digits long";
     public static final String PHONE_VALIDATION_REGEX = "\\d{3,}";
     public final String value;
+    private boolean isPrivate;
 
     /**
      * Constructs a {@code Phone}.
@@ -25,6 +26,7 @@ public class Phone {
         requireNonNull(phone);
         checkArgument(isValidPhone(phone), MESSAGE_PHONE_CONSTRAINTS);
         this.value = phone;
+        this.isPrivate = false;
     }
 
     /**
@@ -36,7 +38,20 @@ public class Phone {
 
     @Override
     public String toString() {
+        if (isPrivate) {
+            return "<Private Phone>";
+        }
         return value;
+    }
+
+    public boolean isPrivate() { return isPrivate; }
+
+    public void togglePrivacy() {
+        this.isPrivate = isPrivate ? false : true;
+    }
+
+    public void setPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
     }
 
     @Override

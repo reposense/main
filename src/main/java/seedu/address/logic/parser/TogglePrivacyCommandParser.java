@@ -1,0 +1,97 @@
+package seedu.address.logic.parser;
+
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
+import seedu.address.commons.core.index.Index;
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.commands.TogglePrivacyCommand;
+import seedu.address.logic.commands.TogglePrivacyCommand.EditPersonPrivacy;
+import seedu.address.logic.parser.exceptions.ParseException;
+
+/**
+ * Parses input arguments and creates a new TogglePrivacyCommand object
+ */
+public class TogglePrivacyCommandParser implements Parser<TogglePrivacyCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the TogglePrivacyCommand
+     * and returns an TogglePrivacyCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public TogglePrivacyCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, PREFIX_REMARK, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
+
+        Index index;
+
+        try {
+            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+        } catch (IllegalValueException ive) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, TogglePrivacyCommand.MESSAGE_USAGE));
+        }
+
+        EditPersonPrivacy epp = new EditPersonPrivacy();
+        if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
+            if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
+                if (argMultimap.getValue(PREFIX_PHONE).toString().equals("Optional[true]")) {
+                    epp.setPrivatePhone(true);
+                } else if (argMultimap.getValue(PREFIX_PHONE).toString().equals("Optional[false]")) {
+                    epp.setPrivatePhone(false);
+                } else {
+                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                            TogglePrivacyCommand.MESSAGE_USAGE));
+                }
+            }
+        }
+
+        if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
+            if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
+                if (argMultimap.getValue(PREFIX_ADDRESS).toString().equals("Optional[true]")) {
+                    epp.setPrivateAddress(true);
+                } else if (argMultimap.getValue(PREFIX_ADDRESS).toString().equals("Optional[false]")) {
+                    epp.setPrivateAddress(false);
+                } else {
+                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                            TogglePrivacyCommand.MESSAGE_USAGE));
+                }
+            }
+        }
+
+        if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
+            if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
+                if (argMultimap.getValue(PREFIX_EMAIL).toString().equals("Optional[true]")) {
+                    epp.setPrivateEmail(true);
+                } else if (argMultimap.getValue(PREFIX_EMAIL).toString().equals("Optional[false]")) {
+                    epp.setPrivateEmail(false);
+                } else {
+                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                            TogglePrivacyCommand.MESSAGE_USAGE));
+                }
+            }
+        }
+
+        if (argMultimap.getValue(PREFIX_REMARK).isPresent()) {
+            if (argMultimap.getValue(PREFIX_REMARK).isPresent()) {
+                if (argMultimap.getValue(PREFIX_REMARK).toString().equals("Optional[true]")) {
+                    epp.setPrivateRemark(true);
+                } else if (argMultimap.getValue(PREFIX_REMARK).toString().equals("Optional[false]")) {
+                    epp.setPrivateRemark(false);
+                } else {
+                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                            TogglePrivacyCommand.MESSAGE_USAGE));
+                }
+            }
+        }
+        return new TogglePrivacyCommand(index, epp);
+    }
+}
