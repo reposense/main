@@ -276,6 +276,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         } catch (DuplicatePersonException dpe) {
             throw new IllegalArgumentException("toAdd already exists in the model.");
         }
+        // TODO: place holder for success message, change to proper assert method
         String expectedResultMessage = String.format(AddCommand.MESSAGE_SUCCESS, toAdd);
 
         assertCommandSuccess(command, expectedModel, expectedResultMessage);

@@ -27,7 +27,7 @@ public class PersonBuilder {
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_REMARK = "";
     public static final String DEFAULT_TAGS = "friends";
-    public static final String DEFAULT_TEAMNAME = "Arsenal";
+    public static final String DEFAULT_TEAMNAME = "<UNSPECIFIED>";
     public static final String DEFAULT_RATING = "5";
     public static final String DEFAULT_POSITION = "1";
     public static final String DEFAULT_JERSEY_NUMBER = "17";
