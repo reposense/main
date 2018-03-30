@@ -20,6 +20,7 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.team.Team;
 import seedu.address.model.team.TeamName;
 import seedu.address.model.team.exceptions.DuplicateTeamException;
+import seedu.address.model.team.exceptions.TeamNotFoundException;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -113,6 +114,13 @@ public class ModelManager extends ComponentManager implements Model {
     public synchronized void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
         requireAllNonNull(person, teamName);
         addressBook.removePersonFromTeam(person, teamName);
+        indicateAddressBookChanged();
+    }
+
+    @Override
+    public synchronized void removeTeam(TeamName teamName) throws TeamNotFoundException {
+        requireNonNull(teamName);
+        addressBook.removeTeam(teamName);
         indicateAddressBookChanged();
     }
 

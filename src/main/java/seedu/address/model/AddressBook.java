@@ -283,6 +283,40 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
+    /**
+     * Removes a {@code team} from {@code teams}.
+     */
+    public void removeTeam(TeamName teamName) throws TeamNotFoundException {
+        if (!teams.contains(teamName)) {
+            throw new TeamNotFoundException();
+        }
+
+        Team teamToRemove = teams.getTeam(teamName);
+
+        for (Person person : teamToRemove) {
+            removeTeamFromPlayer(person);
+        }
+
+        teams.remove(teamToRemove);
+    }
+
+    /**
+     * Removes {@code teamName} from {@code person} in this {@code Team}.
+     */
+    private void removeTeamFromPlayer(Person person) {
+        Person personWithRemoveTeam =
+                new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
+                        person.getRemark(), new TeamName(UNSPECIFIED_FIELD), person.getTags());
+
+        try {
+            persons.setPerson(person, personWithRemoveTeam);
+        } catch (DuplicatePersonException dpe) {
+            throw new AssertionError("AddressBook should not have duplicate person after assigning team");
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("Impossible: AddressBook should contain this person");
+        }
+    }
+
     //// util methods
 
     @Override
