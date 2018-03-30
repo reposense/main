@@ -65,6 +65,8 @@ public interface Model {
     /** Assign person to team */
     void assignPersonToTeam(Person person, TeamName teamName)
             throws DuplicatePersonException;
+    /** Removes person from team */
+    void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException;
 
     /** sets the given {@code tag} to color. */
     boolean setTagColour(Tag tag, String colour);

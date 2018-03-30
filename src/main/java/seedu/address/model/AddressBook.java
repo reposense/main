@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -251,17 +252,35 @@ public class AddressBook implements ReadOnlyAddressBook {
         Person newPersonWithTeam =
                 new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                         person.getRemark(), teamName, person.getTags());
-
         try {
             updatePerson(person, newPersonWithTeam);
         } catch (DuplicatePersonException dpe) {
-            throw new AssertionError("AddressBook should not have duplicate person "
-                    + "after updating person's team name.");
+            throw new AssertionError("AddressBook should not have duplicate person after assigning team");
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("Impossible: AddressBook should contain this person");
         }
 
         teams.assignPersonToTeam(newPersonWithTeam, teams.getTeam(teamName));
+
+        try {
+            removePersonFromTeam(person, person.getTeamName());
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("Impossible: Team should contain of this person");
+        }
+    }
+
+    /**
+     * Removes a {@code person} from a {@code team}.
+     */
+    public void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
+        if (!person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+            try {
+                System.out.println(teams.getTeam(teamName).toString());
+                teams.removePersonFromTeam(person, teams.getTeam(teamName));
+            } catch (PersonNotFoundException pnfe) {
+                throw new PersonNotFoundException();
+            }
+        }
     }
 
     //// util methods

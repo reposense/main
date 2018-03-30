@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.team.exceptions.DuplicateTeamException;
 import seedu.address.model.team.exceptions.TeamNotFoundException;
 
@@ -117,14 +118,26 @@ public class UniqueTeamList implements Iterable<Team> {
      * @throws DuplicatePersonException if person already exist in the team
      */
     public void assignPersonToTeam(Person person, Team target) throws DuplicatePersonException {
-        requireNonNull(person);
-        requireNonNull(target);
+        requireAllNonNull(person, target);
 
         if (target.getTeamPlayers().contains(person)) {
             throw new DuplicatePersonException();
         }
 
-        target.getUniqueTeamPlayers().add(person);
+        target.add(person);
+    }
+
+    /**
+     * Removes a {@code person} from a {@code team}.
+     */
+    public void removePersonFromTeam(Person person, Team target) throws PersonNotFoundException {
+        requireAllNonNull(person, target);
+        try {
+            System.out.println("Is this true? : " + target.contains(person));
+            target.remove(person);
+        } catch (PersonNotFoundException e) {
+            throw new PersonNotFoundException();
+        }
     }
 
     /**

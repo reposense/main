@@ -100,6 +100,8 @@ public class Person {
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append(getName())
+                .append(" Team: ")
+                .append(getTeamName())
                 .append(" Phone: ")
                 .append(getPhone())
                 .append(" Email: ")
@@ -108,6 +110,7 @@ public class Person {
                 .append(getAddress())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
+        builder.append("\n");
         return builder.toString();
     }
 

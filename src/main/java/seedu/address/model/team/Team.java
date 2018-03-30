@@ -7,15 +7,15 @@ import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
  * Represents a Team in the application.
  * Guarantees: details are present and not null, field values are validated, im!mutable
  */
-public class Team {
+public class Team extends UniquePersonList {
 
     private final TeamName teamName;
-    private final UniquePersonList players = new UniquePersonList();
 
     /**
      * Every field must be present and not null.
@@ -31,7 +31,7 @@ public class Team {
     public Team(TeamName teamName, List<Person> players) {
         this.teamName = teamName;
         try {
-            this.players.setPersons(players);
+            setPersons(players);
         } catch (DuplicatePersonException dpe) {
             throw new AssertionError("Team should not have duplicated person from loading from database");
         }
@@ -42,11 +42,7 @@ public class Team {
     }
 
     public ObservableList<Person> getTeamPlayers() {
-        return players.asObservableList();
-    }
-
-    public UniquePersonList getUniqueTeamPlayers() {
-        return players;
+        return super.asObservableList();
     }
 
     @Override
@@ -54,8 +50,9 @@ public class Team {
         final StringBuilder builder = new StringBuilder();
         builder.append(getTeamName())
                 .append(", ")
-                .append(players.asObservableList().size())
-                .append(" players: ");
+                .append(super.asObservableList().size())
+                .append(" players: ")
+                .append("\n");
         getTeamPlayers().forEach(builder::append);
         return builder.toString();
         // TODO: refine later
@@ -71,6 +68,6 @@ public class Team {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(teamName, players);
+        return Objects.hash(teamName);
     }
 }

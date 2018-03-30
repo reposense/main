@@ -110,6 +110,13 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public synchronized void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
+        requireAllNonNull(person, teamName);
+        addressBook.removePersonFromTeam(person, teamName);
+        indicateAddressBookChanged();
+    }
+
+    @Override
     public boolean setTagColour(Tag tag, String colour) {
         ObservableList<Tag> allTags = addressBook.getTagList();
         boolean isTagValid = false;
