@@ -45,7 +45,7 @@ public class RemoveCommand extends UndoableCommand {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof DeleteCommand // instanceof handles nulls
+                || (other instanceof RemoveCommand // instanceof handles nulls
                 && this.targetTeamName.equals(((RemoveCommand) other).targetTeamName)); // state check
     }
 }
