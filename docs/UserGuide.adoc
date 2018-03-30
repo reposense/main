@@ -13,7 +13,7 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/CS2103JAN2018-F14-B1/main
 
-By: `F14-B1`      Since: `Jun 2016`      Licence: `MIT`
+By: `F14-B1`      Since: `Mar 2018`      Licence: `MIT`
 
 == Introduction
 My Team Manager (MTM) is a link:https://en.wikipedia.org/wiki/Command-line_interface[Command-Line Interface] (CLI) based address book application for *football team managers*.
