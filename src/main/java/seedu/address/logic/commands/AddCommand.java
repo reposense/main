@@ -7,11 +7,13 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TEAMNAME;
+import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.team.TeamName;
 
 /**
  * Adds a person to the address book.
@@ -61,7 +63,9 @@ public class AddCommand extends UndoableCommand {
         requireNonNull(model);
         try {
             model.addPerson(toAdd);
-            model.assignPersonToTeam(toAdd, toAdd.getTeamName());
+            if (!toAdd.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+                model.assignPersonToTeam(toAdd, toAdd.getTeamName());
+            }
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (DuplicatePersonException e) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
@@ -70,8 +74,11 @@ public class AddCommand extends UndoableCommand {
 
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
-        if (!model.getAddressBook().getTeamList().contains(toAdd.getTeamName())) {
-            throw new CommandException((Messages.MESSAGE_TEAM_NOT_FOUND));
+        TeamName teamName = toAdd.getTeamName();
+        if (!model.getAddressBook().getTeamList().contains(teamName)) {
+            if (!teamName.toString().equals(UNSPECIFIED_FIELD)) {
+                throw new CommandException((Messages.MESSAGE_TEAM_NOT_FOUND));
+            }
         }
     }
 
