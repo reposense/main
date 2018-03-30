@@ -2,10 +2,10 @@ package seedu.address.ui;
 
 import static seedu.address.ui.testutil.GuiTestAssert.assertTeamDisplayEquals;
 
-import javafx.collections.ObservableList;
 import org.junit.Test;
 
 import guitests.guihandles.TeamDisplayHandle;
+import javafx.collections.ObservableList;
 import seedu.address.model.team.Team;
 import seedu.address.testutil.TeamBuilder;
 

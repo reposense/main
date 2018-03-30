@@ -1,13 +1,15 @@
 package guitests.guihandles;
 
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.Region;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Region;
+
+/**
+ * Provides a handle for {@code TeamDisplayHandle} containing the list of {@code Teams}.
+ */
 public class TeamDisplayHandle extends NodeHandle<Node> {
     public static final String TEAM_DISPLAY_ID = "#teams";
 

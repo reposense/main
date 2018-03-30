@@ -5,12 +5,15 @@ import javafx.collections.ObservableList;
 import seedu.address.model.team.Team;
 import seedu.address.model.team.TeamName;
 
+/**
+ * A utility class to help with building a TeamList.
+ */
 public class TeamBuilder {
 
     public static final String DEFAULT_TEAMNAME_ONE = "Arsenal";
     public static final String DEFAULT_TEAMNAME_TWO = "Chelsea";
 
-    ObservableList<Team> teams;
+    private ObservableList<Team> teams;
 
     private Team teamOne;
     private Team teamTwo;

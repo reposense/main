@@ -1,7 +1,6 @@
 package guitests.guihandles;
 
 import javafx.stage.Stage;
-import seedu.address.model.team.Team;
 
 /**
  * Provides a handle for {@code MainWindow}.
