@@ -13,6 +13,9 @@
             <tagName>friends</tagName>
             <tagColour>teal</tagColour>
         </tagged>
+        <rating>0</rating>
+        <position>1</position>
+        <jerseyNumber>1</jerseyNumber>
     </persons>
     <persons>
         <name>Benson Meier</name>
@@ -29,6 +32,9 @@
             <tagName>owesMoney</tagName>
             <tagColour>teal</tagColour>
         </tagged>
+        <rating>1</rating>
+        <position>2</position>
+        <jerseyNumber>2</jerseyNumber>
     </persons>
     <persons>
         <name>Carl Kurz</name>
@@ -41,6 +47,9 @@
         </tagged>
         <remark></remark>
         <teamName>&lt;UNSPECIFIED&gt;</teamName>
+        <rating>2</rating>
+        <position>3</position>
+        <jerseyNumber>3</jerseyNumber>
     </persons>
     <persons>
         <name>Daniel Meier</name>
@@ -49,6 +58,9 @@
         <address>10th street</address>
         <remark></remark>
         <teamName>&lt;UNSPECIFIED&gt;</teamName>
+        <rating>3</rating>
+        <position>4</position>
+        <jerseyNumber>4</jerseyNumber>
     </persons>
     <persons>
         <name>Elle Meyer</name>
@@ -57,6 +69,9 @@
         <address>michegan ave</address>
         <remark></remark>
         <teamName>&lt;UNSPECIFIED&gt;</teamName>
+        <rating>4</rating>
+        <position>1</position>
+        <jerseyNumber>5</jerseyNumber>
     </persons>
     <persons>
         <name>Fiona Kunz</name>
@@ -65,6 +80,9 @@
         <address>little tokyo</address>
         <remark></remark>
         <teamName>&lt;UNSPECIFIED&gt;</teamName>
+        <rating>5</rating>
+        <position>2</position>
+        <jerseyNumber>6</jerseyNumber>
     </persons>
     <persons>
         <name>George Best</name>
@@ -73,6 +91,9 @@
         <address>4th street</address>
         <remark>Could be famous</remark>
         <teamName>&lt;UNSPECIFIED&gt;</teamName>
+        <rating>0</rating>
+        <position>3</position>
+        <jerseyNumber>7</jerseyNumber>
     </persons>
     <tags>
         <tagName>friends</tagName>

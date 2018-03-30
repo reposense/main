@@ -11,9 +11,12 @@ import javax.xml.bind.annotation.XmlElement;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.JerseyNumber;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Position;
+import seedu.address.model.person.Rating;
 import seedu.address.model.person.Remark;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.team.TeamName;
@@ -37,6 +40,12 @@ public class XmlAdaptedPerson {
     private String remark;
     @XmlElement(required = true)
     private String teamName;
+    @XmlElement(required = true)
+    private String rating;
+    @XmlElement(required = true)
+    private String position;
+    @XmlElement(required = true)
+    private String jerseyNumber;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -73,6 +82,10 @@ public class XmlAdaptedPerson {
         remark = source.getRemark().value;
         teamName = source.getTeamName().fullName;
         tagged = new ArrayList<>();
+        rating = source.getRating().value;
+        position = source.getPosition().value;
+        jerseyNumber = source.getJerseyNumber().value;
+
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
         }
@@ -126,7 +139,34 @@ public class XmlAdaptedPerson {
         final TeamName teamName = new TeamName(this.teamName);
 
         final Set<Tag> tags = new HashSet<>(personTags);
-        return new Person(name, phone, email, address, remark, teamName, tags);
+
+        if (this.rating == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Rating.class.getSimpleName()));
+        }
+        if (!Rating.isValidRating(this.rating)) {
+            throw new IllegalValueException(Rating.MESSAGE_RATING_CONSTRAINTS);
+        }
+        final Rating rating = new Rating(this.rating);
+
+        if (this.position == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Position.class.getSimpleName()));
+        }
+        if (!Position.isValidPosition(this.position)) {
+            throw new IllegalValueException(Position.MESSAGE_POSITION_CONSTRAINTS);
+        }
+        final Position position = new Position(this.position);
+
+        if (this.jerseyNumber == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    JerseyNumber.class.getSimpleName()));
+        }
+        if (!JerseyNumber.isValidJerseyNumber(this.jerseyNumber)) {
+            throw new IllegalValueException(JerseyNumber.MESSAGE_JERSEY_NUMBER_CONSTRAINTS);
+        }
+        final JerseyNumber jerseyNumber = new JerseyNumber(this.jerseyNumber);
+
+        return new Person(name, phone, email, address, remark, teamName, tags, rating, position, jerseyNumber);
     }
 
     @Override
