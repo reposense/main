@@ -1,7 +1,9 @@
 package seedu.address.logic.commands;
 
+import seedu.address.commons.core.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.team.TeamName;
+import seedu.address.model.team.exceptions.TeamNotFoundException;
 
 /**
  * View a team identified using it's team name from the address book.
@@ -28,12 +30,14 @@ public class ViewCommand extends Command {
 
     @Override
     public CommandResult execute() throws CommandException {
-
-        // team not found
+        try {
+            model.updateFilteredPersonList(targetTeam);
+        } catch (TeamNotFoundException tnfe) {
+            throw new CommandException(Messages.MESSAGE_TEAM_NOT_FOUND);
+        }
 
         // TODO: Jump to list of teams event
         return new CommandResult(String.format(MESSAGE_VIEW_TEAM_SUCCESS, targetTeam.toString()));
-
     }
 
     @Override

@@ -52,6 +52,12 @@ public interface Model {
     void updateFilteredPersonList(Predicate<Person> predicate);
 
     /**
+     * Updates the filter of the filtered person list to filter by the given {@code teamName}.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredPersonList(TeamName targetTeam) throws TeamNotFoundException;
+
+    /**
      * Sorts players in address book by field in asc or desc order
      * @param field
      * @param order
