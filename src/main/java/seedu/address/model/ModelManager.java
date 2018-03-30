@@ -93,6 +93,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    @Override
     public void deleteTag(Tag tag) {
         addressBook.removeTag(tag);
         indicateAddressBookChanged();

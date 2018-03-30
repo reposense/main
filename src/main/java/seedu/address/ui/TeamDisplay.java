@@ -1,5 +1,7 @@
 package seedu.address.ui;
 
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,8 +10,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 
 import seedu.address.model.team.Team;
-
-import java.util.List;
 
 /**
  * A ui for displaying the team currently chosen
@@ -48,7 +48,5 @@ public class TeamDisplay extends UiPart<Region> {
         }
         return listOfTeams;
     }
-
-
 }
 
