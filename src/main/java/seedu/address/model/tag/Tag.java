@@ -57,7 +57,6 @@ public class Tag {
      */
     public void changeTagColour(String colour) {
         this.tagColour = colour;
-        System.out.println("tag.java: "+ getTagColour());
     }
 
     /**

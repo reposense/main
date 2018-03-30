@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TeamDisplayHandle extends NodeHandle<Node> {
-    public static final String TEAM_DISPLAY_ID = "#teamDisplay";
+    public static final String TEAM_DISPLAY_ID = "#teams";
 
     private final List<Label> teamLabels;
 

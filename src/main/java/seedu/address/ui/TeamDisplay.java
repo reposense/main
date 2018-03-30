@@ -45,7 +45,6 @@ public class TeamDisplay extends UiPart<Region> {
         List<String> listOfTeams = FXCollections.observableArrayList();
         for (Team t: teamList) {
             listOfTeams.add(t.getTeamName().toString());
-            System.out.println(t.getTeamName().toString());
         }
         return listOfTeams;
     }
