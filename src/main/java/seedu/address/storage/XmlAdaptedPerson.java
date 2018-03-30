@@ -63,6 +63,12 @@ public class XmlAdaptedPerson {
         this.phone = phone;
         this.email = email;
         this.address = address;
+
+        this.remarkPrivacy = false;
+        this.phonePrivacy = false;
+        this.addressPrivacy = false;
+        this.emailPrivacy = false;
+
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
         }

@@ -34,6 +34,11 @@ public class Address {
         this.isPrivate = false;
     }
 
+    public Address(String address, boolean isPrivate) {
+        this(address);
+        this.setPrivate(isPrivate);
+    }
+
     /**
      * Returns true if a given string is a valid person email.
      */

@@ -42,6 +42,11 @@ public class Email {
         this.isPrivate = false;
     }
 
+    public Email(String email, boolean isPrivate) {
+        this(email);
+        this.setPrivate(isPrivate);
+    }
+
     /**
      * Returns if a given string is a valid person email.
      */

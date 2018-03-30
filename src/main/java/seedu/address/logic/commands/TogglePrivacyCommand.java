@@ -29,7 +29,7 @@ public class TogglePrivacyCommand extends UndoableCommand {
     public static final String COMMAND_WORD = "toggleprivacy";
     public static final String COMMAND_ALIAS = "tp";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Changes the field privacy of the person"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Toggles the field privacy of the person"
             + " identified by the index number used in the last person listing.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_PHONE + "]"
@@ -88,7 +88,7 @@ public class TogglePrivacyCommand extends UndoableCommand {
 
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
-     * edited with {@code editPersonDescriptor}.
+     * edited with {@code editPersonPrivacy}.
      * NOTE: Private fields will not be edited.
      */
     private static Person createEditedPrivacyPerson(Person personToEdit, EditPersonPrivacy epp) throws IllegalValueException {
@@ -120,7 +120,8 @@ public class TogglePrivacyCommand extends UndoableCommand {
             throw new AssertionError("Invalid Phone");
         }
         if (epp.getPrivatePhone() != null) {
-            phone.setPrivate(epp.getPrivatePhone());
+            phone.setPrivate(person.getPhone().isPrivate());
+            phone.togglePrivacy();
         } else {
             phone.setPrivate(person.getPhone().isPrivate());
         }
@@ -142,7 +143,8 @@ public class TogglePrivacyCommand extends UndoableCommand {
             throw new AssertionError("Invalid Email");
         }
         if (epp.getPrivateEmail() != null) {
-            email.setPrivate(epp.getPrivateEmail());
+            email.setPrivate(person.getEmail().isPrivate());
+            email.togglePrivacy();
         } else {
             email.setPrivate(person.getEmail().isPrivate());
         }
@@ -163,7 +165,8 @@ public class TogglePrivacyCommand extends UndoableCommand {
             throw new AssertionError("Invalid Address");
         }
         if (epp.getPrivateAddress() != null) {
-            address.setPrivate(epp.getPrivateAddress());
+            address.setPrivate(person.getAddress().isPrivate());
+            address.togglePrivacy();
         } else {
             address.setPrivate(person.getAddress().isPrivate());
         }
@@ -184,7 +187,8 @@ public class TogglePrivacyCommand extends UndoableCommand {
             throw new AssertionError("Invalid Remark");
         }
         if (epp.getPrivateRemark() != null) {
-            remark.setPrivate(epp.getPrivateRemark());
+            remark.setPrivate(person.getRemark().isPrivate());
+            remark.togglePrivacy();
         } else {
             remark.setPrivate(person.getRemark().isPrivate());
         }
@@ -243,9 +247,6 @@ public class TogglePrivacyCommand extends UndoableCommand {
         public void setPrivatePhone(boolean privatePhone) {
             this.privatePhone = privatePhone;
         }
-        public void togglePhone() {
-            this.privatePhone = (privatePhone) ? false : true;
-        }
 
         public Boolean getPrivatePhone() {
             return privatePhone;
@@ -253,10 +254,6 @@ public class TogglePrivacyCommand extends UndoableCommand {
 
         public void setPrivateEmail(boolean privateEmail) {
             this.privateEmail = privateEmail;
-        }
-
-        public void toggleEmail() {
-            this.privateEmail = (privateEmail) ? false : true;
         }
 
         public Boolean getPrivateEmail() {
@@ -267,20 +264,12 @@ public class TogglePrivacyCommand extends UndoableCommand {
             this.privateAddress = privateAddress;
         }
 
-        public void toggleAddress() {
-            this.privateAddress = (privateAddress) ? false : true;
-        }
-
         public Boolean getPrivateAddress() {
             return privateAddress;
         }
 
         public void setPrivateRemark(boolean privateRemark) {
             this.privateRemark = privateRemark;
-        }
-
-        public void toggleRemark() {
-            this.privateRemark = (privateRemark) ? false : true;
         }
 
         public Boolean getPrivateRemark() {

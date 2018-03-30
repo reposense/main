@@ -25,6 +25,11 @@ public class Remark {
         this.isPrivate = false;
     }
 
+    public Remark(String remark, boolean isPrivate) {
+        this(remark);
+        this.setPrivate(isPrivate);
+    }
+
     @Override
     public String toString() {
         if (isPrivate) {

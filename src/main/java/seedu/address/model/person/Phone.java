@@ -29,6 +29,11 @@ public class Phone {
         this.isPrivate = false;
     }
 
+    public Phone(String phone, boolean isPrivate) {
+        this(phone);
+        this.setPrivate(isPrivate);
+    }
+
     /**
      * Returns true if a given string is a valid person phone number.
      */
