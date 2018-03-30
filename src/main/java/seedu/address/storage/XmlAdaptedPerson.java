@@ -109,42 +109,6 @@ public class XmlAdaptedPerson {
             personTags.add(tag.toModelType());
         }
 
-        if (this.name == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
-        }
-        if (!Name.isValidName(this.name)) {
-            throw new IllegalValueException(Name.MESSAGE_NAME_CONSTRAINTS);
-        }
-        final Name name = new Name(this.name);
-
-        if (this.phone == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
-        }
-        if (!Phone.isValidPhone(this.phone)) {
-            throw new IllegalValueException(Phone.MESSAGE_PHONE_CONSTRAINTS);
-        }
-        final Phone phone = new Phone(this.phone);
-
-        if (this.email == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
-        }
-        if (!Email.isValidEmail(this.email)) {
-            throw new IllegalValueException(Email.MESSAGE_EMAIL_CONSTRAINTS);
-        }
-        final Email email = new Email(this.email);
-
-        if (this.address == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
-        }
-        if (!Address.isValidAddress(this.address)) {
-            throw new IllegalValueException(Address.MESSAGE_ADDRESS_CONSTRAINTS);
-        }
-        final Address address = new Address(this.address);
-
-        final Remark remark = new Remark(this.remark);
-
-        final TeamName teamName = new TeamName(this.teamName);
-
         if (phonePrivacy == null) {
             phonePrivacy = false;
         }
@@ -160,6 +124,41 @@ public class XmlAdaptedPerson {
         if (remarkPrivacy == null) {
             remarkPrivacy = false;
         }
+
+        if (this.name == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
+        }
+        if (!Name.isValidName(this.name)) {
+            throw new IllegalValueException(Name.MESSAGE_NAME_CONSTRAINTS);
+        }
+        final Name name = new Name(this.name);
+
+        if (this.phone == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
+        }
+        if (!Phone.isValidPhone(this.phone)) {
+            throw new IllegalValueException(Phone.MESSAGE_PHONE_CONSTRAINTS);
+        }
+        final Phone phone = new Phone(this.phone, this.phonePrivacy);
+
+        if (this.email == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
+        }
+        if (!Email.isValidEmail(this.email)) {
+            throw new IllegalValueException(Email.MESSAGE_EMAIL_CONSTRAINTS);
+        }
+        final Email email = new Email(this.email, this.emailPrivacy);
+
+        if (this.address == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
+        }
+        if (!Address.isValidAddress(this.address)) {
+            throw new IllegalValueException(Address.MESSAGE_ADDRESS_CONSTRAINTS);
+        }
+
+        final Address address = new Address(this.address, this.addressPrivacy);
+        final Remark remark = new Remark(this.remark, this.remarkPrivacy);
+        final TeamName teamName = new TeamName(this.teamName);
 
         final Set<Tag> tags = new HashSet<>(personTags);
         return new Person(name, phone, email, address, remark, teamName, tags);
