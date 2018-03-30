@@ -60,11 +60,12 @@ public class AddCommandParser implements Parser<AddCommand> {
             TeamName teamName = ParserUtil.parseTeamName(ParserUtil.parseValue(argMultimap.getValue(PREFIX_TEAMNAME),
                     TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS)).get();
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-            Rating rating = ParserUtil.parseRating(ParserUtil.parseValue(argMultimap.getValue(PREFIX_RATING))).get();
+            Rating rating = ParserUtil.parseRating(ParserUtil.parseValue(argMultimap.getValue(PREFIX_RATING),
+                    Rating.MESSAGE_RATING_CONSTRAINTS)).get();
             Position position = ParserUtil.parsePosition(ParserUtil.parseValue(argMultimap
-                    .getValue(PREFIX_POSITION))).get();
+                    .getValue(PREFIX_POSITION), Position.MESSAGE_POSITION_CONSTRAINTS)).get();
             JerseyNumber jerseyNumber = ParserUtil.parseJerseyNumber(ParserUtil.parseValue(argMultimap
-                    .getValue(PREFIX_JERSEY_NUMBER))).get();
+                    .getValue(PREFIX_JERSEY_NUMBER), JerseyNumber.MESSAGE_JERSEY_NUMBER_CONSTRAINTS)).get();
 
             Person person = new Person(name, phone, email, address, remark, teamName, tagList, rating, position,
                     jerseyNumber);
