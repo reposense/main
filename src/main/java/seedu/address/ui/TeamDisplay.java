@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
 
 import seedu.address.model.team.Team;
 
@@ -31,7 +30,7 @@ public class TeamDisplay extends UiPart<Region> {
         for (Team t: teamList) {
             System.out.println("team is "+ t);
             Label teamLabel = new Label(t.getTeamName().toString());
-            teamLabel.setTextFill(Color.AQUA);
+            teamLabel.setStyle("-fx-text-fill: #9cb3d8");
             teams.getChildren().add(teamLabel);
             teams.setHgap(10);
         }

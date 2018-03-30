@@ -399,8 +399,12 @@
 }
 
 .team-panel {
-    -fx-background-color: #121a28;
+    -fx-background-color: transparent;
     -fx-text-fill: white;
+}
+
+.team-placeholder {
+    -fx-background-color: #2d3e5e;
 }
 
 .player-details-container {
