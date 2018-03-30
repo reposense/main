@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,8 +20,10 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.team.Team;
+import seedu.address.model.team.TeamName;
 import seedu.address.model.team.UniqueTeamList;
 import seedu.address.model.team.exceptions.DuplicateTeamException;
+import seedu.address.model.team.exceptions.TeamNotFoundException;
 
 /**
  * Wraps all data at the address-book level
@@ -152,7 +155,8 @@ public class AddressBook implements ReadOnlyAddressBook {
         personTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
         return new Person(
                 person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), person.getRemark(),
-                person.getTeamName(), correctTagReferences);
+                person.getTeamName(), correctTagReferences, person.getRating(), person.getPosition(),
+                person.getJerseyNumber());
     }
 
     /**
@@ -212,7 +216,8 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         Person newPerson =
                 new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
-                        person.getRemark(), person.getTeamName(), newTags);
+                        person.getRemark(), person.getTeamName(), newTags, person.getRating(), person.getPosition(),
+                        person.getJerseyNumber());
 
         try {
             updatePerson(person, newPerson);
@@ -235,11 +240,85 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     /**
      * Creates a team in the manager.
-     *
      * @throws DuplicateTeamException if an equivalent team already exists.
      */
     public void createTeam(Team t) throws DuplicateTeamException {
         teams.add(t);
+    }
+
+    /**
+     * Assigns a {@code person} to a {@code team}.
+     * @throws TeamNotFoundException if the {@code team} is not found in this {@code AddressBook}.
+     */
+    public void assignPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
+        Person newPersonWithTeam =
+                new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
+                        person.getRemark(), teamName, person.getTags(), person.getRating(), person.getPosition(),
+                        person.getJerseyNumber());
+        try {
+            updatePerson(person, newPersonWithTeam);
+        } catch (DuplicatePersonException dpe) {
+            throw new AssertionError("AddressBook should not have duplicate person after assigning team");
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("Impossible: AddressBook should contain this person");
+        }
+
+        teams.assignPersonToTeam(newPersonWithTeam, teams.getTeam(teamName));
+
+        try {
+            removePersonFromTeam(person, person.getTeamName());
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("Impossible: Team should contain of this person");
+        }
+    }
+
+    /**
+     * Removes a {@code person} from a {@code team}.
+     */
+    public void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
+        if (!person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+            try {
+                System.out.println(teams.getTeam(teamName).toString());
+                teams.removePersonFromTeam(person, teams.getTeam(teamName));
+            } catch (PersonNotFoundException pnfe) {
+                throw new PersonNotFoundException();
+            }
+        }
+    }
+
+    /**
+     * Removes a {@code team} from {@code teams}.
+     */
+    public void removeTeam(TeamName teamName) throws TeamNotFoundException {
+        if (!teams.contains(teamName)) {
+            throw new TeamNotFoundException();
+        }
+
+        Team teamToRemove = teams.getTeam(teamName);
+
+        for (Person person : teamToRemove) {
+            removeTeamFromPerson(person);
+        }
+
+        teams.remove(teamToRemove);
+    }
+
+    /**
+     * Removes {@code teamName} from {@code person} in this {@code Team}.
+     */
+    private void removeTeamFromPerson(Person person) {
+        Person personWithRemoveTeam =
+                new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
+                        person.getRemark(), new TeamName(UNSPECIFIED_FIELD), person.getTags(), person.getRating(),
+                        person.getPosition(), person.getJerseyNumber());
+
+        try {
+            persons.setPerson(person, personWithRemoveTeam);
+        } catch (DuplicatePersonException dpe) {
+            throw new AssertionError("AddressBook should not have duplicate person after assigning team");
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("Impossible: AddressBook should contain this person");
+        }
     }
 
     //// util methods

@@ -2,26 +2,26 @@ package seedu.address.storage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.person.Person;
 import seedu.address.model.team.Team;
 import seedu.address.model.team.TeamName;
 
 /**
- * JAXB-friendly adapted version of the Team.
+ * JAXB-friendly adapted version of the Team
  */
 public class XmlAdaptedTeam {
 
+    public static final String MISSING_FIELD_MESSAGE_FORMAT = "Team's %s field is missing!";
 
-    @XmlElement
+    @XmlElement(required = true)
     private String teamName;
-
     @XmlElement
-    private List<XmlAdaptedPerson> persons;
-
+    private List<XmlAdaptedPerson> players = new ArrayList<>();
 
     /**
      * Constructs an XmlAdaptedTeam.
@@ -31,34 +31,48 @@ public class XmlAdaptedTeam {
 
     /**
      * Constructs a {@code XmlAdaptedTeam} with the given {@code teamName}.
-
      */
-    public XmlAdaptedTeam(String teamName) {
+    public XmlAdaptedTeam(String teamName, List<XmlAdaptedPerson> persons) {
         this.teamName = teamName;
-        persons = new ArrayList<>();
+        if (persons != null) {
+            this.players = new ArrayList<>(persons);
+        }
     }
-
 
     /**
      * Converts a given Team into this class for JAXB use.
      *
-     * @param source future changes to this will not affect the created
+     * @param source future changes to this will not affect the created XmlAdaptedTeam
      */
     public XmlAdaptedTeam(Team source) {
         teamName = source.getTeamName().toString();
-        //persons.addAll(source.getTeamPlayers().stream().map(XmlAdaptedPerson::new).collect(Collectors.toList()));
+        players = new ArrayList<>();
+        for (Person person : source.getTeamPlayers()) {
+            players.add(new XmlAdaptedPerson(person));
+        }
     }
 
     /**
-     * Converts this jaxb-friendly adapted tag object into the model's Tag object.
+     * Converts this jaxb-friendly adapted tag object into the model's Team object.
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted person
      */
     public Team toModelType() throws IllegalValueException {
-        if (!Team.isValidTeamName(teamName)) {
-            throw new IllegalValueException(Team.MESSAGE_TEAM_CONSTRAINTS);
+        if (this.teamName == null) {
+            throw new IllegalValueException((String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    TeamName.class.getSimpleName())));
         }
-        return new Team(new TeamName(teamName));
+        if (!TeamName.isValidName(this.teamName)) {
+            throw new IllegalValueException(TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+        }
+        final TeamName teamName = new TeamName(this.teamName);
+
+        final List<Person> teamPlayers = new ArrayList<>();
+        for (XmlAdaptedPerson player : players) {
+            teamPlayers.add(player.toModelType());
+        }
+
+        return new Team(teamName, teamPlayers);
     }
 
     @Override
@@ -70,7 +84,9 @@ public class XmlAdaptedTeam {
         if (!(other instanceof XmlAdaptedTeam)) {
             return false;
         }
+        XmlAdaptedTeam otherTeam = (XmlAdaptedTeam) other;
+        return Objects.equals(teamName, otherTeam.teamName)
+                && players.equals(otherTeam.players);
 
-        return teamName.equals(((XmlAdaptedTeam) other).teamName);
     }
 }

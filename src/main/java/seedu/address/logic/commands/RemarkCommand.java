@@ -15,20 +15,22 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
- * Updates the remark of an existing person in the address book.
+ * Updates the remark of an existing player in the address book.
  */
 public class RemarkCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "remark";
     public static final String COMMAND_ALIAS = "rm";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Updates the remark of the person identified "
-            + "by the index number used in the last person listing. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Updates the remark of the player identified "
+            + "by the index number used in the last player listing. "
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + PREFIX_REMARK + "[REMARK]\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_REMARK + "Must put on field";
+
+    public static final String MESSAGE_PARAMETERS = "INDEX";
 
     public static final String MESSAGE_ADD_REMARK_SUCCESS = "Remark added to: %1$s";
     public static final String MESSAGE_DELETE_REMARK_SUCCESS = "Remark removed from: %1$s";
@@ -57,7 +59,7 @@ public class RemarkCommand extends UndoableCommand {
         } catch (DuplicatePersonException dpe) {
             throw new AssertionError("Updating remark should not result in duplicate");
         } catch (PersonNotFoundException pnfe) {
-            throw new AssertionError("The target person cannot be missing");
+            throw new AssertionError("The target player cannot be missing");
         }
 
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
@@ -74,7 +76,8 @@ public class RemarkCommand extends UndoableCommand {
 
         personToEdit = lastShownList.get(index.getZeroBased());
         editedPerson = new Person(personToEdit.getName(), personToEdit.getPhone(), personToEdit.getEmail(),
-                personToEdit.getAddress(), remark, personToEdit.getTeamName(), personToEdit.getTags());
+                personToEdit.getAddress(), remark, personToEdit.getTeamName(), personToEdit.getTags(),
+                personToEdit.getRating(), personToEdit.getPosition(), personToEdit.getJerseyNumber());
     }
 
     @Override

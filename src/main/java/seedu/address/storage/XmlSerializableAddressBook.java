@@ -1,3 +1,4 @@
+
 package seedu.address.storage;
 
 import java.util.ArrayList;
@@ -18,7 +19,9 @@ import seedu.address.model.ReadOnlyAddressBook;
 public class XmlSerializableAddressBook {
 
     @XmlElement
-    private List<XmlAdaptedTeam> team;
+    private List<XmlAdaptedTeam> teams;
+    @XmlElement
+    private List<XmlAdaptedPerson> persons;
     @XmlElement
     private List<XmlAdaptedTag> tags;
 
@@ -27,8 +30,9 @@ public class XmlSerializableAddressBook {
      * This empty constructor is required for marshalling.
      */
     public XmlSerializableAddressBook() {
-        team = new ArrayList<>();
+        persons = new ArrayList<>();
         tags = new ArrayList<>();
+        teams = new ArrayList<>();
     }
 
     /**
@@ -36,8 +40,9 @@ public class XmlSerializableAddressBook {
      */
     public XmlSerializableAddressBook(ReadOnlyAddressBook src) {
         this();
-        team.addAll(src.getTeamList().stream().map(XmlAdaptedTeam::new).collect(Collectors.toList()));
+        persons.addAll(src.getPersonList().stream().map(XmlAdaptedPerson::new).collect(Collectors.toList()));
         tags.addAll(src.getTagList().stream().map(XmlAdaptedTag::new).collect(Collectors.toList()));
+        teams.addAll(src.getTeamList().stream().map(XmlAdaptedTeam::new).collect(Collectors.toList()));
     }
 
     /**
@@ -51,8 +56,11 @@ public class XmlSerializableAddressBook {
         for (XmlAdaptedTag t : tags) {
             addressBook.addTag(t.toModelType());
         }
-        for (XmlAdaptedTeam te : team) {
-            addressBook.createTeam(te.toModelType());
+        for (XmlAdaptedPerson p : persons) {
+            addressBook.addPerson(p.toModelType());
+        }
+        for (XmlAdaptedTeam tm : teams) {
+            addressBook.createTeam(tm.toModelType());
         }
         return addressBook;
     }
@@ -68,6 +76,6 @@ public class XmlSerializableAddressBook {
         }
 
         XmlSerializableAddressBook otherAb = (XmlSerializableAddressBook) other;
-        return team.equals(otherAb.team) && tags.equals(otherAb.tags);
+        return persons.equals(otherAb.persons) && tags.equals(otherAb.tags) && teams.equals(otherAb.teams);
     }
 }
