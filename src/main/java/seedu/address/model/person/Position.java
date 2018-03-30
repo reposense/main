@@ -51,7 +51,7 @@ public class Position {
      * Returns position name according to value
      * @return position name
      */
-    public String getPositionName(){
+    public String getPositionName() {
         return myMap.get(value);
     }
 
