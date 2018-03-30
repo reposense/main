@@ -60,7 +60,7 @@ public class PersonCard extends UiPart<Region> {
         email.setText(person.getEmail().value);
         teamName.setText(person.getTeamName().fullName);
         rating.setText(person.getRating().value);
-        position.setText(person.getPosition().value);
+        position.setText(person.getPosition().getPositionName());
         jerseyNumber.setText(person.getJerseyNumber().value);
 
         initTags(person);

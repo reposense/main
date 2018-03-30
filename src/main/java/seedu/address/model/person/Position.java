@@ -4,6 +4,10 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents a Player's position in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidPosition(String)}
@@ -15,9 +19,16 @@ public class Position {
                    + "and 4 - Goalkeeper.";
 
     public static final String RATING_VALIDATION_REGEX = "[1-4]";
-
+    private static final Map<String, String> myMap;
+    static {
+        Map<String, String> aMap = new HashMap<>();
+        aMap.put("1", "Striker");
+        aMap.put("2", "Midfielder");
+        aMap.put("3", "Defender");
+        aMap.put("4", "Goalkeeper");
+        myMap = Collections.unmodifiableMap(aMap);
+    }
     public final String value;
-
     /**
      * Constructs an {@code Position}.
      *
@@ -34,6 +45,14 @@ public class Position {
      */
     public static boolean isValidPosition(String test) {
         return test.matches(RATING_VALIDATION_REGEX) || test.equals(UNSPECIFIED_FIELD);
+    }
+
+    /**
+     * Returns position name according to value
+     * @return position name
+     */
+    public String getPositionName(){
+        return myMap.get(value);
     }
 
     @Override
