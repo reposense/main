@@ -1,9 +1,6 @@
 package seedu.address.logic.commands;
 
-import java.util.List;
-
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.team.Team;
 import seedu.address.model.team.TeamName;
 
 /**
