@@ -3,8 +3,11 @@ package seedu.address.logic.parser;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_JERSEY_NUMBER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_POSITION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RATING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TEAMNAME;
 
@@ -16,9 +19,12 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.JerseyNumber;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Position;
+import seedu.address.model.person.Rating;
 import seedu.address.model.person.Remark;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.team.TeamName;
@@ -36,7 +42,7 @@ public class AddCommandParser implements Parser<AddCommand> {
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                        PREFIX_TEAMNAME, PREFIX_TAG);
+                        PREFIX_TEAMNAME, PREFIX_TAG, PREFIX_JERSEY_NUMBER, PREFIX_POSITION, PREFIX_RATING);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_EMAIL)
                 || !argMultimap.getPreamble().isEmpty()) {
@@ -54,8 +60,14 @@ public class AddCommandParser implements Parser<AddCommand> {
             TeamName teamName = ParserUtil.parseTeamName(ParserUtil.parseValue(argMultimap.getValue(PREFIX_TEAMNAME),
                     TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS)).get();
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+            Rating rating = ParserUtil.parseRating(ParserUtil.parseValue(argMultimap.getValue(PREFIX_RATING))).get();
+            Position position = ParserUtil.parsePosition(ParserUtil.parseValue(argMultimap
+                    .getValue(PREFIX_POSITION))).get();
+            JerseyNumber jerseyNumber = ParserUtil.parseJerseyNumber(ParserUtil.parseValue(argMultimap
+                    .getValue(PREFIX_JERSEY_NUMBER))).get();
 
-            Person person = new Person(name, phone, email, address, remark, teamName, tagList);
+            Person person = new Person(name, phone, email, address, remark, teamName, tagList, rating, position,
+                    jerseyNumber);
 
             return new AddCommand(person);
         } catch (IllegalValueException ive) {

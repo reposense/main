@@ -69,7 +69,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 === Tab Autocomplete
 
-After typing in the first few characters of a command, pressing kbd:[tab] will fill in the rest of the item.
+After typing in the first few characters of a command, pressing kbd:[tab] will fill in the rest of the item. Since v1.1
 
 To view the parameters for a command, press tab after the whole command is typed in. Pressing tab again will remove the parameters.
 
@@ -139,7 +139,7 @@ Alias: `l`
 
 You may edit an existing player in the address book with the 'edit' command.
 
-Format: `edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]...` +
+Format: `edit INDEX [n/NAME] [e/EMAIL] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...` +
 
 Alias: `e`
 
