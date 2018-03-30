@@ -95,6 +95,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     public void deleteTag(Tag tag) {
         addressBook.removeTag(tag);
+        indicateAddressBookChanged();
     }
 
     @Override
@@ -138,6 +139,7 @@ public class ModelManager extends ComponentManager implements Model {
             return false;
         }
         addressBook.setTagColour(tag, colour);
+        indicateAddressBookChanged();
         return isTagValid;
     }
 
