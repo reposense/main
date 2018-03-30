@@ -36,7 +36,7 @@ public class AddCommandIntegrationTest {
         expectedModel.addPerson(validPerson);
 
         assertCommandSuccess(prepareCommand(validPerson, model), model,
-                String.format(AddCommand.MESSAGE_SUCCESS + "\n" + Messages.MESSAGE_TEAM_NOT_FOUND, validPerson),
+                String.format(AddCommand.MESSAGE_SUCCESS, validPerson),
                 expectedModel);
     }
 

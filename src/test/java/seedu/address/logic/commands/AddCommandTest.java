@@ -50,8 +50,7 @@ public class AddCommandTest {
 
         CommandResult commandResult = getAddCommandForPerson(validPerson, modelStub).execute();
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS + "\n" + Messages.MESSAGE_TEAM_NOT_FOUND, validPerson),
-                commandResult.feedbackToUser);
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validPerson), commandResult.feedbackToUser);
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
@@ -157,8 +156,17 @@ public class AddCommandTest {
         }
 
         @Override
-        public void assignPersonToTeam(Person person, TeamName teamName)
-                throws TeamNotFoundException, DuplicatePersonException {
+        public void assignPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void removeTeam(TeamName teamName) throws TeamNotFoundException {
             fail("This method should not be called.");
         }
 
@@ -198,8 +206,8 @@ public class AddCommandTest {
 
         @Override
         public void assignPersonToTeam(Person person, TeamName teamName)
-            throws TeamNotFoundException, DuplicatePersonException {
-            throw new TeamNotFoundException();
+            throws DuplicatePersonException {
+            throw new DuplicatePersonException();
         }
 
         @Override
