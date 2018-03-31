@@ -21,26 +21,26 @@ My Team Manager (MTM) is a team managing application for football coaches. MTM i
 
 This developer's guide provides information that will not only show the design principles of the project, but allow you to understand the different implementations, and give you the opportunity to get started with being a contributor or as a reference for experienced developer.
 
-This developer's guide consist of the following sections.
+This developer's guide consist of the following sections:
 
-* <<Setting up>>
-* <<Design>>
-* <<Implementation>>
-* <<Documentation>>
-* <<Testing>>
-* <<Dev Ops>>
+* <<Setting up, Setting up>>
+* <<Design, Design>>
+* <<Implementation, Implementation>>
+* <<Documentation, Documentation>>
+* <<Testing, Testing>>
+* <<Dev Ops, Dev Ops>>
 
 == Setting up
 
-The following pointers teach you how to get started with developing on our application. You’ll learn how to prepare yourself with the project on IntelliJ and run it.. Then, you’ll update configurations in IntelliJ to easily match the coding standards and you’ll be ready to start coding.
+The following pointers teach you how to get started with developing on our application. You’ll learn how to prepare yourself with the project on IntelliJ and run it. Then, you’ll update configurations in IntelliJ to easily match the coding standards and you’ll be ready to start coding.
 
 But before you start, there are two fundamental prerequisites you should know about MTM:
 
 === Prerequisites
 
-MTM needs to be written in Java 8 language and will be better written in an integrated development environment (IDE) such as IntelliJ.
+MTM is written in Java 8 and with the use of an integrated development environment (IDE) such as IntelliJ, it provides you as a developer with a better environment suited for developing MTM to maintain coding standards and provide continuous integration.
 
-. *JDK `1.8.0_60`* or later
+. You are required to have *JDK `1.8.0_60`* or later,
 +
 [NOTE]
 Having any Java 8 version is not enough. +
@@ -48,7 +48,7 @@ This app will not work with earlier versions of Java 8. +
 You can download Java 8 from link:http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151[here].
 +
 
-. *IntelliJ* IDE
+. and *IntelliJ* IDE.
 +
 [NOTE]
 IntelliJ by default has Gradle and JavaFx plugins installed. +
@@ -56,13 +56,13 @@ Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plu
 You can download IntelliJ from link:https://www.jetbrains.com/idea/download/#section=windows[here].
 
 
-=== Setting up the project in your computer
+=== Setting up the project on your computer
 
-Before you begin, ensure that you’ve done the following step on GitHub.
+Before you begin setting up the project, please ensure that you’ve done the following on our GitHub repository (repo).
 
 . Fork this repo, and clone the fork to your computer
 
-Upon completion of the GitHub's portion on setting up, you can proceed to set up your project on IntelliJ.
+Upon completion of forking from our GitHub repo, you can proceed to set up your project on IntelliJ.
 
 . Open IntelliJ (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first)
 . Set up the correct JDK version for Gradle
@@ -72,8 +72,7 @@ Upon completion of the GitHub's portion on setting up, you can proceed to set up
 . Locate the `build.gradle` file and select it. Click `OK`
 . Click `Open as Project`
 . Click `OK` to accept the default settings
-. Open a console and run the command `gradlew processResources` (Mac/Linux: `./gradlew processResources`). It should finish with the `BUILD SUCCESSFUL` message. +
-This will generate all resources required by the application and tests.
+. Open a console and run the command `gradlew processResources` (Mac/Linux: `./gradlew processResources`). It should finish with the `BUILD SUCCESSFUL` message which will generate all resources required by the application and tests.
 
 === Verifying the setup
 
@@ -378,10 +377,10 @@ image::UndoRedoActivityDiagram.png[width="650"]
 
 ====== Aspect: Implementation of `UndoableCommand`
 
-* **Alternative 1 (current choice):** Add a new abstract method `executeUndoableCommand()`
+* **Alternative 1 (current choice):** Add a new abstract method `executeUndoableCommand()`.
 ** Pros: We will not lose any undone/redone functionality as it is now part of the default behaviour. Classes that deal with `Command` do not have to know that `executeUndoableCommand()` exist.
 ** Cons: Hard for new developers to understand the template pattern.
-* **Alternative 2:** Just override `execute()`
+* **Alternative 2:** Just override `execute()`.
 ** Pros: Does not involve the template pattern, easier for new developers to understand.
 ** Cons: Classes that inherit from `UndoableCommand` must remember to call `super.execute()`, or lose the ability to undo/redo.
 
@@ -408,10 +407,10 @@ image::UndoRedoActivityDiagram.png[width="650"]
 
 ===== Aspect: Data structure to support the undo/redo commands
 
-* **Alternative 1 (current choice):** Use separate stack for undo and redo
+* **Alternative 1 (current choice):** Use separate stack for undo and redo.
 ** Pros: Easy to understand for new Computer Science student undergraduates to understand, who are likely to be * the new incoming developers of our project.
 ** Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update * both `HistoryManager` and `UndoRedoStack`.
-* **Alternative 2:** Use `HistoryManager` for undo/redo
+* **Alternative 2:** Use `HistoryManager` for undo/redo.
 ** Pros: We do not need to maintain a separate stack, and just reuse what is already in the codebase.
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
@@ -421,7 +420,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 // tag::remark[]
 ==== Remark Mechanism
 ===== Current Implementation
-The 'remark' mechanism is facilitated by `RemarkCommand`. The mechanism allows user to perform the adding, editing, and deleting of a single remark to a specified `Person` via the `index` from the list shown in the `UI`. The field `remark` is similar to the other fields of `Person`, hence some of its logic in `AddCommand.java` and `EditCommand.java` needs to be updated.
+The remark mechanism is facilitated by `RemarkCommand`. The mechanism allows user to perform the adding, editing, and deleting of a single remark to a specified `Person` via the `INDEX` from the list shown in the `UI`. The field `remark` is similar to the other fields of `Person`, hence some of its logic in `AddCommand.java` and `EditCommand.java` are updated.
 
 The mechanism uses the command `remark` and a `r/` prefix to add, edit, and delete a single remark of a `Person`. When the user leaves the remark as empty after the `r/` prefix, it is an indication to delete the remark, and when it is valid, it either create a new remark for that `Person` or overwrites the current existing remark.
 
@@ -476,7 +475,7 @@ private static Person createEditedPerson(Person personToEdit,
 
 [TIP]
 ====
-The field `remark` is found in `Person`, however it is not be modified via `add` or `edit` commands. +
+The field `remark` is found in `Person`, however it cannot be modified via `add` or `edit` commands. +
 All functions related to `remark` is done strictly via the `remark` command.
 ====
 
@@ -488,12 +487,12 @@ Only one `remark` is saved at a time. If the user `remark` on the same person, i
 ===== Design Considerations
 ====== Aspect: Implementation of `Remark` command
 
-* **Alternative 1 (current choice):** Creates an additional `remark` field in `Person`
-** Pros: Follows the existing style of similar fields, making implementation easier
-** Cons: Could only have 1 remark per person, unless `remark` mechanism follows the `tag` mechanism to have multiple remarks
-* **Alternative 2:** Have a list of remarks that associates with the specified `Person`
-** Pros: Can have multiple remarks associating with a specific `Person`
-** Cons: Harder to maintain, more complicated
+* **Alternative 1 (current choice):** Creates an additional `remark` field in `Person`.
+** Pros: Follows the existing style of similar fields, making implementation easier.
+** Cons: Could only have 1 remark per person, unless `remark` mechanism follows the `tag` mechanism to have multiple remarks.
+* **Alternative 2:** Have a list of remarks that associates with the specified `Person`.
+** Pros: Can have multiple remarks associating with a specific `Person`.
+** Cons: Harder to maintain, more complicated.
 // end::remark[]
 
 // tag::privatefield[]
@@ -594,21 +593,21 @@ If address book is empty, a `NoPlayerException` will be thrown by `sortBy` metho
 ===== Design Consideration
 ====== Aspect: Implementation of `sort`
 
-* **Alternative 1 (current choice):** Sorting is done in `UniquePersonList`
+* **Alternative 1 (current choice):** Sorting is done in `UniquePersonList`.
 ** Pros: Sorting methods resides in class that handles most operations done to list. Future changes to implementation would be easier.
-** Cons: Complicated flow of control passed between classes
-* **Alternative 2:** Sorting is done in `SortCommand`
-** Pros: Easier to trace flow of control as lesser passing between classes
-** Cons: Unnecessary coupling if `UniquePersonList` has to rely on `SortCommand`
+** Cons: Complicated flow of control passed between classes.
+* **Alternative 2:** Sorting is done in `SortCommand`.
+** Pros: Easier to trace flow of control as lesser passing between classes.
+** Cons: Unnecessary coupling if `UniquePersonList` has to rely on `SortCommand`.
 
 ====== Aspect: Sort by multiple fields
 
-* **Alternative 1 (current choice):** Sort can only be done by 1 field
-** Pros: Easy to implement. Input is straightforward.
-** Cons: Unable to fine tune to great detail how teams are sorted and displayed
-* **Alternative 2:** Sort can be done by multiple fields
-** Pros:  Able to fine tune to great detail how teams are sorted and displayed
-** Cons: Unnecessary as team managers would not need to sort players by multiple fields
+* **Alternative 1 (current choice):** Sort can only be done by 1 field.
+** Pros: Easy to implement and input is straightforward.
+** Cons: Unable to fine tune to great detail how teams are sorted and displayed.
+* **Alternative 2:** Sort can be done by multiple fields.
+** Pros:  Able to fine tune to great detail how teams are sorted and displayed.
+** Cons: Unnecessary as team managers would not need to sort players by multiple fields.
 
 ====== Aspect: Sort Persistence
 
@@ -616,7 +615,7 @@ If address book is empty, a `NoPlayerException` will be thrown by `sortBy` metho
 ** Pros: Easy to implement. Allows team managers to use preferred sort pattern in every session.
 ** Cons: Previous order of players will be lost.
 * **Alternative 2:** Address book is not saved after sorting.
-** Pros: Good if team manager wants to sort players for current session only
+** Pros: Good if team manager wants to sort players for current session only.
 ** Cons: Sort order is lost when program exits. More memory is used to sort a list and reverse it after.
 // end::sorting[]
 
@@ -626,7 +625,7 @@ If address book is empty, a `NoPlayerException` will be thrown by `sortBy` metho
 
 The team mechanism is created to provide better organizational methods to the user for organizing their players. We achieved it by introducing a `UniqueTeamList` into the application which consists of a list of `Team` objects.
 
-`Team` objects consist of `TeamName` object, which is used to uniquely identify the team, and `UniquePersonList` object which stores the information of `Person` objects which is identical to those found in `UniquePersonList` in `addressbook`.
+`Team` objects consist of `TeamName` object, which is used to uniquely identify the team, and `UniquePersonList` object which stores the information of `Person` objects which should be identical to those found in `UniquePersonList` in `addressbook`.
 
 Code snippet from `Team.java` that shows the attributes of `Team`.
 
@@ -641,22 +640,13 @@ public class Team {
 }
 ----
 
-Since `Person` stored in `Team` is referencing to the `Person` in `addressbook`, any changes made to `Person` will be immediately reflected. An additional `TeamName` field is also added to `Person` so that the user can quickly determine the team the player is in.
+Since `Person` stored in `Team` is referencing to the `Person` in `addressbook`, changes made to `Person` needs to be ensured that is properly propagated to the `Person` objects found in `Team`. An additional `TeamName` field is also added to `Person` so that the user can quickly determine the team the player is in.
 
-Code snippet from `AddCommand.java` that shows the reference to `Person` in `UniquePersonList` in `addressbnook`.
+Code snippet from `<somefile>.java` that shows the propagation of details updated in `Person` from `addressbook` to the `Person` objects in `Team`.
 
 [source, java]
 ----
-public CommandResult executeUndoableCommand() throws CommandException {
-    requireNonNull(model);
-    try {
-        model.addPerson(toAdd);
-        model.assignPersonToTeam(toAdd, toAdd.getTeamName());
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
-    } catch (DuplicatePersonException e) {
-        throw new CommandException(MESSAGE_DUPLICATE_PERSON);
-    }
-}
+    // placeholder
 ----
 
 Currently, with the `Team` mechanism, additional commands such as `create`, `remove`, and `editteam` gives the user basic functionality for team management. Additionally, commands like `assign`, `view`, `setmatch`, and `viewmatch` gives the user more practical uses in managing multiple teams.
@@ -668,12 +658,12 @@ _Figure : Sequence Diagram of `Team` mechanism_
 ===== Design Considerations
 ====== Aspect: Implementation of `Team`
 
-* **Alternative 1 (current choice):** `Team` object stores the reference to `Person` objects that is also in `UniquePersonList` and `TeamName` is also an attribute of `Person`
-** Pros: Changes made to `Person` will be reflected on all references, easier lookup of person belonging in which team
-** Cons: Checks need to be done thoroughly to ensure that code does not break when changes are made
-* **Alternative 2:** `Team` object is stored in `Person` object as an attribute
-** Pros: Logical thought process to include `Team` as an attribute
-** Cons: Excess storage wasted due to duplicated data of `Team` in every `Person`
+* **Alternative 1 (current choice):** `Team` object stores the reference to `Person` objects that is also in `UniquePersonList` and `TeamName` is also an attribute of `Person`.
+** Pros: Provides an easier lookup of person belonging in which team without the need of iterating through the `UniqueTeamList` for a specific `Person`, and efficient way of listing all `Persons` in a `Team`.
+** Cons: Checks need to be done thoroughly to ensure that code does not break when changes are made, especially the synchronisation of `Person` details in `Team` and in `addressbook`.
+* **Alternative 2:** `Team` object is stored in `Person` object as an attribute.
+** Pros: Logical thought process to include `Team` as an attribute.
+** Cons: Excess storage wasted due to duplicated data of `Team` in every `Person`.
 // end::team[]
 
 // tag::showbestxi[]
@@ -807,12 +797,12 @@ public class Address {
 ===== Design Consideration
 ====== Aspect: Implementation of Optional fields
 
-* **Alternative 1 (current choice):** Set a default value for unspecified fields and parse fields that are mandatory
-** Pros: Easy to implement as fields are still filled with information even though user did not specify
-** Cons: Unattractice display of fields when it is unspecified.
-* **Alternative 2:** Require users to input all fields
-** Pros: Re-use current implementation and easier to clean up code
-** Cons: Less flexibilty given to the user when adding a player into the application
+* **Alternative 1 (current choice):** Set a default value for unspecified fields and parse fields that are mandatory.
+** Pros: Easy to implement as fields are still filled with information even though user did not specify.
+** Cons: Unattractive display of fields when it is unspecified.
+* **Alternative 2:** Require users to input all fields.
+** Pros: The current implementation is used, hence there is no additional code to ensure validity of unspecified input.
+** Cons: Less flexibility is given to the user when adding a player into the application.
 // end::enhancedadd[]
 
 // tag::settagcolour[]
@@ -869,11 +859,11 @@ public class SetCommand extends Command {
 ===== Design Considerations
 ====== Aspect: Implementation of `UndoableCommand`
 
-* **Alternative 1 (current choice):** Inherit from `Command`
+* **Alternative 1 (current choice):** Inherit from `Command`.
 ** Pros: Does not involve complicated undo/redo tests, simple and quicker implementation,
 lessen chances of mistakes made in implementation.
 ** Cons: User cannot use the `undo/redo` command.
-* **Alternative 2 :** Inherit from `UndoableCommand`
+* **Alternative 2 :** Inherit from `UndoableCommand`.
 ** Pros: User can utilise the `undo/redo` command.
 ** Cons: Hard for developers to implement extra tests, not very necessary as users can just as easily type
 out the colour they would like to change their tag to; it is a short command, especially with the `stc` alias.

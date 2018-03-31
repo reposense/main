@@ -10,6 +10,7 @@
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
+:important-caption: :white_check_mark:
 endif::[]
 :repoURL: https://github.com/CS2103JAN2018-F14-B1/main
 
@@ -69,7 +70,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 === Tab Autocomplete
 
-After typing in the first few characters of a command, pressing kbd:[tab] will fill in the rest of the item. Since v1.1
+After typing in the first few characters of a command, pressing kbd:[tab] will fill in the rest of the item.
 
 To view the parameters for a command, press tab after the whole command is typed in. Pressing tab again will remove the parameters.
 
@@ -139,7 +140,7 @@ Alias: `l`
 
 You may edit an existing player in the address book with the 'edit' command.
 
-Format: `edit INDEX [n/NAME] [e/EMAIL] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...` +
+Format: `edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]...` +
 
 Alias: `e`
 
@@ -218,8 +219,8 @@ The index refers to the index number shown in the most recent listing. +
 The index *must be a positive integer* `1, 2, 3, ...`
 ====
 
-[TIP]
-.*Outcome*
+[IMPORTANT]
+.*What to expect*
 ====
 Your selected player will have their details displayed on the details pane on MTM.
 ====
@@ -245,8 +246,8 @@ Alias: `h`
 Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and next input respectively in the command box.
 ====
 
-[TIP]
-.*Outcome*
+[IMPORTANT]
+.*What to expect*
 ====
 A list of your previously entered command will be shown to you.
 ====
@@ -266,8 +267,8 @@ Alias: `u`
 _undoAble_ commands: those commands that modify the address book's content (`add`, `delete`, `edit` and `clear`).
 ====
 
-[TIP]
-.*Outcome*
+[IMPORTANT]
+.*What to expect*
 ====
 Commands that are _undoAble_ will be reversed and MTM will be in the state before the command was executed.
 ====
@@ -297,8 +298,8 @@ You accidentally called the `undo` command too many times and need a way to quic
 Format: `redo` +
 Alias: `r`
 
-[TIP]
-.*Outcome*
+[IMPORTANT]
+.*What to expect*
 ====
 Previously executed `undo` command will be reversed and MTM will be in its previous state.
 ====
@@ -382,8 +383,8 @@ Alias: `rm`
 By leaving out `r/REMARK`, the command acts as a remark removal.
 ====
 
-[TIP]
-.*Outcome*
+[IMPORTANT]
+.*What to expect*
 ====
 Your specified player will either be given a new remark or have its existing remark removed.
 ====
@@ -403,8 +404,8 @@ What is a team management application without the functionality of creating a te
 Format: `create TEAM_NAME` +
 Alias: `ct`
 
-[TIP]
-.*Outcome*
+[IMPORTANT]
+.*What to expect*
 ====
 Your newly specified team will be created with the name you have given without any players in it, and your team name will appear in the team bar below.
 ====
@@ -423,8 +424,8 @@ With the ability to manage different teams, you will be able to list all players
 Format: `view TEAM_NAME`
 Alias: `v`
 
-[TIP]
-.*Outcome*
+[IMPORTANT]
+.*What to expect*
 ====
 Displays the list of players will that are in the team specified on the left panel.
 ====
@@ -444,8 +445,8 @@ Have a player without a team, or have yet to assigned one during the addition of
 Format: `assign INDEX TEAM_NAME`
 Alias: `ap`
 
-[TIP]
-.*Outcome*
+[IMPORTANT]
+.*What to expect*
 ====
 Your specified player via index will be assigned to the specified team.
 ====
@@ -472,8 +473,8 @@ Alias: `sm`
 Date format to be entered is in `DD/MM/YYYY`.
 ====
 
-[TIP]
-.*Outcome*
+[IMPORTANT]
+.*What to expect*
 ====
 The upcoming match of the team will be captured and displayed to you.
 ====
@@ -491,8 +492,8 @@ Easily determine the up and coming match with the team so that you never miss an
 Format: `nextmatch TEAM_NAME`
 Alias: `nm`
 
-[TIP]
-.*Outcome*
+[IMPORTANT]
+.*What to expect*
 ====
 Displays the date and opponent for the upcoming match of the team specified.
 ====
@@ -516,8 +517,8 @@ Removing a team will automatically update all affected players' `Team` field. +
 Players without a team will need to be re-assigned.
 ====
 
-[TIP]
-.*Outcome*
+[IMPORTANT]
+.*What to expect*
 ====
 Remove the specified team and update all affected players.
 ====
