@@ -3,6 +3,7 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -18,7 +19,9 @@ import seedu.address.model.person.exceptions.NoPlayerException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.team.Team;
+import seedu.address.model.team.TeamName;
 import seedu.address.model.team.exceptions.DuplicateTeamException;
+import seedu.address.model.team.exceptions.TeamNotFoundException;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -91,13 +94,36 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    @Override
     public void deleteTag(Tag tag) {
         addressBook.removeTag(tag);
+        indicateAddressBookChanged();
     }
 
     @Override
     public synchronized void createTeam(Team team) throws DuplicateTeamException {
         addressBook.createTeam(team);
+        indicateAddressBookChanged();
+    }
+
+    @Override
+    public synchronized void assignPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
+        addressBook.assignPersonToTeam(person, teamName);
+        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        indicateAddressBookChanged();
+    }
+
+    @Override
+    public synchronized void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
+        requireAllNonNull(person, teamName);
+        addressBook.removePersonFromTeam(person, teamName);
+        indicateAddressBookChanged();
+    }
+
+    @Override
+    public synchronized void removeTeam(TeamName teamName) throws TeamNotFoundException {
+        requireNonNull(teamName);
+        addressBook.removeTeam(teamName);
         indicateAddressBookChanged();
     }
 
@@ -115,8 +141,15 @@ public class ModelManager extends ComponentManager implements Model {
             return false;
         }
         addressBook.setTagColour(tag, colour);
+        indicateAddressBookChanged();
         return isTagValid;
     }
+
+    @Override
+    public ObservableList<Team> getInitTeamList() {
+        return addressBook.getTeamList();
+    }
+
     //=========== Filtered Person List Accessors =============================================================
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
@@ -131,6 +164,19 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
+    public void updateFilteredPersonList(TeamName targetTeam) throws TeamNotFoundException {
+        requireNonNull(targetTeam);
+
+        List<Team> teamList = addressBook.getTeamList();
+
+        if (teamList.stream().anyMatch(target -> target.getTeamName().equals(targetTeam))) {
+            filteredPersons.setPredicate(t -> t.getTeamName().equals(targetTeam));
+        } else {
+            throw new TeamNotFoundException();
+        }
     }
 
     @Override

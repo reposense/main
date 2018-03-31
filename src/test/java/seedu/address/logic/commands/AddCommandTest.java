@@ -27,6 +27,8 @@ import seedu.address.model.person.exceptions.NoPlayerException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.team.Team;
+import seedu.address.model.team.TeamName;
+import seedu.address.model.team.exceptions.TeamNotFoundException;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -138,8 +140,19 @@ public class AddCommandTest {
         }
 
         @Override
+        public ObservableList<Team> getInitTeamList() {
+            fail("This method should not be called.");
+            return null;
+        }
+
+        @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) {
             fail("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredPersonList(TeamName targetTeam) throws TeamNotFoundException {
+            fail("This method should not be called");
         }
 
         @Override
@@ -150,6 +163,21 @@ public class AddCommandTest {
         @Override
         public void createTeam(Team team) {
             fail("This method should not be be called.");
+        }
+
+        @Override
+        public void assignPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void removeTeam(TeamName teamName) throws TeamNotFoundException {
+            fail("This method should not be called.");
         }
 
         @Override
@@ -184,6 +212,12 @@ public class AddCommandTest {
         public void addPerson(Person person) throws DuplicatePersonException {
             requireNonNull(person);
             personsAdded.add(person);
+        }
+
+        @Override
+        public void assignPersonToTeam(Person person, TeamName teamName)
+            throws DuplicatePersonException {
+            throw new DuplicatePersonException();
         }
 
         @Override

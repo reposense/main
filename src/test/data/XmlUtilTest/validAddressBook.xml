@@ -7,6 +7,9 @@
         <address isPrivate="false">4th street</address>
         <remark isPrivate="false"></remark>
         <teamName isPrivate="false">&lt;UNSPECIFIED&gt;</teamName>
+        <rating isPrivate="false">0</rating>
+        <position isPrivate="false">1</position>
+        <jerseyNumber isPrivate="false">1</jerseyNumber>
     </persons>
     <persons>
         <name>Ruth Mueller</name>
@@ -15,6 +18,9 @@
         <address isPrivate="false">81th street</address>
         <remark isPrivate="false"></remark>
         <teamName isPrivate="false">&lt;UNSPECIFIED&gt;</teamName>
+        <rating isPrivate="false">1</rating>
+        <position isPrivate="false">2</position>
+        <jerseyNumber isPrivate="false">11</jerseyNumber>
     </persons>
     <persons>
         <name>Heinz Kurz</name>
@@ -23,6 +29,9 @@
         <address isPrivate="false">wall street</address>
         <remark isPrivate="false"></remark>
         <teamName isPrivate="false">&lt;UNSPECIFIED&gt;</teamName>
+        <rating isPrivate="false">2</rating>
+        <position isPrivate="false">3</position>
+        <jerseyNumber isPrivate="false">13</jerseyNumber>
     </persons>
     <persons>
         <name>Cornelia Meier</name>
@@ -31,6 +40,9 @@
         <address isPrivate="false">10th street</address>
         <remark isPrivate="false"></remark>
         <teamName isPrivate="false">&lt;UNSPECIFIED&gt;</teamName>
+        <rating isPrivate="false">5</rating>
+        <position isPrivate="false">4</position>
+        <jerseyNumber isPrivate="false">21</jerseyNumber>
     </persons>
     <persons>
         <name>Werner Meyer</name>
@@ -39,6 +51,9 @@
         <address isPrivate="false">michegan ave</address>
         <remark isPrivate="false"></remark>
         <teamName isPrivate="false">&lt;UNSPECIFIED&gt;</teamName>
+        <rating isPrivate="false">1</rating>
+        <position isPrivate="false">3</position>
+        <jerseyNumber isPrivate="false">53</jerseyNumber>
     </persons>
     <persons>
         <name>Lydia Kunz</name>
@@ -47,6 +62,9 @@
         <address isPrivate="false">little tokyo</address>
         <remark isPrivate="false"></remark>
         <teamName isPrivate="false">&lt;UNSPECIFIED&gt;</teamName>
+        <rating isPrivate="false">2</rating>
+        <position isPrivate="false">2</position>
+        <jerseyNumber isPrivate="false">17</jerseyNumber>
     </persons>
     <persons>
         <name>Anna Best</name>
@@ -55,6 +73,9 @@
         <address isPrivate="false">4th street</address>
         <remark isPrivate="false"></remark>
         <teamName isPrivate="false">&lt;UNSPECIFIED&gt;</teamName>
+        <rating isPrivate="false">0</rating>
+        <position isPrivate="false">1</position>
+        <jerseyNumber isPrivate="false">52</jerseyNumber>
     </persons>
     <persons>
         <name>Stefan Meier</name>
@@ -63,6 +84,9 @@
         <address isPrivate="false">little india</address>
         <remark isPrivate="false"></remark>
         <teamName isPrivate="false">&lt;UNSPECIFIED&gt;</teamName>
+        <rating isPrivate="false">3</rating>
+        <position isPrivate="false">2</position>
+        <jerseyNumber isPrivate="false">23</jerseyNumber>
     </persons>
     <persons>
         <name>Martin Mueller</name>
@@ -71,5 +95,8 @@
         <address isPrivate="false">chicago ave</address>
         <remark isPrivate="false"></remark>
         <teamName isPrivate="false">&lt;UNSPECIFIED&gt;</teamName>
+        <rating isPrivate="false">4</rating>
+        <position isPrivate="false">4</position>
+        <jerseyNumber isPrivate="false">4</jerseyNumber>
     </persons>
 </addressbook>

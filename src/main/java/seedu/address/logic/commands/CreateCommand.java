@@ -20,6 +20,8 @@ public class CreateCommand extends UndoableCommand {
             + "Example: " + COMMAND_WORD + " "
             + "Arsenal";
 
+    public static final String MESSAGE_PARAMETERS = "TEAM_NAME";
+
     public static final String MESSAGE_SUCCESS = "New team created: %1$s";
     public static final String MESSAGE_DUPLICATE_TEAM = "This team already exist in the manager";
 
