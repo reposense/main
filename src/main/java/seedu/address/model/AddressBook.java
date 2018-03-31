@@ -278,7 +278,6 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
         if (!person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
             try {
-                System.out.println(teams.getTeam(teamName).toString());
                 teams.removePersonFromTeam(person, teams.getTeam(teamName));
             } catch (PersonNotFoundException pnfe) {
                 throw new PersonNotFoundException();

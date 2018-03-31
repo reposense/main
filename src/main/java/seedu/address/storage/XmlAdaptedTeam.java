@@ -84,9 +84,9 @@ public class XmlAdaptedTeam {
         if (!(other instanceof XmlAdaptedTeam)) {
             return false;
         }
-
         XmlAdaptedTeam otherTeam = (XmlAdaptedTeam) other;
         return Objects.equals(teamName, otherTeam.teamName)
                 && players.equals(otherTeam.players);
+
     }
 }

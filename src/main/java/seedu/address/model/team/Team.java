@@ -14,6 +14,8 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
  */
 public class Team extends UniquePersonList {
 
+    public static final String MESSAGE_TEAM_CONSTRAINTS = "Team names should be a string";
+
     private final TeamName teamName;
 
     /**

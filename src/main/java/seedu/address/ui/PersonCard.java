@@ -62,7 +62,6 @@ public class PersonCard extends UiPart<Region> {
         rating.setText(person.getRating().value);
         position.setText(person.getPosition().getPositionName());
         jerseyNumber.setText(person.getJerseyNumber().value);
-
         initTags(person);
     }
 

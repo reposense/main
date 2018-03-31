@@ -93,8 +93,10 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    @Override
     public void deleteTag(Tag tag) {
         addressBook.removeTag(tag);
+        indicateAddressBookChanged();
     }
 
     @Override
@@ -138,8 +140,15 @@ public class ModelManager extends ComponentManager implements Model {
             return false;
         }
         addressBook.setTagColour(tag, colour);
+        indicateAddressBookChanged();
         return isTagValid;
     }
+
+    @Override
+    public ObservableList<Team> getInitTeamList() {
+        return addressBook.getTeamList();
+    }
+
     //=========== Filtered Person List Accessors =============================================================
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of

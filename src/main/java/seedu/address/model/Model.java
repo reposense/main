@@ -76,4 +76,7 @@ public interface Model {
 
     /** sets the given {@code tag} to color. */
     boolean setTagColour(Tag tag, String colour);
+
+    /** Returns an unmodifiable view of the team list */
+    ObservableList<Team> getInitTeamList();
 }
