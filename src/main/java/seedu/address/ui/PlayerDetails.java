@@ -40,9 +40,23 @@ public class PlayerDetails extends UiPart<Region> {
         super(FXML);
         this.person = person;
         name.setText(person.getName().fullName);
-        phone.setText(person.getPhone().value);
-        address.setText(person.getAddress().value);
-        email.setText(person.getEmail().value);
-    }
 
+        if (person.getPhone().isPrivate()) {
+            phone.setText(person.getPhone().toString());
+        } else {
+            phone.setText(person.getPhone().value);
+        }
+
+        if (person.getAddress().isPrivate()) {
+            address.setText(person.getAddress().toString());
+        } else {
+            address.setText(person.getAddress().value);
+        }
+
+        if (person.getEmail().isPrivate()) {
+            email.setText(person.getEmail().toString());
+        } else {
+            email.setText(person.getEmail().value);
+        }
+    }
 }
