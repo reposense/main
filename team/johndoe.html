@@ -177,14 +177,14 @@ Alias: <code>u</code></p>
 </tr>
 </table>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div class="title"><strong>Outcome</strong></div>
+<div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
 <p>Commands that are <em>undoAble</em> will be reversed and MTM will be in the state before the command was executed.</p>
 </div>
@@ -228,14 +228,14 @@ Calling the first <code>undo</code> command will reverse the <code>clear</code> 
 <p>Format: <code>redo</code><br>
 Alias: <code>r</code></p>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div class="title"><strong>Outcome</strong></div>
+<div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
 <p>Previously executed <code>undo</code> command will be reversed and MTM will be in its previous state.</p>
 </div>
@@ -449,7 +449,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Add a new abstract method <code>executeUndoableCommand()</code></p>
+<p><strong>Alternative 1 (current choice):</strong> Add a new abstract method <code>executeUndoableCommand()</code>.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -462,7 +462,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Just override <code>execute()</code></p>
+<p><strong>Alternative 2:</strong> Just override <code>execute()</code>.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -550,7 +550,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Alternative 1 (current choice):</strong> Use separate stack for undo and redo</p>
+<p><strong>Alternative 1 (current choice):</strong> Use separate stack for undo and redo.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -563,7 +563,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </li>
 <li>
-<p><strong>Alternative 2:</strong> Use <code>HistoryManager</code> for undo/redo</p>
+<p><strong>Alternative 2:</strong> Use <code>HistoryManager</code> for undo/redo.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -593,7 +593,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-03-31 03:13:42 UTC
+Last updated 2018-03-31 05:03:55 UTC
 </div>
 </div>
 </body>

@@ -178,7 +178,7 @@ e.g. typing <strong><code>help</code></strong> and pressing <kbd>Enter</kbd> wil
 <div class="sect2">
 <h3 id="tab-autocomplete"><a class="link" href="#tab-autocomplete">3.1. Tab Autocomplete</a></h3>
 <div class="paragraph">
-<p>After typing in the first few characters of a command, pressing <kbd>tab</kbd> will fill in the rest of the item. Since v1.1</p>
+<p>After typing in the first few characters of a command, pressing <kbd>tab</kbd> will fill in the rest of the item.</p>
 </div>
 <div class="paragraph">
 <p>To view the parameters for a command, press tab after the whole command is typed in. Pressing tab again will remove the parameters.</p>
@@ -350,7 +350,7 @@ Alias: <code>l</code></p>
 <p>You may edit an existing player in the address book with the 'edit' command.</p>
 </div>
 <div class="paragraph">
-<p>Format: <code>edit INDEX [n/NAME] [e/EMAIL] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]&#8230;&#8203;</code><br></p>
+<p>Format: <code>edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]&#8230;&#8203;</code><br></p>
 </div>
 <div class="paragraph">
 <p>Alias: <code>e</code></p>
@@ -513,14 +513,14 @@ The index <strong>must be a positive integer</strong> <code>1, 2, 3, &#8230;&#82
 </tr>
 </table>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div class="title"><strong>Outcome</strong></div>
+<div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
 <p>Your selected player will have their details displayed on the details pane on MTM.</p>
 </div>
@@ -569,14 +569,14 @@ Alias: <code>h</code></p>
 </tr>
 </table>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div class="title"><strong>Outcome</strong></div>
+<div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
 <p>A list of your previously entered command will be shown to you.</p>
 </div>
@@ -611,14 +611,14 @@ Alias: <code>u</code></p>
 </tr>
 </table>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div class="title"><strong>Outcome</strong></div>
+<div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
 <p>Commands that are <em>undoAble</em> will be reversed and MTM will be in the state before the command was executed.</p>
 </div>
@@ -662,14 +662,14 @@ Calling the first <code>undo</code> command will reverse the <code>clear</code> 
 <p>Format: <code>redo</code><br>
 Alias: <code>r</code></p>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div class="title"><strong>Outcome</strong></div>
+<div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
 <p>Previously executed <code>undo</code> command will be reversed and MTM will be in its previous state.</p>
 </div>
@@ -805,14 +805,14 @@ Alias: <code>rm</code></p>
 </tr>
 </table>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div class="title"><strong>Outcome</strong></div>
+<div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
 <p>Your specified player will either be given a new remark or have its existing remark removed.</p>
 </div>
@@ -845,14 +845,14 @@ Give a remark to the specified player at index 5 with the remark "MVP Player".</
 <p>Format: <code>create TEAM_NAME</code><br>
 Alias: <code>ct</code></p>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div class="title"><strong>Outcome</strong></div>
+<div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
 <p>Your newly specified team will be created with the name you have given without any players in it, and your team name will appear in the team bar below.</p>
 </div>
@@ -883,14 +883,14 @@ Creates another new team with the name "Liverpool"</p>
 Format: <code>view TEAM_NAME</code>
 Alias: <code>v</code></p>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div class="title"><strong>Outcome</strong></div>
+<div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
 <p>Displays the list of players will that are in the team specified on the left panel.</p>
 </div>
@@ -923,14 +923,14 @@ List all players in the team "Liverpool".</p>
 <p>Format: <code>assign INDEX TEAM_NAME</code>
 Alias: <code>ap</code></p>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div class="title"><strong>Outcome</strong></div>
+<div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
 <p>Your specified player via index will be assigned to the specified team.</p>
 </div>
@@ -983,14 +983,14 @@ Alias: <code>sm</code></p>
 </tr>
 </table>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div class="title"><strong>Outcome</strong></div>
+<div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
 <p>The upcoming match of the team will be captured and displayed to you.</p>
 </div>
@@ -1022,14 +1022,14 @@ Display the list of players in team "Arsenal" and set an upcoming match for Arse
 <p>Format: <code>nextmatch TEAM_NAME</code>
 Alias: <code>nm</code></p>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div class="title"><strong>Outcome</strong></div>
+<div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
 <p>Displays the date and opponent for the upcoming match of the team specified.</p>
 </div>
@@ -1076,14 +1076,14 @@ Players without a team will need to be re-assigned.</p>
 </tr>
 </table>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-<div class="title"><strong>Outcome</strong></div>
+<div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
 <p>Remove the specified team and update all affected players.</p>
 </div>
@@ -1318,7 +1318,7 @@ Format: <code>showBest</code></p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-03-31 03:13:42 UTC
+Last updated 2018-03-31 05:03:55 UTC
 </div>
 </div>
 </body>
