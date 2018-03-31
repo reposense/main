@@ -14,7 +14,6 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
  */
 public class Team extends UniquePersonList {
 
-    public static final String TEAM_VALIDATION_REGEX = "\\p{Alnum}+";
     public static final String MESSAGE_TEAM_CONSTRAINTS = "Team names should be a string";
 
     private final TeamName teamName;
@@ -45,13 +44,6 @@ public class Team extends UniquePersonList {
 
     public ObservableList<Person> getTeamPlayers() {
         return super.asObservableList();
-    }
-
-    /**
-     * Returns true if a given string is a valid team name.
-     */
-    public static boolean isValidTeamName(String test) {
-        return test.matches(TEAM_VALIDATION_REGEX);
     }
 
     @Override

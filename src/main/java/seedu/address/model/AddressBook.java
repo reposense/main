@@ -244,7 +244,6 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void createTeam(Team t) throws DuplicateTeamException {
         teams.add(t);
-
     }
 
     /**
