@@ -19,7 +19,6 @@ public class ViewCommand extends Command {
             + "Example: " + COMMAND_WORD + " Arsenal";
 
     public static final String MESSAGE_PARAMETERS = "TEAM_NAME";
-
     public static final String MESSAGE_VIEW_TEAM_SUCCESS = "Viewing Team: %1$s";
 
     private final TeamName targetTeam;
