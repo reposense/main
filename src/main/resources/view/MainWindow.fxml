@@ -45,7 +45,7 @@
           </padding>
         </StackPane>
 
-        <StackPane VBox.vgrow="NEVER" fx:id="teamDisplayPlaceholder" styleClass="pane-with-border"
+        <StackPane VBox.vgrow="NEVER" fx:id="teamDisplayPlaceholder" styleClass="team-placeholder"
                    minHeight="40" prefHeight="40" maxHeight="40">
           <padding>
             <Insets top="5" right="10" bottom="5" left="10" />

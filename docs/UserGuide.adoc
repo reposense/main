@@ -139,7 +139,7 @@ Alias: `l`
 
 You may edit an existing player in the address book with the 'edit' command.
 
-Format: `edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]...` +
+Format: `edit INDEX [n/NAME] [e/EMAIL] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...` +
 
 Alias: `e`
 
