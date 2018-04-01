@@ -14,7 +14,9 @@ import guitests.guihandles.PersonCardHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.commons.events.ui.HighlightSelectedTeamEvent;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
+import seedu.address.commons.events.ui.ShowNewTeamNameEvent;
 import seedu.address.model.person.Person;
 
 public class PersonListPanelTest extends GuiUnitTest {
