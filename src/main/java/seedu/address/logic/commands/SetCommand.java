@@ -6,7 +6,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_COLOUR;
 
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.events.ui.ChangeTagColourEvent;
-import seedu.address.commons.events.ui.ShowNewTeamNameEvent;
 import seedu.address.model.tag.Tag;
 
 /**
