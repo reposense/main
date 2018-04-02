@@ -156,7 +156,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         return new Person(
                 person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), person.getRemark(),
                 person.getTeamName(), correctTagReferences, person.getRating(), person.getPosition(),
-                person.getJerseyNumber());
+                person.getJerseyNumber(), person.getAvatar());
     }
 
     /**
@@ -217,7 +217,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         Person newPerson =
                 new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                         person.getRemark(), person.getTeamName(), newTags, person.getRating(), person.getPosition(),
-                        person.getJerseyNumber());
+                        person.getJerseyNumber(), person.getAvatar());
 
         try {
             updatePerson(person, newPerson);
@@ -254,7 +254,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         Person newPersonWithTeam =
                 new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                         person.getRemark(), teamName, person.getTags(), person.getRating(), person.getPosition(),
-                        person.getJerseyNumber());
+                        person.getJerseyNumber(), person.getAvatar());
         try {
             updatePerson(person, newPersonWithTeam);
         } catch (DuplicatePersonException dpe) {
@@ -309,7 +309,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         Person personWithRemoveTeam =
                 new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                         person.getRemark(), new TeamName(UNSPECIFIED_FIELD), person.getTags(), person.getRating(),
-                        person.getPosition(), person.getJerseyNumber());
+                        person.getPosition(), person.getJerseyNumber(), person.getAvatar());
 
         try {
             persons.setPerson(person, personWithRemoveTeam);

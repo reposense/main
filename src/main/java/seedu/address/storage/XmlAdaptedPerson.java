@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Avatar;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.JerseyNumber;
 import seedu.address.model.person.Name;
@@ -46,6 +47,8 @@ public class XmlAdaptedPerson {
     private String position;
     @XmlElement(required = true)
     private String jerseyNumber;
+    @XmlElement(required = true)
+    private String avatar;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -85,6 +88,7 @@ public class XmlAdaptedPerson {
         rating = source.getRating().value;
         position = source.getPosition().value;
         jerseyNumber = source.getJerseyNumber().value;
+        avatar = source.getAvatar().getValue();
 
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
@@ -166,7 +170,15 @@ public class XmlAdaptedPerson {
         }
         final JerseyNumber jerseyNumber = new JerseyNumber(this.jerseyNumber);
 
-        return new Person(name, phone, email, address, remark, teamName, tags, rating, position, jerseyNumber);
+        if (this.avatar == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Avatar.class.getSimpleName()));
+        }
+        if (!Avatar.isValidAvatar(this.avatar)) {
+            throw new IllegalValueException(Avatar.MESSAGE_AVATAR_CONSTRAINTS);
+        }
+        final Avatar avatar = new Avatar(this.avatar);
+        return new Person(name, phone, email, address, remark, teamName, tags, rating, position, jerseyNumber, avatar);
     }
 
     @Override

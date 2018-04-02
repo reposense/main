@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_AVATAR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JERSEY_NUMBER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -37,7 +38,8 @@ public class EditCommandParser implements Parser<EditCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
-                        PREFIX_ADDRESS, PREFIX_TAG, PREFIX_RATING, PREFIX_POSITION, PREFIX_JERSEY_NUMBER);
+                        PREFIX_ADDRESS, PREFIX_TAG, PREFIX_RATING, PREFIX_POSITION, PREFIX_JERSEY_NUMBER,
+                        PREFIX_AVATAR);
 
         Index index;
 
@@ -59,6 +61,7 @@ public class EditCommandParser implements Parser<EditCommand> {
                     .ifPresent(editPersonDescriptor::setPosition);
             ParserUtil.parseJerseyNumber(argMultimap.getValue(PREFIX_JERSEY_NUMBER))
                     .ifPresent(editPersonDescriptor::setJerseyNumber);
+            ParserUtil.parseAvatar(argMultimap.getValue(PREFIX_AVATAR)).ifPresent(editPersonDescriptor::setAvatar);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }
