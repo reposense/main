@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 
+import seedu.address.commons.events.ui.DeselectTeamEvent;
 import seedu.address.commons.events.ui.HighlightSelectedTeamEvent;
 import seedu.address.commons.events.ui.ShowNewTeamNameEvent;
 import seedu.address.model.team.Team;
@@ -76,7 +77,16 @@ public class TeamDisplay extends UiPart<Region> {
                 teams.getChildren().add(i, newTeamLabel);
             }
         }
+    }
 
+    @Subscribe
+    private void handleDeselectTeamEvent(DeselectTeamEvent event) {
+        for (int i = 0; i < teamList.size(); i++) {
+            teams.getChildren().remove(i);
+            Label newTeamLabel = new Label(teamList.get(i).getTeamName().toString());
+            newTeamLabel.getStyleClass();
+            teams.getChildren().add(i, newTeamLabel);
+        }
     }
 }
 
