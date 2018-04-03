@@ -1,6 +1,7 @@
 package seedu.address.ui;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
 
@@ -11,8 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.DeselectTeamEvent;
 import seedu.address.commons.events.ui.HighlightSelectedTeamEvent;
+import seedu.address.commons.events.ui.RemoveSelectedTeamEvent;
 import seedu.address.commons.events.ui.ShowNewTeamNameEvent;
 import seedu.address.model.team.Team;
 
@@ -21,7 +24,9 @@ import seedu.address.model.team.Team;
  */
 public class TeamDisplay extends UiPart<Region> {
 
+    private static final Logger logger = LogsCenter.getLogger(TeamDisplay.class);
     private static final String FXML = "TeamDisplay.fxml";
+
     private ObservableList<Team> teamList;
 
     @FXML
@@ -86,6 +91,17 @@ public class TeamDisplay extends UiPart<Region> {
             Label newTeamLabel = new Label(teamList.get(i).getTeamName().toString());
             newTeamLabel.getStyleClass();
             teams.getChildren().add(i, newTeamLabel);
+        }
+    }
+
+    @Subscribe
+    private void handleRemoveSelectedTeamEvent(RemoveSelectedTeamEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+
+        for (int i = 0; i < teams.getChildren().size(); i++) {
+            if (teamList.get(i).getTeamName().equals(event.teamName)) {
+                teams.getChildren().remove(i);
+            }
         }
     }
 }

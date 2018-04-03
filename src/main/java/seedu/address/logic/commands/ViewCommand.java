@@ -32,12 +32,11 @@ public class ViewCommand extends Command {
     @Override
     public CommandResult execute() throws CommandException {
         try {
+            EventsCenter.getInstance().post(new HighlightSelectedTeamEvent(targetTeam.toString()));
             model.updateFilteredPersonList(targetTeam);
         } catch (TeamNotFoundException tnfe) {
             throw new CommandException(Messages.MESSAGE_TEAM_NOT_FOUND);
         }
-        // TODO: Jump to list of teams event
-        EventsCenter.getInstance().post(new HighlightSelectedTeamEvent(targetTeam.toString()));
         return new CommandResult(String.format(MESSAGE_VIEW_TEAM_SUCCESS, targetTeam.toString()));
     }
 

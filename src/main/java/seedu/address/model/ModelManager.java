@@ -13,6 +13,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.ui.RemoveSelectedTeamEvent;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.NoPlayerException;
@@ -109,7 +110,6 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void assignPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
         addressBook.assignPersonToTeam(person, teamName);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         indicateAddressBookChanged();
     }
 
@@ -123,6 +123,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void removeTeam(TeamName teamName) throws TeamNotFoundException {
         requireNonNull(teamName);
+        raise(new RemoveSelectedTeamEvent(teamName));
         addressBook.removeTeam(teamName);
         indicateAddressBookChanged();
     }
