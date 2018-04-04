@@ -7,21 +7,22 @@ https://coveralls.io/github/CS2103JAN2018-F14-B1/main?branch=master[image:https:
 https://gitter.im/se-edu/Lobby[image:https://badges.gitter.im/se-edu/Lobby.svg[Gitter chat]]
 
 ifdef::env-github[]
-image::docs/images/MyTeamManagerLogo.png[width="600"]
+image::docs/images/MyTeamManagerLogo.png[width="600", align="center"]
 endif::[]
 
 ifndef::env-github[]
-image::images/MyTeamManagerLogo.png[width="600"]
+image::images/MyTeamManagerLogo.png[width="600", align="center"]
 endif::[]
 
 ifdef::env-github[]
-image::docs/images/Ui.png[width="600"]
+image::docs/images/Ui.png[width="600", align="center"]
 endif::[]
 
 ifndef::env-github[]
-image::images/Ui.png[width="600"]
+image::images/Ui.png[width="600", align="center"]
 endif::[]
 
+== Introduction to MTM
 My Team Manager (MTM) is a desktop based team managing application for football team managers. +
 It uses a Command Line Interface (CLI).
 
