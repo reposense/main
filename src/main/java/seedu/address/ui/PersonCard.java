@@ -96,13 +96,9 @@ public class PersonCard extends UiPart<Region> {
             rating.setText(person.getRating().value);
         }
 
-        phone.setText(person.getPhone().value);
-        email.setText(person.getEmail().toString());
-        address.setText(person.getAddress().toString());
         teamName.setText(person.getTeamName().fullName);
         position.setText(person.getPosition().getPositionName());
         jerseyNumber.setText(person.getJerseyNumber().toString());
-        remark.setText(person.getRemark().toString());
 
         initTags(person);
         registerAsAnEventHandler(this);
