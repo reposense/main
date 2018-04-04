@@ -576,6 +576,8 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 
 == Command Summary
 
+Just a quick reference sheet for all your needs. Never forget how to use MTM ever again.
+
 [cols="^1s, ^1s, <2m, <2m", options="header"]
 |===
 ^|Command
