@@ -65,7 +65,6 @@ public class PersonCard extends UiPart<Region> {
         this.person = person;
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
-<<<<<<< HEAD
 
         if (person.getPhone().isPrivate()) {
             phone.setText(person.getPhone().toString());
@@ -97,11 +96,9 @@ public class PersonCard extends UiPart<Region> {
             rating.setText(person.getRating().value);
         }
 
-=======
         phone.setText(person.getPhone().value);
         email.setText(person.getEmail().toString());
         address.setText(person.getAddress().toString());
->>>>>>> 77d6a09aabd0c4ff7206341f926afa8b7e7964d0
         teamName.setText(person.getTeamName().fullName);
         position.setText(person.getPosition().getPositionName());
         jerseyNumber.setText(person.getJerseyNumber().toString());
