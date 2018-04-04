@@ -40,19 +40,9 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label name;
     @FXML
-    private Label phone;
-    @FXML
-    private Label address;
-    @FXML
-    private Label email;
-    @FXML
     private Label id;
     @FXML
-    private Label jerseyNumber;
-    @FXML
     private Label teamName;
-    @FXML
-    private Label remark;
     @FXML
     private FlowPane tags;
     @FXML
@@ -65,14 +55,9 @@ public class PersonCard extends UiPart<Region> {
         this.person = person;
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
-        phone.setText(person.getPhone().value);
-        email.setText(person.getEmail().toString());
-        address.setText(person.getAddress().toString());
         teamName.setText(person.getTeamName().fullName);
         rating.setText(person.getRating().value);
         position.setText(person.getPosition().getPositionName());
-        jerseyNumber.setText(person.getJerseyNumber().toString());
-        remark.setText(person.getRemark().toString());
 
         initTags(person);
         registerAsAnEventHandler(this);

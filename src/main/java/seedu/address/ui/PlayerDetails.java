@@ -28,13 +28,15 @@ public class PlayerDetails extends UiPart<Region> {
     @FXML
     private Label name;
     @FXML
-    private Label id;
-    @FXML
     private Label phone;
     @FXML
     private Label address;
     @FXML
     private Label email;
+    @FXML
+    private Label jerseyNumber;
+    @FXML
+    private Label remark;
 
     public PlayerDetails(Person person) {
         super(FXML);
@@ -43,6 +45,9 @@ public class PlayerDetails extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
+        remark.setText("Remarks: " + person.getRemark().value);
+        jerseyNumber.setText("Jersey Number: " + person.getJerseyNumber().value);
     }
 
 }
+

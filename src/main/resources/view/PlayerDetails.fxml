@@ -25,20 +25,14 @@
                     <children>
                         <HBox alignment="CENTER_LEFT" spacing="5">
                             <children>
-                                <Label fx:id="id" styleClass="cell_big_label">
-                                    <minWidth>
-                                        <Region fx:constant="USE_PREF_SIZE" />
-                                    </minWidth>
-                                </Label>
                                 <Label fx:id="name" styleClass="player-details-title" text="\$first" />
                             </children>
                         </HBox>
                         <Label fx:id="phone" styleClass="player-details-cell" text="\$phone" />
                         <Label fx:id="address" styleClass="player-details-cell" text="\$address" />
                         <Label fx:id="email" styleClass="player-details-cell" text="\$email" />
-                        <Label styleClass="player-details-cell" text="Age: 20" />
-                        <Label styleClass="player-details-cell" text="Position: Midfielder" />
-                        <Label styleClass="player-details-cell" text="Number of Goals Scored: 5" />
+                        <Label fx:id="jerseyNumber" styleClass="player-details-cell" text="\$jerseyNumber" />
+                        <Label fx:id="remark" styleClass="player-details-cell" text="\$remark" />
                     </children>
                 </VBox>
             </children>
