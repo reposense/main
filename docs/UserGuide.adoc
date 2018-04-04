@@ -509,6 +509,8 @@ Alias: `stc`
 
 === Coming Soon
 
+There is more to come with the next upcoming update! Keep a lookout on these newly implemented features soon!
+
 ==== Show Best XI players: `showBest` `[Coming in v2.0]`
 
 If you went to see your current best 11 players in your team based on their respective stats, this command
