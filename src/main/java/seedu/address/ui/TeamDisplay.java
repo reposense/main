@@ -1,11 +1,15 @@
 package seedu.address.ui;
 
+import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 
-import seedu.address.model.tag.Tag;
+import seedu.address.model.team.Team;
 
 /**
  * A ui for displaying the team currently chosen
@@ -13,24 +17,36 @@ import seedu.address.model.tag.Tag;
 public class TeamDisplay extends UiPart<Region> {
 
     private static final String FXML = "TeamDisplay.fxml";
-
-    private Tag tag1 = new Tag("teamA");
-    private Tag tag2 = new Tag("teamB");
+    private ObservableList<Team> teamList;
 
     @FXML
     private FlowPane teams;
 
-    public TeamDisplay() {
+    public TeamDisplay(ObservableList<Team> teamList) {
         super(FXML);
-        Label tagLabel = new Label(tag1.getTagName());
-        tagLabel.setStyle("-fx-text-fill: red");
-        teams.getChildren().add(tagLabel);
-
-        Label tagLabel1 = new Label(tag2.getTagName());
-        tagLabel1.setStyle("-fx-text-fill: grey");
-        teams.getChildren().add(tagLabel1);
-        //currently using tags as a placeholder
+        this.teamList = teamList;
+        initTeams();
+        getTeams();
     }
 
+    /**
+     * Creates the tag labels for {@code person}.
+     */
+    private void initTeams() {
+        for (Team t: this.teamList) {
+            Label teamLabel = new Label(t.getTeamName().toString());
+            teamLabel.setStyle("-fx-text-fill: #9cb3d8");
+            teams.getChildren().add(teamLabel);
+            teams.setHgap(10);
+        }
+    }
+
+    public List<String> getTeams() {
+        List<String> listOfTeams = FXCollections.observableArrayList();
+        for (Team t: teamList) {
+            listOfTeams.add(t.getTeamName().toString());
+        }
+        return listOfTeams;
+    }
 }
 

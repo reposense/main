@@ -10,8 +10,10 @@ import java.util.stream.Collectors;
 import guitests.guihandles.PersonCardHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
+import guitests.guihandles.TeamDisplayHandle;
 import seedu.address.model.person.Person;
 import seedu.address.ui.PersonCard;
+import seedu.address.ui.TeamDisplay;
 
 /**
  * A set of assertion methods useful for writing GUI tests.
@@ -32,6 +34,14 @@ public class GuiTestAssert {
 
         expectedCard.getTags().forEach(tag ->
                 assertEquals(expectedCard.getTagStyleClasses(tag), actualCard.getTagStyleClasses(tag)));
+    }
+
+    /**
+     * Asserts that {@code actualTeamDisplay} displays the details of {@code expectedTeamDisplay}.
+     */
+    public static void assertTeamDisplayEquals(TeamDisplay expectedTeamDisplay, TeamDisplayHandle actualTeamDisplay) {
+        expectedTeamDisplay.getTeams().forEach(team ->
+                assertEquals(expectedTeamDisplay.getTeams().toString(), actualTeamDisplay.getTeams().toString()));
     }
 
     /**

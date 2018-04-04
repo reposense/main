@@ -42,6 +42,12 @@ public class PersonCard extends UiPart<Region> {
     private Label teamName;
     @FXML
     private FlowPane tags;
+    @FXML
+    private Label rating;
+    @FXML
+    private Label position;
+    @FXML
+    private Label jerseyNumber;
 
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
@@ -74,6 +80,9 @@ public class PersonCard extends UiPart<Region> {
         }
 
         teamName.setText(person.getTeamName().fullName);
+        rating.setText(person.getRating().value);
+        position.setText(person.getPosition().getPositionName());
+        jerseyNumber.setText(person.getJerseyNumber().value);
         initTags(person);
     }
 
