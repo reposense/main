@@ -9,15 +9,19 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import java.util.List;
 import java.util.Set;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.JerseyNumber;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Position;
+import seedu.address.model.person.Rating;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -101,9 +105,12 @@ public class TogglePrivacyCommand extends UndoableCommand {
         Remark updatedRemark = createRemarkPrivacy(personToEdit, epp);
         TeamName updatedTeamName = personToEdit.getTeamName();
         Set<Tag> updatedTags = personToEdit.getTags();
+        Rating updatedRating = createRatingPrivacy(personToEdit, epp);
+        Position updatedPosition = personToEdit.getPosition();
+        JerseyNumber updatedJerseyNumber = personToEdit.getJerseyNumber();
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark,
-                updatedTeamName, updatedTags);
+                updatedTeamName, updatedTags, updatedRating, updatedPosition, updatedJerseyNumber);
     }
 
     private static Phone createPhonePrivacy(Person person, EditPersonPrivacy epp) {
@@ -195,6 +202,28 @@ public class TogglePrivacyCommand extends UndoableCommand {
         return remark;
     }
 
+    private static Rating createRatingPrivacy(Person person, EditPersonPrivacy epp) {
+        Rating rating;
+        try {
+            if (person.getRating().isPrivate()) {
+                person.getRating().togglePrivacy();
+                rating = new Rating(person.getRating().toString());
+                person.getRating().togglePrivacy();
+            } else {
+                rating = new Rating(person.getRating().toString());
+            }
+        } catch (Exception e) {
+            throw new AssertionError("Invalid Rating");
+        }
+        if (epp.getPrivateRating() != null) {
+            rating.setPrivate(person.getRating().isPrivate());
+            rating.togglePrivacy();
+        } else {
+            rating.setPrivate(person.getRating().isPrivate());
+        }
+        return rating;
+    }
+
     public Index getIndex() {
         return index;
     }
@@ -230,6 +259,7 @@ public class TogglePrivacyCommand extends UndoableCommand {
         private Boolean privateEmail;
         private Boolean privateAddress;
         private Boolean privateRemark;
+        private Boolean privateRating;
 
         public EditPersonPrivacy() {}
 
@@ -242,6 +272,7 @@ public class TogglePrivacyCommand extends UndoableCommand {
             this.privateEmail = toCopy.privateEmail;
             this.privatePhone = toCopy.privatePhone;
             this.privateRemark = toCopy.privateRemark;
+            this.privateRating = toCopy.privateRating;
         }
 
         public void setPrivatePhone(boolean privatePhone) {
@@ -276,6 +307,12 @@ public class TogglePrivacyCommand extends UndoableCommand {
             return privateRemark;
         }
 
+        public void setPrivateRating(boolean privateRating) { this.privateRating = privateRating; }
+
+        public Boolean getPrivateRating() {
+            return privateRating;
+        }
+
         @Override
         public boolean equals(Object other) {
             // short circuit if same object
@@ -294,7 +331,8 @@ public class TogglePrivacyCommand extends UndoableCommand {
             return getPrivatePhone().equals(e.getPrivatePhone())
                     && getPrivateAddress().equals(e.getPrivateAddress())
                     && getPrivateEmail().equals(e.getPrivateEmail())
-                    && getPrivateRemark().equals(e.getPrivateRemark());
+                    && getPrivateRemark().equals(e.getPrivateRemark())
+                    && getPrivateRating().equals(e.getPrivateRating());
         }
     }
 }

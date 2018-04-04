@@ -51,6 +51,8 @@ public class XmlAdaptedPerson {
     @XmlElement(required = true)
     private String rating;
     @XmlElement(required = true)
+    private Boolean ratingPrivacy;
+    @XmlElement(required = true)
     private String position;
     @XmlElement(required = true)
     private String jerseyNumber;
@@ -100,6 +102,7 @@ public class XmlAdaptedPerson {
         emailPrivacy = source.getEmail().isPrivate();
         addressPrivacy = source.getAddress().isPrivate();
         remarkPrivacy = source.getRemark().isPrivate();
+        ratingPrivacy = source.getRating().isPrivate();
 
         tagged = new ArrayList<>();
         rating = source.getRating().value;
@@ -136,6 +139,10 @@ public class XmlAdaptedPerson {
 
         if (remarkPrivacy == null) {
             remarkPrivacy = false;
+        }
+
+        if (ratingPrivacy == null) {
+            ratingPrivacy = false;
         }
 
         if (this.name == null) {
@@ -181,7 +188,7 @@ public class XmlAdaptedPerson {
         if (!Rating.isValidRating(this.rating)) {
             throw new IllegalValueException(Rating.MESSAGE_RATING_CONSTRAINTS);
         }
-        final Rating rating = new Rating(this.rating);
+        final Rating rating = new Rating(this.rating, this.ratingPrivacy);
 
         if (this.position == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,

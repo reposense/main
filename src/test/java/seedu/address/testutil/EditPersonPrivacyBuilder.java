@@ -19,6 +19,7 @@ public class EditPersonPrivacyBuilder {
         epp.setPrivateEmail(p.getEmail().isPrivate());
         epp.setPrivatePhone(p.getPhone().isPrivate());
         epp.setPrivateRemark(p.getRemark().isPrivate());
+        epp.setPrivateRating(p.getRating().isPrivate());
     }
 
     public EditPersonPrivacy build() {

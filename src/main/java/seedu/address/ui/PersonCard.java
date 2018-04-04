@@ -79,8 +79,13 @@ public class PersonCard extends UiPart<Region> {
             remark.setText(person.getRemark().value);
         }
 
+        if (person.getRating().isPrivate()) {
+            rating.setText(person.getRating().toString());
+        } else {
+            rating.setText(person.getRating().value);
+        }
+
         teamName.setText(person.getTeamName().fullName);
-        rating.setText(person.getRating().value);
         position.setText(person.getPosition().getPositionName());
         jerseyNumber.setText(person.getJerseyNumber().value);
         initTags(person);
