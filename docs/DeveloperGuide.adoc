@@ -1358,15 +1358,14 @@ Exclusive application for management of footballers and football teams that prov
  ** Minor - Command to set the colour of tags to colour of choice
 
 * Jordan
- ** Major - Creation of Team and related functions +
+ ** Major - Creation of Team and related functions. +
         e.g. assignment of players,
         viewing of teams,
-        formation of team,
-        indicate and set upcoming match
+        removal of team.
 
  ** Minor
-    *** Remark command
-    *** Enhanced add with optional field
+    *** Introduce `remark` command and `remark` field.
+    *** Enhanced add functionality to allow optional fields.
 
 * Syafiq
  ** Major
