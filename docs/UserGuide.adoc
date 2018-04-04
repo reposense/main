@@ -445,11 +445,28 @@ Here are a few valid examples of how you can use the `remove` command:
 * `remove Arsenal` +
 Display the list of players in team "Arsenal" and remove the team.
 
+==== Rename a team: `rename` `[Since v1.4]`
+
+Entered your team name wrongly or you need to update it to accordingly, you can use the rename command to help you make that change.
+
+Format: `rename TEAM_NAME tn/RENAME_TEAM_NAME`
+Alias: `rnt`
+
+[IMPORTANT]
+.*What to expect*
+====
+Your specified team will be updated with the new team name along with the affected players in the existing team.
+====
+
+Here are a few valid examples on how you can use the `rename` command:
+* `rename Arsenal tn/Neo Arsenal`
+Renames the current team "Arsenal" into "Neo Arsenal".
+
 ==== Assigning player to teams: `assign` `[Since v1.3]`
 
 Have a player without a team, or have yet to assigned one during the addition of player into MTM, you can call this command to assign that player to a particular team of your choice.
 
-Format: `assign at/TEAM_NAME i/INDEX [INDEX]...` +
+Format: `assign tn/TEAM_NAME i/INDEX [INDEX]...` +
 Alias: `at`
 
 [NOTE]
@@ -468,11 +485,11 @@ Your specified player via index will be assigned to the specified team.
 Here are a few valid examples on how you can use the `create` command:
 
 * `list`
-* `assign at/Arsenal i/1 2 3` +
+* `assign tn/Arsenal i/1 2 3` +
 View the full list of players in MTM and assign the player with index 1, 2, and 3 to team "Arsenal".
 
 * `find John`
-* `assign at/Liverpool i/1` +
+* `assign tn/Liverpool i/1` +
 Find a player by the name of "John" and assign the player with index 1 to team "Liverpool".
 
 ==== Viewing a team: `view` `[Since v1.3]`
@@ -673,10 +690,15 @@ d|List all the players
 |remove TEAM_NAME
 |remove Real Madrid
 
+|`rename`
+|`rnt`
+|rename TEAM_NAME tn/RENAME_TEAM_NAME
+|rename Arsenal tn/Neo Arsenal
+
 |`assign`
 |`at`
-|assign at/TEAM_NAME i/INDEX [INDEX]...
-|assign at/Barcelona i/1 2 3
+|assign tn/TEAM_NAME i/INDEX [INDEX]...
+|assign tn/Barcelona i/1 2 3
 
 |`view`
 |`vt`
