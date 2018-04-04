@@ -9,7 +9,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POSITION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TEAMNAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TEAM_NAME;
 import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
 
 import seedu.address.commons.core.Messages;
@@ -30,7 +30,7 @@ public class AddCommand extends UndoableCommand {
             + "Parameters: "
             + PREFIX_NAME + "NAME "
             + PREFIX_EMAIL + "EMAIL "
-            + "[" + PREFIX_TEAMNAME + "TEAMNAME] "
+            + "[" + PREFIX_TEAM_NAME + "TEAMNAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_RATING + "RATING] "

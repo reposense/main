@@ -2,7 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TEAMNAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TEAM_NAME;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,14 +29,14 @@ public class AssignCommand extends UndoableCommand {
             + "by the index number used in the last person listing.\n"
             + "Team of the person will be updated and will be added to team.\n"
             + "Parameters: "
-            + PREFIX_TEAMNAME + "TEAM_NAME "
+            + PREFIX_TEAM_NAME + "TEAM_NAME "
             + PREFIX_INDEX + "INDEX (must be a positive integer) "
             + "[INDEX]...\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_TEAMNAME + "Arsenal "
+            + PREFIX_TEAM_NAME + "Arsenal "
             + PREFIX_INDEX + "1 2";
 
-    public static final String MESSAGE_PARAMETERS = PREFIX_TEAMNAME + "TEAM_NAME "
+    public static final String MESSAGE_PARAMETERS = PREFIX_TEAM_NAME + "TEAM_NAME "
             + PREFIX_INDEX + "INDEX "
             + "[INDEX]...";
 
