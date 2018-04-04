@@ -1616,22 +1616,22 @@ A list of players that are playing for a match, with their positions specified
 [[user-guide]] User Guide::
 A documentation on the functionality and usability of MTM
 
-[appendix]
-== Product Survey
-
-*Product Name*
-
-Author: ...
-
-Pros:
-
-* ...
-* ...
-
-Cons:
-
-* ...
-* ...
+//[appendix]
+//== Product Survey
+//
+//*Product Name*
+//
+//Author: ...
+//
+//Pros:
+//
+//* ...
+//* ...
+//
+//Cons:
+//
+//* ...
+//* ...
 
 [appendix]
 == Instructions for Manual Testing
