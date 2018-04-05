@@ -331,7 +331,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Renames {@code Team} with {@code updatedTeamName}.
      * @return
      */
-    public void renameTeam(Team targetTeam, TeamName updatedTeamName) {
+    public void renameTeam(Team targetTeam, TeamName updatedTeamName) throws DuplicateTeamException {
         List<Person> renameTeamPersonList = new ArrayList<>();
 
         for (Person person : persons) {
@@ -346,7 +346,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         try {
             teams.setTeam(targetTeam, updatedTeam);
         } catch (DuplicateTeamException dte) {
-            throw new AssertionError("Teams should not have duplicate team after renaming.");
+            throw new DuplicateTeamException();
         } catch (TeamNotFoundException tnfe) {
             throw new AssertionError("Impossible: Teams should contain this team");
         }

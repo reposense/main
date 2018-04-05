@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_ARSENAL;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_BARCELONA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_CHELSEA;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalTeams.getTypicalAddressBook;
 
@@ -21,6 +22,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.team.Team;
 import seedu.address.model.team.TeamName;
+import seedu.address.testutil.TypicalTeams;
 
 //@@author jordancjq
 public class RenameCommandTest {
@@ -52,6 +54,16 @@ public class RenameCommandTest {
         expectedModel.renameTeam(targetTeam, renameInto);
 
         assertCommandSuccess(renameCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_renameTeamWithExistingName_failure() throws Exception {
+        Team existingTeam = TypicalTeams.LIVERPOOL;
+        Team targetTeam = TypicalTeams.CHELSEA;
+
+        RenameCommand renameCommand = prepareCommand(targetTeam.getTeamName(), existingTeam.getTeamName());
+
+        assertCommandFailure(renameCommand, model, RenameCommand.MESSAGE_NO_CHANGE);
     }
 
     @Test
