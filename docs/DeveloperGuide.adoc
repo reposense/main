@@ -879,10 +879,8 @@ out the colour they would like to change their tag to; it is a short command, es
 * It is called from `MainWindow` and will be highlighting
 the current team that has been selected in the Command Line Interface by the user.
 * It calls the `Team` model and displays the `Person` cards associated with that `Team`.
-* It contains event handler methods such as handleShowNewTeamEvent(), handleHighlightSelectedTeamEvent(),
-and handleDeselectTeamEvent().
 
-Code snippet from 'TeamDisplay' to show initialisation of UI component and event handlers:
+Code snippet from 'TeamDisplay' to show initialisation of UI component:
 
 [source, java]
 ----
@@ -892,25 +890,7 @@ public class TeamDisplay extends UiPart<Region> {
 
     public TeamDisplay() {
         super(FXML);
-            this.teamList = teamList;
-            initTeams();
-            getTeams();
-            registerAsAnEventHandler(this);
-    }
-
-    @Subscribe
-    private void handleShowNewTeamEvent(ShowNewTeamNameEvent event) {
-        ...handleShowNewTeamEvent code...
-    }
-
-    @Subscribe
-    private void handleHighlightSelectedTeamEvent(HighlightSelectedTeamEvent event) {
-        ...handleHighlightSelectedTeamEvent code...
-    }
-
-    @Subscribe
-    private void handleDeselectTeamEvent(DeselectTeamEvent event) {
-        ...handleDeselectTeamEvent code...
+        // ...team display code...
     }
 }
 ----
