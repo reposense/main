@@ -54,9 +54,9 @@ Feature Contribution:
 
 * Major Enhancement:
 ** `Player` Components: Morph `Person` class to contain more information about the players.
-*** Addtional Fields: `POSITION`, `RATING`, `JERSEY_NUMBER`
+*** Addtional Fields: `POSITION`, `RATING`, `JERSEY_NUMBER`, `AVATAR`
 * Minor Enhancement:
-** Autocomplete: Enhance ease of usage through using `tab` keyboard shortcut.
+** Autocomplete: Enhance ease of usage through using kbd:[tab] keyboard shortcut.
 
 '''
 
