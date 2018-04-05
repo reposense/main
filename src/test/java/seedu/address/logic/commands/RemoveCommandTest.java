@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalTeams.getTypicalAddressBook;
 
@@ -9,16 +10,20 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import seedu.address.commons.core.Messages;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.team.Team;
 import seedu.address.model.team.TeamName;
+import seedu.address.model.team.exceptions.TeamNotFoundException;
 import seedu.address.testutil.TypicalTeams;
 
+//@@author jordancjq
 public class RemoveCommandTest {
 
     @Rule
@@ -32,7 +37,8 @@ public class RemoveCommandTest {
         new RemoveCommand(null);
     }
 
-    @Test public void execute_removeTeam_success() throws Exception {
+    @Test
+    public void execute_removeTeam_success() throws Exception {
         Team teamToRemove = TypicalTeams.CHELSEA;
         String expectedMessage = String.format(RemoveCommand.MESSAGE_REMOVE_TEAM_SUCCESS,
                 teamToRemove.getTeamName().toString());
@@ -43,6 +49,14 @@ public class RemoveCommandTest {
         expectedModel.removeTeam(teamToRemove.getTeamName());
 
         assertCommandSuccess(removeCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_removeNonExistingTeam_throwsTeamNotFoundException() throws Exception {
+        Team teamToRemove = TypicalTeams.ARSENAL;
+        RemoveCommand removeCommand = prepareCommand(teamToRemove);
+
+        assertCommandFailure(removeCommand, model, Messages.MESSAGE_TEAM_NOT_FOUND);
     }
 
     @Test
