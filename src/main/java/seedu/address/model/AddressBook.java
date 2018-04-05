@@ -331,7 +331,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Renames {@code Team} with {@code updatedTeamName}.
      * @return
      */
-    public void renameTeam(Team targetTeam, TeamName updatedTeamName) throws DuplicateTeamException {
+    public void renameTeam(Team targetTeam, TeamName updatedTeamName) {
         try {
             List<Person> renameTeamPersonList = new ArrayList<>();
 
