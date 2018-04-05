@@ -3,6 +3,7 @@ package seedu.address.commons.events.ui;
 import seedu.address.commons.events.BaseEvent;
 import seedu.address.model.team.TeamName;
 
+//@@author jordancjq
 /**
  * Indicates a request to remove the selected team name.
  */

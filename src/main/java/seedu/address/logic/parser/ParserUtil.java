@@ -232,6 +232,7 @@ public class ParserUtil {
         }
     }
 
+    //@@author
     /**
      * Parses a {@code String tagColour} into a {@code String ta}.
      * Leading and trailing whitespaces will be trimmed.

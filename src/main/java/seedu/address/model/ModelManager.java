@@ -139,6 +139,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author
     @Override
     public boolean setTagColour(Tag tag, String colour) {
         ObservableList<Tag> allTags = addressBook.getTagList();
@@ -192,6 +193,7 @@ public class ModelManager extends ComponentManager implements Model {
         }
     }
 
+    //@@author
     @Override
     public boolean equals(Object obj) {
         // short circuit if same object

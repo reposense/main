@@ -372,7 +372,7 @@ public class AddressBook implements ReadOnlyAddressBook {
             throw new AssertionError("Impossible: AddressBook should contain this person");
         }
     }
-
+    //@@author
     //// util methods
 
     @Override
