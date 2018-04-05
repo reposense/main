@@ -82,7 +82,7 @@ public class RemoveCommandTest {
     }
 
     /**
-     * Returns an {@code CreateCommand} with parameters {@code team}.
+     * Returns an {@code RemoveCommand} with parameters {@code team}.
      */
     private RemoveCommand prepareCommand(Team team) {
         RemoveCommand removeCommand = new RemoveCommand(team.getTeamName());

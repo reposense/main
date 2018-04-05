@@ -91,7 +91,7 @@ public class RenameCommandTest {
     }
 
     /**
-     * Returns an {@code RenameCommand} with parameters {@code team}.
+     * Returns an {@code RenameCommand} with parameters {@code targetTeam} and {@code updatedTeamName}.
      */
     private RenameCommand prepareCommand(TeamName targetTeam, TeamName updatedTeamName) {
         RenameCommand renameCommand = new RenameCommand(targetTeam, updatedTeamName);

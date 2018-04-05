@@ -66,7 +66,6 @@ public class AssignCommand extends UndoableCommand {
             for (Person person : personsToAssign) {
                 model.assignPersonToTeam(person, targetTeam);
             }
-            EventsCenter.getInstance().post(new HighlightSelectedTeamEvent(targetTeam.toString()));
             model.updateFilteredPersonList(targetTeam);
         } catch (DuplicatePersonException e) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
@@ -74,6 +73,7 @@ public class AssignCommand extends UndoableCommand {
             throw new AssertionError("Impossible: Team should exist in this addressbook");
         }
 
+        EventsCenter.getInstance().post(new HighlightSelectedTeamEvent(targetTeam.toString()));
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
