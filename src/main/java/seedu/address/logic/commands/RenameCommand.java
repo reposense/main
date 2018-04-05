@@ -12,7 +12,6 @@ import seedu.address.commons.events.ui.HighlightSelectedTeamEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.team.Team;
 import seedu.address.model.team.TeamName;
-import seedu.address.model.team.exceptions.DuplicateTeamException;
 import seedu.address.model.team.exceptions.TeamNotFoundException;
 
 //@@author jordancjq
