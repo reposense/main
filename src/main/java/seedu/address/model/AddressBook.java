@@ -332,21 +332,21 @@ public class AddressBook implements ReadOnlyAddressBook {
      * @return
      */
     public void renameTeam(Team targetTeam, TeamName updatedTeamName) throws DuplicateTeamException {
-        List<Person> renameTeamPersonList = new ArrayList<>();
-
-        for (Person person : persons) {
-            if (person.getTeamName().equals(targetTeam.getTeamName())) {
-                renameTeamInPerson(person, updatedTeamName, targetTeam);
-                renameTeamPersonList.add(person);
-            }
-        }
-
-        Team updatedTeam = new Team(updatedTeamName, targetTeam.getTeamPlayers());
-
         try {
+            List<Person> renameTeamPersonList = new ArrayList<>();
+
+            for (Person person : persons) {
+                if (person.getTeamName().equals(targetTeam.getTeamName())) {
+                    renameTeamInPerson(person, updatedTeamName, targetTeam);
+                    renameTeamPersonList.add(person);
+                }
+            }
+
+            Team updatedTeam = new Team(updatedTeamName, targetTeam.getTeamPlayers());
+
             teams.setTeam(targetTeam, updatedTeam);
         } catch (DuplicateTeamException dte) {
-            throw new DuplicateTeamException();
+            throw new AssertionError("AddressBook should not have duplicate team after renaming");
         } catch (TeamNotFoundException tnfe) {
             throw new AssertionError("Impossible: Teams should contain this team");
         }

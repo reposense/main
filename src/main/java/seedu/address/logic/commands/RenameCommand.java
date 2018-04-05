@@ -61,8 +61,6 @@ public class RenameCommand extends UndoableCommand {
             model.updateFilteredPersonList(updatedTeamName);
         } catch (TeamNotFoundException tnfe) {
             throw new CommandException(Messages.MESSAGE_TEAM_NOT_FOUND);
-        } catch (DuplicateTeamException dte) {
-            throw new CommandException(MESSAGE_NO_CHANGE);
         }
 
         return new CommandResult(String.format(MESSAGE_RENAME_SUCCESS, targetTeam.toString(),
@@ -74,8 +72,17 @@ public class RenameCommand extends UndoableCommand {
         if (!model.getAddressBook().getTeamList().stream().anyMatch(t -> t.getTeamName().equals(targetTeam))) {
             throw new CommandException(Messages.MESSAGE_TEAM_NOT_FOUND);
         }
+
         List<Team> teams = model.getAddressBook().getTeamList();
         teamToRename = teams.stream().filter(t -> t.getTeamName().equals(targetTeam)).findFirst().get();
+
+        if (teamToRename.getTeamName().equals(updatedTeamName)) {
+            throw new CommandException(MESSAGE_NO_CHANGE);
+        }
+
+        if (model.getAddressBook().getTeamList().stream().anyMatch(t -> t.getTeamName().equals(updatedTeamName))) {
+            throw new CommandException(MESSAGE_NO_CHANGE);
+        }
     }
 
     @Override

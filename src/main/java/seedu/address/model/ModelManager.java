@@ -133,7 +133,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     //@@author jordancjq
     @Override
-    public synchronized void renameTeam(Team targetTeam, TeamName updatedTeamName) throws DuplicateTeamException {
+    public synchronized void renameTeam(Team targetTeam, TeamName updatedTeamName) {
         requireAllNonNull(targetTeam, updatedTeamName);
         addressBook.renameTeam(targetTeam, updatedTeamName);
         indicateAddressBookChanged();
