@@ -14,6 +14,7 @@ import seedu.address.model.team.TeamName;
 /**
  * JAXB-friendly adapted version of the Team
  */
+/** @@author Codee */
 public class XmlAdaptedTeam {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Team's %s field is missing!";

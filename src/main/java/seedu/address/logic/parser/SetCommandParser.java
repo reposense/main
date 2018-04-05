@@ -14,6 +14,7 @@ import seedu.address.model.tag.Tag;
 /**
  * This class is to check whether Set Command was input correctly
  */
+/** @@author Codee */
 public class SetCommandParser implements Parser<SetCommand> {
 
     /**

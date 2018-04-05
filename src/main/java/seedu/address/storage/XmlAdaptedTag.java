@@ -34,6 +34,7 @@ public class XmlAdaptedTag {
     /**
      * Constructs a {@code XmlAdaptedTag} with the given {@code tagName} and {@code tagColour}.
      */
+    /** @@author Codee */
     public XmlAdaptedTag(String tagName, String tagColour) {
         this.tagName = tagName;
         this.tagColour = tagColour;
@@ -63,6 +64,7 @@ public class XmlAdaptedTag {
         }
         return new Tag(tagName, tagColour);
     }
+    //@@author
 
     @Override
     public boolean equals(Object other) {

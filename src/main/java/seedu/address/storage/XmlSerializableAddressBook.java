@@ -18,10 +18,12 @@ import seedu.address.model.ReadOnlyAddressBook;
 @XmlRootElement(name = "addressbook")
 public class XmlSerializableAddressBook {
 
+    /** @@author Codee */
     @XmlElement
     private List<XmlAdaptedTeam> teams;
     @XmlElement
     private List<XmlAdaptedPerson> persons;
+    //@@author
     @XmlElement
     private List<XmlAdaptedTag> tags;
 
@@ -38,6 +40,7 @@ public class XmlSerializableAddressBook {
     /**
      * Conversion
      */
+    /** @@author Codee */
     public XmlSerializableAddressBook(ReadOnlyAddressBook src) {
         this();
         persons.addAll(src.getPersonList().stream().map(XmlAdaptedPerson::new).collect(Collectors.toList()));
@@ -64,6 +67,7 @@ public class XmlSerializableAddressBook {
         }
         return addressBook;
     }
+    //@@author
 
     @Override
     public boolean equals(Object other) {
