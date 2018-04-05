@@ -37,7 +37,7 @@ public class RemoveCommandTest {
 
     @Test
     public void execute_removeTeam_success() throws Exception {
-        Team teamToRemove = TypicalTeams.CHELSEA;
+        Team teamToRemove = TypicalTeams.LIVERPOOL;
         String expectedMessage = String.format(RemoveCommand.MESSAGE_REMOVE_TEAM_SUCCESS,
                 teamToRemove.getTeamName().toString());
 
