@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RATING;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
@@ -38,6 +40,8 @@ public class TogglePrivacyCommand extends UndoableCommand {
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_PHONE + "]"
             + "[" + PREFIX_EMAIL + "]"
+            + "[" + PREFIX_REMARK + "]"
+            + "[" + PREFIX_RATING + "]"
             + "[" + PREFIX_ADDRESS + "]\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + " "
