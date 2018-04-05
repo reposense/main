@@ -17,6 +17,7 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.team.TeamName;
 import seedu.address.model.team.exceptions.TeamNotFoundException;
 
+//@@author jordancjq
 /**
  * Assigns a person to a team.
  */

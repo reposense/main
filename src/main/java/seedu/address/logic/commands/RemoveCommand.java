@@ -10,6 +10,7 @@ import seedu.address.model.Model;
 import seedu.address.model.team.TeamName;
 import seedu.address.model.team.exceptions.TeamNotFoundException;
 
+//@@author jordancjq
 /**
  * Removes a team identified using the team name
  */

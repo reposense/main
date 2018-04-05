@@ -239,6 +239,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         tags.setTags(tagsInPersons);
     }
 
+    //@@author jordancjq
     /**
      * Creates a team in the manager.
      * @throws DuplicateTeamException if an equivalent team already exists.
@@ -247,6 +248,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         teams.add(t);
     }
 
+    //@@author jordancjq
     /**
      * Assigns a {@code person} to a {@code team}.
      * @throws TeamNotFoundException if the {@code team} is not found in this {@code AddressBook}.
@@ -273,6 +275,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
+    //@@author jordancjq
     /**
      * Removes a {@code person} from a {@code team}.
      */
@@ -286,6 +289,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
+    //@@author jordancjq
     /**
      * Removes a {@code team} from {@code teams}.
      */
@@ -303,6 +307,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         teams.remove(teamToRemove);
     }
 
+    //@@author jordancjq
     /**
      * Removes {@code teamName} from {@code person} in this {@code Team}.
      */
@@ -321,6 +326,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
+    //@@author jordancjq
     /**
      * Renames {@code Team} with {@code updatedTeamName}.
      * @return
@@ -346,6 +352,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
+    //@@author jordancjq
     /**
      * Renames {@code teamName} in {@code person} with {@code teamName}.
      */

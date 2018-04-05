@@ -15,6 +15,7 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.team.exceptions.DuplicateTeamException;
 import seedu.address.model.team.exceptions.TeamNotFoundException;
 
+//@@author jordancjq
 /**
  * A list of teams that enforces uniqueness between its elements and does not allow nulls.
  *

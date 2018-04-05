@@ -9,6 +9,7 @@ import seedu.address.logic.commands.RenameCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.team.TeamName;
 
+//@@author jordancjq
 /**
  * Parses the input arguments and creates a new RenameCommand object
  */

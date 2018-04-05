@@ -12,6 +12,7 @@ import seedu.address.model.team.Team;
 import seedu.address.model.team.TeamName;
 import seedu.address.model.team.exceptions.DuplicateTeamException;
 
+//@@author jordancjq
 /**
  * A utility class containing a list of {@code Team} objects to be used in tests.
  */

@@ -8,6 +8,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 
+//@@author jordancjq
 /**
  * Represents a Team in the application.
  * Guarantees: details are present and not null, field values are validated, im!mutable

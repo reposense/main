@@ -100,18 +100,21 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author jordancjq
     @Override
     public synchronized void createTeam(Team team) throws DuplicateTeamException {
         addressBook.createTeam(team);
         indicateAddressBookChanged();
     }
 
+    //@@author jordancjq
     @Override
     public synchronized void assignPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
         addressBook.assignPersonToTeam(person, teamName);
         indicateAddressBookChanged();
     }
 
+    //@@author jordancjq
     @Override
     public synchronized void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
         requireAllNonNull(person, teamName);
@@ -119,6 +122,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author jordancjq
     @Override
     public synchronized void removeTeam(TeamName teamName) throws TeamNotFoundException {
         requireNonNull(teamName);
@@ -127,6 +131,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author jordancjq
     @Override
     public synchronized void renameTeam(Team targetTeam, TeamName updatedTeamName) {
         requireAllNonNull(targetTeam, updatedTeamName);
@@ -173,6 +178,7 @@ public class ModelManager extends ComponentManager implements Model {
         filteredPersons.setPredicate(predicate);
     }
 
+    //@@author jordancjq
     @Override
     public void updateFilteredPersonList(TeamName targetTeam) throws TeamNotFoundException {
         requireNonNull(targetTeam);
