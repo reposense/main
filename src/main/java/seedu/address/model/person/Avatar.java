@@ -13,6 +13,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import seedu.address.commons.core.LogsCenter;
+
 /**
  * Represents a Player's avatar in the address book. Contains filepath to avatar image file.
  * Guarantees: immutable; is valid as declared in {@link #isValidAvatar(String)}
@@ -59,6 +61,12 @@ public class Avatar {
                 && this.value.equals(((Avatar) other).value)); // state check
     }
 
+    /**
+     * Copies the image file from file path entered into images/ and renames it as [name].png
+     * and saves the file path in value
+     * @param player player's avatar image filepath string
+     * @throws IOException  thrown when file not found
+     */
     public void setFilePath(String player) throws IOException {
         if (value.equals("<UNSPECIFIED>")) {
             return;
@@ -73,6 +81,15 @@ public class Avatar {
 
     public String getValue() {
         return value;
+    }
+
+    public static void setUpPlaceholderForTest() {
+        try {
+            Files.copy(Avatar.class.getResourceAsStream("/images/placeholder.png"),
+                    Paths.get("images/placeholder.png"), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            LogsCenter.getLogger(Avatar.class).warning("placeholder image file missing");
+        }
     }
 
     @Override

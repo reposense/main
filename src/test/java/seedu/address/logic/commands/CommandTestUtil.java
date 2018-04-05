@@ -55,6 +55,7 @@ public class CommandTestUtil {
     public static final String VALID_POSITION_MIDFIELD = "2";
     public static final String VALID_JERSEY_NUMBER_2 = "2";
     public static final String VALID_JERSEY_NUMBER_17 = "17";
+    public static final String VALID_AVATAR = "images\\placeholder.png";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -72,6 +73,7 @@ public class CommandTestUtil {
     public static final String POSITION_DESC_MIDFILED = " " + PREFIX_POSITION + VALID_POSITION_MIDFIELD;
     public static final String JERSEY_NUMBER_DESC_2 = " " + PREFIX_JERSEY_NUMBER + VALID_JERSEY_NUMBER_2;
     public static final String JERSEY_NUMBER_DESC_17 = " " + PREFIX_JERSEY_NUMBER + VALID_JERSEY_NUMBER_17;
+    public static final String AVATAR = " " + PREFIX_AVATAR + VALID_AVATAR;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
@@ -80,9 +82,12 @@ public class CommandTestUtil {
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
     public static final String INVALID_RATING_DESC = " " + PREFIX_RATING + "06"; // only integer 0 to 5 allowed
     public static final String INVALID_POSITION_DESC = " " + PREFIX_POSITION + "10"; // only integer 1 to 4 allowed
-    public static final String INVALID_JERSEY_NUMBER_DESC = " "
-            + PREFIX_JERSEY_NUMBER + "100"; // only integer 0 to 99 not allowed
-    public static final String INVALID_AVATAR = " " + PREFIX_AVATAR + "images.gif"; //only jpg and png file type allowed
+    // only integer 0 to 99 not allowed
+    public static final String INVALID_JERSEY_NUMBER_DESC = " " + PREFIX_JERSEY_NUMBER + "100";
+    //only jpg and png file type allowed
+    public static final String INVALID_AVATAR_TYPE = " " + PREFIX_AVATAR + "images.gif";
+    //only jpg and png file type allowed
+    public static final String INVALID_AVATAR_NO_FILE = " " + PREFIX_AVATAR + "file.png";
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
@@ -94,7 +99,8 @@ public class CommandTestUtil {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withTags(VALID_TAG_FRIEND).withRating(VALID_RATING_0)
-                .withPosition(VALID_POSITION_STRIKER).withJerseyNumber(VALID_JERSEY_NUMBER_2).build();
+                .withPosition(VALID_POSITION_STRIKER).withJerseyNumber(VALID_JERSEY_NUMBER_2)
+                .build();
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).withRating(VALID_RATING_1)
