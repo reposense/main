@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.events.ui.HighlightSelectedTeamEvent;
@@ -27,6 +29,7 @@ public class ViewCommand extends Command {
     private final TeamName targetTeam;
 
     public ViewCommand(TeamName targetTeam) {
+        requireNonNull(targetTeam);
         this.targetTeam = targetTeam;
     }
 

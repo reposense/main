@@ -7,7 +7,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_BARCELONA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_CHELSEA;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalTeams.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalTeams.getTypicalAddressBookWithTeams;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,7 +30,7 @@ public class RenameCommandTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBookWithTeams(), new UserPrefs());
 
     @Test
     public void constructor_nullTeam_throwsNullPointerException() {
@@ -91,7 +91,7 @@ public class RenameCommandTest {
     }
 
     /**
-     * Returns an {@code CreateCommand} with parameters {@code team}.
+     * Returns an {@code RenameCommand} with parameters {@code team}.
      */
     private RenameCommand prepareCommand(TeamName targetTeam, TeamName updatedTeamName) {
         RenameCommand renameCommand = new RenameCommand(targetTeam, updatedTeamName);

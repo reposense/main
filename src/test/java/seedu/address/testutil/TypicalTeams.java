@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import seedu.address.model.AddressBook;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.team.Team;
 import seedu.address.model.team.TeamName;
 import seedu.address.model.team.exceptions.DuplicateTeamException;
@@ -30,12 +32,35 @@ public class TypicalTeams {
     /**
      * Returns an {@code AddressBook} with all the typical teams.
      */
+    public static AddressBook getTypicalAddressBookWithTeams() {
+        AddressBook ab = new AddressBook();
+        for (Team team : getTypicalTeams()) {
+            try {
+                ab.createTeam(team);
+            } catch (DuplicateTeamException e) {
+                throw new AssertionError("not possible");
+            }
+        }
+        return ab;
+    }
+
+    /**
+     * Returns an {@code AddressBook} with all the typical teams and persons.
+     */
     public static AddressBook getTypicalAddressBook() {
         AddressBook ab = new AddressBook();
         for (Team team : getTypicalTeams()) {
             try {
                 ab.createTeam(team);
             } catch (DuplicateTeamException e) {
+                throw new AssertionError("not possible");
+            }
+        }
+
+        for (Person person : TypicalPersons.getTypicalPersons()) {
+            try {
+                ab.addPerson(person);
+            } catch (DuplicatePersonException e) {
                 throw new AssertionError("not possible");
             }
         }
