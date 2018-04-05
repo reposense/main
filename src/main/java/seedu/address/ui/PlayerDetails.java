@@ -9,6 +9,7 @@ import seedu.address.model.person.Person;
 /**
  * The Browser Panel of the App.
  */
+/** @@author Codee */
 public class PlayerDetails extends UiPart<Region> {
 
     private static final String FXML = "PlayerDetails.fxml";
@@ -28,18 +29,21 @@ public class PlayerDetails extends UiPart<Region> {
     @FXML
     private Label name;
     @FXML
-    private Label id;
-    @FXML
     private Label phone;
     @FXML
     private Label address;
     @FXML
     private Label email;
+    @FXML
+    private Label jerseyNumber;
+    @FXML
+    private Label remark;
 
     public PlayerDetails(Person person) {
         super(FXML);
         this.person = person;
         name.setText(person.getName().fullName);
+        jerseyNumber.setText("Jersey Number: " + person.getJerseyNumber().value);
 
         if (person.getPhone().isPrivate()) {
             phone.setText(person.getPhone().toString());
@@ -58,5 +62,12 @@ public class PlayerDetails extends UiPart<Region> {
         } else {
             email.setText(person.getEmail().value);
         }
+
+        if (person.getRemark().isPrivate()) {
+            remark.setText("Remarks: " + person.getRemark().toString());
+        } else {
+            remark.setText("Remarks: " + person.getRemark().value);
+        }
     }
 }
+

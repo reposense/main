@@ -429,18 +429,19 @@
 }
 
 .player-details-container {
-    -fx-background-color: #395372;
+    -fx-background-color: #1f3354;
 }
 
 .player-details-cell {
     -fx-font-family: "Segoe UI";
-    -fx-font-size: 15px;
-    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-text-fill: #cfeff9;
 }
 
 .player-details-title {
-    -fx-text-fill: white;
-    -fx-font-family: "Segoe UI Semibold";
-    -fx-font-size: 20px;
+    -fx-text-fill: #61cced;
+    -fx-font-family: "Segoe UI Bold";
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
 }
 

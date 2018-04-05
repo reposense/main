@@ -11,6 +11,7 @@ import seedu.address.model.tag.Tag;
 /**
  * Adds a colour to a tag in address book.
  */
+/** @@author Codee Ong Ong */
 public class SetCommand extends Command {
 
     public static final String COMMAND_WORD = "setTagColour";
