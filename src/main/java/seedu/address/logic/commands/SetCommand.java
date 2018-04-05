@@ -4,11 +4,14 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_COLOUR;
 
+import seedu.address.commons.core.EventsCenter;
+import seedu.address.commons.events.ui.ChangeTagColourEvent;
 import seedu.address.model.tag.Tag;
 
 /**
  * Adds a colour to a tag in address book.
  */
+/** @@author Codee Ong Ong */
 public class SetCommand extends Command {
 
     public static final String COMMAND_WORD = "setTagColour";
@@ -48,6 +51,7 @@ public class SetCommand extends Command {
         if (!tagToSet.isValidTagName(tagToSet.getTagName()) || !isTagValid) {
             return new CommandResult(String.format(MESSAGE_INVALID_TAG));
         }
+        EventsCenter.getInstance().post(new ChangeTagColourEvent(tagToSet.getTagName(), tagColour));
         return new CommandResult(String.format(MESSAGE_SUCCESS, tagToSet.toString(), tagColour));
     }
 
@@ -61,6 +65,5 @@ public class SetCommand extends Command {
                 && this.tagToSet.getTagName().equals(((SetCommand) other).tagToSet.getTagName()))
                 && this.tagColour.equals(((SetCommand) other).tagColour);
     }
-
 }
 

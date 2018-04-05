@@ -132,9 +132,11 @@ public class AddressBook implements ReadOnlyAddressBook {
         removeUnusedTags();
     }
 
+    //@@author lohtianwei
     public void sortPlayersBy(String field, String order) throws NoPlayerException {
         persons.sortBy(field, order);
     }
+    //@@author
 
     /**
      *  Updates the master tag list to include tags in {@code person} that are not in the list.
@@ -181,6 +183,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      *
      * Sets the colour of {@code tag}.
      */
+    /** @@author Codee */
     public void setTagColour(Tag tag, String colour) {
         for (Tag t : tags) {
             if (t.getTagName().equals(tag.getTagName())) {
@@ -188,6 +191,7 @@ public class AddressBook implements ReadOnlyAddressBook {
             }
         }
     }
+    // @@author
 
     /**
      *

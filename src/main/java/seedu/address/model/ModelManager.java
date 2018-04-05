@@ -3,6 +3,7 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -87,11 +88,13 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author lohtianwei
     @Override
     public void sortPlayers(String field, String order) throws NoPlayerException {
         addressBook.sortPlayersBy(field, order);
         indicateAddressBookChanged();
     }
+    //@@author
 
     @Override
     public void deleteTag(Tag tag) {
@@ -163,6 +166,19 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
+    public void updateFilteredPersonList(TeamName targetTeam) throws TeamNotFoundException {
+        requireNonNull(targetTeam);
+
+        List<Team> teamList = addressBook.getTeamList();
+
+        if (teamList.stream().anyMatch(target -> target.getTeamName().equals(targetTeam))) {
+            filteredPersons.setPredicate(t -> t.getTeamName().equals(targetTeam));
+        } else {
+            throw new TeamNotFoundException();
+        }
     }
 
     @Override

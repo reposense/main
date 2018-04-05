@@ -48,6 +48,14 @@ public class Tag {
         return this.tagName;
     }
 
+    /**
+     * Returns true if a given string is a valid tag name.
+     */
+    public static boolean isValidTagName(String test) {
+        return test.matches(TAG_VALIDATION_REGEX);
+    }
+
+    /** @@author Codee */
     public String getTagColour() {
         return this.tagColour;
     }
@@ -59,12 +67,6 @@ public class Tag {
         this.tagColour = colour;
     }
 
-    /**
-     * Returns true if a given string is a valid tag name.
-     */
-    public static boolean isValidTagName(String test) {
-        return test.matches(TAG_VALIDATION_REGEX);
-    }
 
     /**
      * Returns true if a given string is a valid tag colour.
@@ -77,6 +79,7 @@ public class Tag {
         }
         return false;
     }
+    //@@author
 
     @Override
     public boolean equals(Object other) {

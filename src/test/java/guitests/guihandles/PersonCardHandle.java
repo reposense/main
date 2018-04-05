@@ -13,18 +13,17 @@ import javafx.scene.layout.Region;
 public class PersonCardHandle extends NodeHandle<Node> {
     private static final String ID_FIELD_ID = "#id";
     private static final String NAME_FIELD_ID = "#name";
-    private static final String ADDRESS_FIELD_ID = "#address";
-    private static final String PHONE_FIELD_ID = "#phone";
-    private static final String EMAIL_FIELD_ID = "#email";
-    private static final String REMARK_FIELD_ID = "#remark";
     private static final String TAGS_FIELD_ID = "#tags";
+    private static final String RATING_FIELD_ID = "#rating";
+    private static final String POSITION_FIELD_ID = "#position";
+    private static final String TEAMNAME_FIELD_ID = "#teamName";
 
     private final Label idLabel;
     private final Label nameLabel;
-    private final Label addressLabel;
-    private final Label phoneLabel;
-    private final Label emailLabel;
-    private final Label remarkLabel;
+    private final Label positionLabel;
+    private final Label ratingLabel;
+    private final Label teamNameLabel;
+
     private final List<Label> tagLabels;
 
     public PersonCardHandle(Node cardNode) {
@@ -32,10 +31,9 @@ public class PersonCardHandle extends NodeHandle<Node> {
 
         this.idLabel = getChildNode(ID_FIELD_ID);
         this.nameLabel = getChildNode(NAME_FIELD_ID);
-        this.addressLabel = getChildNode(ADDRESS_FIELD_ID);
-        this.phoneLabel = getChildNode(PHONE_FIELD_ID);
-        this.emailLabel = getChildNode(EMAIL_FIELD_ID);
-        this.remarkLabel = getChildNode(REMARK_FIELD_ID);
+        this.positionLabel = getChildNode(POSITION_FIELD_ID);
+        this.ratingLabel = getChildNode(RATING_FIELD_ID);
+        this.teamNameLabel = getChildNode(TEAMNAME_FIELD_ID);
 
         Region tagsContainer = getChildNode(TAGS_FIELD_ID);
         this.tagLabels = tagsContainer
@@ -53,20 +51,16 @@ public class PersonCardHandle extends NodeHandle<Node> {
         return nameLabel.getText();
     }
 
-    public String getAddress() {
-        return addressLabel.getText();
+    public String getPosition() {
+        return positionLabel.getText();
     }
 
-    public String getPhone() {
-        return phoneLabel.getText();
+    public String getRating() {
+        return ratingLabel.getText();
     }
 
-    public String getEmail() {
-        return emailLabel.getText();
-    }
-
-    public String getRemark() {
-        return remarkLabel.getText();
+    public String getTeamName() {
+        return teamNameLabel.getText();
     }
 
     public List<String> getTags() {

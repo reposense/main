@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+//@@author lohtianwei
 import static java.util.Objects.requireNonNull;
 
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -19,6 +20,7 @@ public class SortCommand extends UndoableCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sorts players in address book "
             + "by fields in either ascending or descending order.\n"
             + "Parameters: FIELD ORDER\n"
+            + "Accepted fields for sort: name, email, address, rating, jersey, pos\n"
             + "Example: " + COMMAND_WORD
             + " name " + BY_ASCENDING;
 

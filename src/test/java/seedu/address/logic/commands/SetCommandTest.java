@@ -23,6 +23,7 @@ import seedu.address.model.tag.Tag;
 /**
  * This is the unit test for {@code SetCommand}.
  */
+/** @@author Codee */
 public class SetCommandTest {
 
     private Model model;

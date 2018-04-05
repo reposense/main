@@ -23,6 +23,7 @@ public class RemarkCommandParserTest {
         // with remark
         RemarkCommand expectedCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(REMARK_NONEMPTY));
         String userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_REMARK + " " + REMARK_NONEMPTY;
+        System.out.println(userInput);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // without remark

@@ -34,15 +34,25 @@ public class XmlAdaptedPerson {
     @XmlElement(required = true)
     private String phone;
     @XmlElement(required = true)
+    private Boolean phonePrivacy;
+    @XmlElement(required = true)
     private String email;
+    @XmlElement(required = true)
+    private Boolean emailPrivacy;
     @XmlElement(required = true)
     private String address;
     @XmlElement(required = true)
+    private Boolean addressPrivacy;
+    @XmlElement(required = true)
     private String remark;
+    @XmlElement(required = true)
+    private Boolean remarkPrivacy;
     @XmlElement(required = true)
     private String teamName;
     @XmlElement(required = true)
     private String rating;
+    @XmlElement(required = true)
+    private Boolean ratingPrivacy;
     @XmlElement(required = true)
     private String position;
     @XmlElement(required = true)
@@ -67,6 +77,12 @@ public class XmlAdaptedPerson {
         this.phone = phone;
         this.email = email;
         this.address = address;
+
+        this.remarkPrivacy = false;
+        this.phonePrivacy = false;
+        this.addressPrivacy = false;
+        this.emailPrivacy = false;
+
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
         }
@@ -84,6 +100,13 @@ public class XmlAdaptedPerson {
         address = source.getAddress().value;
         remark = source.getRemark().value;
         teamName = source.getTeamName().fullName;
+
+        phonePrivacy = source.getPhone().isPrivate();
+        emailPrivacy = source.getEmail().isPrivate();
+        addressPrivacy = source.getAddress().isPrivate();
+        remarkPrivacy = source.getRemark().isPrivate();
+        ratingPrivacy = source.getRating().isPrivate();
+
         tagged = new ArrayList<>();
         rating = source.getRating().value;
         position = source.getPosition().value;
@@ -106,6 +129,26 @@ public class XmlAdaptedPerson {
             personTags.add(tag.toModelType());
         }
 
+        if (phonePrivacy == null) {
+            phonePrivacy = false;
+        }
+
+        if (emailPrivacy == null) {
+            emailPrivacy = false;
+        }
+
+        if (addressPrivacy == null) {
+            addressPrivacy = false;
+        }
+
+        if (remarkPrivacy == null) {
+            remarkPrivacy = false;
+        }
+
+        if (ratingPrivacy == null) {
+            ratingPrivacy = false;
+        }
+
         if (this.name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
         }
@@ -120,7 +163,7 @@ public class XmlAdaptedPerson {
         if (!Phone.isValidPhone(this.phone)) {
             throw new IllegalValueException(Phone.MESSAGE_PHONE_CONSTRAINTS);
         }
-        final Phone phone = new Phone(this.phone);
+        final Phone phone = new Phone(this.phone, this.phonePrivacy);
 
         if (this.email == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
@@ -128,7 +171,7 @@ public class XmlAdaptedPerson {
         if (!Email.isValidEmail(this.email)) {
             throw new IllegalValueException(Email.MESSAGE_EMAIL_CONSTRAINTS);
         }
-        final Email email = new Email(this.email);
+        final Email email = new Email(this.email, this.emailPrivacy);
 
         if (this.address == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
@@ -136,10 +179,9 @@ public class XmlAdaptedPerson {
         if (!Address.isValidAddress(this.address)) {
             throw new IllegalValueException(Address.MESSAGE_ADDRESS_CONSTRAINTS);
         }
-        final Address address = new Address(this.address);
 
-        final Remark remark = new Remark(this.remark);
-
+        final Address address = new Address(this.address, this.addressPrivacy);
+        final Remark remark = new Remark(this.remark, this.remarkPrivacy);
         final TeamName teamName = new TeamName(this.teamName);
 
         final Set<Tag> tags = new HashSet<>(personTags);
@@ -150,7 +192,7 @@ public class XmlAdaptedPerson {
         if (!Rating.isValidRating(this.rating)) {
             throw new IllegalValueException(Rating.MESSAGE_RATING_CONSTRAINTS);
         }
-        final Rating rating = new Rating(this.rating);
+        final Rating rating = new Rating(this.rating, this.ratingPrivacy);
 
         if (this.position == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,

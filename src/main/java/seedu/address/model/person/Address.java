@@ -20,6 +20,7 @@ public class Address {
     public static final String ADDRESS_VALIDATION_REGEX = "[^\\s].*";
 
     public final String value;
+    private boolean isPrivate;
 
     /**
      * Constructs an {@code Address}.
@@ -30,6 +31,12 @@ public class Address {
         requireNonNull(address);
         checkArgument(isValidAddress(address), MESSAGE_ADDRESS_CONSTRAINTS);
         this.value = address;
+        this.isPrivate = false;
+    }
+
+    public Address(String address, boolean isPrivate) {
+        this(address);
+        this.setPrivate(isPrivate);
     }
 
     /**
@@ -41,7 +48,22 @@ public class Address {
 
     @Override
     public String toString() {
+        if (isPrivate) {
+            return "<Private Address>";
+        }
         return value;
+    }
+
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
+    public void togglePrivacy() {
+        this.isPrivate = isPrivate ? false : true;
+    }
+
+    public void setPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
     }
 
     @Override

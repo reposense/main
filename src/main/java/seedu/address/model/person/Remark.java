@@ -12,6 +12,7 @@ public class Remark {
             "Remark can contain any values, can even be blank";
 
     public final String value;
+    private boolean isPrivate;
 
     /**
      * Constructs a {@code Remark}
@@ -21,11 +22,32 @@ public class Remark {
     public Remark(String remark) {
         requireNonNull(remark);
         this.value = remark;
+        this.isPrivate = false;
+    }
+
+    public Remark(String remark, boolean isPrivate) {
+        this(remark);
+        this.setPrivate(isPrivate);
     }
 
     @Override
     public String toString() {
+        if (isPrivate) {
+            return "<Private Remarks>";
+        }
         return value;
+    }
+
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
+    public void togglePrivacy() {
+        this.isPrivate = isPrivate ? false : true;
+    }
+
+    public void setPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
     }
 
     @Override
