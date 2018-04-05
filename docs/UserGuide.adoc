@@ -333,7 +333,7 @@ Alias: `so`
 
 [NOTE]
 ====
-Current version of `sort` supports the following fields: Name, Phone, Email & Address.
+Current version of `sort` supports the following fields: Name, Email, Address, Rating, Jersey Number & Position.
 ====
 
 Here are a few valid examples on how you can use the `sort` command:
@@ -505,7 +505,28 @@ Format: `setTagColour` +
 Alias: `stc`
 
 ==== Set various fields to private: `toggleprivacy` `[Since v1.4]`
-{explain how fields of players can be set private}
+
+You can toggle the privacy of various fields of players in MTM.
+
+Format: `toggleprivacy` INDEX FIELD [MORE_FIELDS] +
+Alias: `tp`
+
+[NOTE]
+====
+Current version of `toggleprivacy` supports the following fields: Phone, Email, Address, Remark & Rating
+====
+
+[IMPORTANT]
+.*What to expect*
+====
+Privacy of field will be toggled between private or public. If phone field of player at index 1 is private,
+running command: *`tp` 1 p/* would change phone field to public. Private fields are shown as <Private 'field'>.
+====
+
+Here are some examples on how you can use the `toggleprivacy` command:
+
+* `tp` 1 p/ ra/ +
+Toggles privacy of phone and rating of player @ index 1
 
 === Coming Soon
 
