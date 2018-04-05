@@ -13,13 +13,16 @@ import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_POSITION_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_RATING_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.JERSEY_NUMBER_DESC_17;
 import static seedu.address.logic.commands.CommandTestUtil.JERSEY_NUMBER_DESC_2;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.POSITION_DESC_MIDFILED;
 import static seedu.address.logic.commands.CommandTestUtil.POSITION_DESC_STRIKER;
 import static seedu.address.logic.commands.CommandTestUtil.RATING_DESC_0;
+import static seedu.address.logic.commands.CommandTestUtil.RATING_DESC_1;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
@@ -107,7 +110,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
                 .withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIEND).withRating(VALID_RATING_0)
                 .withPosition(VALID_POSITION_STRIKER).withJerseyNumber(VALID_JERSEY_NUMBER_2).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_BOB + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
-                + TAG_DESC_FRIEND;
+                + TAG_DESC_FRIEND + RATING_DESC_0 + POSITION_DESC_STRIKER + JERSEY_NUMBER_DESC_2;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a person with all fields same as another person in the address book except email -> added */
@@ -135,7 +138,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         /* Case: add a person with tags, command with parameters in random order -> added */
         toAdd = BOB;
         command = AddCommand.COMMAND_WORD + TAG_DESC_FRIEND + PHONE_DESC_BOB + ADDRESS_DESC_BOB + NAME_DESC_BOB
-                + TAG_DESC_HUSBAND + EMAIL_DESC_BOB;
+                + TAG_DESC_HUSBAND + EMAIL_DESC_BOB + POSITION_DESC_MIDFILED + JERSEY_NUMBER_DESC_17 + RATING_DESC_1;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a person, missing tags -> added */

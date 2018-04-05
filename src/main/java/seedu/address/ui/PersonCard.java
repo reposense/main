@@ -40,19 +40,9 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label name;
     @FXML
-    private Label phone;
-    @FXML
-    private Label address;
-    @FXML
-    private Label email;
-    @FXML
     private Label id;
     @FXML
-    private Label jerseyNumber;
-    @FXML
     private Label teamName;
-    @FXML
-    private Label remark;
     @FXML
     private FlowPane tags;
     @FXML
@@ -65,41 +55,13 @@ public class PersonCard extends UiPart<Region> {
         this.person = person;
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
-
-        if (person.getPhone().isPrivate()) {
-            phone.setText(person.getPhone().toString());
-        } else {
-            phone.setText(person.getPhone().value);
-        }
-
-        if (person.getAddress().isPrivate()) {
-            address.setText(person.getAddress().toString());
-        } else {
-            address.setText(person.getAddress().value);
-        }
-
-        if (person.getEmail().isPrivate()) {
-            email.setText(person.getEmail().toString());
-        } else {
-            email.setText(person.getEmail().value);
-        }
-
-        if (person.getRemark().isPrivate()) {
-            remark.setText(person.getRemark().toString());
-        } else {
-            remark.setText(person.getRemark().value);
-        }
-
         if (person.getRating().isPrivate()) {
             rating.setText(person.getRating().toString());
         } else {
             rating.setText(person.getRating().value);
         }
-
         teamName.setText(person.getTeamName().fullName);
         position.setText(person.getPosition().getPositionName());
-        jerseyNumber.setText(person.getJerseyNumber().toString());
-
         initTags(person);
         registerAsAnEventHandler(this);
     }
