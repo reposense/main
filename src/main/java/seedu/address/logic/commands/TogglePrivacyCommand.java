@@ -338,7 +338,9 @@ public class TogglePrivacyCommand extends UndoableCommand {
             return privateRemark;
         }
 
-        public void setPrivateRating(boolean privateRating) { this.privateRating = privateRating; }
+        public void setPrivateRating(boolean privateRating) {
+            this.privateRating = privateRating;
+        }
 
         public Boolean getPrivateRating() {
             return privateRating;

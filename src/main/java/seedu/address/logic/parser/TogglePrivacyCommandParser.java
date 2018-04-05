@@ -27,7 +27,8 @@ public class TogglePrivacyCommandParser implements Parser<TogglePrivacyCommand> 
     public TogglePrivacyCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_REMARK, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_RATING);
+                ArgumentTokenizer.tokenize(args,
+                        PREFIX_REMARK, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_RATING);
 
         Index index;
 

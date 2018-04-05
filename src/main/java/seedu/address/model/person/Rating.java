@@ -3,7 +3,6 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
-import com.sun.webkit.dom.RangeImpl;
 
 /**
  * Represents a Player's rating in the address book.
