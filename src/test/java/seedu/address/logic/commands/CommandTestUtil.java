@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_AVATAR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JERSEY_NUMBER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -81,7 +82,7 @@ public class CommandTestUtil {
     public static final String INVALID_POSITION_DESC = " " + PREFIX_POSITION + "10"; // only integer 1 to 4 allowed
     public static final String INVALID_JERSEY_NUMBER_DESC = " "
             + PREFIX_JERSEY_NUMBER + "100"; // only integer 0 to 99 not allowed
-
+    public static final String INVALID_AVATAR = " " + PREFIX_AVATAR + "images.gif"; //only jpg and png file type allowed
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";

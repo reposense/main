@@ -1,5 +1,8 @@
 package seedu.address.ui;
 
+import java.io.File;
+import java.net.MalformedURLException;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -9,9 +12,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import seedu.address.model.person.Person;
-
-import java.io.File;
-import java.net.MalformedURLException;
 
 /**
  * An UI component that displays information of a {@code Person}.
@@ -80,12 +80,13 @@ public class PersonCard extends UiPart<Region> {
         Image img = null;
 
         try {
-            img = new Image(new File(path).toURI().toURL().toString());
-        } catch (MalformedURLException e) {
-            try {
-                img = new Image(new File("images\\placeholder.png").toURI().toURL().toString());
-            } catch (MalformedURLException e1) {
+            if (new File(path).isFile()) {
+                img = new Image(new File(path).toURI().toURL().toString());
+            } else {
+                img = new Image(getClass().getResource("/images/placeholder.png").toString());
             }
+        } catch (MalformedURLException e) {
+            img = new Image(getClass().getResource("/images/placeholder.png").toString());
         }
         avatar.setVisible(true);
         avatar.setFill(new ImagePattern(img));

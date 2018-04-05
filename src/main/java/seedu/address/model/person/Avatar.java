@@ -20,14 +20,10 @@ import java.util.regex.Pattern;
 public class Avatar {
 
     public static final String MESSAGE_AVATAR_CONSTRAINTS =
-            "Please specify the filepath for the avatar image eg. C:\\image.png\n" +
-            "Image file should be 200x200 and in jpg or png format";
+            "Please specify the filepath for the avatar image eg. C:\\image.png\n"
+            + "Image file should be 200x200 and in jpg or png format";
 
     public static final String AVATAR_VALIDATION_PATTERN = "([^\\s]+(\\.(?i)(jpg|png))$)";
-
-    public static final String PLACEHOLDER_FILEPATH = "images\\placeholder.png";
-
-    private String filePath;
 
     private String value;
 
@@ -39,9 +35,7 @@ public class Avatar {
     public Avatar(String avatar) {
         requireNonNull(avatar);
         checkArgument(isValidAvatar(avatar), MESSAGE_AVATAR_CONSTRAINTS);
-        if (avatar.contains("images\\")) this.value = avatar;
-        else this.value = PLACEHOLDER_FILEPATH;
-        this.filePath = avatar;
+        this.value = avatar;
     }
 
     /**
@@ -66,14 +60,15 @@ public class Avatar {
     }
 
     public void setFilePath(String player) throws IOException {
-        if (filePath.equals("<UNSPECIFIED>")) return;
-        final File file = new File(filePath);
+        if (value.equals("<UNSPECIFIED>")) {
+            return;
+        }
+        final File file = new File(value);
 
-        Path dest = new File("images/" + player.replaceAll("\\s+","") + ".png").toPath();
+        Path dest = new File("images/" + player.replaceAll("\\s+", "") + ".png").toPath();
         Files.createDirectories(Paths.get("images")); // Creates missing directories if any
         Files.copy(file.toPath(), dest, StandardCopyOption.REPLACE_EXISTING);
         this.value = dest.toString();
-        this.filePath = dest.toString();
     }
 
     public String getValue() {
