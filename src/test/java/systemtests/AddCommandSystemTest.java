@@ -80,6 +80,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         /* Case: add a person without tags to a non-empty address book, command with leading spaces and trailing spaces
          * -> added
          */
+        Avatar.setUpPlaceholderForTest();
         Person toAdd = AMY;
         String command = "   " + AddCommand.COMMAND_WORD + "  " + NAME_DESC_AMY + "  " + PHONE_DESC_AMY + " "
                 + EMAIL_DESC_AMY + "   " + ADDRESS_DESC_AMY + "   " + TAG_DESC_FRIEND + " " + RATING_DESC_0
@@ -248,8 +249,6 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                  + RATING_DESC_0 + POSITION_DESC_STRIKER + INVALID_JERSEY_NUMBER_DESC;
         assertCommandFailure(command, JerseyNumber.MESSAGE_JERSEY_NUMBER_CONSTRAINTS);
-
-        Avatar.setUpPlaceholderForTest();
 
         /* Case: invalid jersey avatar -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
