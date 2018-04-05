@@ -54,12 +54,14 @@ public class Avatar {
         return value;
     }
 
+    /*
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Avatar // instanceof handles nulls
                 && this.value.equals(((Avatar) other).value)); // state check
     }
+    */
 
     /**
      * Copies the image file from file path entered into images/ and renames it as [name].png
@@ -92,9 +94,11 @@ public class Avatar {
         }
     }
 
+    /*
     @Override
-    public int hashCode() {
-        return value.hashCode();
+   public int hashCode() {
+       return value.hashCode();
     }
+    */
 
 }

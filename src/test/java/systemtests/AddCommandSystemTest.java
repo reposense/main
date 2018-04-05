@@ -249,6 +249,8 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
                  + RATING_DESC_0 + POSITION_DESC_STRIKER + INVALID_JERSEY_NUMBER_DESC;
         assertCommandFailure(command, JerseyNumber.MESSAGE_JERSEY_NUMBER_CONSTRAINTS);
 
+        Avatar.setUpPlaceholderForTest();
+
         /* Case: invalid jersey avatar -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                 + RATING_DESC_0 + POSITION_DESC_STRIKER + JERSEY_NUMBER_DESC_2 + INVALID_AVATAR_NO_FILE;
