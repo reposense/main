@@ -65,14 +65,40 @@ public class PersonCard extends UiPart<Region> {
         this.person = person;
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
-        phone.setText(person.getPhone().value);
-        email.setText(person.getEmail().toString());
-        address.setText(person.getAddress().toString());
+
+        if (person.getPhone().isPrivate()) {
+            phone.setText(person.getPhone().toString());
+        } else {
+            phone.setText(person.getPhone().value);
+        }
+
+        if (person.getAddress().isPrivate()) {
+            address.setText(person.getAddress().toString());
+        } else {
+            address.setText(person.getAddress().value);
+        }
+
+        if (person.getEmail().isPrivate()) {
+            email.setText(person.getEmail().toString());
+        } else {
+            email.setText(person.getEmail().value);
+        }
+
+        if (person.getRemark().isPrivate()) {
+            remark.setText(person.getRemark().toString());
+        } else {
+            remark.setText(person.getRemark().value);
+        }
+
+        if (person.getRating().isPrivate()) {
+            rating.setText(person.getRating().toString());
+        } else {
+            rating.setText(person.getRating().value);
+        }
+
         teamName.setText(person.getTeamName().fullName);
-        rating.setText(person.getRating().value);
         position.setText(person.getPosition().getPositionName());
         jerseyNumber.setText(person.getJerseyNumber().toString());
-        remark.setText(person.getRemark().toString());
 
         initTags(person);
         registerAsAnEventHandler(this);
