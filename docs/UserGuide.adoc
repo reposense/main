@@ -618,6 +618,11 @@ d|Undo the previous command
 |redo
 d|Redo the previous command
 
+|`changeTheme`
+|`ct`
+|changeTheme THEME_NAME
+d|changes current theme to theme of choice
+
 |`clear`
 |`c`
 |clear
