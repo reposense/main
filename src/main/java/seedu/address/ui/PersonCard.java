@@ -133,6 +133,7 @@ public class PersonCard extends UiPart<Region> {
                 && person.equals(card.person);
     }
 
+    /** @@author Codee */
     @Subscribe
     public void handleColourChangeEvent(ChangeTagColourEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));

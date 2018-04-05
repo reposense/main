@@ -5,6 +5,7 @@ import seedu.address.commons.events.BaseEvent;
 /**
  * Indicates a request to highlight selected team name.
  */
+/** @@author Codee */
 public class HighlightSelectedTeamEvent extends BaseEvent {
 
     public final String teamName;

@@ -5,6 +5,7 @@ import seedu.address.commons.events.BaseEvent;
 /**
  * Indicates a request to change tag colour
  */
+/** @@author Codee */
 public class ChangeTagColourEvent extends BaseEvent {
 
     public final String tagColour;

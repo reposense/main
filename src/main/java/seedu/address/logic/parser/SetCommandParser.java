@@ -14,6 +14,7 @@ import seedu.address.model.tag.Tag;
 /**
  * This class is to check whether Set Command was input correctly
  */
+/** @@author Codee */
 public class SetCommandParser implements Parser<SetCommand> {
 
     /**
@@ -22,12 +23,15 @@ public class SetCommandParser implements Parser<SetCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public SetCommand parse(String args) throws ParseException {
+        System.out.println("args = " + args);
 
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_TAG, PREFIX_TAG_COLOUR);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_TAG, PREFIX_TAG_COLOUR)
                 || !argMultimap.getPreamble().isEmpty()) {
+            System.out.println("prefix = "+ arePrefixesPresent(argMultimap, PREFIX_TAG, PREFIX_TAG_COLOUR));
+            System.out.println("preamble = "+ argMultimap.getPreamble().isEmpty());
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE));
         }
 

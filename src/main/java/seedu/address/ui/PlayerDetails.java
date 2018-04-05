@@ -9,6 +9,7 @@ import seedu.address.model.person.Person;
 /**
  * The Browser Panel of the App.
  */
+/** @@author Codee */
 public class PlayerDetails extends UiPart<Region> {
 
     private static final String FXML = "PlayerDetails.fxml";

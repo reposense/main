@@ -5,6 +5,7 @@ import seedu.address.commons.events.BaseEvent;
 /**
  * Indicates a request to show new team name.
  */
+/** @@author Codee */
 public class ShowNewTeamNameEvent extends BaseEvent {
 
     public final String teamName;
