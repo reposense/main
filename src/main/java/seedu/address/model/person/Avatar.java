@@ -21,9 +21,9 @@ public class Avatar {
 
     public static final String MESSAGE_AVATAR_CONSTRAINTS =
             "Please specify the filepath for the avatar image eg. C:\\image.png\n" +
-            "Image file should be 200x200 and in png format";
+            "Image file should be 200x200 and in jpg or png format";
 
-    public static final String AVATAR_VALIDATION_PATTERN = "([^\\s]+(\\.(?i)(png))$)";
+    public static final String AVATAR_VALIDATION_PATTERN = "([^\\s]+(\\.(?i)(jpg|png))$)";
 
     public static final String PLACEHOLDER_FILEPATH = "images\\placeholder.png";
 
@@ -39,7 +39,8 @@ public class Avatar {
     public Avatar(String avatar) {
         requireNonNull(avatar);
         checkArgument(isValidAvatar(avatar), MESSAGE_AVATAR_CONSTRAINTS);
-        this.value = PLACEHOLDER_FILEPATH;
+        if (avatar.contains("images\\")) this.value = avatar;
+        else this.value = PLACEHOLDER_FILEPATH;
         this.filePath = avatar;
     }
 
@@ -68,7 +69,7 @@ public class Avatar {
         if (filePath.equals("<UNSPECIFIED>")) return;
         final File file = new File(filePath);
 
-        Path dest = new File("images/" + player + ".png").toPath();
+        Path dest = new File("images/" + player.replaceAll("\\s+","") + ".png").toPath();
         Files.createDirectories(Paths.get("images")); // Creates missing directories if any
         Files.copy(file.toPath(), dest, StandardCopyOption.REPLACE_EXISTING);
         this.value = dest.toString();
