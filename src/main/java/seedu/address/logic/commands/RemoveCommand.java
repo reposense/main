@@ -31,12 +31,13 @@ public class RemoveCommand extends UndoableCommand {
     private TeamName targetTeamName;
 
     public RemoveCommand(TeamName targetTeamName) {
+        requireNonNull(targetTeamName);
         this.targetTeamName = targetTeamName;
     }
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
-        requireNonNull(targetTeamName);
+        requireNonNull(model);
         try {
             model.removeTeam(targetTeamName);
             model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
