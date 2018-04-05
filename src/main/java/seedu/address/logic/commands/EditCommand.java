@@ -120,15 +120,20 @@ public class EditCommand extends UndoableCommand {
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
+     * NOTE: Private fields will not be edited.
      */
     private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
         assert personToEdit != null;
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
-        Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
-        Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
-        Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
-        Remark updatedRemark = personToEdit.getRemark();
+        Phone updatedPhone = (personToEdit.getPhone().isPrivate())
+                ? personToEdit.getPhone() : editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
+        Email updatedEmail = (personToEdit.getEmail().isPrivate())
+                ? personToEdit.getEmail() : editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
+        Address updatedAddress = (personToEdit.getAddress().isPrivate())
+                ? personToEdit.getAddress() : editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
+        Remark updatedRemark = (personToEdit.getRemark().isPrivate())
+                ? personToEdit.getRemark() : personToEdit.getRemark();
         TeamName updatedTeamName = personToEdit.getTeamName();
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
         Rating updatedRating = editPersonDescriptor.getRating().orElse(personToEdit.getRating());

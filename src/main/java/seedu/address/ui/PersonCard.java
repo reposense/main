@@ -55,10 +55,13 @@ public class PersonCard extends UiPart<Region> {
         this.person = person;
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
+        if (person.getRating().isPrivate()) {
+            rating.setText(person.getRating().toString());
+        } else {
+            rating.setText(person.getRating().value);
+        }
         teamName.setText(person.getTeamName().fullName);
-        rating.setText(person.getRating().value);
         position.setText(person.getPosition().getPositionName());
-
         initTags(person);
         registerAsAnEventHandler(this);
     }
