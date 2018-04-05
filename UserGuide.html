@@ -732,7 +732,7 @@ Alias: <code>so</code></p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Current version of <code>sort</code> supports the following fields: Name, Phone, Email &amp; Address.</p>
+<p>Current version of <code>sort</code> supports the following fields: Name, Email, Address, Rating, Jersey Number &amp; Position.</p>
 </div>
 </td>
 </tr>
@@ -1076,7 +1076,52 @@ Alias: <code>stc</code></p>
 <div class="sect3">
 <h4 id="set-various-fields-to-private-code-toggleprivacy-code-code-since-v1-4-code"><a class="link" href="#set-various-fields-to-private-code-toggleprivacy-code-code-since-v1-4-code">3.4.2. Set various fields to private: <code>toggleprivacy</code> <code>[Since v1.4]</code></a></h4>
 <div class="paragraph">
-<p>{explain how fields of players can be set private}</p>
+<p>You can toggle the privacy of various fields of players in MTM.</p>
+</div>
+<div class="paragraph">
+<p>Format: <code>toggleprivacy</code> INDEX FIELD [MORE_FIELDS]<br>
+Alias: <code>tp</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Current version of <code>toggleprivacy</code> supports the following fields: Phone, Email, Address, Remark &amp; Rating</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="title"><strong>What to expect</strong></div>
+<div class="paragraph">
+<p>Privacy of field will be toggled between private or public. If phone field of player at index 1 is private,
+running command: <strong><code>tp</code> 1 p/</strong> would change phone field to public. Private fields are shown as &lt;Private 'field'&gt;.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Here are some examples on how you can use the <code>toggleprivacy</code> command:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tp</code> 1 p/ ra/<br>
+Toggles privacy of phone and rating of player @ index 1</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1396,7 +1441,7 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-05 15:48:48 UTC
+Last updated 2018-04-05 16:05:13 UTC
 </div>
 </div>
 </body>
