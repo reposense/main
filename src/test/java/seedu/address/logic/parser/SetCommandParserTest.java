@@ -1,12 +1,13 @@
 package seedu.address.logic.parser;
 
-import org.junit.Test;
-import seedu.address.logic.commands.SetCommand;
-
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_COLOUR;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.TypicalTags.FRIEND;
+
+import org.junit.Test;
+
+import seedu.address.logic.commands.SetCommand;
 
 /** @@author Codee */
 public class SetCommandParserTest {
