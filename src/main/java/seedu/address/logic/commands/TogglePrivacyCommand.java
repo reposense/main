@@ -29,7 +29,9 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.team.TeamName;
 
-
+/**
+ * Toggles privacy of fields of player identified using it's last displayed index from the address book.
+ */
 public class TogglePrivacyCommand extends UndoableCommand {
     public static final String COMMAND_WORD = "toggleprivacy";
     public static final String COMMAND_ALIAS = "tp";
