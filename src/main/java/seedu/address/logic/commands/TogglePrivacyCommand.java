@@ -17,6 +17,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Avatar;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.JerseyNumber;
 import seedu.address.model.person.Name;
@@ -115,9 +116,10 @@ public class TogglePrivacyCommand extends UndoableCommand {
         Rating updatedRating = createRatingPrivacy(personToEdit, epp);
         Position updatedPosition = personToEdit.getPosition();
         JerseyNumber updatedJerseyNumber = personToEdit.getJerseyNumber();
+        Avatar updatedAvatar = personToEdit.getAvatar();
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark,
-                updatedTeamName, updatedTags, updatedRating, updatedPosition, updatedJerseyNumber);
+                updatedTeamName, updatedTags, updatedRating, updatedPosition, updatedJerseyNumber, updatedAvatar);
     }
 
     /**
