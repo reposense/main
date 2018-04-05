@@ -1760,10 +1760,14 @@ the current team that has been selected in the Command Line Interface by the use
 <li>
 <p>It calls the <code>Team</code> model and displays the <code>Person</code> cards associated with that <code>Team</code>.</p>
 </li>
+<li>
+<p>It contains event handler methods such as handleShowNewTeamEvent(), handleHighlightSelectedTeamEvent(),
+and handleDeselectTeamEvent().</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Code snippet from 'TeamDisplay' to show initialisation of UI component:</p>
+<p>Code snippet from 'TeamDisplay' to show initialisation of UI component and event handlers:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1773,7 +1777,25 @@ the current team that has been selected in the Command Line Interface by the use
 
     <span class="directive">public</span> TeamDisplay() {
         <span class="local-variable">super</span>(FXML);
-        <span class="comment">// ...team display code...</span>
+            <span class="local-variable">this</span>.teamList = teamList;
+            initTeams();
+            getTeams();
+            registerAsAnEventHandler(<span class="local-variable">this</span>);
+    }
+
+    <span class="annotation">@Subscribe</span>
+    <span class="directive">private</span> <span class="type">void</span> handleShowNewTeamEvent(ShowNewTeamNameEvent event) {
+        ...handleShowNewTeamEvent code...
+    }
+
+    <span class="annotation">@Subscribe</span>
+    <span class="directive">private</span> <span class="type">void</span> handleHighlightSelectedTeamEvent(HighlightSelectedTeamEvent event) {
+        ...handleHighlightSelectedTeamEvent code...
+    }
+
+    <span class="annotation">@Subscribe</span>
+    <span class="directive">private</span> <span class="type">void</span> handleDeselectTeamEvent(DeselectTeamEvent event) {
+        ...handleDeselectTeamEvent code...
     }
 }</code></pre>
 </div>
@@ -2935,7 +2957,7 @@ Expected: Similar to previous.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-05 14:54:45 UTC
+Last updated 2018-04-05 15:20:24 UTC
 </div>
 </div>
 </body>
