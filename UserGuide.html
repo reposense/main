@@ -57,8 +57,9 @@
 <ul class="sectlevel3">
 <li><a href="#creating-a-team-code-create-code-code-since-v1-2-code">3.3.1. Creating a team: <code>create</code> <code>[Since v1.2]</code></a></li>
 <li><a href="#removing-a-team-code-remove-code-code-since-v1-4-code">3.3.2. Removing a team: <code>remove</code> <code>[Since v1.4]</code></a></li>
-<li><a href="#assigning-player-to-teams-code-assign-code-code-since-v1-3-code">3.3.3. Assigning player to teams: <code>assign</code> <code>[Since v1.3]</code></a></li>
-<li><a href="#viewing-a-team-code-view-code-code-since-v1-3-code">3.3.4. Viewing a team: <code>view</code> <code>[Since v1.3]</code></a></li>
+<li><a href="#rename-a-team-code-rename-code-code-since-v1-4-code">3.3.3. Rename a team: <code>rename</code> <code>[Since v1.4]</code></a></li>
+<li><a href="#assigning-player-to-teams-code-assign-code-code-since-v1-3-code">3.3.4. Assigning player to teams: <code>assign</code> <code>[Since v1.3]</code></a></li>
+<li><a href="#viewing-a-team-code-view-code-code-since-v1-3-code">3.3.5. Viewing a team: <code>view</code> <code>[Since v1.3]</code></a></li>
 </ul>
 </li>
 <li><a href="#other-useful-commands">3.4. Other Useful Commands</a>
@@ -961,12 +962,42 @@ Display the list of players in team "Arsenal" and remove the team.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="assigning-player-to-teams-code-assign-code-code-since-v1-3-code"><a class="link" href="#assigning-player-to-teams-code-assign-code-code-since-v1-3-code">3.3.3. Assigning player to teams: <code>assign</code> <code>[Since v1.3]</code></a></h4>
+<h4 id="rename-a-team-code-rename-code-code-since-v1-4-code"><a class="link" href="#rename-a-team-code-rename-code-code-since-v1-4-code">3.3.3. Rename a team: <code>rename</code> <code>[Since v1.4]</code></a></h4>
+<div class="paragraph">
+<p>Entered your team name wrongly or you need to update it to accordingly, you can use the rename command to help you make that change.</p>
+</div>
+<div class="paragraph">
+<p>Format: <code>rename TEAM_NAME tn/RENAME_TEAM_NAME</code>
+Alias: <code>rnt</code></p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="title"><strong>What to expect</strong></div>
+<div class="paragraph">
+<p>Your specified team will be updated with the new team name along with the affected players in the existing team.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Here are a few valid examples on how you can use the <code>rename</code> command:
+* <code>rename Arsenal tn/Neo Arsenal</code>
+Renames the current team "Arsenal" into "Neo Arsenal".</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="assigning-player-to-teams-code-assign-code-code-since-v1-3-code"><a class="link" href="#assigning-player-to-teams-code-assign-code-code-since-v1-3-code">3.3.4. Assigning player to teams: <code>assign</code> <code>[Since v1.3]</code></a></h4>
 <div class="paragraph">
 <p>Have a player without a team, or have yet to assigned one during the addition of player into MTM, you can call this command to assign that player to a particular team of your choice.</p>
 </div>
 <div class="paragraph">
-<p>Format: <code>assign at/TEAM_NAME i/INDEX [INDEX]&#8230;&#8203;</code><br>
+<p>Format: <code>assign tn/TEAM_NAME i/INDEX [INDEX]&#8230;&#8203;</code><br>
 Alias: <code>at</code></p>
 </div>
 <div class="admonitionblock note">
@@ -1009,21 +1040,21 @@ You can assign multiple players to a team by including more than one valid index
 <p><code>list</code></p>
 </li>
 <li>
-<p><code>assign at/Arsenal i/1 2 3</code><br>
+<p><code>assign tn/Arsenal i/1 2 3</code><br>
 View the full list of players in MTM and assign the player with index 1, 2, and 3 to team "Arsenal".</p>
 </li>
 <li>
 <p><code>find John</code></p>
 </li>
 <li>
-<p><code>assign at/Liverpool i/1</code><br>
+<p><code>assign tn/Liverpool i/1</code><br>
 Find a player by the name of "John" and assign the player with index 1 to team "Liverpool".</p>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect3">
-<h4 id="viewing-a-team-code-view-code-code-since-v1-3-code"><a class="link" href="#viewing-a-team-code-view-code-code-since-v1-3-code">3.3.4. Viewing a team: <code>view</code> <code>[Since v1.3]</code></a></h4>
+<h4 id="viewing-a-team-code-view-code-code-since-v1-3-code"><a class="link" href="#viewing-a-team-code-view-code-code-since-v1-3-code">3.3.5. Viewing a team: <code>view</code> <code>[Since v1.3]</code></a></h4>
 <div class="paragraph">
 <p>With the ability to manage different teams, you will be able to list all players currently in a team easily with this command.
 Format: <code>view TEAM_NAME</code>
@@ -1396,10 +1427,16 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>remove Real Madrid</code></p></td>
 </tr>
 <tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>rename</code></strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>rnt</code></strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rename TEAM_NAME tn/RENAME_TEAM_NAME</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rename Arsenal tn/Neo Arsenal</code></p></td>
+</tr>
+<tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>assign</code></strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>at</code></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>assign at/TEAM_NAME i/INDEX [INDEX]&#8230;&#8203;</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>assign at/Barcelona i/1 2 3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>assign tn/TEAM_NAME i/INDEX [INDEX]&#8230;&#8203;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>assign tn/Barcelona i/1 2 3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>view</code></strong></p></td>
@@ -1441,7 +1478,7 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-05 16:05:13 UTC
+Last updated 2018-04-05 20:43:23 UTC
 </div>
 </div>
 </body>
