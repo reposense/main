@@ -50,7 +50,9 @@ public class Rating {
         return value;
     }
 
-    public boolean isPrivate() { return isPrivate; }
+    public boolean isPrivate() {
+        return isPrivate;
+    }
 
     public void togglePrivacy() {
         this.isPrivate = isPrivate ? false : true;

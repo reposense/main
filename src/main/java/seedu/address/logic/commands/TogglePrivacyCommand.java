@@ -11,7 +11,6 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import java.util.List;
 import java.util.Set;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -48,7 +47,7 @@ public class TogglePrivacyCommand extends UndoableCommand {
             + PREFIX_EMAIL + " "
             + PREFIX_ADDRESS;
 
-    public static final String MESSAGE__SUCCESS = "Changed the Privacy of the Person: %1$s";
+    public static final String MESSAGE_SUCCESS = "Changed the Privacy of the Person: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
     private final Index index;
@@ -91,7 +90,7 @@ public class TogglePrivacyCommand extends UndoableCommand {
             throw new AssertionError("The target person cannot be missing");
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE__SUCCESS, editedPerson));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, editedPerson));
     }
 
     /**
@@ -99,7 +98,8 @@ public class TogglePrivacyCommand extends UndoableCommand {
      * edited with {@code editPersonPrivacy}.
      * NOTE: Private fields will not be edited.
      */
-    private static Person createEditedPrivacyPerson(Person personToEdit, EditPersonPrivacy epp) throws IllegalValueException {
+    private static Person createEditedPrivacyPerson(Person personToEdit, EditPersonPrivacy epp)
+            throws IllegalValueException {
         assert personToEdit != null;
 
         Name updatedName = personToEdit.getName();
@@ -117,6 +117,11 @@ public class TogglePrivacyCommand extends UndoableCommand {
                 updatedTeamName, updatedTags, updatedRating, updatedPosition, updatedJerseyNumber);
     }
 
+    /**
+     * Creates a new (@code Phone) based on the input (@code Person) and (@code EditPersonPrivacy)
+     * @return A (@code Phone) with the same value as that of the (@code Person)'s but with the privacy set to that
+     * of the (@code EditPersonPrivacy)
+     */
     private static Phone createPhonePrivacy(Person person, EditPersonPrivacy epp) {
         Phone phone;
         try {
@@ -140,6 +145,11 @@ public class TogglePrivacyCommand extends UndoableCommand {
         return phone;
     }
 
+    /**
+     * Creates a new (@code Email) based on the input (@code Person) and (@code EditPersonPrivacy)
+     * @return A (@code Email) with the same value as that of the (@code Person)'s but with the privacy set to that
+     * of the (@code EditPersonPrivacy)
+     */
     private static Email createEmailPrivacy(Person person, EditPersonPrivacy epp) {
         Email email;
         try {
@@ -162,6 +172,11 @@ public class TogglePrivacyCommand extends UndoableCommand {
         return email;
     }
 
+    /**
+     * Creates a new (@code Address) based on the input (@code Person) and (@code EditPersonPrivacy)
+     * @return A (@code Address) with the same value as that of the (@code Person)'s but with the privacy set to that
+     * of the (@code EditPersonPrivacy)
+     */
     private static Address createAddressPrivacy(Person person, EditPersonPrivacy epp) {
         Address address;
         try {
@@ -184,6 +199,11 @@ public class TogglePrivacyCommand extends UndoableCommand {
         return address;
     }
 
+    /**
+     * Creates a new (@code Remark) based on the input (@code Person) and (@code EditPersonPrivacy)
+     * @return A (@code Remark) with the same value as that of the (@code Person)'s but with the privacy set to that
+     * of the (@code EditPersonPrivacy)
+     */
     private static Remark createRemarkPrivacy(Person person, EditPersonPrivacy epp) {
         Remark remark;
         try {
@@ -206,6 +226,11 @@ public class TogglePrivacyCommand extends UndoableCommand {
         return remark;
     }
 
+    /**
+     * Creates a new (@code Rating) based on the input (@code Person) and (@code EditPersonPrivacy)
+     * @return A (@code Rating) with the same value as that of the (@code Person)'s but with the privacy set to that
+     * of the (@code EditPersonPrivacy)
+     */
     private static Rating createRatingPrivacy(Person person, EditPersonPrivacy epp) {
         Rating rating;
         try {
