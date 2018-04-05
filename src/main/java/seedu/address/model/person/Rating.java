@@ -16,6 +16,7 @@ public class Rating {
     public static final String RATING_VALIDATION_REGEX = "[0-5]";
 
     public final String value;
+    private boolean isPrivate;
 
     /**
      * Constructs an {@code Rating}.
@@ -28,6 +29,11 @@ public class Rating {
         this.value = rating;
     }
 
+    public Rating(String rating, boolean isPrivate) {
+        this(rating);
+        this.setPrivate(isPrivate);
+    }
+
     /**
      * Returns true if a given string is a valid player's rating.
      */
@@ -37,7 +43,22 @@ public class Rating {
 
     @Override
     public String toString() {
+        if (isPrivate) {
+            return "<Private Rating>";
+        }
         return value;
+    }
+
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
+    public void togglePrivacy() {
+        this.isPrivate = isPrivate ? false : true;
+    }
+
+    public void setPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
     }
 
     @Override

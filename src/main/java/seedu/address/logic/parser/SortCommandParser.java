@@ -14,7 +14,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
  */
 public class SortCommandParser implements Parser<SortCommand> {
     public static final List<String> ACCEPTED_FIELDS = new ArrayList<>(Arrays.asList(
-            "name", "phone", "email", "address"));
+            "name", "email", "address", "rating", "jersey", "pos"));
     public static final List<String> ACCEPTED_ORDERS = new ArrayList<>(Arrays.asList(
             "asc", "desc"));
 

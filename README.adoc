@@ -7,13 +7,22 @@ https://coveralls.io/github/CS2103JAN2018-F14-B1/main?branch=master[image:https:
 https://gitter.im/se-edu/Lobby[image:https://badges.gitter.im/se-edu/Lobby.svg[Gitter chat]]
 
 ifdef::env-github[]
-image::docs/images/Ui.png[width="600"]
+image::docs/images/MyTeamManagerLogo.png[width="600", align="center"]
 endif::[]
 
 ifndef::env-github[]
-image::images/Ui.png[width="600"]
+image::images/MyTeamManagerLogo.png[width="600", align="center"]
 endif::[]
 
+ifdef::env-github[]
+image::docs/images/Ui.png[width="600", align="center"]
+endif::[]
+
+ifndef::env-github[]
+image::images/Ui.png[width="600", align="center"]
+endif::[]
+
+== Introduction to MTM
 My Team Manager (MTM) is a desktop based team managing application for football team managers. +
 It uses a Command Line Interface (CLI).
 
@@ -48,5 +57,6 @@ Come and take a look at our link:./UserGuide.adoc[User Guide] to get started wit
 * Some parts of this sample application were inspired by the excellent http://code.makery.ch/library/javafx-8-tutorial/[Java FX tutorial] by
 _Marco Jakob_.
 * Libraries used: https://github.com/TomasMikula/EasyBind[EasyBind], https://github.com/TestFX/TestFX[TextFX], https://bitbucket.org/controlsfx/controlsfx/[ControlsFX], https://github.com/FasterXML/jackson[Jackson], https://github.com/google/guava[Guava], https://github.com/junit-team/junit4[JUnit4]
+* Logo created on http://logomakr.com[LogoMakr]: https://logomakr.com/22Mc9C[My Team Manager Logo]
 
 == Licence : link:LICENSE[MIT]

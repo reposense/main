@@ -13,7 +13,11 @@ import seedu.address.model.team.Team;
 import seedu.address.model.team.TeamName;
 import seedu.address.testutil.TeamBuilder;
 
+/**
+ * tests for TeamDisplay UI Component.
+ */
 
+/** @@author Codee */
 public class TeamDisplayTest extends GuiUnitTest {
 
     private static final String NEW_TEAM_NAME = "myTeam";
