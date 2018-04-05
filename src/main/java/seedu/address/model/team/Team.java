@@ -32,7 +32,7 @@ public class Team extends UniquePersonList {
     public Team(TeamName teamName, List<Person> players) {
         this.teamName = teamName;
         try {
-            setPersons(players);
+            super.setPersons(players);
         } catch (DuplicatePersonException dpe) {
             throw new AssertionError("Team should not have duplicated person from loading from database");
         }

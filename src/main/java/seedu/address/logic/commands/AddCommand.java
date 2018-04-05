@@ -12,7 +12,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TEAM_NAME;
 import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
 
+import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
+import seedu.address.commons.events.ui.DeselectTeamEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -78,6 +80,7 @@ public class AddCommand extends UndoableCommand {
             if (!toAdd.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
                 model.assignPersonToTeam(toAdd, toAdd.getTeamName());
             }
+            EventsCenter.getInstance().post(new DeselectTeamEvent());
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (DuplicatePersonException e) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
@@ -87,7 +90,7 @@ public class AddCommand extends UndoableCommand {
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
         TeamName teamName = toAdd.getTeamName();
-        if (!model.getAddressBook().getTeamList().contains(teamName)) {
+        if (!model.getAddressBook().getTeamList().stream().anyMatch(t -> t.getTeamName().equals(teamName))) {
             if (!teamName.toString().equals(UNSPECIFIED_FIELD)) {
                 throw new CommandException((Messages.MESSAGE_TEAM_NOT_FOUND));
             }

@@ -133,7 +133,6 @@ public class UniqueTeamList implements Iterable<Team> {
     public void removePersonFromTeam(Person person, Team target) throws PersonNotFoundException {
         requireAllNonNull(person, target);
         try {
-            System.out.println("Is this true? : " + target.contains(person));
             target.remove(person);
         } catch (PersonNotFoundException e) {
             throw new PersonNotFoundException();

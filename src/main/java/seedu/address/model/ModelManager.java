@@ -84,7 +84,6 @@ public class ModelManager extends ComponentManager implements Model {
     public void updatePerson(Person target, Person editedPerson)
             throws DuplicatePersonException, PersonNotFoundException {
         requireAllNonNull(target, editedPerson);
-
         addressBook.updatePerson(target, editedPerson);
         indicateAddressBookChanged();
     }
@@ -125,6 +124,13 @@ public class ModelManager extends ComponentManager implements Model {
         requireNonNull(teamName);
         raise(new RemoveSelectedTeamEvent(teamName));
         addressBook.removeTeam(teamName);
+        indicateAddressBookChanged();
+    }
+
+    @Override
+    public synchronized void renameTeam(Team targetTeam, TeamName updatedTeamName) {
+        requireAllNonNull(targetTeam, updatedTeamName);
+        addressBook.renameTeam(targetTeam, updatedTeamName);
         indicateAddressBookChanged();
     }
 
