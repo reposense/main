@@ -20,13 +20,14 @@ import java.util.regex.Pattern;
 public class Avatar {
 
     public static final String MESSAGE_AVATAR_CONSTRAINTS =
-            "Player's avatar should be an integer from 0 - 5.";
+            "Please specify the filepath for the avatar image eg. C:\\image.png\n" +
+            "Image file should be 200x200 and in png format";
 
-    public static final String AVATAR_VALIDATION_PATTERN = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)";
+    public static final String AVATAR_VALIDATION_PATTERN = "([^\\s]+(\\.(?i)(png))$)";
 
     public static final String PLACEHOLDER_FILEPATH = "images\\placeholder.png";
 
-    public final String filePath;
+    private String filePath;
 
     private String value;
 
@@ -71,6 +72,7 @@ public class Avatar {
         Files.createDirectories(Paths.get("images")); // Creates missing directories if any
         Files.copy(file.toPath(), dest, StandardCopyOption.REPLACE_EXISTING);
         this.value = dest.toString();
+        this.filePath = dest.toString();
     }
 
     public String getValue() {
