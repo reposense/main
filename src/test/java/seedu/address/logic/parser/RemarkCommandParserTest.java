@@ -11,6 +11,7 @@ import org.junit.Test;
 import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.model.person.Remark;
 
+//@@author jordancjq-reused
 public class RemarkCommandParserTest {
 
     private static final String REMARK_EMPTY = "";
