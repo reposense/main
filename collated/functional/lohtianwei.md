@@ -1,6 +1,67 @@
-package seedu.address.logic.commands;
+# lohtianwei
+###### \java\seedu\address\logic\commands\SortCommand.java
+``` java
+import static java.util.Objects.requireNonNull;
 
-//@@author lohtianwei
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.person.exceptions.NoPlayerException;
+
+/**
+ * Sorts all players in address book by field. Can be done in asc or desc order.
+ */
+
+public class SortCommand extends UndoableCommand {
+    public static final String COMMAND_WORD = "sort";
+    public static final String COMMAND_ALIAS = "so";
+    public static final String BY_ASCENDING = "asc";
+    public static final String BY_DESCENDING = "desc";
+
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sorts players in address book "
+            + "by fields in either ascending or descending order.\n"
+            + "Parameters: FIELD ORDER\n"
+            + "Accepted fields for sort: name, email, address, rating, jersey, pos\n"
+            + "Example: " + COMMAND_WORD
+            + " name " + BY_ASCENDING;
+
+    public static final String MESSAGE_PARAMETERS = "FIELD ORDER";
+
+    public static final String MESSAGE_SUCCESS = "Players in address book have been sorted.";
+    public static final String MESSAGE_EMPTY_BOOK = "No player(s) to sort.";
+
+    private final String field;
+    private final String order;
+
+    public SortCommand(String field, String order) {
+        requireNonNull(field);
+        requireNonNull(order);
+
+        this.field = field;
+        this.order = order;
+    }
+
+    public String getField() {
+        return this.field;
+    }
+
+    public String getOrder() {
+        return this.order;
+    }
+
+    @Override
+    public CommandResult executeUndoableCommand() throws CommandException {
+        try {
+            model.sortPlayers(getField(), getOrder());
+        } catch (NoPlayerException npe) {
+            throw new CommandException(MESSAGE_EMPTY_BOOK);
+        }
+        return new CommandResult(MESSAGE_SUCCESS);
+
+    }
+}
+```
+###### \java\seedu\address\logic\commands\TogglePrivacyCommand.java
+``` java
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
@@ -370,3 +431,266 @@ public class TogglePrivacyCommand extends UndoableCommand {
         }
     }
 }
+```
+###### \java\seedu\address\logic\parser\SortCommandParser.java
+``` java
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import seedu.address.logic.commands.SortCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
+
+/**
+ * Parses input arguments and creates a new SortCommand object with field and order parameters provided
+ */
+public class SortCommandParser implements Parser<SortCommand> {
+    public static final List<String> ACCEPTED_FIELDS = new ArrayList<>(Arrays.asList(
+            "name", "email", "address", "rating", "jersey", "pos"));
+    public static final List<String> ACCEPTED_ORDERS = new ArrayList<>(Arrays.asList(
+            "asc", "desc"));
+
+    @Override
+    public SortCommand parse(String args) throws ParseException {
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
+        //eliminates spaces
+        String[] argKeywords = trimmedArgs.split("\\s+");
+
+        //accounts for caps entries
+        for (int i = 0; i < argKeywords.length; i++) {
+            argKeywords[i] = argKeywords[i].toLowerCase();
+        }
+
+        if (argKeywords.length != 2) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
+        if (!ACCEPTED_FIELDS.contains(argKeywords[0])) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
+        if (!ACCEPTED_ORDERS.contains(argKeywords[1])) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
+        return new SortCommand(argKeywords[0], argKeywords[1]);
+    }
+}
+```
+###### \java\seedu\address\logic\parser\TogglePrivacyCommandParser.java
+``` java
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RATING;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
+
+import seedu.address.commons.core.index.Index;
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.commands.TogglePrivacyCommand;
+import seedu.address.logic.commands.TogglePrivacyCommand.EditPersonPrivacy;
+import seedu.address.logic.parser.exceptions.ParseException;
+
+/**
+ * Parses input arguments and creates a new TogglePrivacyCommand object
+ */
+public class TogglePrivacyCommandParser implements Parser<TogglePrivacyCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the TogglePrivacyCommand
+     * and returns an TogglePrivacyCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public TogglePrivacyCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args,
+                        PREFIX_REMARK, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_RATING);
+
+        Index index;
+
+        try {
+            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+        } catch (IllegalValueException ive) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, TogglePrivacyCommand.MESSAGE_USAGE));
+        }
+
+        EditPersonPrivacy epp = new EditPersonPrivacy();
+        if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
+            epp.setPrivatePhone(false);
+        }
+
+        if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
+            epp.setPrivateAddress(false);
+        }
+
+        if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
+            epp.setPrivateEmail(false);
+        }
+
+        if (argMultimap.getValue(PREFIX_REMARK).isPresent()) {
+            epp.setPrivateRemark(false);
+        }
+
+        if (argMultimap.getValue(PREFIX_RATING).isPresent()) {
+            epp.setPrivateRating(false);
+        }
+        return new TogglePrivacyCommand(index, epp);
+    }
+}
+```
+###### \java\seedu\address\model\AddressBook.java
+``` java
+    public void sortPlayersBy(String field, String order) throws NoPlayerException {
+        persons.sortBy(field, order);
+    }
+```
+###### \java\seedu\address\model\ModelManager.java
+``` java
+    @Override
+    public void sortPlayers(String field, String order) throws NoPlayerException {
+        addressBook.sortPlayersBy(field, order);
+        indicateAddressBookChanged();
+    }
+```
+###### \java\seedu\address\model\person\UniquePersonList.java
+``` java
+    /**
+     * Sorts players by selected field in asc or desc order.
+     * @return
+     */
+    public void sortBy(String field, String order) throws NoPlayerException {
+        if (internalList.size() < 1) {
+            throw new NoPlayerException();
+        }
+
+        Comparator<Person> comparator = null;
+
+        Comparator<Person> nameComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getName().fullName.compareTo(p2.getName().fullName);
+            }
+        };
+
+        Comparator<Person> jerseyComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getJerseyNumber().value.compareTo(p2.getJerseyNumber().value);
+            }
+        };
+
+        Comparator<Person> ratingComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getRating().value.compareTo(p2.getRating().value);
+            }
+        };
+
+        Comparator<Person> posComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getPosition().value.compareTo(p2.getPosition().value);
+            }
+        };
+
+        Comparator<Person> emailComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getEmail().value.compareTo(p2.getEmail().value);
+            }
+        };
+
+        Comparator<Person> addressComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getAddress().value.compareTo(p2.getAddress().value);
+            }
+        };
+
+        switch (field) {
+        case "name":
+            comparator = nameComparator;
+            break;
+
+        case "jersey":
+            comparator = jerseyComparator;
+            break;
+
+        case "pos":
+            comparator = posComparator;
+            break;
+
+        case "rating":
+            comparator = ratingComparator;
+            break;
+
+        case "email":
+            comparator = emailComparator;
+            break;
+
+        case "address":
+            comparator = addressComparator;
+            break;
+
+        default:
+            throw new AssertionError("Invalid field parameter entered...\n");
+        }
+
+        switch (order) {
+        case "asc":
+            Collections.sort(internalList, comparator);
+            break;
+
+        case "desc":
+            Collections.sort(internalList, Collections.reverseOrder(comparator));
+            break;
+
+        default:
+            throw new AssertionError("Invalid field parameter entered...\n");
+        }
+    }
+```
+###### \java\seedu\address\ui\PlayerDetails.java
+``` java
+    public PlayerDetails(Person person) {
+        super(FXML);
+        this.person = person;
+        name.setText(person.getName().fullName);
+        jerseyNumber.setText("Jersey Number: " + person.getJerseyNumber().value);
+
+        if (person.getPhone().isPrivate()) {
+            phone.setText(person.getPhone().toString());
+        } else {
+            phone.setText(person.getPhone().value);
+        }
+
+        if (person.getAddress().isPrivate()) {
+            address.setText(person.getAddress().toString());
+        } else {
+            address.setText(person.getAddress().value);
+        }
+
+        if (person.getEmail().isPrivate()) {
+            email.setText(person.getEmail().toString());
+        } else {
+            email.setText(person.getEmail().value);
+        }
+
+        if (person.getRemark().isPrivate()) {
+            remark.setText("Remarks: " + person.getRemark().toString());
+        } else {
+            remark.setText("Remarks: " + person.getRemark().value);
+        }
+    }
+}
+
+```

@@ -132,9 +132,11 @@ public class AddressBook implements ReadOnlyAddressBook {
         removeUnusedTags();
     }
 
+    //@@author lohtianwei
     public void sortPlayersBy(String field, String order) throws NoPlayerException {
         persons.sortBy(field, order);
     }
+    //@@author
 
     /**
      *  Updates the master tag list to include tags in {@code person} that are not in the list.

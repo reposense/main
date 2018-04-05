@@ -88,11 +88,13 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author lohtianwei
     @Override
     public void sortPlayers(String field, String order) throws NoPlayerException {
         addressBook.sortPlayersBy(field, order);
         indicateAddressBookChanged();
     }
+    //@@author
 
     @Override
     public void deleteTag(Tag tag) {
