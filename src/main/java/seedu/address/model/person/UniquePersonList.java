@@ -124,10 +124,24 @@ public class UniquePersonList implements Iterable<Person> {
             }
         };
 
-        Comparator<Person> phoneComparator = new Comparator<Person>() {
+        Comparator<Person> jerseyComparator = new Comparator<Person>() {
             @Override
             public int compare(Person p1, Person p2) {
-                return p1.getPhone().value.compareTo(p2.getPhone().value);
+                return p1.getJerseyNumber().value.compareTo(p2.getJerseyNumber().value);
+            }
+        };
+
+        Comparator<Person> ratingComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getRating().value.compareTo(p2.getRating().value);
+            }
+        };
+
+        Comparator<Person> posComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getPosition().value.compareTo(p2.getPosition().value);
             }
         };
 
@@ -150,8 +164,16 @@ public class UniquePersonList implements Iterable<Person> {
             comparator = nameComparator;
             break;
 
-        case "phone":
-            comparator = phoneComparator;
+        case "jersey":
+            comparator = jerseyComparator;
+            break;
+
+        case "pos":
+            comparator = posComparator;
+            break;
+
+        case "rating":
+            comparator = ratingComparator;
             break;
 
         case "email":

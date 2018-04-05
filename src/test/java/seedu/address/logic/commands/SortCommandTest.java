@@ -32,11 +32,9 @@ public class SortCommandTest {
     private Model sortedByAddDesc = new ModelManager(
             getSortedAddressBook("address", "desc"), new UserPrefs());
 
-    private Model sortedByPhone = new ModelManager(getSortedAddressBook("phone", "asc"), new UserPrefs());
-    private Model sortedByPhoneDesc = new ModelManager(getSortedAddressBook("phone", "desc"), new UserPrefs());
-
     private Model sortedByEmail = new ModelManager(getSortedAddressBook("email", "asc"), new UserPrefs());
-    private Model sortedByEmailDesc = new ModelManager(getSortedAddressBook("email", "desc"), new UserPrefs());
+    private Model sortedByEmailDesc = new ModelManager(
+            getSortedAddressBook("email", "desc"), new UserPrefs());
 
     @Test
     public void noPlayers() throws CommandException {
@@ -82,20 +80,6 @@ public class SortCommandTest {
         SortCommand so = prepareCommand("address", "desc", model);
         String expected = String.format(MESSAGE_SUCCESS, "address", "desc");
         assertCommandSuccess(so, model, expected, sortedByAddDesc);
-    }
-
-    @Test
-    public void sortByPhone_success() throws Exception {
-        SortCommand so = prepareCommand("phone", "asc", model);
-        String expected = String.format(MESSAGE_SUCCESS, "phone", "asc");
-        assertCommandSuccess(so, model, expected, sortedByPhone);
-    }
-
-    @Test
-    public void sortByPhoneDesc_success() throws Exception {
-        SortCommand so = prepareCommand("phone", "desc", model);
-        String expected = String.format(MESSAGE_SUCCESS, "phone", "desc");
-        assertCommandSuccess(so, model, expected, sortedByPhoneDesc);
     }
 
     @Test
