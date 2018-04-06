@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+//@@author lithiumlkid
 /**
  * Represents a Trie Node object. Contains a character, a reference to sibling Trie Node and child Trie Node .
  */

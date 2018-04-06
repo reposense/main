@@ -53,6 +53,7 @@ public class CommandBox extends UiPart<Region> {
     }
 
     /**
+     * //@@author lithiumlkid
      * Handles the key press event, {@code keyEvent}.
      */
     @FXML
