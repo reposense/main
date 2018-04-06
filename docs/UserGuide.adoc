@@ -59,8 +59,10 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 [[Features]]
 == Features
 
-.Getting started with Commands
+.*Getting started with Commands*
 ****
+
+====
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.
 ** An example in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 * Fields that are in enclosed with `[ ]` are optional.
@@ -69,9 +71,11 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 ** In this example, `[t/TAG]...`, these parameters are valid, `t/friend`, `t/friend t/family`, and even `{nbsp}` (no parameter).
 * Parameters can be entered in any order.
 ** For example, if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+====
+
 ****
 
-.The Use of Alias
+.*The Use of Alias*
 ****
 * Some commands have an alias that you can use to execute the command. This alias acts as a shortcut to execute the commands you want without typing the full command out.
 ** For example, you can type the alias `a` instead of the `add` command word to add a player into MTM.
