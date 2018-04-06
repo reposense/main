@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.events.ui.HighlightSelectedTeamEvent;
@@ -7,6 +9,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.team.TeamName;
 import seedu.address.model.team.exceptions.TeamNotFoundException;
 
+//@@author jordancjq
 /**
  * View a team identified using it's team name from the address book.
  */
@@ -26,18 +29,18 @@ public class ViewCommand extends Command {
     private final TeamName targetTeam;
 
     public ViewCommand(TeamName targetTeam) {
+        requireNonNull(targetTeam);
         this.targetTeam = targetTeam;
     }
 
     @Override
     public CommandResult execute() throws CommandException {
         try {
+            EventsCenter.getInstance().post(new HighlightSelectedTeamEvent(targetTeam.toString()));
             model.updateFilteredPersonList(targetTeam);
         } catch (TeamNotFoundException tnfe) {
             throw new CommandException(Messages.MESSAGE_TEAM_NOT_FOUND);
         }
-        // TODO: Jump to list of teams event
-        EventsCenter.getInstance().post(new HighlightSelectedTeamEvent(targetTeam.toString()));
         return new CommandResult(String.format(MESSAGE_VIEW_TEAM_SUCCESS, targetTeam.toString()));
     }
 

@@ -38,7 +38,7 @@ public class PlayerDetails extends UiPart<Region> {
     private Label jerseyNumber;
     @FXML
     private Label remark;
-
+    //@@author lohtianwei
     public PlayerDetails(Person person) {
         super(FXML);
         this.person = person;

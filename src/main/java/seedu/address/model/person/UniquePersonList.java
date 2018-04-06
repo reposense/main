@@ -106,6 +106,7 @@ public class UniquePersonList implements Iterable<Person> {
         return FXCollections.unmodifiableObservableList(internalList);
     }
 
+    //@@author lohtianwei
     /**
      * Sorts players by selected field in asc or desc order.
      * @return
@@ -201,6 +202,7 @@ public class UniquePersonList implements Iterable<Person> {
             throw new AssertionError("Invalid field parameter entered...\n");
         }
     }
+    //@@author
 
     @Override
     public Iterator<Person> iterator() {

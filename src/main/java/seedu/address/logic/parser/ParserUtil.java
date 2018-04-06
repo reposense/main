@@ -52,6 +52,7 @@ public class ParserUtil {
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
     }
 
+    //@@author jordancjq
     /**
      * Parses {@code String oneBasedIndexes} into a {@code List<Index>} and returns it. Leading and trailing
      * whitespaces will be trimmed.
@@ -218,6 +219,7 @@ public class ParserUtil {
         return teamName.isPresent() ? Optional.of(parseTeamName(teamName.get())) : Optional.empty();
     }
 
+    //@@author jordancjq
     /**
      * Parses a {@code Optional<String> value} into the specified value or {@code UNSPECIFIED_FIELD} if is empty
      */
@@ -230,6 +232,7 @@ public class ParserUtil {
         }
     }
 
+    //@@author
     /**
      * Parses a {@code String tagColour} into a {@code String ta}.
      * Leading and trailing whitespaces will be trimmed.
