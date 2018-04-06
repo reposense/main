@@ -281,6 +281,15 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     //@@author jordancjq
     /**
+     * Immediately add a {@code person} to a {@code team}.
+     * @throws TeamNotFoundException if the {@code team} is not found in this {@code AddressBook}.
+     */
+    public void addPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
+        teams.assignPersonToTeam(person, teams.getTeam(teamName));
+    }
+
+    //@@author jordancjq
+    /**
      * Removes a {@code person} from a {@code team}.
      */
     public void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
