@@ -105,5 +105,6 @@ public class TeamDisplay extends UiPart<Region> {
             }
         }
     }
+
 }
 

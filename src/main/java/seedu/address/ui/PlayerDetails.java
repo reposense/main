@@ -1,9 +1,12 @@
 package seedu.address.ui;
 
+import com.google.common.eventbus.Subscribe;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import seedu.address.commons.events.ui.TogglePrivacyEvent;
 import seedu.address.model.person.Person;
 
 /**
@@ -38,9 +41,11 @@ public class PlayerDetails extends UiPart<Region> {
     private Label jerseyNumber;
     @FXML
     private Label remark;
+
     //@@author lohtianwei
     public PlayerDetails(Person person) {
         super(FXML);
+        registerAsAnEventHandler(this);
         this.person = person;
         name.setText(person.getName().fullName);
         jerseyNumber.setText("Jersey Number: " + person.getJerseyNumber().value);
@@ -68,6 +73,14 @@ public class PlayerDetails extends UiPart<Region> {
         } else {
             remark.setText("Remarks: " + person.getRemark().value);
         }
+    }
+
+    @Subscribe
+    private void handleTogglePrivacy(TogglePrivacyEvent event) {
+        phone.setText(event.getPerson().getPhone().toString());
+        address.setText(event.getPerson().getAddress().toString());
+        email.setText(event.getPerson().getEmail().toString());
+        remark.setText("Remarks: " + event.getPerson().getRemark().toString());
     }
 }
 
