@@ -72,13 +72,15 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 * Parameters can be entered in any order.
 ** For example, if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 ====
-
 ****
 
 .*The Use of Alias*
 ****
+
+====
 * Some commands have an alias that you can use to execute the command. This alias acts as a shortcut to execute the commands you want without typing the full command out.
 ** For example, you can type the alias `a` instead of the `add` command word to add a player into MTM.
+====
 ****
 
 === Basic Commands and Features
