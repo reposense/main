@@ -50,7 +50,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 .  Some example commands you can try:
 
 * *`list`* : lists all contacts
-* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a contact named `John Doe` to the Address Book.
+* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a contact named `John Doe` to MTM.
 * **`delete`**`3` : deletes the 3rd contact shown in the current list
 * *`exit`* : exits the app
 
@@ -59,17 +59,33 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 [[Features]]
 == Features
 
-====
-*Command Format*
+.*Getting started with Commands*
+****
 
-* Some commands have an alias that you can use to execute the command e.g to add player to address book, you can type either `add n/John Doe` or `a n/John Doe`
-* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
-* Items in square brackets are optional e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
-* Items with `…`​ after them can be used multiple times including zero times e.g. `[t/TAG]...` can be used as `{nbsp}` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
-* Parameters can be in any order e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 ====
+* Words in `UPPER_CASE` are the parameters to be supplied by the user.
+** An example in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
+* Fields that are in enclosed with `[ ]` are optional.
+** An example, `n/NAME [t/TAG]`, can be used as, `n/John Doe t/friend`, or as, `n/John Doe`.
+* Items with `…`​ after them can be used multiple times including zero times.
+** In this example, `[t/TAG]...`, these parameters are valid, `t/friend`, `t/friend t/family`, and even `{nbsp}` (no parameter).
+* Parameters can be entered in any order.
+** For example, if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+====
+****
 
-=== Common Usage
+.*The Use of Alias*
+****
+
+====
+* Some commands have an alias that you can use to execute the command. This alias acts as a shortcut to execute the commands you want without typing the full command out.
+** For example, you can type the alias `a` instead of the `add` command word to add a player into MTM.
+====
+****
+
+=== Basic Commands and Features
+
+Let's start of with the basic commands that MTM provides that gives you the power to effectively use MTM quickly. These features will make you use MTM more efficiently and teaches you how to navigate through MTM with ease.
 
 ==== Saving the data
 
@@ -77,7 +93,7 @@ There is no need to save anything manually as My Team Manager will save
 any data entered directly to the hard drive.
 
 // tag::autocomplete[]
-==== Tab Autocomplete
+==== Using Tab Autocomplete
 
 After typing in the first few characters of a command, pressing kbd:[tab] will fill in the rest of the item.
 
@@ -121,14 +137,14 @@ A list of your previously entered command will be shown to you.
 
 Have you entered a wrong command or might have accidentally entered the wrong values to the specified fields to a command? +
 
-You don't have to worry, as MTM provides you with the command to undo most mistakes that you might have made. MTM will restore herself to the state before the previous _undoAble_ command was executed.
+You don't have to worry, as MTM provides you with the command to undo most mistakes that you might have made. MTM will restore itself to the state before the previous command was executed.
 
 Format: `undo` +
 Alias: `u`
 
 [NOTE]
 ====
-_undoAble_ commands: those commands that modify the address book's content (`add`, `delete`, `edit` and `clear`).
+There are a few commands that can be undoable: commands that modify MTM's content (`add`, `delete`, `edit` and `clear`).
 ====
 
 [IMPORTANT]
@@ -137,26 +153,7 @@ _undoAble_ commands: those commands that modify the address book's content (`add
 Commands that are _undoAble_ will be reversed and MTM will be in the state before the command was executed.
 ====
 
-Here are a few valid examples on how you can use the `undo` command:
-
-* `delete 1` +
-`list` +
-`undo` +
-Calling the `undo` command will reverse the `delete 1` command.
-
-* `select 1` +
-`list` +
-`undo` +
-The `undo` command fails as there are no _undoAble_ commands executed previously.
-
-* `delete 1` +
-`clear` +
-`undo` +
-`undo` +
-Calling the first `undo` command will reverse the `clear` command, and the subsequent `undo` command will reverse the `delete 1` command.
-
 ==== Redoing the previously undone command : `redo`
-
 If you accidentally call the `undo` command too many times and need a way to quickly reverse that, MTM allows you to redo the most recent `undo` command.
 
 Format: `redo` +
@@ -167,29 +164,9 @@ Alias: `r`
 ====
 Previously executed `undo` command will be reversed and MTM will be in its previous state.
 ====
-
-Here are a few valid examples on how you can use the `redo` command:
-
-* `delete 1` +
-`undo` +
-`redo` +
-Calling the `undo` command will reverse the `delete 1` command and the subsequent `redo` command will reapply the `delete 1` command.
-
-* `delete 1` +
-`redo` +
-The `redo` command fails as there are no `undo` commands executed previously.
-
-* `delete 1` +
-`clear` +
-`undo` +
-`undo` +
-`redo` +
-`redo` +
-Calling the first `undo` command will reverse the `clear` command, and the subsequent `undo` command will reverse the `delete 1` command. +
-Calling the first `redo` command will reapply the `delete 1` command, and the subsequent `redo` command will reapply the `clear` command.
 // end::undoredo[]
 
-==== Changing theme : `changeTheme` (Coming in v1.5)
+==== Changing theme : `changeTheme` `[Coming in v1.5]`
 If you feel like the dark theme is not for you, and you prefer to work on a brighter interface,
 you can change the theme from the default DarkTheme to LightTheme with the 'changeTheme' command.
 
@@ -198,7 +175,7 @@ Alias: `ct`
 
 ==== Clearing all entries : `clear`
 
-You can clear all entries from the address book with the 'clear' command.
+You can clear all entries from MTM with the 'clear' command.
 
 Format: `clear` +
 Alias: `c`
@@ -212,8 +189,7 @@ Format: `exit`
 === Player Related Commands
 
 ==== Adding a player: `add`
-
-Adds a player to the address book.
+This is the command that you will be using most frequently, especially with dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the `add` command.
 
 Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]...` +
 Alias: `a`
@@ -255,7 +231,7 @@ team `Real Madrid`, jersey number `17`, rating `5`, position Striker, with remar
 
 ==== Editing a player : `edit`
 
-You may edit an existing player in the address book with the 'edit' command.
+You may edit an existing player in MTM with the 'edit' command.
 
 Format: `edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]...` +
 Alias: `e`
@@ -282,17 +258,18 @@ If you want to remove a player from MTM, you may use this command to delete the 
 Format: `delete INDEX` +
 Alias: `d`
 
-****
+[NOTE]
+====
 * Deletes the player at the specified `INDEX`.
 * The index refers to the index number shown in the most recent listing.
 * The index *must be a positive integer* 1, 2, 3, ...
-****
+====
 
 Examples:
 
 * `list` +
 `delete 2` +
-Deletes the 2nd player in the address book.
+Deletes the 2nd player in the MTM.
 * `find Betsy` +
 `delete 1` +
 Deletes the 1st player in the results of the `find` command.
@@ -326,7 +303,7 @@ Give a remark to the specified player at index 5 with the remark "MVP Player".
 
 ==== Listing all players : `list`
 
-Shows a list of all players in the address book.
+To view a list of all the players you are managing, you can use the `list` command to see all of your players.
 
 Format: `list` +
 Alias: `l`
@@ -346,10 +323,10 @@ Current version of `sort` supports the following fields: Name, Email, Address, R
 Here are a few valid examples on how you can use the `sort` command:
 
 * `sort` name asc +
-This will sort the address book by names, in alphabetical order.
+This will sort MTM by names, in alphabetical order.
 
 * `sort` name dsc +
-This will sort the address book by names, in reverse alphabetical order.
+This will sort MTM by names, in reverse alphabetical order.
 
 ==== Locating players by name: `find`
 
@@ -358,13 +335,14 @@ You can find a player whose name contain any of the given keywords with this com
 Format: `find KEYWORD [MORE_KEYWORDS]` +
 Alias: `f`
 
-****
+[NOTE]
+====
 * The search is case insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
 * Players matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
-****
+====
 
 Examples:
 
@@ -531,7 +509,7 @@ You can set the tags to a colour of your choice with the 'setColourTag' command.
 Format: `setTagColour` +
 Alias: `stc`
 
-==== Set various fields to private: `toggleprivacy` `[Since v1.4]`
+==== Toggling various fields to private: `toggleprivacy` `[Since v1.4]`
 
 You can toggle the privacy of various fields of players in MTM.
 
@@ -559,7 +537,7 @@ Toggles privacy of phone and rating of player @ index 1
 
 There is more to come with the next upcoming update! Keep a lookout on these newly implemented features soon!
 
-==== Show Best XI players: `showBest` `[Coming in v2.0]`
+==== Showing Best XI players: `showBest` `[Coming in v2.0]`
 
 If you went to see your current best 11 players in your team based on their respective stats, this command
 is for you.
@@ -567,7 +545,7 @@ is for you.
 Alias: `sb` +
 Format: `showBest`
 
-==== Set an upcoming match with an opposing team: `setmatch` `[Coming in v2.0]`
+==== Setting an upcoming match with an opposing team: `setmatch` `[Coming in v2.0]`
 
 With this command, it gives you a convenient way to keep track of the upcoming match of a team.
 
@@ -592,7 +570,7 @@ Here are a few valid examples on how you can use the `create` command:
 * `setmatch Arsenal Liverpool 14/03/2018` +
 Display the list of players in team "Arsenal" and set an upcoming match for Arsenal with Liverpool on 14/03/2018.
 
-==== View the team's next upcoming match: `nextmatch` `[Coming in v2.0]`
+==== Viewing the team's next upcoming match: `nextmatch` `[Coming in v2.0]`
 
 Easily determine the up and coming match with the team so that you never miss an important date.
 
@@ -622,7 +600,7 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 == FAQ
 
 *Q*: How do I transfer my data to another Computer? +
-*A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Address Book folder.
+*A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous MTM folder.
 
 == Command Summary
 
