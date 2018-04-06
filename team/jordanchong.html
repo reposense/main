@@ -114,7 +114,7 @@
 <p>Have you entered a wrong command or might have accidentally entered the wrong values to the specified fields to a command?<br></p>
 </div>
 <div class="paragraph">
-<p>You don&#8217;t have to worry, as MTM provides you with the command to undo most mistakes that you might have made. MTM will restore herself to the state before the previous <em>undoAble</em> command was executed.</p>
+<p>You don&#8217;t have to worry, as MTM provides you with the command to undo most mistakes that you might have made. MTM will restore itself to the state before the previous command was executed.</p>
 </div>
 <div class="paragraph">
 <p>Format: <code>undo</code><br>
@@ -128,7 +128,7 @@ Alias: <code>u</code></p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p><em>undoAble</em> commands: those commands that modify the address book&#8217;s content (<code>add</code>, <code>delete</code>, <code>edit</code> and <code>clear</code>).</p>
+<p>There are a few commands that can be undoable: commands that modify MTM&#8217;s content (<code>add</code>, <code>delete</code>, <code>edit</code> and <code>clear</code>).</p>
 </div>
 </td>
 </tr>
@@ -148,32 +148,6 @@ Alias: <code>u</code></p>
 </td>
 </tr>
 </table>
-</div>
-<div class="paragraph">
-<p>Here are a few valid examples on how you can use the <code>undo</code> command:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>delete 1</code><br>
-<code>list</code><br>
-<code>undo</code><br>
-Calling the <code>undo</code> command will reverse the <code>delete 1</code> command.</p>
-</li>
-<li>
-<p><code>select 1</code><br>
-<code>list</code><br>
-<code>undo</code><br>
-The <code>undo</code> command fails as there are no <em>undoAble</em> commands executed previously.</p>
-</li>
-<li>
-<p><code>delete 1</code><br>
-<code>clear</code><br>
-<code>undo</code><br>
-<code>undo</code><br>
-Calling the first <code>undo</code> command will reverse the <code>clear</code> command, and the subsequent <code>undo</code> command will reverse the <code>delete 1</code> command.</p>
-</li>
-</ul>
 </div>
 </div>
 <div class="sect3">
@@ -199,34 +173,6 @@ Alias: <code>r</code></p>
 </td>
 </tr>
 </table>
-</div>
-<div class="paragraph">
-<p>Here are a few valid examples on how you can use the <code>redo</code> command:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>delete 1</code><br>
-<code>undo</code><br>
-<code>redo</code><br>
-Calling the <code>undo</code> command will reverse the <code>delete 1</code> command and the subsequent <code>redo</code> command will reapply the <code>delete 1</code> command.</p>
-</li>
-<li>
-<p><code>delete 1</code><br>
-<code>redo</code><br>
-The <code>redo</code> command fails as there are no <code>undo</code> commands executed previously.</p>
-</li>
-<li>
-<p><code>delete 1</code><br>
-<code>clear</code><br>
-<code>undo</code><br>
-<code>undo</code><br>
-<code>redo</code><br>
-<code>redo</code><br>
-Calling the first <code>undo</code> command will reverse the <code>clear</code> command, and the subsequent <code>undo</code> command will reverse the <code>delete 1</code> command.<br>
-Calling the first <code>redo</code> command will reapply the <code>delete 1</code> command, and the subsequent <code>redo</code> command will reapply the <code>clear</code> command.</p>
-</li>
-</ul>
 </div>
 </div>
 </div>
@@ -541,7 +487,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-06 04:06:56 UTC
+Last updated 2018-04-06 05:00:22 UTC
 </div>
 </div>
 </body>

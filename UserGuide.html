@@ -28,15 +28,15 @@
 <li><a href="#quick-start">2. Quick Start</a></li>
 <li><a href="#Features">3. Features</a>
 <ul class="sectlevel2">
-<li><a href="#common-usage">3.1. Common Usage</a>
+<li><a href="#basic-commands-and-features">3.1. Basic Commands and Features</a>
 <ul class="sectlevel3">
 <li><a href="#saving-the-data">3.1.1. Saving the data</a></li>
-<li><a href="#tab-autocomplete">3.1.2. Tab Autocomplete</a></li>
+<li><a href="#using-tab-autocomplete">3.1.2. Using Tab Autocomplete</a></li>
 <li><a href="#viewing-help-code-help-code">3.1.3. Viewing help : <code>help</code></a></li>
 <li><a href="#listing-entered-commands-code-history-code">3.1.4. Listing entered commands : <code>history</code></a></li>
 <li><a href="#undoing-previous-command-code-undo-code">3.1.5. Undoing previous command : <code>undo</code></a></li>
 <li><a href="#redoing-the-previously-undone-command-code-redo-code">3.1.6. Redoing the previously undone command : <code>redo</code></a></li>
-<li><a href="#changing-theme-code-changetheme-code-coming-in-v1-5">3.1.7. Changing theme : <code>changeTheme</code> (Coming in v1.5)</a></li>
+<li><a href="#changing-theme-code-changetheme-code-code-coming-in-v1-5-code">3.1.7. Changing theme : <code>changeTheme</code> <code>[Coming in v1.5]</code></a></li>
 <li><a href="#clearing-all-entries-code-clear-code">3.1.8. Clearing all entries : <code>clear</code></a></li>
 <li><a href="#exiting-the-program-code-exit-code">3.1.9. Exiting the program : <code>exit</code></a></li>
 </ul>
@@ -65,14 +65,14 @@
 <li><a href="#other-useful-commands">3.4. Other Useful Commands</a>
 <ul class="sectlevel3">
 <li><a href="#setting-colour-of-tags-code-settagcolour-code-code-since-v1-2-code">3.4.1. Setting colour of tags : <code>setTagColour</code> <code>[Since v1.2]</code></a></li>
-<li><a href="#set-various-fields-to-private-code-toggleprivacy-code-code-since-v1-4-code">3.4.2. Set various fields to private: <code>toggleprivacy</code> <code>[Since v1.4]</code></a></li>
+<li><a href="#toggling-various-fields-to-private-code-toggleprivacy-code-code-since-v1-4-code">3.4.2. Toggling various fields to private: <code>toggleprivacy</code> <code>[Since v1.4]</code></a></li>
 </ul>
 </li>
 <li><a href="#coming-soon">3.5. Coming Soon</a>
 <ul class="sectlevel3">
-<li><a href="#show-best-xi-players-code-showbest-code-code-coming-in-v2-0-code">3.5.1. Show Best XI players: <code>showBest</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#set-an-upcoming-match-with-an-opposing-team-code-setmatch-code-code-coming-in-v2-0-code">3.5.2. Set an upcoming match with an opposing team: <code>setmatch</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#view-the-team-s-next-upcoming-match-code-nextmatch-code-code-coming-in-v2-0-code">3.5.3. View the team&#8217;s next upcoming match: <code>nextmatch</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#showing-best-xi-players-code-showbest-code-code-coming-in-v2-0-code">3.5.1. Showing Best XI players: <code>showBest</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#setting-an-upcoming-match-with-an-opposing-team-code-setmatch-code-code-coming-in-v2-0-code">3.5.2. Setting an upcoming match with an opposing team: <code>setmatch</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#viewing-the-team-s-next-upcoming-match-code-nextmatch-code-code-coming-in-v2-0-code">3.5.3. Viewing the team&#8217;s next upcoming match: <code>nextmatch</code> <code>[Coming in v2.0]</code></a></li>
 <li><a href="#scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code">3.5.4. Scheduling trainings for team <code>schedule</code> <code>[Coming in v2.0]</code></a></li>
 <li><a href="#sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code">3.5.5. Sending reminder emails to players: <code>send</code> <code>[Coming in v2.0]</code></a></li>
 <li><a href="#giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code">3.5.6. Giving feedback to developers: <code>feedback</code> <code>[Coming in v2.0]</code></a></li>
@@ -149,7 +149,7 @@ e.g. typing <strong><code>help</code></strong> and pressing <kbd>Enter</kbd> wil
 <p><strong><code>list</code></strong> : lists all contacts</p>
 </li>
 <li>
-<p><strong><code>add</code></strong><code>n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01</code> : adds a contact named <code>John Doe</code> to the Address Book.</p>
+<p><strong><code>add</code></strong><code>n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01</code> : adds a contact named <code>John Doe</code> to MTM.</p>
 </li>
 <li>
 <p><strong><code>delete</code></strong><code>3</code> : deletes the 3rd contact shown in the current list</p>
@@ -170,34 +170,87 @@ e.g. typing <strong><code>help</code></strong> and pressing <kbd>Enter</kbd> wil
 <div class="sect1">
 <h2 id="Features"><a class="link" href="#Features">3. Features</a></h2>
 <div class="sectionbody">
+<div class="sidebarblock">
+<div class="content">
+<div class="title"><strong>Getting started with Commands</strong></div>
 <div class="exampleblock">
 <div class="content">
-<div class="paragraph">
-<p><strong>Command Format</strong></p>
-</div>
 <div class="ulist">
 <ul>
 <li>
-<p>Some commands have an alias that you can use to execute the command e.g to add player to address book, you can type either <code>add n/John Doe</code> or <code>a n/John Doe</code></p>
+<p>Words in <code>UPPER_CASE</code> are the parameters to be supplied by the user.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>An example in <code>add n/NAME</code>, <code>NAME</code> is a parameter which can be used as <code>add n/John Doe</code>.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>Words in <code>UPPER_CASE</code> are the parameters to be supplied by the user e.g. in <code>add n/NAME</code>, <code>NAME</code> is a parameter which can be used as <code>add n/John Doe</code>.</p>
+<p>Fields that are in enclosed with <code>[ ]</code> are optional.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>An example, <code>n/NAME [t/TAG]</code>, can be used as, <code>n/John Doe t/friend</code>, or as, <code>n/John Doe</code>.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>Items in square brackets are optional e.g <code>n/NAME [t/TAG]</code> can be used as <code>n/John Doe t/friend</code> or as <code>n/John Doe</code>.</p>
+<p>Items with <code>…</code>​ after them can be used multiple times including zero times.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>In this example, <code>[t/TAG]&#8230;&#8203;</code>, these parameters are valid, <code>t/friend</code>, <code>t/friend t/family</code>, and even <code>&#160;</code> (no parameter).</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>Items with <code>…</code>​ after them can be used multiple times including zero times e.g. <code>[t/TAG]&#8230;&#8203;</code> can be used as <code>&#160;</code> (i.e. 0 times), <code>t/friend</code>, <code>t/friend t/family</code> etc.</p>
-</li>
+<p>Parameters can be entered in any order.</p>
+<div class="ulist">
+<ul>
 <li>
-<p>Parameters can be in any order e.g. if the command specifies <code>n/NAME p/PHONE_NUMBER</code>, <code>p/PHONE_NUMBER n/NAME</code> is also acceptable.</p>
+<p>For example, if the command specifies <code>n/NAME p/PHONE_NUMBER</code>, <code>p/PHONE_NUMBER n/NAME</code> is also acceptable.</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
 </div>
 </div>
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title"><strong>The Use of Alias</strong></div>
+<div class="exampleblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Some commands have an alias that you can use to execute the command. This alias acts as a shortcut to execute the commands you want without typing the full command out.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>For example, you can type the alias <code>a</code> instead of the <code>add</code> command word to add a player into MTM.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="sect2">
-<h3 id="common-usage"><a class="link" href="#common-usage">3.1. Common Usage</a></h3>
+<h3 id="basic-commands-and-features"><a class="link" href="#basic-commands-and-features">3.1. Basic Commands and Features</a></h3>
+<div class="paragraph">
+<p>Let&#8217;s start of with the basic commands that MTM provides that gives you the power to effectively use MTM quickly. These features will make you use MTM more efficiently and teaches you how to navigate through MTM with ease.</p>
+</div>
 <div class="sect3">
 <h4 id="saving-the-data"><a class="link" href="#saving-the-data">3.1.1. Saving the data</a></h4>
 <div class="paragraph">
@@ -206,7 +259,7 @@ any data entered directly to the hard drive.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="tab-autocomplete"><a class="link" href="#tab-autocomplete">3.1.2. Tab Autocomplete</a></h4>
+<h4 id="using-tab-autocomplete"><a class="link" href="#using-tab-autocomplete">3.1.2. Using Tab Autocomplete</a></h4>
 <div class="paragraph">
 <p>After typing in the first few characters of a command, pressing <kbd>tab</kbd> will fill in the rest of the item.</p>
 </div>
@@ -287,7 +340,7 @@ Alias: <code>h</code></p>
 <p>Have you entered a wrong command or might have accidentally entered the wrong values to the specified fields to a command?<br></p>
 </div>
 <div class="paragraph">
-<p>You don&#8217;t have to worry, as MTM provides you with the command to undo most mistakes that you might have made. MTM will restore herself to the state before the previous <em>undoAble</em> command was executed.</p>
+<p>You don&#8217;t have to worry, as MTM provides you with the command to undo most mistakes that you might have made. MTM will restore itself to the state before the previous command was executed.</p>
 </div>
 <div class="paragraph">
 <p>Format: <code>undo</code><br>
@@ -301,7 +354,7 @@ Alias: <code>u</code></p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p><em>undoAble</em> commands: those commands that modify the address book&#8217;s content (<code>add</code>, <code>delete</code>, <code>edit</code> and <code>clear</code>).</p>
+<p>There are a few commands that can be undoable: commands that modify MTM&#8217;s content (<code>add</code>, <code>delete</code>, <code>edit</code> and <code>clear</code>).</p>
 </div>
 </td>
 </tr>
@@ -321,32 +374,6 @@ Alias: <code>u</code></p>
 </td>
 </tr>
 </table>
-</div>
-<div class="paragraph">
-<p>Here are a few valid examples on how you can use the <code>undo</code> command:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>delete 1</code><br>
-<code>list</code><br>
-<code>undo</code><br>
-Calling the <code>undo</code> command will reverse the <code>delete 1</code> command.</p>
-</li>
-<li>
-<p><code>select 1</code><br>
-<code>list</code><br>
-<code>undo</code><br>
-The <code>undo</code> command fails as there are no <em>undoAble</em> commands executed previously.</p>
-</li>
-<li>
-<p><code>delete 1</code><br>
-<code>clear</code><br>
-<code>undo</code><br>
-<code>undo</code><br>
-Calling the first <code>undo</code> command will reverse the <code>clear</code> command, and the subsequent <code>undo</code> command will reverse the <code>delete 1</code> command.</p>
-</li>
-</ul>
 </div>
 </div>
 <div class="sect3">
@@ -373,37 +400,9 @@ Alias: <code>r</code></p>
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>Here are a few valid examples on how you can use the <code>redo</code> command:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>delete 1</code><br>
-<code>undo</code><br>
-<code>redo</code><br>
-Calling the <code>undo</code> command will reverse the <code>delete 1</code> command and the subsequent <code>redo</code> command will reapply the <code>delete 1</code> command.</p>
-</li>
-<li>
-<p><code>delete 1</code><br>
-<code>redo</code><br>
-The <code>redo</code> command fails as there are no <code>undo</code> commands executed previously.</p>
-</li>
-<li>
-<p><code>delete 1</code><br>
-<code>clear</code><br>
-<code>undo</code><br>
-<code>undo</code><br>
-<code>redo</code><br>
-<code>redo</code><br>
-Calling the first <code>undo</code> command will reverse the <code>clear</code> command, and the subsequent <code>undo</code> command will reverse the <code>delete 1</code> command.<br>
-Calling the first <code>redo</code> command will reapply the <code>delete 1</code> command, and the subsequent <code>redo</code> command will reapply the <code>clear</code> command.</p>
-</li>
-</ul>
-</div>
 </div>
 <div class="sect3">
-<h4 id="changing-theme-code-changetheme-code-coming-in-v1-5"><a class="link" href="#changing-theme-code-changetheme-code-coming-in-v1-5">3.1.7. Changing theme : <code>changeTheme</code> (Coming in v1.5)</a></h4>
+<h4 id="changing-theme-code-changetheme-code-code-coming-in-v1-5-code"><a class="link" href="#changing-theme-code-changetheme-code-code-coming-in-v1-5-code">3.1.7. Changing theme : <code>changeTheme</code> <code>[Coming in v1.5]</code></a></h4>
 <div class="paragraph">
 <p>If you feel like the dark theme is not for you, and you prefer to work on a brighter interface,
 you can change the theme from the default DarkTheme to LightTheme with the 'changeTheme' command.</p>
@@ -416,7 +415,7 @@ Alias: <code>ct</code></p>
 <div class="sect3">
 <h4 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">3.1.8. Clearing all entries : <code>clear</code></a></h4>
 <div class="paragraph">
-<p>You can clear all entries from the address book with the 'clear' command.</p>
+<p>You can clear all entries from MTM with the 'clear' command.</p>
 </div>
 <div class="paragraph">
 <p>Format: <code>clear</code><br>
@@ -438,7 +437,7 @@ Alias: <code>c</code></p>
 <div class="sect3">
 <h4 id="adding-a-player-code-add-code"><a class="link" href="#adding-a-player-code-add-code">3.2.1. Adding a player: <code>add</code></a></h4>
 <div class="paragraph">
-<p>Adds a player to the address book.</p>
+<p>This is the command that you will be using most frequently, especially with dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the <code>add</code> command.</p>
 </div>
 <div class="paragraph">
 <p>Format: <code>add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]&#8230;&#8203;</code><br>
@@ -561,7 +560,7 @@ team <code>Real Madrid</code>, jersey number <code>17</code>, rating <code>5</co
 <div class="sect3">
 <h4 id="editing-a-player-code-edit-code"><a class="link" href="#editing-a-player-code-edit-code">3.2.2. Editing a player : <code>edit</code></a></h4>
 <div class="paragraph">
-<p>You may edit an existing player in the address book with the 'edit' command.</p>
+<p>You may edit an existing player in MTM with the 'edit' command.</p>
 </div>
 <div class="paragraph">
 <p>Format: <code>edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]&#8230;&#8203;</code><br>
@@ -615,8 +614,13 @@ Edits the name of the 2nd player to be <code>Betsy Crower</code> and clears all 
 <p>Format: <code>delete INDEX</code><br>
 Alias: <code>d</code></p>
 </div>
-<div class="sidebarblock">
-<div class="content">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
 <div class="ulist">
 <ul>
 <li>
@@ -630,7 +634,9 @@ Alias: <code>d</code></p>
 </li>
 </ul>
 </div>
-</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Examples:</p>
@@ -640,7 +646,7 @@ Alias: <code>d</code></p>
 <li>
 <p><code>list</code><br>
 <code>delete 2</code><br>
-Deletes the 2nd player in the address book.</p>
+Deletes the 2nd player in the MTM.</p>
 </li>
 <li>
 <p><code>find Betsy</code><br>
@@ -708,7 +714,7 @@ Give a remark to the specified player at index 5 with the remark "MVP Player".</
 <div class="sect3">
 <h4 id="listing-all-players-code-list-code"><a class="link" href="#listing-all-players-code-list-code">3.2.5. Listing all players : <code>list</code></a></h4>
 <div class="paragraph">
-<p>Shows a list of all players in the address book.</p>
+<p>To view a list of all the players you are managing, you can use the <code>list</code> command to see all of your players.</p>
 </div>
 <div class="paragraph">
 <p>Format: <code>list</code><br>
@@ -745,11 +751,11 @@ Alias: <code>so</code></p>
 <ul>
 <li>
 <p><code>sort</code> name asc<br>
-This will sort the address book by names, in alphabetical order.</p>
+This will sort MTM by names, in alphabetical order.</p>
 </li>
 <li>
 <p><code>sort</code> name dsc<br>
-This will sort the address book by names, in reverse alphabetical order.</p>
+This will sort MTM by names, in reverse alphabetical order.</p>
 </li>
 </ul>
 </div>
@@ -763,8 +769,13 @@ This will sort the address book by names, in reverse alphabetical order.</p>
 <p>Format: <code>find KEYWORD [MORE_KEYWORDS]</code><br>
 Alias: <code>f</code></p>
 </div>
-<div class="sidebarblock">
-<div class="content">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
 <div class="ulist">
 <ul>
 <li>
@@ -784,7 +795,9 @@ Alias: <code>f</code></p>
 </li>
 </ul>
 </div>
-</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Examples:</p>
@@ -1110,7 +1123,7 @@ Alias: <code>stc</code></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="set-various-fields-to-private-code-toggleprivacy-code-code-since-v1-4-code"><a class="link" href="#set-various-fields-to-private-code-toggleprivacy-code-code-since-v1-4-code">3.4.2. Set various fields to private: <code>toggleprivacy</code> <code>[Since v1.4]</code></a></h4>
+<h4 id="toggling-various-fields-to-private-code-toggleprivacy-code-code-since-v1-4-code"><a class="link" href="#toggling-various-fields-to-private-code-toggleprivacy-code-code-since-v1-4-code">3.4.2. Toggling various fields to private: <code>toggleprivacy</code> <code>[Since v1.4]</code></a></h4>
 <div class="paragraph">
 <p>You can toggle the privacy of various fields of players in MTM.</p>
 </div>
@@ -1167,7 +1180,7 @@ Toggles privacy of phone and rating of player @ index 1</p>
 <p>There is more to come with the next upcoming update! Keep a lookout on these newly implemented features soon!</p>
 </div>
 <div class="sect3">
-<h4 id="show-best-xi-players-code-showbest-code-code-coming-in-v2-0-code"><a class="link" href="#show-best-xi-players-code-showbest-code-code-coming-in-v2-0-code">3.5.1. Show Best XI players: <code>showBest</code> <code>[Coming in v2.0]</code></a></h4>
+<h4 id="showing-best-xi-players-code-showbest-code-code-coming-in-v2-0-code"><a class="link" href="#showing-best-xi-players-code-showbest-code-code-coming-in-v2-0-code">3.5.1. Showing Best XI players: <code>showBest</code> <code>[Coming in v2.0]</code></a></h4>
 <div class="paragraph">
 <p>If you went to see your current best 11 players in your team based on their respective stats, this command
 is for you.</p>
@@ -1178,7 +1191,7 @@ Format: <code>showBest</code></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="set-an-upcoming-match-with-an-opposing-team-code-setmatch-code-code-coming-in-v2-0-code"><a class="link" href="#set-an-upcoming-match-with-an-opposing-team-code-setmatch-code-code-coming-in-v2-0-code">3.5.2. Set an upcoming match with an opposing team: <code>setmatch</code> <code>[Coming in v2.0]</code></a></h4>
+<h4 id="setting-an-upcoming-match-with-an-opposing-team-code-setmatch-code-code-coming-in-v2-0-code"><a class="link" href="#setting-an-upcoming-match-with-an-opposing-team-code-setmatch-code-code-coming-in-v2-0-code">3.5.2. Setting an upcoming match with an opposing team: <code>setmatch</code> <code>[Coming in v2.0]</code></a></h4>
 <div class="paragraph">
 <p>With this command, it gives you a convenient way to keep track of the upcoming match of a team.</p>
 </div>
@@ -1232,7 +1245,7 @@ Display the list of players in team "Arsenal" and set an upcoming match for Arse
 </div>
 </div>
 <div class="sect3">
-<h4 id="view-the-team-s-next-upcoming-match-code-nextmatch-code-code-coming-in-v2-0-code"><a class="link" href="#view-the-team-s-next-upcoming-match-code-nextmatch-code-code-coming-in-v2-0-code">3.5.3. View the team&#8217;s next upcoming match: <code>nextmatch</code> <code>[Coming in v2.0]</code></a></h4>
+<h4 id="viewing-the-team-s-next-upcoming-match-code-nextmatch-code-code-coming-in-v2-0-code"><a class="link" href="#viewing-the-team-s-next-upcoming-match-code-nextmatch-code-code-coming-in-v2-0-code">3.5.3. Viewing the team&#8217;s next upcoming match: <code>nextmatch</code> <code>[Coming in v2.0]</code></a></h4>
 <div class="paragraph">
 <p>Easily determine the up and coming match with the team so that you never miss an important date.</p>
 </div>
@@ -1294,7 +1307,7 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 <div class="sectionbody">
 <div class="paragraph">
 <p><strong>Q</strong>: How do I transfer my data to another Computer?<br>
-<strong>A</strong>: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Address Book folder.</p>
+<strong>A</strong>: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous MTM folder.</p>
 </div>
 </div>
 </div>
@@ -1483,7 +1496,7 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-06 04:06:56 UTC
+Last updated 2018-04-06 05:00:22 UTC
 </div>
 </div>
 </body>
