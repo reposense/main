@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Avatar;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.JerseyNumber;
 import seedu.address.model.person.Name;
@@ -31,6 +32,7 @@ public class PersonBuilder {
     public static final String DEFAULT_RATING = "5";
     public static final String DEFAULT_POSITION = "1";
     public static final String DEFAULT_JERSEY_NUMBER = "17";
+    public static final String DEFAULT_AVATAR = "<UNSPECIFIED>";
 
     private Name name;
     private Phone phone;
@@ -42,6 +44,7 @@ public class PersonBuilder {
     private Rating rating;
     private Position position;
     private JerseyNumber jerseyNumber;
+    private Avatar avatar;
 
     public PersonBuilder() {
         name = new Name(DEFAULT_NAME);
@@ -54,6 +57,7 @@ public class PersonBuilder {
         rating = new Rating(DEFAULT_RATING);
         position = new Position(DEFAULT_POSITION);
         jerseyNumber = new JerseyNumber(DEFAULT_JERSEY_NUMBER);
+        avatar = new Avatar(DEFAULT_AVATAR);
     }
 
     /**
@@ -70,6 +74,7 @@ public class PersonBuilder {
         rating = personToCopy.getRating();
         position = personToCopy.getPosition();
         jerseyNumber = personToCopy.getJerseyNumber();
+        avatar = personToCopy.getAvatar();
     }
 
     /**
@@ -152,8 +157,15 @@ public class PersonBuilder {
         return this;
     }
 
-    public Person build() {
-        return new Person(name, phone, email, address, remark, teamName, tags, rating, position, jerseyNumber);
+    /**
+     * Sets the {@code JerseyNumber} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withAvatar(String avatar) {
+        this.avatar = new Avatar(avatar);
+        return this;
     }
 
+    public Person build() {
+        return new Person(name, phone, email, address, remark, teamName, tags, rating, position, jerseyNumber, avatar);
+    }
 }

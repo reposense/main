@@ -14,6 +14,7 @@ import seedu.address.model.person.Remark;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
+//@@author jordancjq-reused
 /**
  * Updates the remark of an existing player in the address book.
  */
@@ -77,7 +78,8 @@ public class RemarkCommand extends UndoableCommand {
         personToEdit = lastShownList.get(index.getZeroBased());
         editedPerson = new Person(personToEdit.getName(), personToEdit.getPhone(), personToEdit.getEmail(),
                 personToEdit.getAddress(), remark, personToEdit.getTeamName(), personToEdit.getTags(),
-                personToEdit.getRating(), personToEdit.getPosition(), personToEdit.getJerseyNumber());
+                personToEdit.getRating(), personToEdit.getPosition(), personToEdit.getJerseyNumber(),
+                personToEdit.getAvatar());
     }
 
     @Override

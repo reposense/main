@@ -181,6 +181,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void renameTeam(Team targetTeam, TeamName updatedTeamName) {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public boolean setTagColour(Tag tag, String colour) {
             fail("This method should not be called.");
             return false;

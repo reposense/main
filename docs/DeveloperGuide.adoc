@@ -879,8 +879,10 @@ out the colour they would like to change their tag to; it is a short command, es
 * It is called from `MainWindow` and will be highlighting
 the current team that has been selected in the Command Line Interface by the user.
 * It calls the `Team` model and displays the `Person` cards associated with that `Team`.
+* It contains event handler methods such as handleShowNewTeamEvent(), handleHighlightSelectedTeamEvent(),
+and handleDeselectTeamEvent().
 
-Code snippet from 'TeamDisplay' to show initialisation of UI component:
+Code snippet from 'TeamDisplay' to show initialisation of UI component and event handlers:
 
 [source, java]
 ----
@@ -890,7 +892,25 @@ public class TeamDisplay extends UiPart<Region> {
 
     public TeamDisplay() {
         super(FXML);
-        // ...team display code...
+            this.teamList = teamList;
+            initTeams();
+            getTeams();
+            registerAsAnEventHandler(this);
+    }
+
+    @Subscribe
+    private void handleShowNewTeamEvent(ShowNewTeamNameEvent event) {
+        ...handleShowNewTeamEvent code...
+    }
+
+    @Subscribe
+    private void handleHighlightSelectedTeamEvent(HighlightSelectedTeamEvent event) {
+        ...handleHighlightSelectedTeamEvent code...
+    }
+
+    @Subscribe
+    private void handleDeselectTeamEvent(DeselectTeamEvent event) {
+        ...handleDeselectTeamEvent code...
     }
 }
 ----
@@ -943,6 +963,30 @@ place to look at after selection of a person card.
 ** Pros: There will be more space for another new feature e.g. calendar.
 ** Cons: It can only be implemented in v2.0 due to time constraints in development.
 // end::playerDetails[]
+
+==== Change Theme Command `[coming in v1.5]`
+===== Current Implementation
+
+* The `ChangThemeCommand` is a new feature that allows user to change the current theme to another theme.
+* New css classes are implemented to accommodate the new themes.
+* The `MainWindow` class is also changed to allow for switch cases depending on which theme is selected. +
+Code snippet from 'ChangThemeCommand':
+
+[source, java]
+----
+//code snippet
+----
+
+===== Design Considerations
+====== Aspect: User Experience
+
+* **Alternative 1 (current choice):** `ChangeThemeCommand` is implemented as a CLI command.
+** Pros: Consistent with the rest of the application, of which all changes are made by the CLI.
+** Cons: User has yet another command to remember the syntax of.
+* **Alternative 2:** Change of theme is implemented as a button to change onClick.
+** Pros: User does not have to type anything to change the theme, so it might be more user friendly.
+** Cons: Inconsistent with the rest of the application, which is CLI-based.
+// end::changeThemeCommand[]
 
 == Documentation
 

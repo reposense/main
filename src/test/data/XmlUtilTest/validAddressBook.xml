@@ -10,6 +10,7 @@
         <rating isPrivate="false">0</rating>
         <position isPrivate="false">1</position>
         <jerseyNumber isPrivate="false">1</jerseyNumber>
+        <avatar isPrivate="false">&lt;UNSPECIFIED&gt;</avatar>
     </persons>
     <persons>
         <name>Ruth Mueller</name>
@@ -21,6 +22,7 @@
         <rating isPrivate="false">1</rating>
         <position isPrivate="false">2</position>
         <jerseyNumber isPrivate="false">11</jerseyNumber>
+        <avatar isPrivate="false">&lt;UNSPECIFIED&gt;</avatar>
     </persons>
     <persons>
         <name>Heinz Kurz</name>
@@ -32,6 +34,7 @@
         <rating isPrivate="false">2</rating>
         <position isPrivate="false">3</position>
         <jerseyNumber isPrivate="false">13</jerseyNumber>
+        <avatar isPrivate="false">&lt;UNSPECIFIED&gt;</avatar>
     </persons>
     <persons>
         <name>Cornelia Meier</name>
@@ -43,6 +46,7 @@
         <rating isPrivate="false">5</rating>
         <position isPrivate="false">4</position>
         <jerseyNumber isPrivate="false">21</jerseyNumber>
+        <avatar isPrivate="false">&lt;UNSPECIFIED&gt;</avatar>
     </persons>
     <persons>
         <name>Werner Meyer</name>
@@ -54,6 +58,7 @@
         <rating isPrivate="false">1</rating>
         <position isPrivate="false">3</position>
         <jerseyNumber isPrivate="false">53</jerseyNumber>
+        <avatar isPrivate="false">&lt;UNSPECIFIED&gt;</avatar>
     </persons>
     <persons>
         <name>Lydia Kunz</name>
@@ -65,6 +70,7 @@
         <rating isPrivate="false">2</rating>
         <position isPrivate="false">2</position>
         <jerseyNumber isPrivate="false">17</jerseyNumber>
+        <avatar isPrivate="false">&lt;UNSPECIFIED&gt;</avatar>
     </persons>
     <persons>
         <name>Anna Best</name>
@@ -76,6 +82,7 @@
         <rating isPrivate="false">0</rating>
         <position isPrivate="false">1</position>
         <jerseyNumber isPrivate="false">52</jerseyNumber>
+        <avatar isPrivate="false">&lt;UNSPECIFIED&gt;</avatar>
     </persons>
     <persons>
         <name>Stefan Meier</name>
@@ -87,6 +94,7 @@
         <rating isPrivate="false">3</rating>
         <position isPrivate="false">2</position>
         <jerseyNumber isPrivate="false">23</jerseyNumber>
+        <avatar isPrivate="false">&lt;UNSPECIFIED&gt;</avatar>
     </persons>
     <persons>
         <name>Martin Mueller</name>
@@ -98,5 +106,6 @@
         <rating isPrivate="false">4</rating>
         <position isPrivate="false">4</position>
         <jerseyNumber isPrivate="false">4</jerseyNumber>
+        <avatar isPrivate="false">&lt;UNSPECIFIED&gt;</avatar>
     </persons>
 </addressbook>

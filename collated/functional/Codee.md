@@ -1,223 +1,5 @@
 # Codee
-###### /resources/view/TeamDisplay.fxml
-``` fxml
-<HBox maxHeight="40.0" minHeight="40.0" prefHeight="40.0" prefWidth="800" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <FlowPane fx:id="teams" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="800" styleClass="team-panel" vgap="1.0">
-         <HBox.margin>
-            <Insets />
-         </HBox.margin>
-         <padding>
-            <Insets left="10.0" right="10.0" />
-         </padding></FlowPane>
-   </children>
-</HBox>
-```
-###### /resources/view/PlayerDetails.fxml
-``` fxml
-<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9" styleClass="player-details-container">
-    <children>
-        <GridPane>
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="150" />
-            </columnConstraints>
-            <children>
-                <VBox alignment="CENTER_LEFT" minHeight="105" GridPane.columnIndex="0">
-                    <padding>
-                        <Insets bottom="5" left="15" right="5" top="5" />
-                    </padding>
-                    <children>
-                        <HBox alignment="CENTER_LEFT" spacing="5">
-                            <children>
-                                <Label fx:id="id" styleClass="cell_big_label">
-                                    <minWidth>
-                                        <Region fx:constant="USE_PREF_SIZE" />
-                                    </minWidth>
-                                </Label>
-                                <Label fx:id="name" styleClass="player-details-title" text="\$first" />
-                            </children>
-                        </HBox>
-                        <Label fx:id="phone" styleClass="player-details-cell" text="\$phone" />
-                        <Label fx:id="address" styleClass="player-details-cell" text="\$address" />
-                        <Label fx:id="email" styleClass="player-details-cell" text="\$email" />
-                        <Label styleClass="player-details-cell" text="Age: 20" />
-                        <Label styleClass="player-details-cell" text="Position: Midfielder" />
-                        <Label styleClass="player-details-cell" text="Number of Goals Scored: 5" />
-                    </children>
-                </VBox>
-            </children>
-            <rowConstraints>
-                <RowConstraints />
-            </rowConstraints>
-        </GridPane>
-    </children>
-</StackPane>
-```
-###### /java/seedu/address/ui/PlayerDetails.java
-``` java
-public class PlayerDetails extends UiPart<Region> {
-
-    private static final String FXML = "PlayerDetails.fxml";
-
-    /**
-     * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
-     * As a consequence, UI elements' variable names cannot be set to such keywords
-     * or an exception will be thrown by JavaFX during runtime.
-     *
-     * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
-     */
-
-    public final Person person;
-
-    @FXML
-    private HBox cardPane;
-    @FXML
-    private Label name;
-    @FXML
-    private Label id;
-    @FXML
-    private Label phone;
-    @FXML
-    private Label address;
-    @FXML
-    private Label email;
-
-    public PlayerDetails(Person person) {
-        super(FXML);
-        this.person = person;
-        name.setText(person.getName().fullName);
-
-        if (person.getPhone().isPrivate()) {
-            phone.setText(person.getPhone().toString());
-        } else {
-            phone.setText(person.getPhone().value);
-        }
-
-        if (person.getAddress().isPrivate()) {
-            address.setText(person.getAddress().toString());
-        } else {
-            address.setText(person.getAddress().value);
-        }
-
-        if (person.getEmail().isPrivate()) {
-            email.setText(person.getEmail().toString());
-        } else {
-            email.setText(person.getEmail().value);
-        }
-    }
-}
-```
-###### /java/seedu/address/ui/TeamDisplay.java
-``` java
-public class TeamDisplay extends UiPart<Region> {
-
-    private static final String FXML = "TeamDisplay.fxml";
-    private ObservableList<Team> teamList;
-
-    @FXML
-    private FlowPane teams;
-
-    public TeamDisplay(ObservableList<Team> teamList) {
-        super(FXML);
-        this.teamList = teamList;
-        initTeams();
-        getTeams();
-        registerAsAnEventHandler(this);
-    }
-
-    /**
-     * Creates the tag labels for {@code person}.
-     */
-    private void initTeams() {
-        for (Team t: this.teamList) {
-            Label teamLabel = new Label(t.getTeamName().toString());
-            teamLabel.setStyle("-fx-text-fill: #9cb3d8");
-            teams.getChildren().add(teamLabel);
-            teams.setHgap(10);
-        }
-    }
-
-    public List<String> getTeams() {
-        List<String> listOfTeams = FXCollections.observableArrayList();
-        for (Team t: teamList) {
-            listOfTeams.add(t.getTeamName().toString());
-        }
-        return listOfTeams;
-    }
-
-    @Subscribe
-    private void handleShowNewTeamEvent(ShowNewTeamNameEvent event) {
-        Label newTeamLabel = new Label(event.teamName);
-        newTeamLabel.getStyleClass();
-        teams.getChildren().add(newTeamLabel);
-    }
-
-    @Subscribe
-    private void handleHighlightSelectedTeamEvent(HighlightSelectedTeamEvent event) {
-        for (int i = 0; i < teamList.size(); i++) {
-            if (event.teamName.equals(teamList.get(i).getTeamName().toString())) {
-                teams.getChildren().remove(i);
-                Label newTeamLabel = new Label(event.teamName);
-                newTeamLabel.getStyleClass().add("selected");
-                teams.getChildren().add(i, newTeamLabel);
-            } else {
-                teams.getChildren().remove(i);
-                Label newTeamLabel = new Label(teamList.get(i).getTeamName().toString());
-                newTeamLabel.getStyleClass();
-                teams.getChildren().add(i, newTeamLabel);
-            }
-        }
-    }
-
-    @Subscribe
-    private void handleDeselectTeamEvent(DeselectTeamEvent event) {
-        for (int i = 0; i < teamList.size(); i++) {
-            teams.getChildren().remove(i);
-            Label newTeamLabel = new Label(teamList.get(i).getTeamName().toString());
-            newTeamLabel.getStyleClass();
-            teams.getChildren().add(i, newTeamLabel);
-        }
-    }
-}
-
-```
-###### /java/seedu/address/ui/PersonCard.java
-``` java
-    @Subscribe
-    public void handleColourChangeEvent(ChangeTagColourEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        Set<Tag> tagSet = person.getTags();
-        int i = 0;
-        for (Iterator<Tag> it = tagSet.iterator(); it.hasNext();) {
-            Tag tag = it.next();
-            if (tag.getTagName().equals(event.tagName)) {
-                tags.getChildren().remove(i);
-                Label newTagLabel = new Label(event.tagName);
-                newTagLabel.getStyleClass().add(event.tagColour);
-                tags.getChildren().add(i, newTagLabel);
-            }
-            i++;
-        }
-    }
-}
-```
-###### /java/seedu/address/commons/events/ui/HighlightSelectedTeamEvent.java
-``` java
-public class HighlightSelectedTeamEvent extends BaseEvent {
-
-    public final String teamName;
-
-    public HighlightSelectedTeamEvent(String teamName) {
-        this.teamName = teamName;
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-}
-```
-###### /java/seedu/address/commons/events/ui/ChangeTagColourEvent.java
+###### \java\seedu\address\commons\events\ui\ChangeTagColourEvent.java
 ``` java
 public class ChangeTagColourEvent extends BaseEvent {
 
@@ -235,7 +17,23 @@ public class ChangeTagColourEvent extends BaseEvent {
     }
 }
 ```
-###### /java/seedu/address/commons/events/ui/ShowNewTeamNameEvent.java
+###### \java\seedu\address\commons\events\ui\HighlightSelectedTeamEvent.java
+``` java
+public class HighlightSelectedTeamEvent extends BaseEvent {
+
+    public final String teamName;
+
+    public HighlightSelectedTeamEvent(String teamName) {
+        this.teamName = teamName;
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
+}
+```
+###### \java\seedu\address\commons\events\ui\ShowNewTeamNameEvent.java
 ``` java
 public class ShowNewTeamNameEvent extends BaseEvent {
 
@@ -252,52 +50,7 @@ public class ShowNewTeamNameEvent extends BaseEvent {
 
 }
 ```
-###### /java/seedu/address/logic/parser/SetCommandParser.java
-``` java
-public class SetCommandParser implements Parser<SetCommand> {
-
-    /**
-     * Parses the given {@code String} of arguments in the context of the SetCommand
-     * and returns an SetCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public SetCommand parse(String args) throws ParseException {
-        System.out.println("args = " + args);
-
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_TAG, PREFIX_TAG_COLOUR);
-
-        if (!arePrefixesPresent(argMultimap, PREFIX_TAG, PREFIX_TAG_COLOUR)
-                || !argMultimap.getPreamble().isEmpty()) {
-            System.out.println("prefix = "+ arePrefixesPresent(argMultimap, PREFIX_TAG, PREFIX_TAG_COLOUR));
-            System.out.println("preamble = "+ argMultimap.getPreamble().isEmpty());
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE));
-        }
-
-        try {
-            Tag tag = ParserUtil.parseTag(argMultimap.getValue(PREFIX_TAG).get());
-            String colour = ParserUtil.parseTagColour(argMultimap.getValue(PREFIX_TAG_COLOUR).get());
-            if (!tag.isValidTagColour(colour)) {
-                throw new ParseException(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE));
-            }
-            return new SetCommand(tag, colour);
-        } catch (IllegalValueException ive) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE));
-        }
-    }
-
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
-    }
-}
-```
-###### /java/seedu/address/logic/commands/SetCommand.java
+###### \java\seedu\address\logic\commands\SetCommand.java
 ``` java
 public class SetCommand extends Command {
 
@@ -355,7 +108,117 @@ public class SetCommand extends Command {
 }
 
 ```
-###### /java/seedu/address/storage/XmlAdaptedTeam.java
+###### \java\seedu\address\logic\parser\SetCommandParser.java
+``` java
+public class SetCommandParser implements Parser<SetCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the SetCommand
+     * and returns an SetCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public SetCommand parse(String args) throws ParseException {
+
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, PREFIX_TAG, PREFIX_TAG_COLOUR);
+
+        if (!arePrefixesPresent(argMultimap, PREFIX_TAG, PREFIX_TAG_COLOUR)
+                || !argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE));
+        }
+
+        try {
+            Tag tag = ParserUtil.parseTag(argMultimap.getValue(PREFIX_TAG).get());
+            String colour = ParserUtil.parseTagColour(argMultimap.getValue(PREFIX_TAG_COLOUR).get());
+            if (!tag.isValidTagColour(colour)) {
+                throw new ParseException(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE));
+            }
+            return new SetCommand(tag, colour);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE));
+        }
+    }
+
+    /**
+     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
+    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
+}
+```
+###### \java\seedu\address\model\AddressBook.java
+``` java
+    public void setTagColour(Tag tag, String colour) {
+        for (Tag t : tags) {
+            if (t.getTagName().equals(tag.getTagName())) {
+                t.changeTagColour(colour);
+            }
+        }
+    }
+```
+###### \java\seedu\address\model\tag\Tag.java
+``` java
+    public String getTagColour() {
+        return this.tagColour;
+    }
+
+    /**
+     * Changes the {@code tagColour} for {@code tagName}'s label
+     */
+    public void changeTagColour(String colour) {
+        this.tagColour = colour;
+    }
+
+
+    /**
+     * Returns true if a given string is a valid tag colour.
+     */
+    public static boolean isValidTagColour(String testColour) {
+        for (String tcs : TAG_COLOR_STYLES) {
+            if (testColour.equals(tcs)) {
+                return true;
+            }
+        }
+        return false;
+    }
+```
+###### \java\seedu\address\storage\XmlAdaptedTag.java
+``` java
+    public XmlAdaptedTag(String tagName, String tagColour) {
+        this.tagName = tagName;
+        this.tagColour = tagColour;
+    }
+
+    /**
+     * Converts a given Tag into this class for JAXB use.
+     *
+     * @param source future changes to this will not affect the created
+     */
+    public XmlAdaptedTag(Tag source) {
+        tagName = source.tagName;
+        tagColour = source.getTagColour();
+    }
+
+    /**
+     * Converts this jaxb-friendly adapted tag object into the model's Tag object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated in the adapted person
+     */
+    public Tag toModelType() throws IllegalValueException {
+        if (!Tag.isValidTagName(tagName)) {
+            throw new IllegalValueException(Tag.MESSAGE_TAG_CONSTRAINTS);
+        }
+        if (!Tag.isValidTagColour(tagColour)) {
+            throw new IllegalValueException(Tag.MESSAGE_TAG_COLOUR_CONSTRAINTS);
+        }
+        return new Tag(tagName, tagColour);
+    }
+```
+###### \java\seedu\address\storage\XmlAdaptedTeam.java
 ``` java
 public class XmlAdaptedTeam {
 
@@ -434,46 +297,14 @@ public class XmlAdaptedTeam {
     }
 }
 ```
-###### /java/seedu/address/storage/XmlAdaptedTag.java
-``` java
-    public XmlAdaptedTag(String tagName, String tagColour) {
-        this.tagName = tagName;
-        this.tagColour = tagColour;
-    }
-
-    /**
-     * Converts a given Tag into this class for JAXB use.
-     *
-     * @param source future changes to this will not affect the created
-     */
-    public XmlAdaptedTag(Tag source) {
-        tagName = source.tagName;
-        tagColour = source.getTagColour();
-    }
-
-    /**
-     * Converts this jaxb-friendly adapted tag object into the model's Tag object.
-     *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted person
-     */
-    public Tag toModelType() throws IllegalValueException {
-        if (!Tag.isValidTagName(tagName)) {
-            throw new IllegalValueException(Tag.MESSAGE_TAG_CONSTRAINTS);
-        }
-        if (!Tag.isValidTagColour(tagColour)) {
-            throw new IllegalValueException(Tag.MESSAGE_TAG_COLOUR_CONSTRAINTS);
-        }
-        return new Tag(tagName, tagColour);
-    }
-```
-###### /java/seedu/address/storage/XmlSerializableAddressBook.java
+###### \java\seedu\address\storage\XmlSerializableAddressBook.java
 ``` java
     @XmlElement
     private List<XmlAdaptedTeam> teams;
     @XmlElement
     private List<XmlAdaptedPerson> persons;
 ```
-###### /java/seedu/address/storage/XmlSerializableAddressBook.java
+###### \java\seedu\address\storage\XmlSerializableAddressBook.java
 ``` java
     public XmlSerializableAddressBook(ReadOnlyAddressBook src) {
         this();
@@ -502,39 +333,176 @@ public class XmlAdaptedTeam {
         return addressBook;
     }
 ```
-###### /java/seedu/address/model/AddressBook.java
+###### \java\seedu\address\ui\PersonCard.java
 ``` java
-    public void setTagColour(Tag tag, String colour) {
-        for (Tag t : tags) {
-            if (t.getTagName().equals(tag.getTagName())) {
-                t.changeTagColour(colour);
+    @Subscribe
+    public void handleColourChangeEvent(ChangeTagColourEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        Set<Tag> tagSet = person.getTags();
+        int i = 0;
+        for (Iterator<Tag> it = tagSet.iterator(); it.hasNext();) {
+            Tag tag = it.next();
+            if (tag.getTagName().equals(event.tagName)) {
+                tags.getChildren().remove(i);
+                Label newTagLabel = new Label(event.tagName);
+                newTagLabel.getStyleClass().add(event.tagColour);
+                tags.getChildren().add(i, newTagLabel);
             }
+            i++;
         }
     }
+}
 ```
-###### /java/seedu/address/model/tag/Tag.java
+###### \java\seedu\address\ui\PlayerDetails.java
 ``` java
-    public String getTagColour() {
-        return this.tagColour;
+public class PlayerDetails extends UiPart<Region> {
+
+    private static final String FXML = "PlayerDetails.fxml";
+
+    /**
+     * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
+     * As a consequence, UI elements' variable names cannot be set to such keywords
+     * or an exception will be thrown by JavaFX during runtime.
+     *
+     * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
+     */
+
+    public final Person person;
+
+    @FXML
+    private HBox cardPane;
+    @FXML
+    private Label name;
+    @FXML
+    private Label phone;
+    @FXML
+    private Label address;
+    @FXML
+    private Label email;
+    @FXML
+    private Label jerseyNumber;
+    @FXML
+    private Label remark;
+```
+###### \java\seedu\address\ui\TeamDisplay.java
+``` java
+public class TeamDisplay extends UiPart<Region> {
+
+    private static final String FXML = "TeamDisplay.fxml";
+    private ObservableList<Team> teamList;
+
+    @FXML
+    private FlowPane teams;
+
+    public TeamDisplay(ObservableList<Team> teamList) {
+        super(FXML);
+        this.teamList = teamList;
+        initTeams();
+        getTeams();
+        registerAsAnEventHandler(this);
     }
 
     /**
-     * Changes the {@code tagColour} for {@code tagName}'s label
+     * Creates the tag labels for {@code person}.
      */
-    public void changeTagColour(String colour) {
-        this.tagColour = colour;
+    private void initTeams() {
+        for (Team t: this.teamList) {
+            Label teamLabel = new Label(t.getTeamName().toString());
+            teamLabel.setStyle("-fx-text-fill: #9cb3d8");
+            teams.getChildren().add(teamLabel);
+            teams.setHgap(10);
+        }
     }
 
+    public List<String> getTeams() {
+        List<String> listOfTeams = FXCollections.observableArrayList();
+        for (Team t: teamList) {
+            listOfTeams.add(t.getTeamName().toString());
+        }
+        return listOfTeams;
+    }
 
-    /**
-     * Returns true if a given string is a valid tag colour.
-     */
-    public static boolean isValidTagColour(String testColour) {
-        for (String tcs : TAG_COLOR_STYLES) {
-            if (testColour.equals(tcs)) {
-                return true;
+    @Subscribe
+    private void handleShowNewTeamEvent(ShowNewTeamNameEvent event) {
+        Label newTeamLabel = new Label(event.teamName);
+        newTeamLabel.getStyleClass();
+        teams.getChildren().add(newTeamLabel);
+    }
+
+    @Subscribe
+    private void handleHighlightSelectedTeamEvent(HighlightSelectedTeamEvent event) {
+        for (int i = 0; i < teamList.size(); i++) {
+            if (event.teamName.equals(teamList.get(i).getTeamName().toString())) {
+                teams.getChildren().remove(i);
+                Label newTeamLabel = new Label(event.teamName);
+                newTeamLabel.getStyleClass().add("selected");
+                teams.getChildren().add(i, newTeamLabel);
+            } else {
+                teams.getChildren().remove(i);
+                Label newTeamLabel = new Label(teamList.get(i).getTeamName().toString());
+                newTeamLabel.getStyleClass();
+                teams.getChildren().add(i, newTeamLabel);
             }
         }
-        return false;
     }
+
+    @Subscribe
+    private void handleDeselectTeamEvent(DeselectTeamEvent event) {
+        for (int i = 0; i < teamList.size(); i++) {
+            teams.getChildren().remove(i);
+            Label newTeamLabel = new Label(teamList.get(i).getTeamName().toString());
+            newTeamLabel.getStyleClass();
+            teams.getChildren().add(i, newTeamLabel);
+        }
+    }
+}
+
+```
+###### \resources\view\PlayerDetails.fxml
+``` fxml
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9" styleClass="player-details-container">
+    <children>
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="150" />
+            </columnConstraints>
+            <children>
+                <VBox alignment="CENTER_LEFT" minHeight="105" GridPane.columnIndex="0">
+                    <padding>
+                        <Insets bottom="5" left="15" right="5" top="5" />
+                    </padding>
+                    <children>
+                        <HBox alignment="CENTER_LEFT" spacing="5">
+                            <children>
+                                <Label fx:id="name" styleClass="player-details-title" text="\$first" />
+                            </children>
+                        </HBox>
+                        <Label fx:id="phone" styleClass="player-details-cell" text="\$phone" />
+                        <Label fx:id="address" styleClass="player-details-cell" text="\$address" />
+                        <Label fx:id="email" styleClass="player-details-cell" text="\$email" />
+                        <Label fx:id="jerseyNumber" styleClass="player-details-cell" text="\$jerseyNumber" />
+                        <Label fx:id="remark" styleClass="player-details-cell" text="\$remark" />
+                    </children>
+                </VBox>
+            </children>
+            <rowConstraints>
+                <RowConstraints />
+            </rowConstraints>
+        </GridPane>
+    </children>
+</StackPane>
+```
+###### \resources\view\TeamDisplay.fxml
+``` fxml
+<HBox maxHeight="40.0" minHeight="40.0" prefHeight="40.0" prefWidth="800" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <FlowPane fx:id="teams" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="800" styleClass="team-panel" vgap="1.0">
+         <HBox.margin>
+            <Insets />
+         </HBox.margin>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding></FlowPane>
+   </children>
+</HBox>
 ```

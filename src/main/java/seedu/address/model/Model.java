@@ -80,6 +80,9 @@ public interface Model {
     /** Removes the given team */
     void removeTeam(TeamName teamName) throws TeamNotFoundException;
 
+    /** Renames the given team */
+    void renameTeam(Team targetTeam, TeamName teamName);
+
     /** sets the given {@code tag} to color. */
     boolean setTagColour(Tag tag, String colour);
 

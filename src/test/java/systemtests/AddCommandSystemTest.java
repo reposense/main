@@ -6,6 +6,8 @@ import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_AVATAR_NO_FILE;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_AVATAR_TYPE;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_JERSEY_NUMBER_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
@@ -56,6 +58,7 @@ import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.model.Model;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Avatar;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.JerseyNumber;
 import seedu.address.model.person.Name;
@@ -79,6 +82,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         /* Case: add a person without tags to a non-empty address book, command with leading spaces and trailing spaces
          * -> added
          */
+        Avatar.setUpPlaceholderForTest();
         Person toAdd = AMY;
         String command = "   " + AddCommand.COMMAND_WORD + "  " + NAME_DESC_AMY + "  " + PHONE_DESC_AMY + " "
                 + EMAIL_DESC_AMY + "   " + ADDRESS_DESC_AMY + "   " + TAG_DESC_FRIEND + " " + RATING_DESC_0
@@ -247,6 +251,16 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                  + RATING_DESC_0 + POSITION_DESC_STRIKER + INVALID_JERSEY_NUMBER_DESC;
         assertCommandFailure(command, JerseyNumber.MESSAGE_JERSEY_NUMBER_CONSTRAINTS);
+
+        /* Case: invalid jersey avatar -> rejected */
+        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                + RATING_DESC_0 + POSITION_DESC_STRIKER + JERSEY_NUMBER_DESC_2 + INVALID_AVATAR_NO_FILE;
+        assertCommandFailure(command, AddCommand.MESSAGE_FILE_NOT_FOUND);
+
+        /* Case: invalid jersey avatar -> rejected */
+        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                + RATING_DESC_0 + POSITION_DESC_STRIKER + JERSEY_NUMBER_DESC_2 + INVALID_AVATAR_TYPE;
+        assertCommandFailure(command, Avatar.MESSAGE_AVATAR_CONSTRAINTS);
     }
 
     /**

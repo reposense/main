@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Avatar;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.JerseyNumber;
 import seedu.address.model.person.Name;
@@ -108,6 +109,14 @@ public class EditPersonDescriptorBuilder {
      */
     public EditPersonDescriptorBuilder withJerseyNumber(String jerseyNumber) {
         descriptor.setJerseyNumber(new JerseyNumber(jerseyNumber));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Avatar} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditPersonDescriptorBuilder withAvatar(String avatar) {
+        descriptor.setAvatar(new Avatar(avatar));
         return this;
     }
 

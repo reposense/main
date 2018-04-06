@@ -1,5 +1,7 @@
 package seedu.address.ui;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -9,9 +11,12 @@ import com.google.common.eventbus.Subscribe;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.ChangeTagColourEvent;
 import seedu.address.model.person.Person;
@@ -49,6 +54,10 @@ public class PersonCard extends UiPart<Region> {
     private Label rating;
     @FXML
     private Label position;
+    @FXML
+    private Label jerseyNumber;
+    @FXML
+    private Circle avatar;
 
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
@@ -63,6 +72,26 @@ public class PersonCard extends UiPart<Region> {
         teamName.setText(person.getTeamName().fullName);
         position.setText(person.getPosition().getPositionName());
         initTags(person);
+        setContactImage(person.getAvatar().getValue());
+    }
+
+
+    private void setContactImage(String path) {
+
+        Image img = null;
+
+        try {
+            if (new File(path).isFile()) {
+                img = new Image(new File(path).toURI().toURL().toString());
+            } else {
+                img = new Image(getClass().getResource("/images/placeholder_test.png").toString());
+            }
+        } catch (MalformedURLException e) {
+            img = new Image(getClass().getResource("/images/placeholder_test.png").toString());
+        }
+        avatar.setVisible(true);
+        avatar.setFill(new ImagePattern(img));
+        avatar.setVisible(true);
         registerAsAnEventHandler(this);
     }
 

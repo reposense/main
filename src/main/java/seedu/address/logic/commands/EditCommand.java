@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_AVATAR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JERSEY_NUMBER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -9,8 +10,10 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POSITION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -18,11 +21,14 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.events.ui.DeselectTeamEvent;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Avatar;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.JerseyNumber;
 import seedu.address.model.person.Name;
@@ -55,6 +61,7 @@ public class EditCommand extends UndoableCommand {
             + "[" + PREFIX_RATING + "RATING] "
             + "[" + PREFIX_POSITION + "POSITION] "
             + "[" + PREFIX_JERSEY_NUMBER + "JERSEY_NUMBER] "
+            + "[" + PREFIX_AVATAR + "AVATAR] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
@@ -68,11 +75,13 @@ public class EditCommand extends UndoableCommand {
             + "[" + PREFIX_RATING + "RATING] "
             + "[" + PREFIX_POSITION + "POSITION] "
             + "[" + PREFIX_JERSEY_NUMBER + "JERSEY_NUMBER] "
+            + "[" + PREFIX_AVATAR + "AVATAR] "
             + "[" + PREFIX_TAG + "TAG]";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This player already exists in the address book.";
+    public static final String MESSAGE_FILE_NOT_FOUND = "Avatar image file specified does not exist";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
@@ -95,12 +104,18 @@ public class EditCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         try {
+            if (!editedPerson.getAvatar().toString().equals(UNSPECIFIED_FIELD)) {
+                editedPerson.getAvatar().setFilePath(editedPerson.getName().fullName);
+            }
             model.updatePerson(personToEdit, editedPerson);
         } catch (DuplicatePersonException dpe) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("The target player cannot be missing");
+        } catch (IOException e) {
+            throw new CommandException(MESSAGE_FILE_NOT_FOUND);
         }
+        EventsCenter.getInstance().post(new DeselectTeamEvent());
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedPerson));
     }
@@ -140,9 +155,11 @@ public class EditCommand extends UndoableCommand {
         JerseyNumber updatedJerseyNumber = editPersonDescriptor.getJerseyNumber()
                 .orElse(personToEdit.getJerseyNumber());
         Position updatedPosition = editPersonDescriptor.getPosition().orElse(personToEdit.getPosition());
+        Avatar updatedAvatar = editPersonDescriptor.getAvatar().orElse(personToEdit.getAvatar());
+
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark,
-                updatedTeamName, updatedTags, updatedRating, updatedPosition, updatedJerseyNumber);
+                updatedTeamName, updatedTags, updatedRating, updatedPosition, updatedJerseyNumber, updatedAvatar);
     }
 
     @Override
@@ -177,6 +194,7 @@ public class EditCommand extends UndoableCommand {
         private Rating rating;
         private Position position;
         private JerseyNumber jerseyNumber;
+        private Avatar avatar;
 
         public EditPersonDescriptor() {}
 
@@ -193,6 +211,7 @@ public class EditCommand extends UndoableCommand {
             setRating(toCopy.rating);
             setPosition(toCopy.position);
             setJerseyNumber(toCopy.jerseyNumber);
+            setAvatar(toCopy.avatar);
         }
 
         /**
@@ -200,7 +219,7 @@ public class EditCommand extends UndoableCommand {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(this.name, this.phone, this.email, this.address, this.tags,
-                    this.rating, this.position, this.jerseyNumber);
+                    this.rating, this.position, this.jerseyNumber, this.avatar);
         }
 
         public void setName(Name name) {
@@ -276,6 +295,14 @@ public class EditCommand extends UndoableCommand {
             return Optional.ofNullable(jerseyNumber);
         }
 
+        public void setAvatar(Avatar avatar) {
+            this.avatar = avatar;
+        }
+
+        public Optional<Avatar> getAvatar() {
+            return Optional.ofNullable(avatar);
+        }
+
         @Override
         public boolean equals(Object other) {
             // short circuit if same object
@@ -298,7 +325,8 @@ public class EditCommand extends UndoableCommand {
                     && getTags().equals(e.getTags())
                     && getRating().equals(e.getRating())
                     && getPosition().equals(e.getPosition())
-                    && getJerseyNumber().equals(e.getJerseyNumber());
+                    && getJerseyNumber().equals(e.getJerseyNumber())
+                    && getAvatar().equals(e.getAvatar());
         }
     }
 }
