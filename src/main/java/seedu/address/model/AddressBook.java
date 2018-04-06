@@ -365,7 +365,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         Person personWithRenameTeam =
                 new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                         person.getRemark(), teamName, person.getTags(), person.getRating(),
-                        person.getPosition(), person.getJerseyNumber());
+                        person.getPosition(), person.getJerseyNumber(), person.getAvatar());
 
         try {
             targetTeam.setPerson(toRename, personWithRenameTeam);
