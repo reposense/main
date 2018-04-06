@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_AVATAR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JERSEY_NUMBER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -12,6 +13,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TEAM_NAME;
 import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
 
+import java.io.IOException;
+
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.events.ui.DeselectTeamEvent;
@@ -19,6 +22,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.team.TeamName;
+
 
 /**
  * Adds a player to the address book.
@@ -38,6 +42,7 @@ public class AddCommand extends UndoableCommand {
             + "[" + PREFIX_RATING + "RATING] "
             + "[" + PREFIX_POSITION + "POSITION] "
             + "[" + PREFIX_JERSEY_NUMBER + "JERSEY_NUMBER] "
+            + "[" + PREFIX_AVATAR + "AVATAR] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
@@ -48,6 +53,7 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_RATING + "0"
             + PREFIX_POSITION + "1"
             + PREFIX_JERSEY_NUMBER + "17"
+            + PREFIX_AVATAR + "john.png"
             + PREFIX_TAG + "owesMoney";
 
     public static final String MESSAGE_PARAMETERS = PREFIX_NAME + "NAME "
@@ -57,10 +63,12 @@ public class AddCommand extends UndoableCommand {
             + "[" + PREFIX_RATING + "RATING] "
             + "[" + PREFIX_POSITION + "POSITION] "
             + "[" + PREFIX_JERSEY_NUMBER + "JERSEY_NUMBER] "
+            + "[" + PREFIX_AVATAR + "AVATAR] "
             + "[" + PREFIX_TAG + "TAG]";
 
     public static final String MESSAGE_SUCCESS = "New player added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This player already exists in the address book";
+    public static final String MESSAGE_FILE_NOT_FOUND = "Avatar image file specified does not exist";
 
     private final Person toAdd;
 
@@ -76,6 +84,9 @@ public class AddCommand extends UndoableCommand {
     public CommandResult executeUndoableCommand() throws CommandException {
         requireNonNull(model);
         try {
+            if (!toAdd.getAvatar().toString().equals(UNSPECIFIED_FIELD)) {
+                toAdd.getAvatar().setFilePath(toAdd.getName().fullName);
+            }
             model.addPerson(toAdd);
             if (!toAdd.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
                 model.assignPersonToTeam(toAdd, toAdd.getTeamName());
@@ -84,6 +95,8 @@ public class AddCommand extends UndoableCommand {
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (DuplicatePersonException e) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        } catch (IOException e) {
+            throw new CommandException(MESSAGE_FILE_NOT_FOUND);
         }
     }
 

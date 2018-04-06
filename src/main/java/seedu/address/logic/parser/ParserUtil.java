@@ -14,6 +14,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Avatar;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.JerseyNumber;
 import seedu.address.model.person.Name;
@@ -321,4 +322,29 @@ public class ParserUtil {
         return jerseyNumber.isPresent() ? Optional.of(parseJerseyNumber(jerseyNumber.get())) : Optional.empty();
     }
 
+    /**
+     * Parses a {@code String jerseyNumber} into a {@code JerseyNumber}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws IllegalValueException if the given {@code jerseyNumber} is invalid.
+     */
+
+    public static Avatar parseAvatar(String avatar) throws IllegalValueException {
+        requireNonNull(avatar);
+        String trimmedAvatar = avatar.trim();
+        if (!Avatar.isValidAvatar(trimmedAvatar)) {
+            throw new IllegalValueException(Avatar.MESSAGE_AVATAR_CONSTRAINTS);
+        }
+        return new Avatar(trimmedAvatar);
+    }
+
+    /**
+     * Parses a {@code Optional<String> avatar} into an {@code Optional<Avatar>}
+     * if {@code avatar} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<Avatar> parseAvatar(Optional<String> avatar) throws IllegalValueException {
+        requireNonNull(avatar);
+        return avatar.isPresent() ? Optional.of(parseAvatar(avatar.get())) : Optional.empty();
+    }
 }

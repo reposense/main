@@ -16,6 +16,7 @@
         <rating>0</rating>
         <position>1</position>
         <jerseyNumber>1</jerseyNumber>
+        <avatar>&lt;UNSPECIFIED&gt;</avatar>
     </persons>
     <persons>
         <name>Benson Meier</name>
@@ -35,6 +36,7 @@
         <rating>1</rating>
         <position>2</position>
         <jerseyNumber>2</jerseyNumber>
+        <avatar>&lt;UNSPECIFIED&gt;</avatar>
     </persons>
     <persons>
         <name>Carl Kurz</name>
@@ -50,6 +52,7 @@
         <rating>2</rating>
         <position>3</position>
         <jerseyNumber>3</jerseyNumber>
+        <avatar>&lt;UNSPECIFIED&gt;</avatar>
     </persons>
     <persons>
         <name>Daniel Meier</name>
@@ -61,6 +64,7 @@
         <rating>3</rating>
         <position>4</position>
         <jerseyNumber>4</jerseyNumber>
+        <avatar>&lt;UNSPECIFIED&gt;</avatar>
     </persons>
     <persons>
         <name>Elle Meyer</name>
@@ -72,6 +76,7 @@
         <rating>4</rating>
         <position>1</position>
         <jerseyNumber>5</jerseyNumber>
+        <avatar>&lt;UNSPECIFIED&gt;</avatar>
     </persons>
     <persons>
         <name>Fiona Kunz</name>
@@ -83,6 +88,7 @@
         <rating>5</rating>
         <position>2</position>
         <jerseyNumber>6</jerseyNumber>
+        <avatar>&lt;UNSPECIFIED&gt;</avatar>
     </persons>
     <persons>
         <name>George Best</name>
@@ -94,6 +100,7 @@
         <rating>0</rating>
         <position>3</position>
         <jerseyNumber>7</jerseyNumber>
+        <avatar>&lt;UNSPECIFIED&gt;</avatar>
     </persons>
     <tags>
         <tagName>friends</tagName>
