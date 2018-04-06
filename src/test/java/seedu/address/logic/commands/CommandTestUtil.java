@@ -49,6 +49,7 @@ public class CommandTestUtil {
     public static final String VALID_REMARK_EMPTY = "";
     public static final String VALID_TEAM_ARSENAL = "Arsenal";
     public static final String VALID_TEAM_BARCELONA = "Barcelona";
+    public static final String VALID_TEAM_CHELSEA = "Chelsea";
     public static final String VALID_RATING_0 = "0";
     public static final String VALID_RATING_1 = "1";
     public static final String VALID_POSITION_STRIKER = "1";

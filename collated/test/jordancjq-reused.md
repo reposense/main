@@ -1,35 +1,42 @@
-package seedu.address.logic.commands;
+# jordancjq-reused
+###### /java/seedu/address/logic/parser/RemarkCommandParserTest.java
+``` java
+public class RemarkCommandParserTest {
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_EMPTY;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
-import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
-import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+    private static final String REMARK_EMPTY = "";
+    private static final String REMARK_NONEMPTY = "Some remark to test.";
 
-import org.junit.Test;
+    private RemarkCommandParser parser = new RemarkCommandParser();
 
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.CommandHistory;
-import seedu.address.logic.UndoRedoStack;
-import seedu.address.model.AddressBook;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.Remark;
-import seedu.address.testutil.PersonBuilder;
+    @Test
+    public void parse_indexSpecified_success() throws Exception {
+        // with remark
+        RemarkCommand expectedCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(REMARK_NONEMPTY));
+        String userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_REMARK + " " + REMARK_NONEMPTY;
+        System.out.println(userInput);
+        assertParseSuccess(parser, userInput, expectedCommand);
 
-//@@author jordancjq-reused
+        // without remark
+        expectedCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(REMARK_EMPTY));
+        userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_REMARK + REMARK_EMPTY;
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_compulsoryFieldMissing_failure() throws Exception {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemarkCommand.MESSAGE_USAGE);
+
+        // missing parameters
+        assertParseFailure(parser, RemarkCommand.COMMAND_WORD, expectedMessage);
+
+        // missing index
+        assertParseFailure(parser, RemarkCommand.COMMAND_WORD + " " + REMARK_NONEMPTY, expectedMessage);
+    }
+
+}
+```
+###### /java/seedu/address/logic/commands/RemarkCommandTest.java
+``` java
 /**
  * Contains integration tests (interaction with the Model) and unit tests for RemarkCommand.
  */
@@ -216,3 +223,32 @@ public class RemarkCommandTest {
         return remarkCommand;
     }
 }
+```
+###### /java/seedu/address/model/person/RemarkTest.java
+``` java
+public class RemarkTest {
+
+    @Test
+    public void equals() {
+        Remark remark = new Remark("Test Remark");
+
+        // same object -> returns true
+        assertTrue(remark.equals(remark));
+
+        // same values -> returns true
+        Remark sameRemark = new Remark(remark.value);
+        assertTrue(remark.equals(sameRemark));
+
+        // different types -> return false
+        assertFalse(remark.equals(new Phone("999")));
+
+        // null -> returns false
+        assertFalse(remark.equals(null));
+
+        // different remark -> returns false
+        Remark differentRemark = new Remark("Another Remark");
+        assertFalse(remark.equals(differentRemark));
+
+    }
+}
+```

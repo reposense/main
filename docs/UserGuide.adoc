@@ -94,6 +94,8 @@ then a dropdown box will appear with the possible commands. These can be navigat
 
 ==== Viewing help : `help`
 
+Feeling lost? Not sure what to do? Don't worry, our friendly guide will help you! All you have to do is just type the `help` command, and you will get all the information you require.
+
 Format: `help`
 
 ==== Listing entered commands : `history`
@@ -194,7 +196,6 @@ you can change the theme from the default DarkTheme to LightTheme with the 'chan
 Format: `changeTheme` +
 Alias: `ct`
 
-
 ==== Clearing all entries : `clear`
 
 You can clear all entries from the address book with the 'clear' command.
@@ -215,6 +216,7 @@ Format: `exit`
 Adds a player to the address book.
 
 Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]...` +
+Alias: `a`
 
 The table below explains the correct inputs for the parameters.
 
@@ -241,8 +243,6 @@ If you have not created the team yet, you can create one first using the <<Creat
 [TIP]
 A player can have any number of tags (including 0).
 
-Alias: `a`
-
 Output: The added player should appear in the player list panel.
 
 Examples:
@@ -258,7 +258,6 @@ team `Real Madrid`, jersey number `17`, rating `5`, position Striker, with remar
 You may edit an existing player in the address book with the 'edit' command.
 
 Format: `edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]...` +
-
 Alias: `e`
 
 ****
@@ -336,7 +335,7 @@ Alias: `l`
 
 You can sort the players by fields with the 'sort' command. Players can be sorted in both ascending or descending order.
 
-Format: `sort` FIELD ORDER +
+Format: `sort FIELD ORDER` +
 Alias: `so`
 
 [NOTE]
@@ -410,7 +409,7 @@ Finds a player named Betsy and selects the 1st player in the results of the `fin
 
 ==== Creating a team: `create` `[Since v1.2]`
 
-What is a team management application without the functionality of creating a team? This command allows you to create a team that can be assigned to players.
+What is a team management application without the functionality of creating a team? When you use this command, it allows you to create a team that can be assigned to players later on.
 
 Format: `create TEAM_NAME` +
 Alias: `ct`
@@ -454,11 +453,29 @@ Here are a few valid examples of how you can use the `remove` command:
 * `remove Arsenal` +
 Display the list of players in team "Arsenal" and remove the team.
 
+==== Rename a team: `rename` `[Since v1.4]`
+
+Entered your team name wrongly or you need to update it to accordingly, you can use the `rename` command to help you make that change.
+
+Format: `rename TEAM_NAME tn/RENAME_TEAM_NAME` +
+Alias: `rnt`
+
+[IMPORTANT]
+.*What to expect*
+====
+Your specified team will be updated with the new team name along with the affected players in the existing team.
+====
+
+Here are a few valid examples on how you can use the `rename` command:
+
+* `rename Arsenal tn/Neo Arsenal`
+Renames the current team "Arsenal" into "Neo Arsenal".
+
 ==== Assigning player to teams: `assign` `[Since v1.3]`
 
-Have a player without a team, or have yet to assigned one during the addition of player into MTM, you can call this command to assign that player to a particular team of your choice.
+Have a player without a team, or have yet to assigned one during the addition of player into MTM, you can call `assign` command to assign that player to a particular team of your choice.
 
-Format: `assign at/TEAM_NAME i/INDEX [INDEX]...` +
+Format: `assign tn/TEAM_NAME i/INDEX [INDEX]...` +
 Alias: `at`
 
 [NOTE]
@@ -471,29 +488,30 @@ You can assign multiple players to a team by including more than one valid index
 [IMPORTANT]
 .*What to expect*
 ====
-Your specified player via index will be assigned to the specified team.
+Your specified player, via index, will be assigned to the specified team.
 ====
 
 Here are a few valid examples on how you can use the `create` command:
 
 * `list`
-* `assign at/Arsenal i/1 2 3` +
+* `assign tn/Arsenal i/1 2 3` +
 View the full list of players in MTM and assign the player with index 1, 2, and 3 to team "Arsenal".
 
 * `find John`
-* `assign at/Liverpool i/1` +
+* `assign tn/Liverpool i/1` +
 Find a player by the name of "John" and assign the player with index 1 to team "Liverpool".
 
 ==== Viewing a team: `view` `[Since v1.3]`
 
-With the ability to manage different teams, you will be able to list all players currently in a team easily with this command.
-Format: `view TEAM_NAME`
+With the ability to manage different teams, you will be able to identify all players in a team easily with the `view` command.
+
+Format: `view TEAM_NAME` +
 Alias: `v`
 
 [IMPORTANT]
 .*What to expect*
 ====
-Displays the list of players will that are in the team specified on the left panel.
+Displays the list of players on the left panel that are in the team specified.
 ====
 
 Here are a few valid examples on how you can use the `view` command:
@@ -708,10 +726,15 @@ d|List all the players
 |remove TEAM_NAME
 |remove Real Madrid
 
+|`rename`
+|`rnt`
+|rename TEAM_NAME tn/RENAME_TEAM_NAME
+|rename Arsenal tn/Neo Arsenal
+
 |`assign`
 |`at`
-|assign at/TEAM_NAME i/INDEX [INDEX]...
-|assign at/Barcelona i/1 2 3
+|assign tn/TEAM_NAME i/INDEX [INDEX]...
+|assign tn/Barcelona i/1 2 3
 
 |`view`
 |`vt`

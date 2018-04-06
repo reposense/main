@@ -13,6 +13,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.ui.RemoveSelectedTeamEvent;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.NoPlayerException;
@@ -83,7 +84,6 @@ public class ModelManager extends ComponentManager implements Model {
     public void updatePerson(Person target, Person editedPerson)
             throws DuplicatePersonException, PersonNotFoundException {
         requireAllNonNull(target, editedPerson);
-
         addressBook.updatePerson(target, editedPerson);
         indicateAddressBookChanged();
     }
@@ -102,19 +102,21 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author jordancjq
     @Override
     public synchronized void createTeam(Team team) throws DuplicateTeamException {
         addressBook.createTeam(team);
         indicateAddressBookChanged();
     }
 
+    //@@author jordancjq
     @Override
     public synchronized void assignPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
         addressBook.assignPersonToTeam(person, teamName);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         indicateAddressBookChanged();
     }
 
+    //@@author jordancjq
     @Override
     public synchronized void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
         requireAllNonNull(person, teamName);
@@ -122,13 +124,24 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author jordancjq
     @Override
     public synchronized void removeTeam(TeamName teamName) throws TeamNotFoundException {
         requireNonNull(teamName);
+        raise(new RemoveSelectedTeamEvent(teamName));
         addressBook.removeTeam(teamName);
         indicateAddressBookChanged();
     }
 
+    //@@author jordancjq
+    @Override
+    public synchronized void renameTeam(Team targetTeam, TeamName updatedTeamName) {
+        requireAllNonNull(targetTeam, updatedTeamName);
+        addressBook.renameTeam(targetTeam, updatedTeamName);
+        indicateAddressBookChanged();
+    }
+
+    //@@author
     @Override
     public boolean setTagColour(Tag tag, String colour) {
         ObservableList<Tag> allTags = addressBook.getTagList();
@@ -168,6 +181,7 @@ public class ModelManager extends ComponentManager implements Model {
         filteredPersons.setPredicate(predicate);
     }
 
+    //@@author jordancjq
     @Override
     public void updateFilteredPersonList(TeamName targetTeam) throws TeamNotFoundException {
         requireNonNull(targetTeam);
@@ -181,6 +195,7 @@ public class ModelManager extends ComponentManager implements Model {
         }
     }
 
+    //@@author
     @Override
     public boolean equals(Object obj) {
         // short circuit if same object

@@ -6,6 +6,7 @@ import seedu.address.logic.commands.ViewCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.team.TeamName;
 
+//@@author jordancjq
 /**
  * Parses input arguments and creates a new ViewCommandObject
  */

@@ -3,6 +3,7 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -242,6 +243,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         tags.setTags(tagsInPersons);
     }
 
+    //@@author jordancjq
     /**
      * Creates a team in the manager.
      * @throws DuplicateTeamException if an equivalent team already exists.
@@ -250,6 +252,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         teams.add(t);
     }
 
+    //@@author jordancjq
     /**
      * Assigns a {@code person} to a {@code team}.
      * @throws TeamNotFoundException if the {@code team} is not found in this {@code AddressBook}.
@@ -276,6 +279,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
+    //@@author jordancjq
     /**
      * Removes a {@code person} from a {@code team}.
      */
@@ -289,6 +293,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
+    //@@author jordancjq
     /**
      * Removes a {@code team} from {@code teams}.
      */
@@ -306,6 +311,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         teams.remove(teamToRemove);
     }
 
+    //@@author jordancjq
     /**
      * Removes {@code teamName} from {@code person} in this {@code Team}.
      */
@@ -324,6 +330,53 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
+    //@@author jordancjq
+    /**
+     * Renames {@code Team} with {@code updatedTeamName}.
+     * @return
+     */
+    public void renameTeam(Team targetTeam, TeamName updatedTeamName) {
+        try {
+            List<Person> renameTeamPersonList = new ArrayList<>();
+
+            for (Person person : persons) {
+                if (person.getTeamName().equals(targetTeam.getTeamName())) {
+                    renameTeamInPerson(person, updatedTeamName, targetTeam);
+                    renameTeamPersonList.add(person);
+                }
+            }
+
+            Team updatedTeam = new Team(updatedTeamName, targetTeam.getTeamPlayers());
+
+            teams.setTeam(targetTeam, updatedTeam);
+        } catch (DuplicateTeamException dte) {
+            throw new AssertionError("AddressBook should not have duplicate team after renaming");
+        } catch (TeamNotFoundException tnfe) {
+            throw new AssertionError("Impossible: Teams should contain this team");
+        }
+    }
+
+    //@@author jordancjq
+    /**
+     * Renames {@code teamName} in {@code person} with {@code teamName}.
+     */
+    private void renameTeamInPerson(Person person, TeamName teamName, Team targetTeam) {
+        Person toRename = person;
+        Person personWithRenameTeam =
+                new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
+                        person.getRemark(), teamName, person.getTags(), person.getRating(),
+                        person.getPosition(), person.getJerseyNumber());
+
+        try {
+            targetTeam.setPerson(toRename, personWithRenameTeam);
+            persons.setPerson(toRename, personWithRenameTeam);
+        } catch (DuplicatePersonException dpe) {
+            throw new AssertionError("AddressBook should not have duplicate person after assigning team");
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("Impossible: AddressBook should contain this person");
+        }
+    }
+    //@@author
     //// util methods
 
     @Override

@@ -21,8 +21,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.events.ui.DeselectTeamEvent;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Address;
@@ -113,6 +115,7 @@ public class EditCommand extends UndoableCommand {
         } catch (IOException e) {
             throw new CommandException(MESSAGE_FILE_NOT_FOUND);
         }
+        EventsCenter.getInstance().post(new DeselectTeamEvent());
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedPerson));
     }

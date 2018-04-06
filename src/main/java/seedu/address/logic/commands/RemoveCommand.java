@@ -2,11 +2,15 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
+import seedu.address.commons.events.ui.DeselectTeamEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.Model;
 import seedu.address.model.team.TeamName;
 import seedu.address.model.team.exceptions.TeamNotFoundException;
 
+//@@author jordancjq
 /**
  * Removes a team identified using the team name
  */
@@ -27,18 +31,20 @@ public class RemoveCommand extends UndoableCommand {
     private TeamName targetTeamName;
 
     public RemoveCommand(TeamName targetTeamName) {
+        requireNonNull(targetTeamName);
         this.targetTeamName = targetTeamName;
     }
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
-        requireNonNull(targetTeamName);
+        requireNonNull(model);
         try {
             model.removeTeam(targetTeamName);
+            model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
+            EventsCenter.getInstance().post(new DeselectTeamEvent());
         } catch (TeamNotFoundException tnfe) {
             throw new CommandException(Messages.MESSAGE_TEAM_NOT_FOUND);
         }
-
         return new CommandResult(String.format(MESSAGE_REMOVE_TEAM_SUCCESS, targetTeamName));
     }
 
