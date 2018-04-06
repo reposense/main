@@ -66,20 +66,17 @@ public class GuiTestAssert {
         switch (tagName) {
         case "classmates":
         case "owesMoney":
-            return "teal";
-
         case "colleagues":
         case "neighbours":
-            return "teal";
-
         case "family":
         case "friend":
-            return "teal";
-
         case "friends":
-            return "teal";
-
         case "husband":
+        case "redCard":
+        case "yellowCard":
+        case "goodAttitude":
+        case "badAttitude":
+        case "injured":
             return "teal";
 
         default:
