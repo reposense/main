@@ -1,7 +1,5 @@
 package seedu.address.model.util;
 
-import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
-
 import java.util.HashSet;
 import java.util.Set;
 
