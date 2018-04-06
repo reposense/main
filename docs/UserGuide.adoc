@@ -39,9 +39,9 @@ Head to <<Quick Start>> to get started with My Team Manager!
 Having any Java 8 version is not enough. +
 This app will not work with earlier versions of Java 8.
 +
-.  Download the latest `MyTeamManager.jar` link:{repoURL}/releases[here].
-.  Copy the file to the folder you want to use as the home folder for My Team Manager.
-.  Double-click the file to start the app. The GUI should appear in a few seconds.
+.  Download the latest `MyTeamManage.jar` link:{repoURL}/releases[here].
+.  Copy the file to the folder you want to use as the home folder for your MTM.
+.  Double-click the file to start the app. The software interface should appear in a few seconds.
 +
 image::Ui.png[width="790"]
 +
@@ -148,8 +148,7 @@ Commands that are _undoAble_ will be reversed and MTM will be in the state befor
 ====
 
 ==== Redoing the previously undone command : `redo`
-
-If you have accidentally called the `undo` command too many times and need a way to quickly reverse that? MTM allows you to redo the most recent `undo` command.
+If you accidentally call the `undo` command too many times and need a way to quickly reverse that, MTM allows you to redo the most recent `undo` command.
 
 Format: `redo` +
 Alias: `r`
@@ -248,7 +247,7 @@ Edits the name of the 2nd player to be `Betsy Crower` and clears all existing ta
 
 ==== Deleting a player : `delete`
 
-Should you want to delete a player from MTM, you may use this command.
+If you want to remove a player from MTM, you may use this command to delete the player.
 
 Format: `delete INDEX` +
 Alias: `d`
@@ -422,8 +421,8 @@ Remove the specified team and update all affected players.
 
 Here are a few valid examples of how you can use the `remove` command:
 
-* `view Arsenal`
-* `remove Arsenal` +
+* `view Arsenal` +
+`remove Arsenal` +
 Display the list of players in team "Arsenal" and remove the team.
 
 ==== Rename a team: `rename` `[Since v1.4]`
