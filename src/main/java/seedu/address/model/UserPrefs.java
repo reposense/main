@@ -12,7 +12,7 @@ public class UserPrefs {
     private GuiSettings guiSettings;
     private String addressBookFilePath = "data/addressbook.xml";
     private String addressBookName = "MyAddressBook";
-    private String addressBookTheme = "LightTheme.css";
+    private String addressBookTheme = "DarkTheme.css";
 
     public UserPrefs() {
         this.setGuiSettings(500, 500, 0, 0);

@@ -11,13 +11,16 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.ui.ChangeThemeEvent;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 import seedu.address.logic.Logic;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.UserPrefs;
 
 /**
@@ -27,6 +30,7 @@ import seedu.address.model.UserPrefs;
 public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
+    private static String currentTheme = "view/DarkTheme.css";
 
     private final Logger logger = LogsCenter.getLogger(this.getClass());
 
@@ -55,6 +59,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane statusbarPlaceholder;
+
+    @FXML
+    private VBox mainWindow;
 
     public MainWindow(Stage primaryStage, Config config, UserPrefs prefs, Logic logic) {
         super(FXML, primaryStage);
@@ -115,6 +122,8 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
+        mainWindow.getStylesheets().add(currentTheme);
+        mainWindow.getStylesheets().add("view/Extensions.css");
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
@@ -150,6 +159,24 @@ public class MainWindow extends UiPart<Stage> {
             primaryStage.setY(prefs.getGuiSettings().getWindowCoordinates().getY());
         }
     }
+
+    /** @@author Codee */
+    /**
+     * @returns the {@code currentTheme}.
+     */
+    public static String getCurrentTheme() {
+        return currentTheme;
+    }
+
+    @Subscribe
+    public void handleChangeThemeRequestEvent(ChangeThemeEvent event) throws CommandException {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        mainWindow.getStylesheets().remove(currentTheme);
+        prefs.setAddressBookTheme(event.theme + "Theme.css");
+        currentTheme = "view/" + prefs.getAddressBookTheme();
+        mainWindow.getStylesheets().add(currentTheme);
+    }
+    //@@author
 
     /**
      * Returns the current size and the position of the main Window.

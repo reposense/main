@@ -18,12 +18,11 @@
   <scene>
     <Scene>
       <stylesheets>
-        <!--<URL value="@DarkTheme.css" />-->
-        <URL value="@LightTheme.css" />
+        <URL value="@DarkTheme.css" />
         <URL value="@Extensions.css" />
       </stylesheets>
 
-      <VBox>
+      <VBox fx:id="mainWindow">
         <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
           <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />

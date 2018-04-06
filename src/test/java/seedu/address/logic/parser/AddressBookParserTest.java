@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.ChangeThemeCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.CreateCommand;
 import seedu.address.logic.commands.DeleteCommand;
@@ -249,4 +250,17 @@ public class AddressBookParserTest {
         thrown.expectMessage(MESSAGE_UNKNOWN_COMMAND);
         parser.parseCommand("unknownCommand");
     }
+
+    /** @@Codee */
+    @Test
+    public void parseCommand_theme() throws Exception {
+        String[] listThemes = { "Light", "Dark" };
+
+        for (int i = 0; i < 2; i++) {
+            ChangeThemeCommand command = (ChangeThemeCommand) parser.parseCommand(
+                    ChangeThemeCommand.COMMAND_WORD + " " + listThemes[i]);
+            assertEquals(new ChangeThemeCommand(listThemes[i]), command);
+        }
+    }
+    //@@author
 }
