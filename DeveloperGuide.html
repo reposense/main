@@ -79,6 +79,7 @@
 <ul class="sectlevel3">
 <li><a href="#team-display-bar">4.4.1. Team Display Bar</a></li>
 <li><a href="#player-details-pane">4.4.2. Player Details Pane</a></li>
+<li><a href="#change-theme-command-code-coming-in-v1-5-code">4.4.3. Change Theme Command <code>[coming in v1.5]</code></a></li>
 </ul>
 </li>
 </ul>
@@ -1913,6 +1914,67 @@ place to look at after selection of a person card.</p>
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="change-theme-command-code-coming-in-v1-5-code"><a class="link" href="#change-theme-command-code-coming-in-v1-5-code">4.4.3. Change Theme Command <code>[coming in v1.5]</code></a></h4>
+<div class="sect4">
+<h5 id="current-implementation-12"><a class="link" href="#current-implementation-12">Current Implementation</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>ChangThemeCommand</code> is a new feature that allows user to change the current theme to another theme.</p>
+</li>
+<li>
+<p>New css classes are implemented to accommodate the new themes.</p>
+</li>
+<li>
+<p>The <code>MainWindow</code> class is also changed to allow for switch cases depending on which theme is selected.<br>
+Code snippet from 'ChangThemeCommand':</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//code snippet</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="design-considerations-7"><a class="link" href="#design-considerations-7">Design Considerations</a></h5>
+<div class="sect5">
+<h6 id="aspect-user-experience-3"><a class="link" href="#aspect-user-experience-3">Aspect: User Experience</a></h6>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> <code>ChangeThemeCommand</code> is implemented as a CLI command.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Consistent with the rest of the application, of which all changes are made by the CLI.</p>
+</li>
+<li>
+<p>Cons: User has yet another command to remember the syntax of.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Change of theme is implemented as a button to change onClick.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: User does not have to type anything to change the theme, so it might be more user friendly.</p>
+</li>
+<li>
+<p>Cons: Inconsistent with the rest of the application, which is CLI-based.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2957,7 +3019,7 @@ Expected: Similar to previous.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-05 21:22:09 UTC
+Last updated 2018-04-06 04:06:56 UTC
 </div>
 </div>
 </body>
