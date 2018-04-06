@@ -1,5 +1,7 @@
 package seedu.address.model.util;
 
+import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,7 +45,7 @@ public class SampleDataUtil {
                     new Avatar("<UNSPECIFIED>")),
             new Person(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
                 new Address("Blk 436 Serangoon Gardens Street 26, #16-43"), new Remark(""),
-                    new TeamName("goodAttitude"), getTagSet("injured"),
+                    new TeamName("Chelsea"), getTagSet("injured"),
                     new Rating("0"), new Position("1"), new JerseyNumber("2"),
                     new Avatar("<UNSPECIFIED>")),
             new Person(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
@@ -68,11 +70,12 @@ public class SampleDataUtil {
     public static ReadOnlyAddressBook getSampleAddressBook() {
         try {
             AddressBook sampleAb = new AddressBook();
-            for (Person samplePerson : getSamplePersons()) {
-                sampleAb.addPerson(samplePerson);
-            }
             for (Team sampleTeam : getSampleTeams()) {
                 sampleAb.createTeam(sampleTeam);
+            }
+            for (Person samplePerson : getSamplePersons()) {
+                sampleAb.addPerson(samplePerson);
+                sampleAb.addPersonToTeam(samplePerson, samplePerson.getTeamName());
             }
             return sampleAb;
         } catch (DuplicatePersonException e) {
