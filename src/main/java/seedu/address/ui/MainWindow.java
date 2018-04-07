@@ -30,7 +30,7 @@ import seedu.address.model.UserPrefs;
 public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
-    private static String currentTheme = "view/DarkTheme.css";
+    private static String currentTheme;
 
     private final Logger logger = LogsCenter.getLogger(this.getClass());
 
@@ -122,8 +122,11 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
+        //@@author Codee
+        currentTheme = "view/" + prefs.getAddressBookTheme();
         mainWindow.getStylesheets().add(currentTheme);
         mainWindow.getStylesheets().add("view/Extensions.css");
+        //@@author
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
