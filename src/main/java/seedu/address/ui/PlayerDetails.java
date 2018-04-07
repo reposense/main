@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import seedu.address.commons.events.ui.TogglePrivacyEvent;
+import seedu.address.commons.events.ui.PersonDetailsChangedEvent;
 import seedu.address.model.person.Person;
 
 /**
@@ -76,7 +76,7 @@ public class PlayerDetails extends UiPart<Region> {
     }
 
     @Subscribe
-    private void handleTogglePrivacy(TogglePrivacyEvent event) {
+    private void handlePersonDetailsChangedEvent(PersonDetailsChangedEvent event) {
         phone.setText(event.getPerson().getPhone().toString());
         address.setText(event.getPerson().getAddress().toString());
         email.setText(event.getPerson().getEmail().toString());

@@ -49,12 +49,12 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_EMAIL + "johnd@example.com "
             + PREFIX_PHONE + "98765432 "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
-            + PREFIX_TAG + "friends "
-            + PREFIX_RATING + "0"
-            + PREFIX_POSITION + "1"
-            + PREFIX_JERSEY_NUMBER + "17"
-            + PREFIX_AVATAR + "john.png"
-            + PREFIX_TAG + "owesMoney";
+            + PREFIX_TAG + "redCard "
+            + PREFIX_RATING + "0 "
+            + PREFIX_POSITION + "1 "
+            + PREFIX_JERSEY_NUMBER + "17 "
+            + PREFIX_AVATAR + "john.png "
+            + PREFIX_TAG + "goodAttitude";
 
     public static final String MESSAGE_PARAMETERS = PREFIX_NAME + "NAME "
             + PREFIX_EMAIL + "EMAIL "

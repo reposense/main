@@ -15,7 +15,7 @@ import java.util.Set;
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
-import seedu.address.commons.events.ui.TogglePrivacyEvent;
+import seedu.address.commons.events.ui.PersonDetailsChangedEvent;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Address;
@@ -96,7 +96,7 @@ public class TogglePrivacyCommand extends UndoableCommand {
             throw new AssertionError("The target person cannot be missing");
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        EventsCenter.getInstance().post(new TogglePrivacyEvent(editedPerson));
+        EventsCenter.getInstance().post(new PersonDetailsChangedEvent(editedPerson));
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, editedPerson));
     }
