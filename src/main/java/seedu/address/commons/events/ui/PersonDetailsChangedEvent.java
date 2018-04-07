@@ -4,14 +4,14 @@ import seedu.address.commons.events.BaseEvent;
 import seedu.address.model.person.Person;
 
 /**
- * Represents a toggle privacy change.
+ * Represents a change in the person details panel.
  *
-/** @@author Codee */
-public class TogglePrivacyEvent extends BaseEvent {
+ /** @@author Codee */
+public class PersonDetailsChangedEvent extends BaseEvent {
 
     private final Person editedPerson;
 
-    public TogglePrivacyEvent(Person editedPerson) {
+    public PersonDetailsChangedEvent(Person editedPerson) {
         this.editedPerson = editedPerson;
     }
 
