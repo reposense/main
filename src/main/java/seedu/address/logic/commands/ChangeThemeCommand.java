@@ -36,7 +36,6 @@ public class ChangeThemeCommand extends Command {
         if ((MainWindow.getCurrentTheme()).contains(this.theme)) {
             throw new CommandException("Theme is already set to " + this.theme + "!");
         }
-
         EventsCenter.getInstance().post(new ChangeThemeEvent(this.theme));
         return new CommandResult(String.format(MESSAGE_THEME_SUCCESS, this.theme));
     }

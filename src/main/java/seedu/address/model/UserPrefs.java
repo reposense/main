@@ -14,7 +14,7 @@ public class UserPrefs {
     private String addressBookFilePath = "data/myteammanager.xml";
     private String addressBookName = "MyTeamManager";
     private String addressBookTheme = "LightTheme.css";
-    
+
     public UserPrefs() {
         this.setGuiSettings(500, 500, 0, 0);
     }

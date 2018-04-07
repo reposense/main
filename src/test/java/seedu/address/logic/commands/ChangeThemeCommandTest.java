@@ -17,7 +17,7 @@ public class ChangeThemeCommandTest {
 
     @Test
     public void execute_validTheme_success() {
-        assertExecutionSuccess(listThemes[0]);
+        assertExecutionSuccess(listThemes[1]);
     }
 
     @Test
@@ -63,7 +63,6 @@ public class ChangeThemeCommandTest {
      */
     private void assertExecutionSuccess(String theme) {
         ChangeThemeCommand changethemeCommand = new ChangeThemeCommand(theme);
-
         try {
             CommandResult commandResult = changethemeCommand.execute();
             assertEquals(String.format(ChangeThemeCommand.MESSAGE_THEME_SUCCESS, theme),
