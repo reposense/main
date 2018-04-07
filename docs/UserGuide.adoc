@@ -507,8 +507,16 @@ List all players in the team "Liverpool".
 
 You can set the tags to a colour of your choice with the 'setColourTag' command.
 
+
 Format: `setTagColour` +
 Alias: `stc`
+
+[NOTE]
+====
+The current version of `setTagColour` is NOT an UndoableCommand. i.e. You cannot `undo` a setTagCommand.
+Instead, just enter `stc <your desired colour>` to change the colour back!
+====
+
 
 ==== Toggling various fields to private: `toggleprivacy` `[Since v1.4]`
 
