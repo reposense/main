@@ -47,7 +47,7 @@ public class TeamDisplay extends UiPart<Region> {
     private void initTeams() {
         for (Team t: this.teamList) {
             Label teamLabel = new Label(t.getTeamName().toString());
-            teamLabel.setStyle("-fx-text-fill: #9cb3d8");
+            teamLabel.setStyle("-fx-text-fill: #3f7bbf");
             teams.getChildren().add(teamLabel);
             teams.setHgap(10);
         }

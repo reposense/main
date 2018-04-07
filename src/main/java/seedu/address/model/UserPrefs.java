@@ -10,8 +10,10 @@ import seedu.address.commons.core.GuiSettings;
 public class UserPrefs {
 
     private GuiSettings guiSettings;
+
     private String addressBookFilePath = "data/myteammanager.xml";
     private String addressBookName = "MyTeamManager";
+    private String addressBookTheme = "LightTheme.css";
 
     public UserPrefs() {
         this.setGuiSettings(500, 500, 0, 0);
@@ -41,8 +43,18 @@ public class UserPrefs {
         return addressBookName;
     }
 
+    //@@author Codee
     public void setAddressBookName(String addressBookName) {
         this.addressBookName = addressBookName;
+    }
+
+    public String getAddressBookTheme() {
+        return addressBookTheme;
+    }
+    //@@author
+
+    public void setAddressBookTheme(String addressBookTheme) {
+        this.addressBookTheme = addressBookTheme;
     }
 
     @Override
