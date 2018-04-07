@@ -445,3 +445,11 @@
     -fx-font-size: 20px;
 }
 
+.mtm-logo {
+    max-height: 40px;
+    max-width: 200px;
+}
+
+.mtm-logo:disabled, mtm-logo:disabled > * {
+    -fx-opacity: 1.0;
+}
