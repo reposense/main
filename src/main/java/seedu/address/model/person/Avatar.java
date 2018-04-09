@@ -22,7 +22,8 @@ import seedu.address.commons.core.LogsCenter;
 public class Avatar {
 
     public static final String MESSAGE_AVATAR_CONSTRAINTS =
-            "Please specify the filepath for the avatar image eg. C:\\image.png\n"
+            "Please specify the filepath for the avatar image eg. C:\\image.png\n (for Windows), "
+            + "/User/username/path/to/image.jpg (for MacOS). "
             + "Image file should be 200x200 and in jpg or png format";
 
     public static final String AVATAR_VALIDATION_PATTERN = "([^\\s]+(\\.(?i)(jpg|png))$)";
@@ -88,7 +89,7 @@ public class Avatar {
     public static void setUpPlaceholderForTest() {
         try {
             Files.copy(Avatar.class.getResourceAsStream("/images/placeholder_test.png"),
-                    Paths.get("images/placeholder.png"), StandardCopyOption.REPLACE_EXISTING);
+                    Paths.get("images/placeholder_test.png"), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             LogsCenter.getLogger(Avatar.class).warning("placeholder image file missing");
         }
