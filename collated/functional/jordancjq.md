@@ -655,7 +655,7 @@ public class RenameCommand extends UndoableCommand {
         Person newPersonWithTeam =
                 new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                         person.getRemark(), teamName, person.getTags(), person.getRating(), person.getPosition(),
-                        person.getJerseyNumber());
+                        person.getJerseyNumber(), person.getAvatar());
         try {
             updatePerson(person, newPersonWithTeam);
         } catch (DuplicatePersonException dpe) {
@@ -671,6 +671,17 @@ public class RenameCommand extends UndoableCommand {
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("Impossible: Team should contain of this person");
         }
+    }
+
+```
+###### /java/seedu/address/model/AddressBook.java
+``` java
+    /**
+     * Immediately add a {@code person} to a {@code team}.
+     * @throws TeamNotFoundException if the {@code team} is not found in this {@code AddressBook}.
+     */
+    public void addPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
+        teams.assignPersonToTeam(person, teams.getTeam(teamName));
     }
 
 ```
@@ -719,7 +730,7 @@ public class RenameCommand extends UndoableCommand {
         Person personWithRemoveTeam =
                 new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                         person.getRemark(), new TeamName(UNSPECIFIED_FIELD), person.getTags(), person.getRating(),
-                        person.getPosition(), person.getJerseyNumber());
+                        person.getPosition(), person.getJerseyNumber(), person.getAvatar());
 
         try {
             persons.setPerson(person, personWithRemoveTeam);
@@ -769,7 +780,7 @@ public class RenameCommand extends UndoableCommand {
         Person personWithRenameTeam =
                 new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                         person.getRemark(), teamName, person.getTags(), person.getRating(),
-                        person.getPosition(), person.getJerseyNumber());
+                        person.getPosition(), person.getJerseyNumber(), person.getAvatar());
 
         try {
             targetTeam.setPerson(toRename, personWithRenameTeam);
