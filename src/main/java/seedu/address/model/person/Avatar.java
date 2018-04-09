@@ -88,8 +88,8 @@ public class Avatar {
 
     public static void setUpPlaceholderForTest() {
         try {
-            Files.copy(Avatar.class.getResourceAsStream("/images/placeholder.png"),
-                    Paths.get("images/placeholder.png"), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Avatar.class.getResourceAsStream("/images/placeholder_test.png"),
+                    Paths.get("images/placeholder_test.png"), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             LogsCenter.getLogger(Avatar.class).warning("placeholder image file missing");
         }
