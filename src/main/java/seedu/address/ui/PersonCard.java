@@ -84,10 +84,10 @@ public class PersonCard extends UiPart<Region> {
             if (new File(path).isFile()) {
                 img = new Image(new File(path).toURI().toURL().toString());
             } else {
-                img = new Image(getClass().getResource("/images/placeholder_test.png").toString());
+                img = new Image(getClass().getResource("/images/placeholder.png").toString());
             }
         } catch (MalformedURLException e) {
-            img = new Image(getClass().getResource("/images/placeholder_test.png").toString());
+            img = new Image(getClass().getResource("/images/placeholder.png").toString());
         }
         avatar.setVisible(true);
         avatar.setFill(new ImagePattern(img));

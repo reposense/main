@@ -104,7 +104,7 @@ You can use the autocompleted parameters as a template after viewing them.
 
 Text will turn red if the input has no parameters or if no matching command exists.
 
-If there are multiple possible commands for a given input, i.e. 'e' could be 'edit', 'exit', or 'export',
+If there are multiple possible commands for a given input, i.e. 'e' could be 'edit' or 'exit',
 then a dropdown box will appear with the possible commands. These can be navigated using mouse or arrow keys. Press enter to select the desired command.
 // end::autocomplete[]
 

@@ -183,6 +183,7 @@ public class CommandBox extends UiPart<Region> {
             } else if (commandSet.contains(command)) {
                 this.replaceText(command);
             } else if (commandSet.contains(input)) {
+                setStyleToIndicateCommandFailure();
                 this.replaceText(input + command);
             }
         } catch (NullPointerException e) {
