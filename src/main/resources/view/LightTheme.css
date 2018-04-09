@@ -1,3 +1,4 @@
+/** @@author Codee */
 .background {
     -fx-background-color: #eaf4ff;
     background-color: #eaf4ff; /* Used in the default.html file */
@@ -445,3 +446,11 @@
     -fx-font-size: 20px;
 }
 
+.mtm-logo {
+    max-height: 40px;
+    max-width: 200px;
+}
+
+.mtm-logo:disabled, mtm-logo:disabled > * {
+    -fx-opacity: 1.0;
+}

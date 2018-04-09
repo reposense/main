@@ -6,8 +6,11 @@ import com.google.common.eventbus.Subscribe;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
@@ -41,6 +44,9 @@ public class MainWindow extends UiPart<Stage> {
     private PersonListPanel personListPanel;
     private Config config;
     private UserPrefs prefs;
+
+    @FXML
+    private Menu mtmLogo;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -126,6 +132,11 @@ public class MainWindow extends UiPart<Stage> {
         currentTheme = "view/" + prefs.getAddressBookTheme();
         mainWindow.getStylesheets().add(currentTheme);
         mainWindow.getStylesheets().add("view/Extensions.css");
+
+        final Image image = new Image("images/MyTeamManagerLogo.png", true);
+        mtmLogo.setGraphic(new ImageView(image));
+        mtmLogo.setDisable(true);
+
         //@@author
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
