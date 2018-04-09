@@ -13,10 +13,12 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.ui.ClearTeamsEvent;
 import seedu.address.commons.events.ui.DeselectTeamEvent;
 import seedu.address.commons.events.ui.HighlightSelectedTeamEvent;
 import seedu.address.commons.events.ui.RemoveSelectedTeamEvent;
 import seedu.address.commons.events.ui.ShowNewTeamNameEvent;
+import seedu.address.commons.events.ui.UndoClearTeamsEvent;
 import seedu.address.model.team.Team;
 
 /**
@@ -98,7 +100,6 @@ public class TeamDisplay extends UiPart<Region> {
     @Subscribe
     private void handleRemoveSelectedTeamEvent(RemoveSelectedTeamEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-
         for (int i = 0; i < teams.getChildren().size(); i++) {
             if (teamList.get(i).getTeamName().equals(event.teamName)) {
                 teams.getChildren().remove(i);
@@ -106,5 +107,18 @@ public class TeamDisplay extends UiPart<Region> {
         }
     }
 
+    @Subscribe
+    private void handleClearTeamsEvent(ClearTeamsEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        teams.getChildren().clear();
+    }
+
+    @Subscribe
+    private void handleUndoClearTeamsEvent(UndoClearTeamsEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        teams.getChildren().clear();
+        initTeams();
+        getTeams();
+    }
 }
 

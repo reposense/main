@@ -350,7 +350,7 @@
     -fx-text-fill: #3e5670;
 }
 
-#filterField, #personListPanel, #personWebpage {
+#filterField, #personList, #personWebpage {
     -fx-effect: innershadow(gaussian, black, 10, 0, 0, 0);
 }
 
@@ -456,14 +456,14 @@
 
 .player-details-cell {
     -fx-font-family: "Segoe UI";
-    -fx-font-size: 15px;
+    -fx-font-size: 20px;
     -fx-text-fill: #243b4c;
 }
 
 .player-details-title {
     -fx-text-fill: #122635;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-font-size: 20px;
+    -fx-font-size: 30px;
 }
 
 .mtm-logo {
@@ -647,7 +647,6 @@ public class TeamDisplay extends UiPart<Region> {
     @Subscribe
     private void handleRemoveSelectedTeamEvent(RemoveSelectedTeamEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-
         for (int i = 0; i < teams.getChildren().size(); i++) {
             if (teamList.get(i).getTeamName().equals(event.teamName)) {
                 teams.getChildren().remove(i);
@@ -655,6 +654,19 @@ public class TeamDisplay extends UiPart<Region> {
         }
     }
 
+    @Subscribe
+    private void handleClearTeamsEvent(ClearTeamsEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        teams.getChildren().clear();
+    }
+
+    @Subscribe
+    private void handleUndoClearTeamsEvent(UndoClearTeamsEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        teams.getChildren().clear();
+        initTeams();
+        getTeams();
+    }
 }
 
 ```
@@ -732,6 +744,21 @@ public class ChangeTagColourEvent extends BaseEvent {
     }
 }
 ```
+###### /java/seedu/address/commons/events/ui/ClearTeamsEvent.java
+``` java
+public class ClearTeamsEvent extends BaseEvent {
+
+    public ClearTeamsEvent() {
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
+
+}
+
+```
 ###### /java/seedu/address/commons/events/ui/ShowNewTeamNameEvent.java
 ``` java
 public class ShowNewTeamNameEvent extends BaseEvent {
@@ -747,6 +774,19 @@ public class ShowNewTeamNameEvent extends BaseEvent {
         return this.getClass().getSimpleName();
     }
 
+}
+```
+###### /java/seedu/address/commons/events/ui/UndoClearTeamsEvent.java
+``` java
+public class UndoClearTeamsEvent extends BaseEvent {
+
+    public UndoClearTeamsEvent() {
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }
 ```
 ###### /java/seedu/address/commons/events/ui/ChangeThemeEvent.java
@@ -929,6 +969,14 @@ public class ChangeThemeCommand extends Command {
     }
 
 }
+```
+###### /java/seedu/address/logic/commands/ClearCommand.java
+``` java
+        EventsCenter.getInstance().post(new ClearTeamsEvent());
+```
+###### /java/seedu/address/logic/commands/UndoCommand.java
+``` java
+        EventsCenter.getInstance().post(new UndoClearTeamsEvent());
 ```
 ###### /java/seedu/address/storage/XmlAdaptedTeam.java
 ``` java
