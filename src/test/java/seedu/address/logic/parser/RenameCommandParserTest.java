@@ -6,7 +6,6 @@ import static seedu.address.logic.commands.CommandTestUtil.TEAM_DESC_ARSENAL;
 import static seedu.address.logic.commands.CommandTestUtil.TEAM_DESC_CHELSEA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_ARSENAL;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_CHELSEA;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TEAM_NAME;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
