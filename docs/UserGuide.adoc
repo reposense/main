@@ -494,6 +494,9 @@ Find a player by the name of "John" and assign the player with index 1 to team "
 
 With the ability to manage different teams, you will be able to identify all players in a team easily with the `view` command.
 
+`Coming in v2.0` +
+Details of your team will be displayed on the right panel when `view` command is executed.
+
 Format: `view TEAM_NAME` +
 Alias: `vt`
 
@@ -511,12 +514,6 @@ List all players in the team "Arsenal".
 * `view Liverpool` +
 List all players in the team "Liverpool".
 // end::team[]
-
-[NOTE]
-====
-`Coming in v2.0` +
-Details of your team will be displayed on the right panel when `view` command is executed.
-====
 
 === Other Useful Commands
 
