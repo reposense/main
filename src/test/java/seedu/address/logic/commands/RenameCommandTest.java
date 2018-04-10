@@ -13,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
@@ -64,6 +65,26 @@ public class RenameCommandTest {
         RenameCommand renameCommand = prepareCommand(targetTeam.getTeamName(), existingTeam.getTeamName());
 
         assertCommandFailure(renameCommand, model, RenameCommand.MESSAGE_NO_CHANGE);
+    }
+
+    @Test
+    public void execute_renameTeamWithSameName_failure() throws Exception {
+        Team existingTeam = TypicalTeams.CHELSEA;
+        Team targetTeam = TypicalTeams.CHELSEA;
+
+        RenameCommand renameCommand = prepareCommand(targetTeam.getTeamName(), existingTeam.getTeamName());
+
+        assertCommandFailure(renameCommand, model, RenameCommand.MESSAGE_NO_CHANGE);
+    }
+
+    @Test
+    public void execute_renameNonExistingTeam_failure() throws Exception {
+        Team nonExistingTeam = TypicalTeams.ARSENAL;
+        Team targetTeam = TypicalTeams.BARCELONA;
+
+        RenameCommand renameCommand = prepareCommand(targetTeam.getTeamName(), nonExistingTeam.getTeamName());
+
+        assertCommandFailure(renameCommand, model, Messages.MESSAGE_TEAM_NOT_FOUND);
     }
 
     @Test
