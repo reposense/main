@@ -14,9 +14,9 @@ public class KeyCommandParser implements Parser<KeyCommand> {
      */
     public KeyCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
+        /*if (trimmedArgs.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, KeyCommand.MESSAGE_USAGE));
-        }
+        }*/
 
         String[] argKeywords = trimmedArgs.split("\\s+");
         if (argKeywords.length > 1) {

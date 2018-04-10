@@ -42,6 +42,7 @@ public class ModelManager extends ComponentManager implements Model {
     public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs) {
         super();
         requireAllNonNull(addressBook, userPrefs);
+        this.userPrefs = userPrefs;
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 

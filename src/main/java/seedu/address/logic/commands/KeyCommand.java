@@ -19,7 +19,8 @@ public class KeyCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Toggles the lock on MTM. "
             + "Functionality of MTM reduced\n"
-            + "Parameters: PASSWORD"
+            + "Input empty password to see current lock state\n"
+            + "Parameters: [PASSWORD]\n"
             + "Example: " + COMMAND_WORD
             + " myPassword";
 
@@ -43,8 +44,17 @@ public class KeyCommand extends Command {
         return hash.equals(up.getAddressBookHashedPass());
     }
 
+    private boolean emptyPass() {
+        return password.isEmpty();
+    }
+
     @Override
     public CommandResult execute() throws CommandException {
+        if (emptyPass()) {
+            return new CommandResult(MESSAGE_USAGE + "\nLock state is now: "
+                    + Boolean.toString(model.getLockState()));
+        }
+
         if (correctPassword()) {
             if (model.getLockState()) {
                 model.unlockAddressBookModel();
