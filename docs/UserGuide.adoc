@@ -494,7 +494,7 @@ Find a player by the name of "John" and assign the player with index 1 to team "
 With the ability to manage different teams, you will be able to identify all players in a team easily with the `view` command.
 
 Format: `view TEAM_NAME` +
-Alias: `v`
+Alias: `vt`
 
 [IMPORTANT]
 .*What to expect*
