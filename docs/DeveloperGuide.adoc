@@ -15,6 +15,7 @@ endif::[]
 
 By: `F14-B1`      Since: `Mar 2018`      Licence: `MIT`
 
+// tag::overview[]
 == Overview
 
 My Team Manager (MTM) is a team managing application for football coaches. MTM is designed to be quick and easy for you to manage a team of players without the need of a mouse.
@@ -29,6 +30,7 @@ This developer's guide consist of the following sections:
 * <<Documentation, Documentation>>
 * <<Testing, Testing>>
 * <<Dev Ops, Dev Ops>>
+// end::overview[]
 
 == Setting up
 

@@ -34,12 +34,15 @@ public class ModelManager extends ComponentManager implements Model {
     private final AddressBook addressBook;
     private final FilteredList<Person> filteredPersons;
 
+    private final UserPrefs userPrefs;
+
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
     public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs) {
         super();
         requireAllNonNull(addressBook, userPrefs);
+        this.userPrefs = userPrefs;
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
@@ -93,6 +96,22 @@ public class ModelManager extends ComponentManager implements Model {
     public void sortPlayers(String field, String order) throws NoPlayerException {
         addressBook.sortPlayersBy(field, order);
         indicateAddressBookChanged();
+    }
+
+    public UserPrefs getUserPrefs() {
+        return userPrefs;
+    }
+
+    public void lockAddressBookModel() {
+        getUserPrefs().lockAddressBook();
+    }
+
+    public void unlockAddressBookModel() {
+        getUserPrefs().unlockAddressBook();
+    }
+
+    public boolean getLockState() {
+        return getUserPrefs().getAddressBookLockState();
     }
     //@@author
 
