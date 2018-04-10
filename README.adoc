@@ -7,7 +7,7 @@ https://coveralls.io/github/CS2103JAN2018-F14-B1/main?branch=master[image:https:
 https://gitter.im/se-edu/Lobby[image:https://badges.gitter.im/se-edu/Lobby.svg[Gitter chat]]
 
 ifdef::env-github[]
-image::docs/images/MyTeamManagerLogo.png[width="600", align="center"]
+image::docs/images/MyTeamManagerLogo.png[width="100", align="center"]
 endif::[]
 
 ifndef::env-github[]
