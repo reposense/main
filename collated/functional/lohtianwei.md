@@ -32,16 +32,6 @@
             remark.setText("Remarks: " + person.getRemark().value);
         }
     }
-
-    @Subscribe
-    private void handlePersonDetailsChangedEvent(PersonDetailsChangedEvent event) {
-        phone.setText(event.getPerson().getPhone().toString());
-        address.setText(event.getPerson().getAddress().toString());
-        email.setText(event.getPerson().getEmail().toString());
-        remark.setText("Remarks: " + event.getPerson().getRemark().toString());
-    }
-}
-
 ```
 ###### /java/seedu/address/logic/parser/TogglePrivacyCommandParser.java
 ``` java
