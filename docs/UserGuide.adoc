@@ -144,7 +144,9 @@ Alias: `u`
 
 [NOTE]
 ====
-There are a few commands that can be undoable: commands that modify MTM's content (`add`, `delete`, `edit` and `clear`).
+There are a few commands that can be undoable: commands that modify MTM's content that are related to players or teams +
+Player related commands: `add`, `delete`, `edit`, `clear`, `remark` +
+Team related commands: `create`, `assign`, `remove`, `rename`
 ====
 
 [IMPORTANT]
@@ -198,7 +200,7 @@ Format: `exit`
 ==== Adding a player: `add`
 This is the command that you will be using most frequently, especially with dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the `add` command.
 
-Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]...` +
+Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...` +
 Alias: `a`
 
 The table below explains the correct inputs for the parameters.
@@ -214,7 +216,6 @@ The table below explains the correct inputs for the parameters.
 |j/JERSEY_NUMBER| Player's jersey number| j/17
 |ra/RATING| Player's performance rating (Any integer from 1 to 5)| ra/5
 |po/POSITION| Player's postion (1 for Striker, 2 for Midfiled, 3 for Defender, 4 for Goalkeeper)| po/1
-|r/REMARK| Your remark for the player| r/My best player
 |t/TAG| Your tag for the player| t/Injured
 
 |=========================================================
@@ -232,15 +233,15 @@ Examples:
 
 * `add n/Mo Salah e/mo@soccer.com` +
 Adds a player named `Mo Salah` with email `mo@soccer.com`.
-* `add n/Ronaldo p/92331322 e/ronaldo@soccer.com a/Portugal tm/Real Madrid j/17 ra/5 po/1 r/Always play him` +
+* `add n/Ronaldo p/92331322 e/ronaldo@soccer.com a/Portugal tm/Real Madrid j/17 ra/5 po/1 +
 Adds a player named Ronaldo with phone number `92331322`, email `ronaldo@soccer.com`, address `Portugal`,
-team `Real Madrid`, jersey number `17`, rating `5`, position Striker, with remark `"Always play him"`.
+team `Real Madrid`, jersey number `17`, rating `5`, and position Striker.
 
 ==== Editing a player : `edit`
 
 You may edit an existing player in MTM with the 'edit' command.
 
-Format: `edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]...` +
+Format: `edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...` +
 Alias: `e`
 
 ****
@@ -291,7 +292,8 @@ Alias: `rm`
 
 [NOTE]
 ====
-By leaving out `r/REMARK`, the command acts as a remark removal.
+By leaving out `r/REMARK`, the command acts as a remark removal. +
+Only use the `remark` command when you want to leave a remark, `add` or `edit` does not allow you to create a remark for the player.
 ====
 
 [IMPORTANT]
@@ -442,7 +444,7 @@ Display the list of players in team "Arsenal" and remove the team.
 
 Entered your team name wrongly or you need to update it to accordingly, you can use the `rename` command to help you make that change.
 
-Format: `rename TEAM_NAME tn/RENAME_TEAM_NAME` +
+Format: `rename TEAM_NAME tm/RENAME_TEAM_NAME` +
 Alias: `rnt`
 
 [IMPORTANT]
@@ -453,21 +455,22 @@ Your specified team will be updated with the new team name along with the affect
 
 Here are a few valid examples on how you can use the `rename` command:
 
-* `rename Arsenal tn/Neo Arsenal`
+* `rename Arsenal tm/Neo Arsenal`
 Renames the current team "Arsenal" into "Neo Arsenal".
 
 ==== Assigning player to teams: `assign` `[Since v1.3]`
 
 Have a player without a team, or have yet to assigned one during the addition of player into MTM, you can call `assign` command to assign that player to a particular team of your choice.
 
-Format: `assign tn/TEAM_NAME i/INDEX [INDEX]...` +
+Format: `assign tm/TEAM_NAME i/INDEX [INDEX]...` +
 Alias: `at`
 
 [NOTE]
 ====
 The index refers to the index number shown in the most recent listing. +
 The index *must be a positive integer* `1, 2, 3, ...` +
-You can assign multiple players to a team by including more than one valid index.
+You can assign multiple players to a team by including more than one valid index. +
+A player can only consist of 1 team, assigning a player that have an existing team, will be re-assigned the new team.
 ====
 
 [IMPORTANT]
@@ -479,11 +482,11 @@ Your specified player, via index, will be assigned to the specified team.
 Here are a few valid examples on how you can use the `create` command:
 
 * `list`
-* `assign tn/Arsenal i/1 2 3` +
+* `assign tm/Arsenal i/1 2 3` +
 View the full list of players in MTM and assign the player with index 1, 2, and 3 to team "Arsenal".
 
 * `find John`
-* `assign tn/Liverpool i/1` +
+* `assign tm/Liverpool i/1` +
 Find a player by the name of "John" and assign the player with index 1 to team "Liverpool".
 
 ==== Viewing a team: `view` `[Since v1.3]`
@@ -491,7 +494,7 @@ Find a player by the name of "John" and assign the player with index 1 to team "
 With the ability to manage different teams, you will be able to identify all players in a team easily with the `view` command.
 
 Format: `view TEAM_NAME` +
-Alias: `v`
+Alias: `vt`
 
 [IMPORTANT]
 .*What to expect*
@@ -506,6 +509,12 @@ List all players in the team "Arsenal".
 
 * `view Liverpool` +
 List all players in the team "Liverpool".
+
+[NOTE]
+====
+`Coming in v2.0` +
+Details of your team will be displayed on the right panel when `view` command is executed.
+====
 
 === Other Useful Commands
 
@@ -669,12 +678,12 @@ d|Exits the application
 
 |`add`
 |`a`
-|add n/NAME e/EMAIL tm/TEAM [p/PHONE_NUMBER] [a/ADDRESS] [j/JERSEY_NUMBER] [s/SCORE] [po/POSITION] [r/REMARKS] [t/TAG]...
-|add n/Ronaldo e/ronaldo@soccer.com tm/Real Madrid p/92331322 a/Portugal j/17 s/999 po/Striker r/Always play him /tfamous
+|add n/NAME e/EMAIL [tm/TEAM] [p/PHONE_NUMBER] [a/ADDRESS] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...
+|add n/Ronaldo e/ronaldo@soccer.com tm/Real Madrid p/92331322 a/Portugal j/17 po/Striker t/famous
 
 |`edit`
 |`e`
-|edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...
+|edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...
 |edit 2 n/James Lee e/jameslee@example.com
 
 |`delete`
@@ -721,13 +730,13 @@ d|List all the players
 
 |`rename`
 |`rnt`
-|rename TEAM_NAME tn/RENAME_TEAM_NAME
-|rename Arsenal tn/Neo Arsenal
+|rename TEAM_NAME tm/RENAME_TEAM_NAME
+|rename Arsenal tm/Neo Arsenal
 
 |`assign`
 |`at`
-|assign tn/TEAM_NAME i/INDEX [INDEX]...
-|assign tn/Barcelona i/1 2 3
+|assign tm/TEAM_NAME i/INDEX [INDEX]...
+|assign tm/Barcelona i/1 2 3
 
 |`view`
 |`vt`
@@ -737,12 +746,12 @@ d|List all the players
 |`setmatch`
 |`sm`
 |setmatch TEAM_NAME OPPONENT_TEAM_NAME DATE
-|setmatch Arsenal Barcelona 23/05/2018
+|`Coming in v2.0`
 
 |`nextmatch`
 |`nm`
 |nextmatch TEAM_NAME
-|nextmatch Arsenal
+|`Coming in v2.0`
 
 4.1+^|Useful Commands
 
