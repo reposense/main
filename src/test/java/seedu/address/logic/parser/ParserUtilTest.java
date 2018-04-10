@@ -28,6 +28,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.team.TeamName;
 import seedu.address.testutil.Assert;
 
 public class ParserUtilTest {
@@ -44,7 +45,7 @@ public class ParserUtilTest {
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
-    private static final String VALID_TEAM = "Arsenal";
+    private static final String VALID_TEAM_NAME = "Arsenal";
 
     private static final String WHITESPACE = " \t\r\n";
 
@@ -118,6 +119,38 @@ public class ParserUtilTest {
         Name expectedName = new Name(VALID_NAME);
         assertEquals(expectedName, ParserUtil.parseName(nameWithWhitespace));
         assertEquals(Optional.of(expectedName), ParserUtil.parseName(Optional.of(nameWithWhitespace)));
+    }
+
+    @Test
+    public void parseTeamName_null_throwsNullPointerException() {
+        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseTeamName((String) null));
+        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseTeamName((Optional<String>) null));
+    }
+
+    @Test
+    public void parseTeamName_invalidValue_throwsIllegalValueException() {
+        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseTeamName(INVALID_TEAM));
+        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseTeamName(Optional.of(INVALID_TEAM)));
+    }
+
+    @Test
+    public void parseTeamName_optionalEmpty_returnsOptionalEmpty() throws Exception {
+        assertFalse(ParserUtil.parseTeamName(Optional.empty()).isPresent());
+    }
+
+    @Test
+    public void parseTeamName_validValueWithoutWhitespace_returnsName() throws Exception {
+        TeamName expectedTeamName = new TeamName(VALID_TEAM_NAME);
+        assertEquals(expectedTeamName, ParserUtil.parseTeamName(VALID_TEAM_NAME));
+        assertEquals(Optional.of(expectedTeamName), ParserUtil.parseTeamName(Optional.of(VALID_TEAM_NAME)));
+    }
+
+    @Test
+    public void parseTeamName_validValueWithWhitespace_returnsTrimmedName() throws Exception {
+        String nameWithWhitespace = WHITESPACE + VALID_TEAM_NAME + WHITESPACE;
+        TeamName expectedName = new TeamName(VALID_TEAM_NAME);
+        assertEquals(expectedName, ParserUtil.parseTeamName(nameWithWhitespace));
+        assertEquals(Optional.of(expectedName), ParserUtil.parseTeamName(Optional.of(nameWithWhitespace)));
     }
 
     @Test
