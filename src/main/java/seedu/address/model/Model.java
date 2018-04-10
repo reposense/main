@@ -64,6 +64,16 @@ public interface Model {
      */
     void sortPlayers(String field, String order) throws NoPlayerException;
 
+    boolean getLockState();
+
+    UserPrefs getUserPrefs();
+
+    /** Locks address book from model*/
+    void lockAddressBookModel();
+
+    /** Unlocks address book from model*/
+    void unlockAddressBookModel();
+
     /** Removes the given {@code tag} from all {@code Person}s. */
     void deleteTag(Tag tag);
 

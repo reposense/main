@@ -19,5 +19,5 @@ public class CliSyntax {
     public static final Prefix PREFIX_JERSEY_NUMBER = new Prefix("j/");
     public static final Prefix PREFIX_POSITION = new Prefix("po/");
     public static final Prefix PREFIX_AVATAR = new Prefix("av/");
-
+    public static final Prefix PREFIX_PASSWORD = new Prefix("pw/");
 }
