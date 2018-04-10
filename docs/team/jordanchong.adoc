@@ -2,47 +2,67 @@
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
-== PROJECT: AddressBook - Level 4
+== PROJECT: My Team Manager (MTM)
 
 ---
 
 == Overview
 
-AddressBook - Level 4 is a desktop address book application used for teaching Software Engineering principles. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
+My Team Manager (MTM) is a Command-Line Interface (CLI) based address book application for football team managers. It is a one-stop solution to help you manage your player’s contact details in an efficient and convenient manner. Using MTM, you can organize players into teams, view player statistics, and, generate player line-ups.
 
 == Summary of contributions
 
-* *Major enhancement*: added *nothing at the moment*
-** What it does:
-** Justification:
-** Highlights:
-** Credits: _{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}_
+* *Major enhancement*: added *team implementation and commands*
+** *What it does*: allows the user to perform team management functions such as creating, removing, renaming, viewing a team, and assigning players into a team
+** *Justification*: This feature is a core component to the product as it gives the user the capability to manage and view their teams easily and in a convenient way.
+** *Highlights*: The implementation requires new classes and commands to be created and also affects current existing `add` command. The class is set up so that future enhancements can use the data quickly. The implementation was challenging as it requires that player's information are in-sync with the information in the class.
 
 * *Minor enhancement*:
+** added a remark command that allows the user to leave a remark to a specific player
+** enhanced functionality of add command that allows certain field to be optional
 
-* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
+* *Code contributed*: [https://github.com/CS2103JAN2018-F14-B1/main/collated/functional/jordancjq.md[Functional code]] [https://github.com/CS2103JAN2018-F14-B1/main/collated/test/jordancjq.md[Test code]]
 
 * *Other contributions*:
 
 ** Project management:
-*** Managed releases
+*** Managed releases `v1.3` ~ `v1.4` (2 release) on GitHub
+*** Documented issues of project using GitHub's Issue Tracker and address the issues accordingly
 ** Enhancements to existing features:
+*** Changes are mentioned in <<Minor Enhancement, Minor enhancement>>
 ** Documentation:
+*** Re-arrange features into appropriate categories (Player, Team, Additional)
+*** Create command summary table for ease of viewing and quick access
 ** Community:
-** Tools:
+*** Reported bugs and suggestions for other teams in the class (
+https://github.com/CS2103JAN2018-F11-B4/main/issues/99[1],
+https://github.com/CS2103JAN2018-F11-B4/main/issues/105[2],
+https://github.com/CS2103JAN2018-F11-B4/main/issues/108[3],
+https://github.com/CS2103JAN2018-F11-B4/main/issues/111[4],
+https://github.com/CS2103JAN2018-F11-B4/main/issues/112[5],
+https://github.com/CS2103JAN2018-F11-B4/main/issues/113[6],
+https://github.com/CS2103JAN2018-F11-B4/main/issues/116[7],
+https://github.com/CS2103JAN2018-F11-B4/main/issues/117[8],
+https://github.com/CS2103JAN2018-F11-B4/main/issues/121[9],
+https://github.com/CS2103JAN2018-F11-B4/main/issues/123[10],
+https://github.com/CS2103JAN2018-F11-B4/main/issues/127[11],
+https://github.com/CS2103JAN2018-F11-B4/main/issues/129[12],
+https://github.com/CS2103JAN2018-F11-B4/main/issues/133[13],
+https://github.com/CS2103JAN2018-F11-B4/main/issues/135[14],
+https://github.com/CS2103JAN2018-F11-B4/main/issues/136[15])
 
-_{you can add/remove categories in the list above}_
 
 == Contributions to the User Guide
-
 
 |===
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-include::../UserGuide.adoc[tag=undoredo]
+include::../UserGuide.adoc[tag=team]
 
-include::../UserGuide.adoc[tag=dataencryption]
+include::../UserGuide.adoc[tag=teamin2.0]
+
+include::../UserGuide.adoc[tag=commandsummary]
 
 == Contributions to the Developer Guide
 
@@ -50,6 +70,10 @@ include::../UserGuide.adoc[tag=dataencryption]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-include::../DeveloperGuide.adoc[tag=undoredo]
+include::../DeveloperGuide.adoc[tag=overview]
 
-include::../DeveloperGuide.adoc[tag=dataencryption]
+include::../DeveloperGuide.adoc[tag=team]
+
+include::../DeveloperGuide.adoc[tag=remark]
+
+include::../DeveloperGuide.adoc[tag=enhancedadd]
