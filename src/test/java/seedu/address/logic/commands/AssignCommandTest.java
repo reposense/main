@@ -11,8 +11,9 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalTeams.ARSENAL;
 import static seedu.address.testutil.TypicalTeams.CHELSEA;
 import static seedu.address.testutil.TypicalTeams.LIVERPOOL;
-import static seedu.address.testutil.TypicalTeams.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalTeams.getTypicalAddressBookWithPersonsAndTeams;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,7 +31,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.team.Team;
 import seedu.address.model.team.TeamName;
 import seedu.address.ui.testutil.EventsCollectorRule;
@@ -45,15 +46,19 @@ public class AssignCommandTest {
 
     @Before
     public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        model = new ModelManager(getTypicalAddressBookWithPersonsAndTeams(), new UserPrefs());
     }
 
     @Test
     public void execute_validTeamAndIndexUnfilteredList_success() {
+        // single index
         Index lastPersonIndex = Index.fromOneBased(model.getFilteredPersonList().size());
         Team firstTeam = model.getAddressBook().getTeamList().get(0);
-
         assertExecutionSuccess(firstTeam, Collections.singletonList(lastPersonIndex));
+
+        // multiple indexes
+        model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
+        assertExecutionSuccess(firstTeam, Arrays.asList(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON));
     }
 
     @Test
@@ -136,18 +141,9 @@ public class AssignCommandTest {
      */
     private void assertExecutionSuccess(Team team, List<Index> indexes) {
         AssignCommand assignCommand = prepareCommand(team.getTeamName(), indexes);
-        String expectedAssignResultMessage = new String();
+        String expectedAssignResultMessage;
 
-        for (Index index : indexes) {
-            Person person = model.getFilteredPersonList().get(index.getZeroBased());
-            if (person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
-                expectedAssignResultMessage = String.format(AssignCommand.MESSAGE_UNSPECIFIED_TEAM_SUCCESS,
-                        person.getName().toString(), team.getTeamName().toString());
-            } else {
-                expectedAssignResultMessage = String.format(AssignCommand.MESSAGE_TEAM_TO_TEAM_SUCCESS,
-                        person.getName().toString(), person.getTeamName().toString(), team.getTeamName().toString());
-            }
-        }
+        expectedAssignResultMessage = getMultiplePlayerAssignResultMessage(team, indexes);
 
         try {
             CommandResult commandResult = assignCommand.execute();
@@ -161,13 +157,7 @@ public class AssignCommandTest {
                 (HighlightSelectedTeamEvent) eventsCollectorRule.eventsCollector.getMostRecent();
         assertEquals(team.getTeamName().toString(), lastEvent.teamName);
 
-        try {
-            for (Person person : model.getFilteredPersonList()) {
-                team.remove(person);
-            }
-        } catch (PersonNotFoundException e) {
-            throw new AssertionError("not possible");
-        }
+        team.setPersons(new UniquePersonList());
     }
 
     /**
@@ -179,10 +169,27 @@ public class AssignCommandTest {
 
         try {
             assignCommand.execute();
+            System.out.println(model.getAddressBook().getTeamList());
             fail("The expected CommandException was not thrown.");
         } catch (CommandException ce) {
             assertEquals(expectedMessage, ce.getMessage());
             assertTrue(eventsCollectorRule.eventsCollector.isEmpty());
+            team.setPersons(new UniquePersonList());
         }
+    }
+
+    private String getMultiplePlayerAssignResultMessage(Team team, List<Index> indexes) {
+        String expectedAssignResultMessage = "";
+        for (Index index : indexes) {
+            Person person = model.getFilteredPersonList().get(index.getZeroBased());
+            if (person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+                expectedAssignResultMessage += String.format(AssignCommand.MESSAGE_UNSPECIFIED_TEAM_SUCCESS,
+                        person.getName().toString(), team.getTeamName().toString());
+            } else {
+                expectedAssignResultMessage += String.format(AssignCommand.MESSAGE_TEAM_TO_TEAM_SUCCESS,
+                        person.getName().toString(), person.getTeamName().toString(), team.getTeamName().toString());
+            }
+        }
+        return expectedAssignResultMessage;
     }
 }
