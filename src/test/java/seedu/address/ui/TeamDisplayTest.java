@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import guitests.guihandles.TeamDisplayHandle;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.events.ui.ShowNewTeamNameEvent;
 import seedu.address.model.team.Team;
@@ -29,7 +30,9 @@ public class TeamDisplayTest extends GuiUnitTest {
 
     @Before
     public void setUp() {
-        teamList = new TeamBuilder().build();
+        teamList = FXCollections.observableArrayList();
+        teamList.add(new TeamBuilder().withTeamName("Arsenal").build());
+        teamList.add(new TeamBuilder().withTeamName("Chelsea").build());
         teamDisplay = new TeamDisplay(teamList);
         uiPartRule.setUiPart(teamDisplay);
         teamDisplayHandle = new TeamDisplayHandle(teamDisplay.getRoot());
