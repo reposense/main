@@ -1,3 +1,4 @@
+/** @@author Codee */
 .background {
     -fx-background-color: #eaf4ff;
     background-color: #eaf4ff; /* Used in the default.html file */
@@ -329,7 +330,7 @@
     -fx-text-fill: #3e5670;
 }
 
-#filterField, #personListPanel, #personWebpage {
+#filterField, #personList, #personWebpage {
     -fx-effect: innershadow(gaussian, black, 10, 0, 0, 0);
 }
 
@@ -435,13 +436,21 @@
 
 .player-details-cell {
     -fx-font-family: "Segoe UI";
-    -fx-font-size: 15px;
+    -fx-font-size: 20px;
     -fx-text-fill: #243b4c;
 }
 
 .player-details-title {
     -fx-text-fill: #122635;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-font-size: 20px;
+    -fx-font-size: 30px;
 }
 
+.mtm-logo {
+    max-height: 40px;
+    max-width: 200px;
+}
+
+.mtm-logo:disabled, mtm-logo:disabled > * {
+    -fx-opacity: 1.0;
+}

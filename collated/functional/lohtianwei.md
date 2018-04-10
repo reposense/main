@@ -1,5 +1,164 @@
 # lohtianwei
-###### \java\seedu\address\logic\commands\SortCommand.java
+###### /java/seedu/address/ui/PlayerDetails.java
+``` java
+    public PlayerDetails(Person person) {
+        super(FXML);
+        registerAsAnEventHandler(this);
+        this.person = person;
+        name.setText(person.getName().fullName);
+        jerseyNumber.setText("Jersey Number: " + person.getJerseyNumber().value);
+
+        if (person.getPhone().isPrivate()) {
+            phone.setText(person.getPhone().toString());
+        } else {
+            phone.setText(person.getPhone().value);
+        }
+
+        if (person.getAddress().isPrivate()) {
+            address.setText(person.getAddress().toString());
+        } else {
+            address.setText(person.getAddress().value);
+        }
+
+        if (person.getEmail().isPrivate()) {
+            email.setText(person.getEmail().toString());
+        } else {
+            email.setText(person.getEmail().value);
+        }
+
+        if (person.getRemark().isPrivate()) {
+            remark.setText("Remarks: " + person.getRemark().toString());
+        } else {
+            remark.setText("Remarks: " + person.getRemark().value);
+        }
+    }
+
+    @Subscribe
+    private void handlePersonDetailsChangedEvent(PersonDetailsChangedEvent event) {
+        phone.setText(event.getPerson().getPhone().toString());
+        address.setText(event.getPerson().getAddress().toString());
+        email.setText(event.getPerson().getEmail().toString());
+        remark.setText("Remarks: " + event.getPerson().getRemark().toString());
+    }
+}
+
+```
+###### /java/seedu/address/logic/parser/TogglePrivacyCommandParser.java
+``` java
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RATING;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
+
+import seedu.address.commons.core.index.Index;
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.commands.TogglePrivacyCommand;
+import seedu.address.logic.commands.TogglePrivacyCommand.EditPersonPrivacy;
+import seedu.address.logic.parser.exceptions.ParseException;
+
+/**
+ * Parses input arguments and creates a new TogglePrivacyCommand object
+ */
+public class TogglePrivacyCommandParser implements Parser<TogglePrivacyCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the TogglePrivacyCommand
+     * and returns an TogglePrivacyCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public TogglePrivacyCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args,
+                        PREFIX_REMARK, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_RATING);
+
+        Index index;
+
+        try {
+            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+        } catch (IllegalValueException ive) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, TogglePrivacyCommand.MESSAGE_USAGE));
+        }
+
+        EditPersonPrivacy epp = new EditPersonPrivacy();
+        if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
+            epp.setPrivatePhone(false);
+        }
+
+        if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
+            epp.setPrivateAddress(false);
+        }
+
+        if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
+            epp.setPrivateEmail(false);
+        }
+
+        if (argMultimap.getValue(PREFIX_REMARK).isPresent()) {
+            epp.setPrivateRemark(false);
+        }
+
+        if (argMultimap.getValue(PREFIX_RATING).isPresent()) {
+            epp.setPrivateRating(false);
+        }
+        return new TogglePrivacyCommand(index, epp);
+    }
+}
+```
+###### /java/seedu/address/logic/parser/SortCommandParser.java
+``` java
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import seedu.address.logic.commands.SortCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
+
+/**
+ * Parses input arguments and creates a new SortCommand object with field and order parameters provided
+ */
+public class SortCommandParser implements Parser<SortCommand> {
+    public static final List<String> ACCEPTED_FIELDS = new ArrayList<>(Arrays.asList(
+            "name", "email", "address", "rating", "jersey", "pos"));
+    public static final List<String> ACCEPTED_ORDERS = new ArrayList<>(Arrays.asList(
+            "asc", "desc"));
+
+    @Override
+    public SortCommand parse(String args) throws ParseException {
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
+        //eliminates spaces
+        String[] argKeywords = trimmedArgs.split("\\s+");
+
+        //accounts for caps entries
+        for (int i = 0; i < argKeywords.length; i++) {
+            argKeywords[i] = argKeywords[i].toLowerCase();
+        }
+
+        if (argKeywords.length != 2) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
+        if (!ACCEPTED_FIELDS.contains(argKeywords[0])) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
+        if (!ACCEPTED_ORDERS.contains(argKeywords[1])) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
+        return new SortCommand(argKeywords[0], argKeywords[1]);
+    }
+}
+```
+###### /java/seedu/address/logic/commands/SortCommand.java
 ``` java
 import static java.util.Objects.requireNonNull;
 
@@ -60,7 +219,7 @@ public class SortCommand extends UndoableCommand {
     }
 }
 ```
-###### \java\seedu\address\logic\commands\TogglePrivacyCommand.java
+###### /java/seedu/address/logic/commands/TogglePrivacyCommand.java
 ``` java
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
@@ -73,11 +232,14 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import java.util.List;
 import java.util.Set;
 
+import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.events.ui.PersonDetailsChangedEvent;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Avatar;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.JerseyNumber;
 import seedu.address.model.person.Name;
@@ -154,6 +316,8 @@ public class TogglePrivacyCommand extends UndoableCommand {
             throw new AssertionError("The target person cannot be missing");
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        EventsCenter.getInstance().post(new PersonDetailsChangedEvent(editedPerson));
+
         return new CommandResult(String.format(MESSAGE_SUCCESS, editedPerson));
     }
 
@@ -176,9 +340,10 @@ public class TogglePrivacyCommand extends UndoableCommand {
         Rating updatedRating = createRatingPrivacy(personToEdit, epp);
         Position updatedPosition = personToEdit.getPosition();
         JerseyNumber updatedJerseyNumber = personToEdit.getJerseyNumber();
+        Avatar updatedAvatar = personToEdit.getAvatar();
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark,
-                updatedTeamName, updatedTags, updatedRating, updatedPosition, updatedJerseyNumber);
+                updatedTeamName, updatedTags, updatedRating, updatedPosition, updatedJerseyNumber, updatedAvatar);
     }
 
     /**
@@ -432,136 +597,7 @@ public class TogglePrivacyCommand extends UndoableCommand {
     }
 }
 ```
-###### \java\seedu\address\logic\parser\SortCommandParser.java
-``` java
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import seedu.address.logic.commands.SortCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
-
-/**
- * Parses input arguments and creates a new SortCommand object with field and order parameters provided
- */
-public class SortCommandParser implements Parser<SortCommand> {
-    public static final List<String> ACCEPTED_FIELDS = new ArrayList<>(Arrays.asList(
-            "name", "email", "address", "rating", "jersey", "pos"));
-    public static final List<String> ACCEPTED_ORDERS = new ArrayList<>(Arrays.asList(
-            "asc", "desc"));
-
-    @Override
-    public SortCommand parse(String args) throws ParseException {
-        String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
-        }
-
-        //eliminates spaces
-        String[] argKeywords = trimmedArgs.split("\\s+");
-
-        //accounts for caps entries
-        for (int i = 0; i < argKeywords.length; i++) {
-            argKeywords[i] = argKeywords[i].toLowerCase();
-        }
-
-        if (argKeywords.length != 2) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
-        }
-
-        if (!ACCEPTED_FIELDS.contains(argKeywords[0])) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
-        }
-
-        if (!ACCEPTED_ORDERS.contains(argKeywords[1])) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
-        }
-
-        return new SortCommand(argKeywords[0], argKeywords[1]);
-    }
-}
-```
-###### \java\seedu\address\logic\parser\TogglePrivacyCommandParser.java
-``` java
-import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_RATING;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
-
-import seedu.address.commons.core.index.Index;
-import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.logic.commands.TogglePrivacyCommand;
-import seedu.address.logic.commands.TogglePrivacyCommand.EditPersonPrivacy;
-import seedu.address.logic.parser.exceptions.ParseException;
-
-/**
- * Parses input arguments and creates a new TogglePrivacyCommand object
- */
-public class TogglePrivacyCommandParser implements Parser<TogglePrivacyCommand> {
-
-    /**
-     * Parses the given {@code String} of arguments in the context of the TogglePrivacyCommand
-     * and returns an TogglePrivacyCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public TogglePrivacyCommand parse(String args) throws ParseException {
-        requireNonNull(args);
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args,
-                        PREFIX_REMARK, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_RATING);
-
-        Index index;
-
-        try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (IllegalValueException ive) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, TogglePrivacyCommand.MESSAGE_USAGE));
-        }
-
-        EditPersonPrivacy epp = new EditPersonPrivacy();
-        if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            epp.setPrivatePhone(false);
-        }
-
-        if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            epp.setPrivateAddress(false);
-        }
-
-        if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            epp.setPrivateEmail(false);
-        }
-
-        if (argMultimap.getValue(PREFIX_REMARK).isPresent()) {
-            epp.setPrivateRemark(false);
-        }
-
-        if (argMultimap.getValue(PREFIX_RATING).isPresent()) {
-            epp.setPrivateRating(false);
-        }
-        return new TogglePrivacyCommand(index, epp);
-    }
-}
-```
-###### \java\seedu\address\model\AddressBook.java
-``` java
-    public void sortPlayersBy(String field, String order) throws NoPlayerException {
-        persons.sortBy(field, order);
-    }
-```
-###### \java\seedu\address\model\ModelManager.java
-``` java
-    @Override
-    public void sortPlayers(String field, String order) throws NoPlayerException {
-        addressBook.sortPlayersBy(field, order);
-        indicateAddressBookChanged();
-    }
-```
-###### \java\seedu\address\model\person\UniquePersonList.java
+###### /java/seedu/address/model/person/UniquePersonList.java
 ``` java
     /**
      * Sorts players by selected field in asc or desc order.
@@ -659,38 +695,17 @@ public class TogglePrivacyCommandParser implements Parser<TogglePrivacyCommand> 
         }
     }
 ```
-###### \java\seedu\address\ui\PlayerDetails.java
+###### /java/seedu/address/model/AddressBook.java
 ``` java
-    public PlayerDetails(Person person) {
-        super(FXML);
-        this.person = person;
-        name.setText(person.getName().fullName);
-        jerseyNumber.setText("Jersey Number: " + person.getJerseyNumber().value);
-
-        if (person.getPhone().isPrivate()) {
-            phone.setText(person.getPhone().toString());
-        } else {
-            phone.setText(person.getPhone().value);
-        }
-
-        if (person.getAddress().isPrivate()) {
-            address.setText(person.getAddress().toString());
-        } else {
-            address.setText(person.getAddress().value);
-        }
-
-        if (person.getEmail().isPrivate()) {
-            email.setText(person.getEmail().toString());
-        } else {
-            email.setText(person.getEmail().value);
-        }
-
-        if (person.getRemark().isPrivate()) {
-            remark.setText("Remarks: " + person.getRemark().toString());
-        } else {
-            remark.setText("Remarks: " + person.getRemark().value);
-        }
+    public void sortPlayersBy(String field, String order) throws NoPlayerException {
+        persons.sortBy(field, order);
     }
-}
-
+```
+###### /java/seedu/address/model/ModelManager.java
+``` java
+    @Override
+    public void sortPlayers(String field, String order) throws NoPlayerException {
+        addressBook.sortPlayersBy(field, order);
+        indicateAddressBookChanged();
+    }
 ```
