@@ -1,0 +1,51 @@
+= Ahmad Syafiq - Project Portfolio
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== Project: Bamboo
+Bamboo is a desktop address book application developed as part of a Software Engineering module requirement. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 6 kLoC.
+
+*Code contributed*: [https://github.com/CS2103JAN2018-F14-B1/main/collated/functional/lithiumlkid.md[Functional code]] [https://github.com/CS2103JAN2018-F14-B1/main/collated/test/lithiumlkid.md[Test code]]
+
+=== Enhancement Added: Player & Tab - Autocomplete
+
+==== External behavior
+
+---
+#Start of Extract [from: User Guide]#
+
+include::../UserGuide.adoc[tag=tab]
+
+include::../UserGuide.adoc[tag=add]
+
+#End of Extract#
+
+---
+
+==== Justification
+
+* Having tab - autocomplete makes entering commands much quicker. Futhermore, in case they forget, users can use the tab
+ autocomplete to view suggested commands and command parameters.
+
+* The new player object replaces the person object with more attributes to hold more information for the target user,
+team managers, with added gui.
+
+==== Implementation
+
+---
+#Start of Extract [from: Developer Guide]#
+
+include::../DeveloperGuide.adoc[tag=tab]
+
+include::../DeveloperGuide.adoc[tag=add]
+
+#End of Extract#
+
+---
+
+=== Enhancement Proposed: Add match scheduling
+
+=== Other contributions
+
+== Project:

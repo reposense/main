@@ -198,7 +198,7 @@ Format: `exit`
 ==== Adding a player: `add`
 This is the command that you will be using most frequently, especially with dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the `add` command.
 
-Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]...` +
+Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [av/AVATAR] [t/TAG]...` +
 Alias: `a`
 
 The table below explains the correct inputs for the parameters.
@@ -214,7 +214,7 @@ The table below explains the correct inputs for the parameters.
 |j/JERSEY_NUMBER| Player's jersey number| j/17
 |ra/RATING| Player's performance rating (Any integer from 1 to 5)| ra/5
 |po/POSITION| Player's postion (1 for Striker, 2 for Midfiled, 3 for Defender, 4 for Goalkeeper)| po/1
-|r/REMARK| Your remark for the player| r/My best player
+|av/AVATAR| Filepath for avatar image file. Eg. C:\image.png (for Windows) or /User/username/path/to/image.jpg(for MacOS)| i/C:\image.png  i//User/username/path/to/image.jpg
 |t/TAG| Your tag for the player| t/Injured
 
 |=========================================================
@@ -669,8 +669,8 @@ d|Exits the application
 
 |`add`
 |`a`
-|add n/NAME e/EMAIL tm/TEAM [p/PHONE_NUMBER] [a/ADDRESS] [j/JERSEY_NUMBER] [s/SCORE] [po/POSITION] [r/REMARKS] [t/TAG]...
-|add n/Ronaldo e/ronaldo@soccer.com tm/Real Madrid p/92331322 a/Portugal j/17 s/999 po/Striker r/Always play him /tfamous
+|add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [av/AVATAR] [t/TAG]...
+|add n/Ospina e/Ospina@arsenal.com tm/Arsenal a/70 Jurong Central Circle p/90722998 j/1 ra/2 po/4 av/Capture.png t/redCard
 
 |`edit`
 |`e`
