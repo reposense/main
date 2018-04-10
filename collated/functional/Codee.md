@@ -524,6 +524,7 @@ public class PlayerDetails extends UiPart<Region> {
      */
 
     public final Person person;
+    private Person personBeforeChange;
 
     @FXML
     private HBox cardPane;
@@ -549,14 +550,6 @@ public class PlayerDetails extends UiPart<Region> {
         address.setText(event.getPerson().getAddress().toString());
         email.setText(event.getPerson().getEmail().toString());
         remark.setText("Remarks: " + event.getPerson().getRemark().toString());
-    }
-
-    @Subscribe
-    private void handlePersonDetailsChangedNoParamEvent(PersonDetailsChangedNoParamEvent event) {
-        phone.setText(person.getPhone().toString());
-        address.setText(person.getAddress().toString());
-        email.setText(person.getEmail().toString());
-        remark.setText("Remarks: " + person.getRemark().toString());
     }
 }
 
@@ -689,6 +682,37 @@ public class TeamDisplay extends UiPart<Region> {
     }
 }
 
+```
+###### /java/seedu/address/ui/PersonListPanel.java
+``` java
+    @Subscribe
+    private void handlePersonDetailsChangedNoParamEvent(PersonDetailsChangedNoParamEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        PersonCard newPersonCard = personListView.getItems().get(selectedCardIndex);
+        playerDetailsPlaceholder.getChildren().clear();
+        playerDetails = new PlayerDetails(newPersonCard.person);
+        playerDetailsPlaceholder.getChildren().add(playerDetails.getRoot());
+    }
+    //@author
+
+    /**
+     * Custom {@code ListCell} that displays the graphics of a {@code PersonCard}.
+     */
+    class PersonListViewCell extends ListCell<PersonCard> {
+
+        @Override
+        protected void updateItem(PersonCard person, boolean empty) {
+            super.updateItem(person, empty);
+
+            if (empty || person == null) {
+                setGraphic(null);
+                setText(null);
+            } else {
+                setGraphic(person.getRoot());
+            }
+        }
+    }
+}
 ```
 ###### /java/seedu/address/ui/PersonCard.java
 ``` java
@@ -1162,6 +1186,21 @@ public class XmlAdaptedTeam {
         return addressBook;
     }
 ```
+###### /java/seedu/address/model/util/SampleDataUtil.java
+``` java
+    public static Team[] getSampleTeams()  {
+        return new Team[] {
+            new Team(new TeamName("Arsenal")),
+            new Team(new TeamName("Chelsea"))
+        };
+    }
+```
+###### /java/seedu/address/model/util/SampleDataUtil.java
+``` java
+            for (Team sampleTeam : getSampleTeams()) {
+                sampleAb.createTeam(sampleTeam);
+            }
+```
 ###### /java/seedu/address/model/UserPrefs.java
 ``` java
     public void setAddressBookName(String addressBookName) {
@@ -1180,6 +1219,26 @@ public class XmlAdaptedTeam {
                 t.changeTagColour(colour);
             }
         }
+    }
+```
+###### /java/seedu/address/model/ModelManager.java
+``` java
+    @Override
+    public boolean setTagColour(Tag tag, String colour) {
+        ObservableList<Tag> allTags = addressBook.getTagList();
+        boolean isTagValid = false;
+        for (Tag t : allTags) {
+            if (t.getTagName().equals(tag.getTagName())) {
+                isTagValid = true;
+                break;
+            }
+        }
+        if (!isTagValid) {
+            return false;
+        }
+        addressBook.setTagColour(tag, colour);
+        indicateAddressBookChanged();
+        return isTagValid;
     }
 ```
 ###### /java/seedu/address/model/tag/Tag.java
