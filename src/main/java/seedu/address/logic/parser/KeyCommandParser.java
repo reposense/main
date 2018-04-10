@@ -5,6 +5,9 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 import seedu.address.logic.commands.KeyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
+/**
+ * Parses input and creates KeyCommand object with password provided
+ */
 public class KeyCommandParser implements Parser<KeyCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the KeyCommand
