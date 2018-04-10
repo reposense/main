@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.commons.events.ui.PersonDetailsChangedEvent;
+import seedu.address.commons.events.ui.PersonDetailsChangedNoParamEvent;
 import seedu.address.model.person.Person;
 
 /**
@@ -74,13 +75,21 @@ public class PlayerDetails extends UiPart<Region> {
             remark.setText("Remarks: " + person.getRemark().value);
         }
     }
-
+    //@@author Codee
     @Subscribe
     private void handlePersonDetailsChangedEvent(PersonDetailsChangedEvent event) {
         phone.setText(event.getPerson().getPhone().toString());
         address.setText(event.getPerson().getAddress().toString());
         email.setText(event.getPerson().getEmail().toString());
         remark.setText("Remarks: " + event.getPerson().getRemark().toString());
+    }
+
+    @Subscribe
+    private void handlePersonDetailsChangedNoParamEvent(PersonDetailsChangedNoParamEvent event) {
+        phone.setText(person.getPhone().toString());
+        address.setText(person.getAddress().toString());
+        email.setText(person.getEmail().toString());
+        remark.setText("Remarks: " + person.getRemark().toString());
     }
 }
 
