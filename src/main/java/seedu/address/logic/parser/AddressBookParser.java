@@ -3,7 +3,6 @@ package seedu.address.logic.parser;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 
-import java.security.Key;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,13 +37,13 @@ import seedu.address.logic.parser.exceptions.ParseException;
  */
 public class AddressBookParser {
 
+    public static final String MESSAGE_RESTRICTED = "Not allowed! Please unlock MTM before execution.\n"
+            + KeyCommand.MESSAGE_USAGE;
+
     /**
      * Used for initial separation of command word and args.
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
-
-    public static final String MESSAGE_RESTRICTED = "Not allowed! Please unlock MTM before execution.\n"
-            + KeyCommand.MESSAGE_USAGE;
 
     /**
      * Parses user input into command for execution.

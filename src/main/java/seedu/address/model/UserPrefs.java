@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 import com.google.common.hash.Hashing;
+
 import seedu.address.commons.core.GuiSettings;
 
 /**
