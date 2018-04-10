@@ -19,12 +19,17 @@ public class RemoveCommandParser implements Parser<RemoveCommand> {
      * @throws ParseException if the user input des not conform to the expected format
      */
     public RemoveCommand parse(String args) throws ParseException {
-        try {
-            TeamName teamToRemove = ParserUtil.parseTeamName(args);
-            return new RemoveCommand(teamToRemove);
-        } catch (IllegalValueException ive) {
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemoveCommand.MESSAGE_USAGE));
+        }
+
+        try {
+            TeamName teamToRemove = ParserUtil.parseTeamName(trimmedArgs);
+            return new RemoveCommand(teamToRemove);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
         }
     }
 }
