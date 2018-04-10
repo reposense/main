@@ -78,6 +78,7 @@ public class CommandTestUtil {
     public static final String JERSEY_NUMBER_DESC_17 = " " + PREFIX_JERSEY_NUMBER + VALID_JERSEY_NUMBER_17;
     public static final String AVATAR = " " + PREFIX_AVATAR + VALID_AVATAR;
     public static final String TEAM_DESC_ARSENAL = " " + PREFIX_TEAM_NAME + VALID_TEAM_ARSENAL;
+    public static final String TEAM_DESC_CHELSEA = " " + PREFIX_TEAM_NAME + VALID_TEAM_CHELSEA;
     public static final String INDEX_DESC_1 = " " + PREFIX_INDEX + VALID_INDEX;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
