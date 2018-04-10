@@ -6,12 +6,14 @@ import static org.junit.Assert.fail;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_AVATAR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JERSEY_NUMBER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_POSITION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TEAM_NAME;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +29,6 @@ import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
-
 /**
  * Contains helper methods for testing commands.
  */
@@ -57,6 +58,7 @@ public class CommandTestUtil {
     public static final String VALID_JERSEY_NUMBER_2 = "2";
     public static final String VALID_JERSEY_NUMBER_17 = "17";
     public static final String VALID_AVATAR = System.getProperty("user.dir") + "\\images\\placeholder_test.png";
+    public static final String VALID_INDEX = "1";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -75,6 +77,8 @@ public class CommandTestUtil {
     public static final String JERSEY_NUMBER_DESC_2 = " " + PREFIX_JERSEY_NUMBER + VALID_JERSEY_NUMBER_2;
     public static final String JERSEY_NUMBER_DESC_17 = " " + PREFIX_JERSEY_NUMBER + VALID_JERSEY_NUMBER_17;
     public static final String AVATAR = " " + PREFIX_AVATAR + VALID_AVATAR;
+    public static final String TEAM_DESC_ARSENAL = " " + PREFIX_TEAM_NAME + VALID_TEAM_ARSENAL;
+    public static final String INDEX_DESC_1 = " " + PREFIX_INDEX + VALID_INDEX;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
@@ -89,7 +93,8 @@ public class CommandTestUtil {
     public static final String INVALID_AVATAR_TYPE = " " + PREFIX_AVATAR + "images.gif";
     //only jpg and png file type allowed
     public static final String INVALID_AVATAR_NO_FILE = " " + PREFIX_AVATAR + "file.png";
-    public static final String INVALID_TEAM_NAME = "&-Team-&"; // '&' not allowed in team names
+    public static final String INVALID_TEAM_NAME = " " + PREFIX_TEAM_NAME + "&-Team-&"; // '&' not allowed in team names
+    public static final String INVALID_INDEX = " " + PREFIX_INDEX + "-1"; // negative not allowed as index
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
