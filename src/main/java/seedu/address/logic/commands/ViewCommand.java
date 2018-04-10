@@ -16,7 +16,7 @@ import seedu.address.model.team.exceptions.TeamNotFoundException;
 public class ViewCommand extends Command {
 
     public static final String COMMAND_WORD = "view";
-    public static final String COMMAND_ALIAS = "v";
+    public static final String COMMAND_ALIAS = "vt";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Views the team identified by the team name.\n"
