@@ -806,13 +806,12 @@ public class Address {
 // end::enhancedadd[]
 
 // tag::settagcolour[]
-==== Set Tag Colour feature
+==== Set Tag Colour feature `[since v1.1]`
 ===== Current Implementation
 
-* The `Set` Command is an entirely new command that will allow the user to assign a colour to a specific tag.
-* This mechanism is facilitated by the `SetCommandParser`, which creates and returns a new `SetCommand`.
-* The following diagrams show the inheritance for the commands: <image>
-* In `SetCommandParser`, which implements the `Parser` interface, it parses the arguments inputted into the CLI, and checks whether the arguments are valid.
+The `Set` Command is an entirely new command that allows the user to assign a colour to a specific tag.
+This mechanism is facilitated by the `SetCommandParser`, which creates and returns a new `SetCommand`.
+In `SetCommandParser`, which implements the `Parser` interface, it parses the arguments inputted into the CLI, and checks whether the arguments are valid.
 
 `SetCommandParser` is implemented as such:
 
@@ -827,8 +826,10 @@ public class SetCommandParser implements Parser<SetCommand> {
 }
 ----
 
-* `SetCommand` inherits the abstract `Command` class. After `execute()` is called in `SetCommand`, the tag colour is set through the logic portions of `ModelManager` and `AddressBook`, then
-lastly changes `tagColour` attribute within the `Tag` object itself. +
+`SetCommand` inherits the abstract `Command` class. After `execute()` is called in `SetCommand`, the tag colour is set through the logic portions of `ModelManager` and `AddressBook`, then
+lastly changes `tagColour` attribute within the `Tag` object itself. It also posts an event in `SetCommand`, to which
+its handler in `PersonCard` responds and performs the UI update. +
+
 
 `SetCommand` is implemented in this way:
 
@@ -847,17 +848,21 @@ public class SetCommand extends Command {
 
     @Override
     public CommandResult execute() {
-    // ...set colour logic...
+    requireNonNull(model);
+        boolean isTagValid = model.setTagColour(tagToSet, tagColour);
+        //...check for valid tagName code....
+        EventsCenter.getInstance().post(new ChangeTagColourEvent(tagToSet.getTagName(), tagColour));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, tagToSet.toString(), tagColour));
     }
-
 }
 ----
 
-* The following sequence diagram shows how the set command operation works:
-<image>
+The following sequence diagram shows how the set command operation works:
+
+image::SetTagCommandSequence.png[width="800"]
 
 ===== Design Considerations
-====== Aspect: Implementation of `UndoableCommand`
+====== Aspect: Implementation of `Command` vs  `UndoableCommand`
 
 * **Alternative 1 (current choice):** Inherit from `Command`.
 ** Pros: Does not involve complicated undo/redo tests, simple and quicker implementation,
@@ -875,12 +880,13 @@ out the colour they would like to change their tag to; it is a short command, es
 ==== Team Display Bar
 ===== Current Implementation
 
-* The Team Display Bar is implemented as `TeamDisplay` in the UI Component and renders `TeamDisplay.fxml`.
-* It is called from `MainWindow` and will be highlighting
-the current team that has been selected in the Command Line Interface by the user.
-* It calls the `Team` model and displays the `Person` cards associated with that `Team`.
-* It contains event handler methods such as handleShowNewTeamEvent(), handleHighlightSelectedTeamEvent(),
-and handleDeselectTeamEvent().
+The Team Display Bar is implemented as `TeamDisplay` in the UI Component and renders `TeamDisplay.fxml`.
+It is called from `MainWindow` and will be highlighting
+the current team that has been selected in the Command Line Interface by the user. +
+
+It calls the `Team` model and displays the `Person` cards associated with that `Team`.
+It contains event handler methods such as handleShowNewTeamEvent(), handleHighlightSelectedTeamEvent(),
+and handleDeselectTeamEvent(), which update the display accordingly
 
 Code snippet from 'TeamDisplay' to show initialisation of UI component and event handlers:
 
@@ -930,9 +936,9 @@ public class TeamDisplay extends UiPart<Region> {
 ==== Player Details Pane
 ===== Current Implementation
 
-* The `Player Details` pane is implemented as `PlayerDetails` in the UI Component. It is called from `PlayerListPanel`.
-* It renders `PlayerDetails.fxml` and displays the selected `PersonCard`.
-* It calls the `Person` model and displays the fields in the `Person` model that are not displayed in the left panel.
+The `Player Details` pane is implemented as `PlayerDetails` in the UI Component.
+It is called from `PlayerListPanel`. It renders `PlayerDetails.fxml` and displays the selected `PersonCard`.
+It calls the `Person` model and displays the fields in the `Person` model that are not displayed in the left panel.
 
 Code snippet from 'PlayerDetails' to show initialisation of UI component:
 
@@ -964,17 +970,40 @@ place to look at after selection of a person card.
 ** Cons: It can only be implemented in v2.0 due to time constraints in development.
 // end::playerDetails[]
 
-==== Change Theme Command `[coming in v1.5]`
+// tag::changeThemeCommand[]
+==== Change Theme Command `[since v1.5]`
 ===== Current Implementation
 
-* The `ChangThemeCommand` is a new feature that allows user to change the current theme to another theme.
-* New css classes are implemented to accommodate the new themes.
-* The `MainWindow` class is also changed to allow for switch cases depending on which theme is selected. +
+The `ChangeThemeCommand` is a new feature that allows user to change the current theme to another theme. A new css class is implemented to accommodate the new theme, LightTheme.
+The `MainWindow` class is also changed to contain a handleChangeThemeRequestEvent() method which is an event handler to `setAddressBookTheme`,
+which is a method in `UserPrefs`. +
 Code snippet from 'ChangThemeCommand':
 
 [source, java]
 ----
-//code snippet
+public class ChangeThemeCommand extends Command {
+
+    public ChangeThemeCommand(String theme) {
+            this.theme = theme.trim();
+    }
+
+   @Override
+    public CommandResult execute() throws CommandException {
+        if (!isValidTheme(this.theme)) {
+            throw new CommandException(Messages.MESSAGE_INVALID_THEME);
+        }
+        if ((MainWindow.getCurrentTheme()).contains(this.theme)) {
+            throw new CommandException("Theme is already set to " + this.theme + "!");
+        }
+        EventsCenter.getInstance().post(new ChangeThemeEvent(this.theme));
+        return new CommandResult(String.format(MESSAGE_THEME_SUCCESS, this.theme));
+    }
+
+    private boolean isValidTheme(String theme) {
+        return theme.equals("Light") || theme.equals("Dark");
+    }
+
+}
 ----
 
 ===== Design Considerations
