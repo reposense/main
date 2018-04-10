@@ -31,7 +31,9 @@
         } else {
             remark.setText("Remarks: " + person.getRemark().value);
         }
+        personBeforeChange = this.person;
     }
+
 ```
 ###### /java/seedu/address/logic/parser/TogglePrivacyCommandParser.java
 ``` java
