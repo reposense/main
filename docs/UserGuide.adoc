@@ -217,7 +217,7 @@ The table below explains the correct inputs for the parameters.
 |j/JERSEY_NUMBER| Player's jersey number| j/17
 |ra/RATING| Player's performance rating (Any integer from 1 to 5)| ra/5
 |po/POSITION| Player's postion (1 for Striker, 2 for Midfiled, 3 for Defender, 4 for Goalkeeper)| po/1
-|av/AVATAR| Filepath for avatar image file. Eg. C:\image.png (for Windows) or /User/username/path/to/image.jpg(for MacOS)| i/C:\image.png  i//User/username/path/to/image.jpg
+|av/AVATAR| Filepath for avatar image file. Eg. C:\image.png (for Windows) or /User/username/path/to/image.jpg(for MacOS)| av/C:\image.png  av//User/username/path/to/image.jpg
 |t/TAG| Your tag for the player| t/Injured
 
 |=========================================================
