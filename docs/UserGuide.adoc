@@ -392,6 +392,7 @@ Displays the list of all players and selects the 2nd player in that list.
 `select 1` +
 Finds a player named Betsy and selects the 1st player in the results of the `find` command.
 
+// tag::team[]
 === Team Related Commands
 
 ==== Creating a team: `create` `[Since v1.2]`
@@ -509,6 +510,7 @@ List all players in the team "Arsenal".
 
 * `view Liverpool` +
 List all players in the team "Liverpool".
+// end::team[]
 
 [NOTE]
 ====
@@ -569,6 +571,7 @@ is for you.
 Alias: `sb` +
 Format: `showBest`
 
+// tag::teamin2.0[]
 ==== Setting an upcoming match with an opposing team: `setmatch` `[Coming in v2.0]`
 
 With this command, it gives you a convenient way to keep track of the upcoming match of a team.
@@ -612,6 +615,7 @@ Here are a few valid examples on how you can use the `create` command:
 * `view Arsenal`
 * `nextmatch Arsenal` +
 Displays the list of players in team "Arsenal" and view the next upcoming match for "Arsenal".
+// end::teamin2.0[]
 
 ==== Scheduling trainings for team `schedule` `[Coming in v2.0]`
 
@@ -626,6 +630,7 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 *Q*: How do I transfer my data to another Computer? +
 *A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous MTM folder.
 
+// tag::commandsummary[]
 == Command Summary
 
 Just a quick reference sheet for all your needs. Never forget how to use MTM ever again.
@@ -766,3 +771,4 @@ d|List all the players
 |toggleprivacy 2 a/
 
 |===
+// end::commandsummary[]
