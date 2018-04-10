@@ -541,6 +541,26 @@ public class PlayerDetails extends UiPart<Region> {
     private Label remark;
 
 ```
+###### /java/seedu/address/ui/PlayerDetails.java
+``` java
+    @Subscribe
+    private void handlePersonDetailsChangedEvent(PersonDetailsChangedEvent event) {
+        phone.setText(event.getPerson().getPhone().toString());
+        address.setText(event.getPerson().getAddress().toString());
+        email.setText(event.getPerson().getEmail().toString());
+        remark.setText("Remarks: " + event.getPerson().getRemark().toString());
+    }
+
+    @Subscribe
+    private void handlePersonDetailsChangedNoParamEvent(PersonDetailsChangedNoParamEvent event) {
+        phone.setText(person.getPhone().toString());
+        address.setText(person.getAddress().toString());
+        email.setText(person.getEmail().toString());
+        remark.setText("Remarks: " + person.getRemark().toString());
+    }
+}
+
+```
 ###### /java/seedu/address/ui/MainWindow.java
 ``` java
         currentTheme = "view/" + prefs.getAddressBookTheme();
@@ -808,6 +828,18 @@ public class ChangeThemeEvent extends BaseEvent {
     }
 }
 ```
+###### /java/seedu/address/commons/events/ui/PersonDetailsChangedNoParamEvent.java
+``` java
+public class PersonDetailsChangedNoParamEvent extends BaseEvent {
+
+    public PersonDetailsChangedNoParamEvent() { }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
+}
+```
 ###### /java/seedu/address/logic/parser/SetCommandParser.java
 ``` java
 public class SetCommandParser implements Parser<SetCommand> {
@@ -974,9 +1006,14 @@ public class ChangeThemeCommand extends Command {
 ``` java
         EventsCenter.getInstance().post(new ClearTeamsEvent());
 ```
+###### /java/seedu/address/logic/commands/EditCommand.java
+``` java
+        EventsCenter.getInstance().post(new PersonDetailsChangedEvent(editedPerson));
+```
 ###### /java/seedu/address/logic/commands/UndoCommand.java
 ``` java
         EventsCenter.getInstance().post(new UndoClearTeamsEvent());
+        EventsCenter.getInstance().post(new PersonDetailsChangedNoParamEvent());
 ```
 ###### /java/seedu/address/storage/XmlAdaptedTeam.java
 ``` java
