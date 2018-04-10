@@ -12,6 +12,7 @@ import org.junit.Test;
 import seedu.address.logic.commands.ViewCommand;
 import seedu.address.model.team.TeamName;
 
+//@@author jordancjq
 public class ViewCommandParserTest {
 
     private static final String MESSAGE_INVALID_FORMAT = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
