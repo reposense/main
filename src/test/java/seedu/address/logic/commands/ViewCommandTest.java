@@ -5,7 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_ARSENAL;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_CHELSEA;
-import static seedu.address.testutil.TypicalTeams.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalTeams.getTypicalAddressBookWithPersonsAndTeams;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,7 +30,7 @@ public class ViewCommandTest {
     @Rule
     public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalAddressBookWithPersonsAndTeams(), new UserPrefs());
 
     @Test
     public void constructor_nullTeam_throwsNullPointerException() {
