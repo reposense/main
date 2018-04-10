@@ -28,16 +28,16 @@ public class SampleDataUtil {
 
     public static Person[] getSamplePersons() {
         return new Person[] {
-            new Person(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
+            new Person(new Name("Aaron Ramsey"), new Phone("87438807"), new Email("aramsey@example.com"),
                 new Address("Blk 30 Geylang Street 29, #06-40"), new Remark("Sign him for one more year"),
                 new TeamName("Arsenal"),
                 getTagSet("redCard"), new Rating("3"), new Position("1"), new JerseyNumber("2"),
                     new Avatar("<UNSPECIFIED>")),
-            new Person(new Name("Bernice Yu"), new Phone("99272758"), new Email("berniceyu@example.com"),
+            new Person(new Name("Hector Moruno"), new Phone("99272758"), new Email("hectorm@example.com"),
                 new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"), new Remark(""), new TeamName("Arsenal"),
                 getTagSet("colleagues", "friends"), new Rating("1"), new Position("1"), new JerseyNumber("2"),
                     new Avatar("<UNSPECIFIED>")),
-            new Person(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
+            new Person(new Name("Cesc Fabregas"), new Phone("93210283"), new Email("cescfabregas@example.com"),
                 new Address("Blk 11 Ang Mo Kio Street 74, #11-04"), new Remark(""), new TeamName("Chelsea"),
                 getTagSet("yellowCard"), new Rating("4"), new Position("1"), new JerseyNumber("2"),
                     new Avatar("<UNSPECIFIED>")),
@@ -46,7 +46,7 @@ public class SampleDataUtil {
                     new TeamName("Chelsea"), getTagSet("injured"),
                     new Rating("0"), new Position("1"), new JerseyNumber("2"),
                     new Avatar("<UNSPECIFIED>")),
-            new Person(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
+            new Person(new Name("Irfan Fandi"), new Phone("92492021"), new Email("irfan@example.com"),
                 new Address("Blk 47 Tampines Street 20, #17-35"), new Remark(""), new TeamName("Chelsea"),
                 getTagSet("badAttitude"),
                     new Rating("0"), new Position("1"), new JerseyNumber("2"),
