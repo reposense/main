@@ -7,9 +7,10 @@ import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
 //@@author jordancjq
 /**
  * Represents a Team's name in the application.
- * Guarantees: imm utable; is valid as declared in {@link #isValidName(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
  */
 public class TeamName {
+
     public static final String MESSAGE_TEAM_NAME_CONSTRAINTS =
             "Team name should only contain alphanumeric characters and spaces,"
             + " and it should not be blank or consist of only numbers";
