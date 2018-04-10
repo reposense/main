@@ -142,6 +142,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     //@@author
+    //@@author Codee
     @Override
     public boolean setTagColour(Tag tag, String colour) {
         ObservableList<Tag> allTags = addressBook.getTagList();
@@ -159,6 +160,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
         return isTagValid;
     }
+    //@@author
 
     @Override
     public ObservableList<Team> getInitTeamList() {

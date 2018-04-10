@@ -35,7 +35,7 @@ public class SampleDataUtil {
                     new Avatar("<UNSPECIFIED>")),
             new Person(new Name("Hector Moruno"), new Phone("99272758"), new Email("hectorm@example.com"),
                 new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"), new Remark(""), new TeamName("Arsenal"),
-                getTagSet("colleagues", "friends"), new Rating("1"), new Position("1"), new JerseyNumber("2"),
+                getTagSet("fastRunner", "goodAttitude"), new Rating("1"), new Position("1"), new JerseyNumber("2"),
                     new Avatar("<UNSPECIFIED>")),
             new Person(new Name("Cesc Fabregas"), new Phone("93210283"), new Email("cescfabregas@example.com"),
                 new Address("Blk 11 Ang Mo Kio Street 74, #11-04"), new Remark(""), new TeamName("Chelsea"),

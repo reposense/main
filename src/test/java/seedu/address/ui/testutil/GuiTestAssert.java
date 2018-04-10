@@ -77,6 +77,7 @@ public class GuiTestAssert {
         case "goodAttitude":
         case "badAttitude":
         case "injured":
+        case "fastRunner":
             return "teal";
 
         default:
