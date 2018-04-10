@@ -354,7 +354,9 @@ Alias: <code>u</code></p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>There are a few commands that can be undoable: commands that modify MTM&#8217;s content (<code>add</code>, <code>delete</code>, <code>edit</code> and <code>clear</code>).</p>
+<p>There are a few commands that can be undoable: commands that modify MTM&#8217;s content that are related to players or teams<br>
+Player related commands: <code>add</code>, <code>delete</code>, <code>edit</code>, <code>clear</code>, <code>remark</code><br>
+Team related commands: <code>create</code>, <code>assign</code>, <code>remove</code>, <code>rename</code></p>
 </div>
 </td>
 </tr>
@@ -455,7 +457,7 @@ Alias: <code>c</code></p>
 <p>This is the command that you will be using most frequently, especially with dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the <code>add</code> command.</p>
 </div>
 <div class="paragraph">
-<p>Format: <code>add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]&#8230;&#8203;</code><br>
+<p>Format: <code>add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]&#8230;&#8203;</code><br>
 Alias: <code>a</code></p>
 </div>
 <div class="paragraph">
@@ -516,11 +518,6 @@ Alias: <code>a</code></p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">po/1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">r/REMARK</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Your remark for the player</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">r/My best player</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">t/TAG</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Your tag for the player</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">t/Injured</p></td>
@@ -565,9 +562,9 @@ A player can have any number of tags (including 0).
 Adds a player named <code>Mo Salah</code> with email <code>mo@soccer.com</code>.</p>
 </li>
 <li>
-<p><code>add n/Ronaldo p/92331322 e/ronaldo@soccer.com a/Portugal tm/Real Madrid j/17 ra/5 po/1 r/Always play him</code><br>
-Adds a player named Ronaldo with phone number <code>92331322</code>, email <code>ronaldo@soccer.com</code>, address <code>Portugal</code>,
-team <code>Real Madrid</code>, jersey number <code>17</code>, rating <code>5</code>, position Striker, with remark <code>"Always play him"</code>.</p>
+<p><code>add n/Ronaldo p/92331322 e/ronaldo@soccer.com a/Portugal tm/Real Madrid j/17 ra/5 po/1<br>
+Adds a player named Ronaldo with phone number `92331322</code>, email <code>ronaldo@soccer.com</code>, address <code>Portugal</code>,
+team <code>Real Madrid</code>, jersey number <code>17</code>, rating <code>5</code>, and position Striker.</p>
 </li>
 </ul>
 </div>
@@ -578,7 +575,7 @@ team <code>Real Madrid</code>, jersey number <code>17</code>, rating <code>5</co
 <p>You may edit an existing player in MTM with the 'edit' command.</p>
 </div>
 <div class="paragraph">
-<p>Format: <code>edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [r/REMARKS] [t/TAG]&#8230;&#8203;</code><br>
+<p>Format: <code>edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]&#8230;&#8203;</code><br>
 Alias: <code>e</code></p>
 </div>
 <div class="sidebarblock">
@@ -689,7 +686,8 @@ Alias: <code>rm</code></p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>By leaving out <code>r/REMARK</code>, the command acts as a remark removal.</p>
+<p>By leaving out <code>r/REMARK</code>, the command acts as a remark removal.<br>
+Only use the <code>remark</code> command when you want to leave a remark, <code>add</code> or <code>edit</code> does not allow you to create a remark for the player.</p>
 </div>
 </td>
 </tr>
@@ -992,7 +990,7 @@ Display the list of players in team "Arsenal" and remove the team.</p>
 <p>Entered your team name wrongly or you need to update it to accordingly, you can use the <code>rename</code> command to help you make that change.</p>
 </div>
 <div class="paragraph">
-<p>Format: <code>rename TEAM_NAME tn/RENAME_TEAM_NAME</code><br>
+<p>Format: <code>rename TEAM_NAME tm/RENAME_TEAM_NAME</code><br>
 Alias: <code>rnt</code></p>
 </div>
 <div class="admonitionblock important">
@@ -1016,7 +1014,7 @@ Alias: <code>rnt</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>rename Arsenal tn/Neo Arsenal</code>
+<p><code>rename Arsenal tm/Neo Arsenal</code>
 Renames the current team "Arsenal" into "Neo Arsenal".</p>
 </li>
 </ul>
@@ -1028,7 +1026,7 @@ Renames the current team "Arsenal" into "Neo Arsenal".</p>
 <p>Have a player without a team, or have yet to assigned one during the addition of player into MTM, you can call <code>assign</code> command to assign that player to a particular team of your choice.</p>
 </div>
 <div class="paragraph">
-<p>Format: <code>assign tn/TEAM_NAME i/INDEX [INDEX]&#8230;&#8203;</code><br>
+<p>Format: <code>assign tm/TEAM_NAME i/INDEX [INDEX]&#8230;&#8203;</code><br>
 Alias: <code>at</code></p>
 </div>
 <div class="admonitionblock note">
@@ -1041,7 +1039,8 @@ Alias: <code>at</code></p>
 <div class="paragraph">
 <p>The index refers to the index number shown in the most recent listing.<br>
 The index <strong>must be a positive integer</strong> <code>1, 2, 3, &#8230;&#8203;</code><br>
-You can assign multiple players to a team by including more than one valid index.</p>
+You can assign multiple players to a team by including more than one valid index.<br>
+A player can only consist of 1 team, assigning a player that have an existing team, will be re-assigned the new team.</p>
 </div>
 </td>
 </tr>
@@ -1071,14 +1070,14 @@ You can assign multiple players to a team by including more than one valid index
 <p><code>list</code></p>
 </li>
 <li>
-<p><code>assign tn/Arsenal i/1 2 3</code><br>
+<p><code>assign tm/Arsenal i/1 2 3</code><br>
 View the full list of players in MTM and assign the player with index 1, 2, and 3 to team "Arsenal".</p>
 </li>
 <li>
 <p><code>find John</code></p>
 </li>
 <li>
-<p><code>assign tn/Liverpool i/1</code><br>
+<p><code>assign tm/Liverpool i/1</code><br>
 Find a player by the name of "John" and assign the player with index 1 to team "Liverpool".</p>
 </li>
 </ul>
@@ -1091,7 +1090,7 @@ Find a player by the name of "John" and assign the player with index 1 to team "
 </div>
 <div class="paragraph">
 <p>Format: <code>view TEAM_NAME</code><br>
-Alias: <code>v</code></p>
+Alias: <code>vt</code></p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -1122,6 +1121,21 @@ List all players in the team "Arsenal".</p>
 List all players in the team "Liverpool".</p>
 </li>
 </ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>Coming in v2.0</code><br>
+Details of your team will be displayed on the right panel when <code>view</code> command is executed.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -1414,13 +1428,13 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>add</code></strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>a</code></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>add n/NAME e/EMAIL tm/TEAM [p/PHONE_NUMBER] [a/ADDRESS] [j/JERSEY_NUMBER] [s/SCORE] [po/POSITION] [r/REMARKS] [t/TAG]&#8230;&#8203;</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>add n/Ronaldo e/ronaldo@soccer.com tm/Real Madrid p/92331322 a/Portugal j/17 s/999 po/Striker r/Always play him /tfamous</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>add n/NAME e/EMAIL [tm/TEAM] [p/PHONE_NUMBER] [a/ADDRESS] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]&#8230;&#8203;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>add n/Ronaldo e/ronaldo@soccer.com tm/Real Madrid p/92331322 a/Portugal j/17 po/Striker t/famous</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>edit</code></strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>e</code></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]&#8230;&#8203;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]&#8230;&#8203;</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>edit 2 n/James Lee e/jameslee@example.com</code></p></td>
 </tr>
 <tr>
@@ -1477,14 +1491,14 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>rename</code></strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>rnt</code></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rename TEAM_NAME tn/RENAME_TEAM_NAME</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rename Arsenal tn/Neo Arsenal</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rename TEAM_NAME tm/RENAME_TEAM_NAME</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rename Arsenal tm/Neo Arsenal</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>assign</code></strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>at</code></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>assign tn/TEAM_NAME i/INDEX [INDEX]&#8230;&#8203;</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>assign tn/Barcelona i/1 2 3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>assign tm/TEAM_NAME i/INDEX [INDEX]&#8230;&#8203;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>assign tm/Barcelona i/1 2 3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>view</code></strong></p></td>
@@ -1496,13 +1510,13 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>setmatch</code></strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>sm</code></strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>setmatch TEAM_NAME OPPONENT_TEAM_NAME DATE</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setmatch Arsenal Barcelona 23/05/2018</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><code>Coming in v2.0</code></code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>nextmatch</code></strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>nm</code></strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>nextmatch TEAM_NAME</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nextmatch Arsenal</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><code>Coming in v2.0</code></code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top" colspan="4"><p class="tableblock"><strong>Useful Commands</strong></p></td>
@@ -1526,7 +1540,7 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-10 08:15:01 UTC
+Last updated 2018-04-10 12:54:35 UTC
 </div>
 </div>
 </body>
