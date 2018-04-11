@@ -95,12 +95,4 @@ public class Avatar {
             LogsCenter.getLogger(Avatar.class).warning("placeholder image file missing");
         }
     }
-
-    /*
-    @Override
-   public int hashCode() {
-       return value.hashCode();
-    }
-    */
-
 }

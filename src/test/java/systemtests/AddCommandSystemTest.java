@@ -3,6 +3,8 @@ package systemtests;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.AVATAR_MAC_LINUX;
+import static seedu.address.logic.commands.CommandTestUtil.AVATAR_WINDOWS;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
@@ -29,8 +31,11 @@ import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_AVATAR_MAC_LINUX;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_AVATAR_WINDOWS;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_JERSEY_NUMBER_17;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_JERSEY_NUMBER_2;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
@@ -50,6 +55,8 @@ import static seedu.address.testutil.TypicalPersons.IDA;
 import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
 
 import org.junit.Test;
+
+import com.sun.javafx.PlatformUtil;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
@@ -84,9 +91,8 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
          */
         Avatar.setUpPlaceholderForTest();
         Person toAdd = AMY;
-        String command = "   " + AddCommand.COMMAND_WORD + "  " + NAME_DESC_AMY + "  " + PHONE_DESC_AMY + " "
-                + EMAIL_DESC_AMY + "   " + ADDRESS_DESC_AMY + "   " + TAG_DESC_FRIEND + " " + RATING_DESC_0
-                + "   " + POSITION_DESC_STRIKER + "   " + JERSEY_NUMBER_DESC_2;
+        String command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+                + TAG_DESC_FRIEND + RATING_DESC_0 + POSITION_DESC_STRIKER + JERSEY_NUMBER_DESC_2;
         assertCommandSuccess(command, toAdd);
 
         /* Case: undo adding Amy to the list -> Amy deleted */
@@ -172,6 +178,25 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
                 + POSITION_DESC_STRIKER + JERSEY_NUMBER_DESC_2;
         assertCommandSuccess(command, toAdd);
 
+        if (PlatformUtil.isWindows()) {
+            toAdd = new PersonBuilder().withName(VALID_NAME_BOB).withEmail(VALID_EMAIL_BOB)
+                    .withPhone(VALID_PHONE_AMY).withAddress(VALID_ADDRESS_AMY).withAvatar(VALID_AVATAR_WINDOWS)
+                    .withTags(VALID_TAG_FRIEND).withRating(VALID_RATING_0).withJerseyNumber(VALID_JERSEY_NUMBER_17)
+                            .build();
+            command = AddCommand.COMMAND_WORD + NAME_DESC_BOB + EMAIL_DESC_BOB + AVATAR_WINDOWS
+                    + PHONE_DESC_AMY + ADDRESS_DESC_AMY + RATING_DESC_0 + JERSEY_NUMBER_DESC_17 + POSITION_DESC_STRIKER
+                    + TAG_DESC_FRIEND;
+            assertCommandSuccess(command, toAdd);
+        } else if (PlatformUtil.isMac() || PlatformUtil.isLinux()) {
+            toAdd = new PersonBuilder().withName(VALID_NAME_BOB).withEmail(VALID_EMAIL_BOB)
+                    .withPhone(VALID_PHONE_AMY).withAddress(VALID_ADDRESS_AMY).withAvatar(VALID_AVATAR_MAC_LINUX)
+                    .withTags(VALID_TAG_FRIEND).withRating(VALID_RATING_0).withJerseyNumber(VALID_JERSEY_NUMBER_17)
+                    .build();
+            command = AddCommand.COMMAND_WORD + NAME_DESC_BOB + EMAIL_DESC_BOB + AVATAR_MAC_LINUX
+                    + PHONE_DESC_AMY + ADDRESS_DESC_AMY + RATING_DESC_0 + JERSEY_NUMBER_DESC_17 + POSITION_DESC_STRIKER
+                    + TAG_DESC_FRIEND;
+            assertCommandSuccess(command, toAdd);
+        }
 
         /* -------------------------- Perform add operation on the shown filtered list ------------------------------ */
 

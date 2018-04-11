@@ -38,5 +38,5 @@ public class AvatarTest {
         assertTrue(Avatar.isValidAvatar("/file/path/to/avatar.png")); //mac file path
         assertTrue(Avatar.isValidAvatar("C:\\file\\path\\avatar.png")); // windows file path
     }
-}
 
+}
