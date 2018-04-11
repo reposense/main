@@ -643,6 +643,7 @@ The `Team` component provides user with better organizational methods for organi
 ===== Current Implementation
 
 We achieved the implementation of `Team` component by introducing a `UniqueTeamList` into the application which consists of a list of `Team` objects.
+`UniqueTeamList` is similar in context to `UniquePersonList` in which it keeps a unique list of all the `Team` objects.
 `Team` objects consist of `TeamName` object, which is used to uniquely identify the team.
 `Team` inherits `UniquePersonList` object which stores the a list of unique `Person` objects, containing information of the player.
 
@@ -651,7 +652,7 @@ The class diagram below shoes the relationship between the related classes.
 //TODO: include class diagram of UniqueTeamList -> Team -> UniquePersonList
 //_Figure <>: Class Diagram of Team Components
 
-Code snippet from `Team.java` that shows the constructor of `Team`.
+Code snippet from `Team.java` that shows the constructor for `Team`.
 
 [source, java]
 ----
@@ -669,37 +670,100 @@ Since `Team` inherits the `UniquePersonList` class, we are able to store `Person
 By storing a list of players inside `Team` object, future enhancements can easily make use of the data to perform functions that requires quick access to all players in a team.
 However, this have created a coupling in which data made to the `changes made to `AddressBook.persons` needs to be updated in `Team` to maintain synchronicity.
 
-Code snippet from `
-
-An additional `TeamName` field is also added to `Person` so that the user can quickly determine the team the player is in.
-
-Code snippet from `<somefile>.java` that shows the propagation of details updated in `Person` from `addressbook` to the `Person` objects in `Team`.
+Code snippet from `AddressBook.java` that shows the propagation of details updated in `Person` from the full player list to the `Person` objects in `Team`.
 
 [source, java]
 ----
-    // placeholder
+public void updatePerson(Person target, Person editedPerson)
+            throws DuplicatePersonException, PersonNotFoundException {
+    requireNonNull(editedPerson);
+
+    /...syncEditedPerson initialisation...
+
+    if (!editedPerson.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+        teams.getTeam(editedPerson.getTeamName()).setPerson(target, editedPerson);
+    }
+    persons.setPerson(target, syncedEditedPerson);
+}
 ----
 
-Currently, with the `Team` mechanism, additional commands such as `create`, `remove`, and `editteam` gives the user basic functionality for team management. Additionally, commands like `assign`, `view`, `setmatch`, and `viewmatch` gives the user more practical uses in managing multiple teams.
+An additional `TeamName` field is also added to `Person` so that the user can quickly determine the team the player is in through the use of `PREDICATE`.
 
-The following sequence diagram illustrates the operation of the `Team` mechanism and some of its respective commands:
+Code snippet from `Person.java` that shows the `TeamName` field.
 
-_Figure : Sequence Diagram of `Team` mechanism_
+[source, java]
+----
+public class Person {
+
+    private final TeamName teamName;
+
+    public Person(Name name, Phone phone, Email email, Address address, Remark remark, TeamName teamName,
+                      Set<Tag> tags, Rating rating, Position position, JerseyNumber jerseyNumber, Avatar avatar) {
+            //...attributes initialisation...
+            this.teamName = teamName;
+    }
+
+    public TeamName getTeamName() {
+        return teamName;
+    }
+}
+----
+
+Code snippet from `ModelManager.java` that shows the use of filtering the person list using the `TeamName` field in `Person`.
+
+[source, java]
+----
+@Override
+public void updateFilteredPersonList(TeamName targetTeam) throws TeamNotFoundException {
+    requireNonNull(targetTeam);
+
+    List<Team> teamList = addressBook.getTeamList();
+
+    if (teamList.stream().anyMatch(target -> target.getTeamName().equals(targetTeam))) {
+        filteredPersons.setPredicate(t -> t.getTeamName().equals(targetTeam));
+    } else {
+        throw new TeamNotFoundException();
+    }
+}
+----
 
 ===== Design Considerations
 ====== Aspect: Implementation of `Team`
 
-* **Alternative 1 (current choice):** `Team` object stores the reference to `Person` objects that is also in `UniquePersonList` and `TeamName` is also an attribute of `Person`.
-** Pros: Provides an easier lookup of person belonging in which team without the need of iterating through the `UniqueTeamList` for a specific `Person`, and efficient way of listing all `Persons` in a `Team`.
-** Cons: Checks need to be done thoroughly to ensure that code does not break when changes are made, especially the synchronisation of `Person` details in `Team` and in `addressbook`.
+* **Alternative 1 (current choice):** `Team` object stores a `Person` object that is also in `UniquePersonList` and `TeamName` is also an attribute of `Person`.
+** Pros: Provides an easier lookup of person belonging in which team without the need of iterating through the `UniqueTeamList` for a specific `Person`, and provide ease of access to data for future enhancements.
+** Cons: Checks to ensure synchronicity need to be done thoroughly to ensure that player information is in sync between Team and full player list
 * **Alternative 2:** `Team` object is stored in `Person` object as an attribute.
 ** Pros: Logical thought process to include `Team` as an attribute.
 ** Cons: Excess storage wasted due to duplicated data of `Team` in every `Person`.
+// end::team[]
 
+// tag::teamfunction[]
 ==== Team Functions `since v1.4`
+
+To assist the user with manging teams, we have decided to use the design concept of Create-Read-Update-Delete (CRUD) to implement commands related to `Team`.
+This set of commands provide the basic necessities for the user to efficiently use our application.
+
 ===== Current Implementation
 
-// end::team[]
+Based on the principles of CRUD, we have created the commands that corresponds to each principles, namely, `create`, `view`, `rename` and `assign`, `remove`.
+With these commands, the application is ready to support the features that the application is designed to be used.
+
+Team-related commands that modifies the data in the application, such as `create`, `rename`, `assign`, and `remove`, inherits from `UndoableCommand` class which makes all these commands undoable.
+
+Each command has its own `Parser` to uniquely parse user input arguments for the commands, so that it is validated and the command understand what it should be doing.
+
+`create`: Creates a `Team`, so that other team-related commands can be executed.
+
+`view`: Views a `Team`, which shows all players in the team.
+
+`rename`: Renames a given `Team`.
+
+`assign`: Assign a set of `Person` to a specified `Team`.
+
+`remove`: Removes the given `Team`.
+
+// end::teamfunction[]
 
 === User Experience Enhancements
 
