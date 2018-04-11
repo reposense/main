@@ -17,18 +17,13 @@ endif::[]
 
 By: `F14-B1`      Since: `Mar 2018`      Licence: `MIT`
 
+// tag::introduction[]
 == Introduction
 My Team Manager (MTM) is a link:https://en.wikipedia.org/wiki/Command-line_interface[Command-Line Interface] (CLI) based address book application for *football team managers*.
 It is a one-stop solution to help you manage your player's contact details in an efficient and convenient manner.
 Using MTM, you can organize players into teams, view player statistics, and, generate player line-ups.
 
 Head to <<Quick Start>> to get started with My Team Manager!
-
-// My Team Manager (MTM) is for *football team managers* who prefer to conduct management of their teams on their computers.
-// This is a Command Line Interface (CLI) application where you will be able to enter and organise details
-// of the players you are managing. The players will be organised into their respective teams, and you can include details such
-// as their positions and demerits, so that you can easily pick the lineup for matches. +
-// Head to <<Quick Start>> to get started with My Team Manager!
 
 == Quick Start
 
@@ -55,6 +50,8 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 * *`exit`* : exits the app
 
 .  Refer to <<Features>> for details of each command.
+
+// end::introduction[]
 
 [[Features]]
 == Features
@@ -197,8 +194,9 @@ Format: `exit`
 
 === Player Related Commands
 
+// tag::addplayer[]
 ==== Adding a player: `add`
-This is the command that you will be using most frequently, especially with dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the `add` command.
+This is the command that you will be using most frequently, especially when dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the `add` command.
 
 Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [av/AVATAR] [t/TAG]...` +
 
@@ -241,7 +239,7 @@ team `Real Madrid`, jersey number `17`, rating `5`, and position Striker.
 
 ==== Editing a player : `edit`
 
-You may edit an existing player in MTM with the 'edit' command.
+If you made a mistake when adding a player, or if there's player information that needs updating, you may edit an existing player in MTM with the 'edit' command.
 
 Format: `edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...` +
 Alias: `e`
@@ -261,6 +259,7 @@ Edits the phone number and email address of the 1st player to be `91234567` and 
 * `edit 2 n/Betsy Crower t/` +
 Edits the name of the 2nd player to be `Betsy Crower` and clears all existing tags.
 
+// end::addplayer[]
 ==== Deleting a player : `delete`
 
 If you want to remove a player from MTM, you may use this command to delete the player.

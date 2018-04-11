@@ -23,7 +23,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.team.TeamName;
 
-//@@lithiumlkid
+//@@author lithiumlkid
 /**
  * Adds a player to the address book.
  */

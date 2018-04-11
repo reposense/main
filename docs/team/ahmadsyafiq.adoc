@@ -32,10 +32,9 @@ the forget.
 ** Documentation:
 *** Did cosmetic tweaks to existing contents of the User Guide: https://github.com/CS2103JAN2018-F14-B1/main/pull/53[#53]
 ** Community:
-*** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42]
-*** Contributed to forum discussions (examples:  https://github.com/nus-cs2103-AY1718S2/forum/issues/39[39], https://github.com[2], https://github.com[3], https://github.com[4])
-*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3])
-*** Some parts of the history feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2])
+*** PRs reviewed (with non-trivial review comments): https://github.com/CS2103JAN2018-F14-B1/main/pull/172[#172]
+*** Contributed to forum discussions (examples:  https://github.com/nus-cs2103-AY1718S2/forum/issues/39[39], https://github.com/nus-cs2103-AY1718S2/forum/issues/47[#47])
+*** Reported bugs and suggestions for other teams in the class (example:  https://github.com/CS2103JAN2018-F14-B3/main/issues/228[#228])
 ** Tools:
 *** Integrated a new Github plugin (CircleCI) to the team repo
 
@@ -48,9 +47,11 @@ _{you can add/remove categories in the list above}_
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-include::../UserGuide.adoc[tag=tab]
+include::../UserGuide.adoc[tag=introduction]
 
-include::../UserGuide.adoc[tag=add]
+include::../UserGuide.adoc[tag=addplayer]
+
+include::../UserGuide.adoc[tag=autocomplete]
 
 == Contributions to the Developer Guide
 
@@ -58,8 +59,7 @@ include::../UserGuide.adoc[tag=add]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-include::../DeveloperGuide.adoc[tag=tab]
+include::../DeveloperGuide.adoc[tag=autocomplete]
 
-include::../DeveloperGuide.adoc[tag=add]
+include::../DeveloperGuide.adoc[tag=enhancedadd]
 
-== Project:

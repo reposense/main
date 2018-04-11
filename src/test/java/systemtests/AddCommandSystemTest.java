@@ -237,6 +237,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
                 + INVALID_TAG_DESC + RATING_DESC_0 + POSITION_DESC_STRIKER + JERSEY_NUMBER_DESC_2;
         assertCommandFailure(command, Tag.MESSAGE_TAG_CONSTRAINTS);
 
+        //@@author lithiumlkid
         /* Case: invalid rating -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                  + INVALID_RATING_DESC + POSITION_DESC_STRIKER + JERSEY_NUMBER_DESC_2;

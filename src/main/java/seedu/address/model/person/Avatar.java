@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
 
-//@@lithiumlkid
+//@@author lithiumlkid
 /**
  * Represents a Player's avatar in the address book. Contains filepath to avatar image file.
  * Guarantees: immutable; is valid as declared in {@link #isValidAvatar(String)}
