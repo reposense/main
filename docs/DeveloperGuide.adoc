@@ -417,7 +417,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
-=== Additional Functions Enhancements
+=== Player-Related Enhancements
 
 // tag::remark[]
 ==== Remark Mechanism
@@ -621,6 +621,17 @@ If address book is empty, a `NoPlayerException` will be thrown by `sortBy` metho
 ** Cons: Sort order is lost when program exits. More memory is used to sort a list and reverse it after.
 // end::sorting[]
 
+// tag::showbestxi[]
+==== Show Best XI `[coming in v1.5]`
+===== Current Implementation
+
+The `showBest` command is able to show the current team's best 11 players. There is however functional implementation for this feature yet. Coming soon!
+
+===== Design Consideration
+// end::showbestxi[]
+
+=== Team-Related Enhancements
+
 // tag::team[]
 ==== Team Mechanism
 ===== Current Implementation
@@ -668,16 +679,7 @@ _Figure : Sequence Diagram of `Team` mechanism_
 ** Cons: Excess storage wasted due to duplicated data of `Team` in every `Person`.
 // end::team[]
 
-// tag::showbestxi[]
-==== Show Best XI `[coming in v1.5]`
-===== Current Implementation
-
-The `showBest` command is able to show the current team's best 11 players. There is however functional implementation for this feature yet. Coming soon!
-
-===== Design Consideration
-// end::showbestxi[]
-
-=== Usability Enhancements
+=== User Experience Enhancements
 
 // tag::autocomplete[]
 ==== Tab Autocomplete
@@ -806,75 +808,6 @@ public class Address {
 ** Pros: The current implementation is used, hence there is no additional code to ensure validity of unspecified input.
 ** Cons: Less flexibility is given to the user when adding a player into the application.
 // end::enhancedadd[]
-
-// tag::settagcolour[]
-==== Set Tag Colour feature `[since v1.1]`
-===== Current Implementation
-
-The `Set` Command is an entirely new command that allows the user to assign a colour to a specific tag.
-This mechanism is facilitated by the `SetCommandParser`, which creates and returns a new `SetCommand`.
-In `SetCommandParser`, which implements the `Parser` interface, it parses the arguments inputted into the CLI, and checks whether the arguments are valid.
-
-`SetCommandParser` is implemented as such:
-
-[source, java]
-----
-public class SetCommandParser implements Parser<SetCommand> {
-
-    public SetCommand parse(String args) throws ParseException {
-
-    // ...parse arguments and check for invalid arguments...
-  }
-}
-----
-
-`SetCommand` inherits the abstract `Command` class. After `execute()` is called in `SetCommand`, the tag colour is set through the logic portions of `ModelManager` and `AddressBook`, then
-lastly changes `tagColour` attribute within the `Tag` object itself. It also posts an event in `SetCommand`, to which
-its handler in `PersonCard` responds and performs the UI update. +
-
-
-`SetCommand` is implemented in this way:
-
-[source, java]
-----
-public class SetCommand extends Command {
-
-    private final Tag tagToSet;
-    private final String tagColour;
-
-    public SetCommand(Tag tag, String colour) {
-        requireNonNull(tag);
-        tagToSet = tag;
-        tagColour = colour;
-    }
-
-    @Override
-    public CommandResult execute() {
-    requireNonNull(model);
-        boolean isTagValid = model.setTagColour(tagToSet, tagColour);
-        //...check for valid tagName code....
-        EventsCenter.getInstance().post(new ChangeTagColourEvent(tagToSet.getTagName(), tagColour));
-        return new CommandResult(String.format(MESSAGE_SUCCESS, tagToSet.toString(), tagColour));
-    }
-}
-----
-
-The following sequence diagram shows how the set command operation works:
-
-image::SetTagCommandSequence.png[width="800"]
-
-===== Design Considerations
-====== Aspect: Implementation of `Command` vs  `UndoableCommand`
-
-* **Alternative 1 (current choice):** Inherit from `Command`.
-** Pros: Does not involve complicated undo/redo tests, simple and quicker implementation,
-lessen chances of mistakes made in implementation.
-** Cons: User cannot use the `undo/redo` command.
-* **Alternative 2 :** Inherit from `UndoableCommand`.
-** Pros: User can utilise the `undo/redo` command.
-** Cons: Hard for developers to implement extra tests, not very necessary as users can just as easily type
-out the colour they would like to change their tag to; it is a short command, especially with the `stc` alias.
-// end::settagcolour[]
 
 === UI Enhancements
 
@@ -1025,6 +958,76 @@ public class ChangeThemeCommand extends Command {
 ** Pros: User does not have to type anything to change the theme, so it might be more user friendly.
 ** Cons: Inconsistent with the rest of the application, which is CLI-based.
 // end::changeThemeCommand[]
+
+
+// tag::settagcolour[]
+==== Set Tag Colour feature `[since v1.1]`
+===== Current Implementation
+
+The `Set` Command is an entirely new command that allows the user to assign a colour to a specific tag.
+This mechanism is facilitated by the `SetCommandParser`, which creates and returns a new `SetCommand`.
+In `SetCommandParser`, which implements the `Parser` interface, it parses the arguments inputted into the CLI, and checks whether the arguments are valid.
+
+`SetCommandParser` is implemented as such:
+
+[source, java]
+----
+public class SetCommandParser implements Parser<SetCommand> {
+
+    public SetCommand parse(String args) throws ParseException {
+
+    // ...parse arguments and check for invalid arguments...
+  }
+}
+----
+
+`SetCommand` inherits the abstract `Command` class. After `execute()` is called in `SetCommand`, the tag colour is set through the logic portions of `ModelManager` and `AddressBook`, then
+lastly changes `tagColour` attribute within the `Tag` object itself. It also posts an event in `SetCommand`, to which
+its handler in `PersonCard` responds and performs the UI update. +
+
+
+`SetCommand` is implemented in this way:
+
+[source, java]
+----
+public class SetCommand extends Command {
+
+    private final Tag tagToSet;
+    private final String tagColour;
+
+    public SetCommand(Tag tag, String colour) {
+        requireNonNull(tag);
+        tagToSet = tag;
+        tagColour = colour;
+    }
+
+    @Override
+    public CommandResult execute() {
+    requireNonNull(model);
+        boolean isTagValid = model.setTagColour(tagToSet, tagColour);
+        //...check for valid tagName code....
+        EventsCenter.getInstance().post(new ChangeTagColourEvent(tagToSet.getTagName(), tagColour));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, tagToSet.toString(), tagColour));
+    }
+}
+----
+
+The following sequence diagram shows how the set command operation works:
+
+image::SetTagCommandSequence.png[width="800"]
+
+===== Design Considerations
+====== Aspect: Implementation of `Command` vs  `UndoableCommand`
+
+* **Alternative 1 (current choice):** Inherit from `Command`.
+** Pros: Does not involve complicated undo/redo tests, simple and quicker implementation,
+lessen chances of mistakes made in implementation.
+** Cons: User cannot use the `undo/redo` command.
+* **Alternative 2 :** Inherit from `UndoableCommand`.
+** Pros: User can utilise the `undo/redo` command.
+** Cons: Hard for developers to implement extra tests, not very necessary as users can just as easily type
+out the colour they would like to change their tag to; it is a short command, especially with the `stc` alias.
+// end::settagcolour[]
 
 == Documentation
 

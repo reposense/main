@@ -41,7 +41,7 @@ and *changeTheme* command.
 *** Constantly updated the README and UserGuide's application preview image. [https://github.com/CS2103JAN2018-F14-B1/main/pull/99[PR #99]][https://github.com/CS2103JAN2018-F14-B1/main/pull/160[PR #160]]
 
 ** Community:
-*** PRs Reviewed (with non trivial comments) [https://github.com/CS2103JAN2018-F14-B1/main/pull/95[PR #95]][https://github.com/CS2103JAN2018-F14-B1/main/pull/169[PR #169]]
+*** PRs Reviewed (with non trivial comments) [https://github.com/CS2103JAN2018-F14-B1/main/pull/95[PR #95]][https://github.com/CS2103JAN2018-F14-B1/main/pull/169[PR #169]][https://github.com/CS2103JAN2018-F14-B1/main/pull/175[PR #175]]
 
 == Contributions to the User Guide
 
