@@ -40,7 +40,7 @@ public class JerseyNumberTest {
     }
 
     @Test
-    public void isEqualJerseyNumber(){
+    public void isEqualJerseyNumber() {
         JerseyNumber x  = new JerseyNumber("0");
         JerseyNumber y = new JerseyNumber("0");
         assertTrue(x.equals(y) && y.equals(x));

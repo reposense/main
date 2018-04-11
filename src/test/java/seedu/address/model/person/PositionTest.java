@@ -41,7 +41,7 @@ public class PositionTest {
     }
 
     @Test
-    public void isEqualPosition(){
+    public void isEqualPosition() {
         Position x  = new Position("1");
         Position y = new Position("1");
         assertTrue(x.equals(y) && y.equals(x));

@@ -40,7 +40,7 @@ public class PhoneTest {
     }
 
     @Test
-    public void isEqualPhone(){
+    public void isEqualPhone() {
         Phone x  = new Phone("911");
         Phone y = new Phone("911");
         assertTrue(x.equals(y) && y.equals(x));

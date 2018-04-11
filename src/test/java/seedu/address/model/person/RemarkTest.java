@@ -32,7 +32,7 @@ public class RemarkTest {
     }
 
     @Test
-    public void isEqualRemark(){
+    public void isEqualRemark() {
         Remark x  = new Remark("Another Remark");
         Remark y = new Remark("Another Remark");
         assertTrue(x.equals(y) && y.equals(x));

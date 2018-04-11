@@ -36,7 +36,7 @@ public class AddressTest {
     }
 
     @Test
-    public void isEqualAddress(){
+    public void isEqualAddress() {
         Address x  = new Address("Blk 456, Den Road, #01-355");
         Address y = new Address("Blk 456, Den Road, #01-355");
         assertTrue(x.equals(y) && y.equals(x));

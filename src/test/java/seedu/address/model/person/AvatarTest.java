@@ -40,7 +40,7 @@ public class AvatarTest {
     }
 
     @Test
-    public void isEqualAvatar(){
+    public void isEqualAvatar() {
         Avatar x  = new Avatar("avatar.png");
         Avatar y = new Avatar("avatar.png");
         assertTrue(x.equals(y) && y.equals(x));

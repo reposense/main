@@ -40,7 +40,7 @@ public class NameTest {
     }
 
     @Test
-    public void isEqualName(){
+    public void isEqualName() {
         Name x  = new Name("peter");
         Name y = new Name("peter");
         assertTrue(x.equals(y) && y.equals(x));

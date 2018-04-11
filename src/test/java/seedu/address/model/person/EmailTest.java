@@ -61,7 +61,7 @@ public class EmailTest {
     }
 
     @Test
-    public void isEqualEmail(){
+    public void isEqualEmail() {
         Email x  = new Email("PeterJack_1190@example.com");
         Email y = new Email("PeterJack_1190@example.com");
         assertTrue(x.equals(y) && y.equals(x));
