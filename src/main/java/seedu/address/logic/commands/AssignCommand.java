@@ -32,7 +32,7 @@ public class AssignCommand extends UndoableCommand {
             + "Team of the player will be updated and will be added to team.\n"
             + "Only 1 team can be assigned to each player.\n"
             + "Parameters: "
-            + PREFIX_TEAM_NAME + "TEAM_NAME "
+            + "[TEAM_NAME] "
             + PREFIX_INDEX + "INDEX (must be a positive integer) "
             + "[INDEX]...\n"
             + "Example: " + COMMAND_WORD + " "
@@ -44,9 +44,13 @@ public class AssignCommand extends UndoableCommand {
             + "[INDEX]...";
 
     public static final String MESSAGE_SUCCESS = "Players successfully assigned to team.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the team";
+    public static final String MESSAGE_FAILURE = "Not all players have been successfully processed.";
+    public static final String MESSAGE_DUPLICATE_PERSON =
+            "\n%1$s: There is already the same player that exists in the team.";
+    public static final String MESSAGE_NO_TEAM_TO_UNASSIGN = "\n%1$s: Cannot unassign player that are not in a team.";
     public static final String MESSAGE_TEAM_TO_TEAM_SUCCESS = "\n%1$s has been assigned from %2$s to %3$s.";
     public static final String MESSAGE_UNSPECIFIED_TEAM_SUCCESS = "\n%1$s has been assigned from to %2$s.";
+    public static final String MESSAGE_UNASSIGN_TEAM_SUCCESS = "\n%1$s has been unassigned from %2$s.";
 
     private final TeamName targetTeam;
     private final List<Index> targetIndexes;
@@ -67,32 +71,48 @@ public class AssignCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         String successfulPlayerAssignedMessage = new String();
-        try {
-            for (Person person : personsToAssign) {
-                model.assignPersonToTeam(person, targetTeam);
-                if (person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
-                    successfulPlayerAssignedMessage += String.format(MESSAGE_UNSPECIFIED_TEAM_SUCCESS,
-                            person.getName().toString(), targetTeam.toString());
-                } else {
-                    successfulPlayerAssignedMessage += String.format(MESSAGE_TEAM_TO_TEAM_SUCCESS,
-                            person.getName().toString(), person.getTeamName().toString(), targetTeam.toString());
-                }
 
+        if (targetTeam.toString().equals(UNSPECIFIED_FIELD)) {
+            try {
+                for (Person person : personsToAssign) {
+                    model.unassignPersonFromTeam(person);
+                    successfulPlayerAssignedMessage += String.format(MESSAGE_UNASSIGN_TEAM_SUCCESS,
+                            person.getName().toString(), person.getTeamName().toString());
+                }
+            } catch (TeamNotFoundException tnfe) {
+                successfulPlayerAssignedMessage += String.format(MESSAGE_NO_TEAM_TO_UNASSIGN, tnfe.getMessage());
+                throw new CommandException(MESSAGE_FAILURE + successfulPlayerAssignedMessage);
             }
-            model.updateFilteredPersonList(targetTeam);
-        } catch (DuplicatePersonException e) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
-        } catch (TeamNotFoundException tnfe) {
-            throw new AssertionError("Impossible: Team should exist in this addressbook");
+        } else {
+            try {
+                for (Person person : personsToAssign) {
+                    model.assignPersonToTeam(person, targetTeam);
+                    if (person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+                        successfulPlayerAssignedMessage += String.format(MESSAGE_UNSPECIFIED_TEAM_SUCCESS,
+                                person.getName().toString(), targetTeam.toString());
+                    } else {
+                        successfulPlayerAssignedMessage += String.format(MESSAGE_TEAM_TO_TEAM_SUCCESS,
+                                person.getName().toString(), person.getTeamName().toString(), targetTeam.toString());
+                    }
+                }
+                model.updateFilteredPersonList(targetTeam);
+                EventsCenter.getInstance().post(new HighlightSelectedTeamEvent(targetTeam.toString()));
+            } catch (DuplicatePersonException e) {
+                successfulPlayerAssignedMessage += String.format(MESSAGE_DUPLICATE_PERSON, e.getMessage());
+                throw new CommandException(MESSAGE_FAILURE + successfulPlayerAssignedMessage);
+            } catch (TeamNotFoundException tnfe) {
+                throw new AssertionError("Impossible: Team should exist in this addressbook");
+            }
         }
 
-        EventsCenter.getInstance().post(new HighlightSelectedTeamEvent(targetTeam.toString()));
         return new CommandResult(MESSAGE_SUCCESS + successfulPlayerAssignedMessage);
     }
 
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
-        if (!model.getAddressBook().getTeamList().stream().anyMatch(t -> t.getTeamName().equals(targetTeam))) {
+
+        if (!targetTeam.toString().equals(UNSPECIFIED_FIELD)
+                && !model.getAddressBook().getTeamList().stream().anyMatch(t -> t.getTeamName().equals(targetTeam))) {
             throw new CommandException(Messages.MESSAGE_TEAM_NOT_FOUND);
         }
 
