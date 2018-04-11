@@ -73,10 +73,11 @@
 <li><a href="#showing-best-xi-players-code-showbest-code-code-coming-in-v2-0-code">3.5.1. Showing Best XI players: <code>showBest</code> <code>[Coming in v2.0]</code></a></li>
 <li><a href="#setting-an-upcoming-match-with-an-opposing-team-code-setmatch-code-code-coming-in-v2-0-code">3.5.2. Setting an upcoming match with an opposing team: <code>setmatch</code> <code>[Coming in v2.0]</code></a></li>
 <li><a href="#viewing-the-team-s-next-upcoming-match-code-nextmatch-code-code-coming-in-v2-0-code">3.5.3. Viewing the team&#8217;s next upcoming match: <code>nextmatch</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code">3.5.4. Scheduling trainings for team <code>schedule</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code">3.5.5. Sending reminder emails to players: <code>send</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code">3.5.6. Giving feedback to developers: <code>feedback</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#giving-demerit-to-players-based-on-performance-code-demerit-code-code-coming-in-v2-0-code">3.5.7. Giving demerit to players based on performance: <code>demerit</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#displaying-lineup-for-next-match-code-showlineup-code-code-coming-in-v2-0-code">3.5.4. Displaying lineup for next match: <code>showLineup</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code">3.5.5. Scheduling trainings for team <code>schedule</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code">3.5.6. Sending reminder emails to players: <code>send</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code">3.5.7. Giving feedback to developers: <code>feedback</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#giving-demerit-to-players-based-on-performance-code-demerit-code-code-coming-in-v2-0-code">3.5.8. Giving demerit to players based on performance: <code>demerit</code> <code>[Coming in v2.0]</code></a></li>
 </ul>
 </li>
 </ul>
@@ -1291,7 +1292,7 @@ Display the list of players in team "Arsenal" and set an upcoming match for Arse
 <div class="sect3">
 <h4 id="viewing-the-team-s-next-upcoming-match-code-nextmatch-code-code-coming-in-v2-0-code"><a class="link" href="#viewing-the-team-s-next-upcoming-match-code-nextmatch-code-code-coming-in-v2-0-code">3.5.3. Viewing the team&#8217;s next upcoming match: <code>nextmatch</code> <code>[Coming in v2.0]</code></a></h4>
 <div class="paragraph">
-<p>Easily determine the up and coming match with the team so that you never miss an important date.</p>
+<p>You can easily determine the up and coming match with the team so that you never miss an important date.</p>
 </div>
 <div class="paragraph">
 <p>Format: <code>nextmatch TEAM_NAME</code>
@@ -1313,7 +1314,7 @@ Alias: <code>nm</code></p>
 </table>
 </div>
 <div class="paragraph">
-<p>Here are a few valid examples on how you can use the <code>create</code> command:</p>
+<p>Here are a few valid examples on how you can use the <code>nextmatch</code> command:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1328,19 +1329,55 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 </div>
 </div>
 <div class="sect3">
-<h4 id="scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code"><a class="link" href="#scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code">3.5.4. Scheduling trainings for team <code>schedule</code> <code>[Coming in v2.0]</code></a></h4>
+<h4 id="displaying-lineup-for-next-match-code-showlineup-code-code-coming-in-v2-0-code"><a class="link" href="#displaying-lineup-for-next-match-code-showlineup-code-code-coming-in-v2-0-code">3.5.4. Displaying lineup for next match: <code>showLineup</code> <code>[Coming in v2.0]</code></a></h4>
+<div class="paragraph">
+<p>You can view the lineup for the current best 11 players.</p>
+</div>
+<div class="paragraph">
+<p>Format: <code>showLineup TEAM_NAME</code>
+Alias: <code>sl</code></p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="title"><strong>What to expect</strong></div>
+<div class="paragraph">
+<p>The panel on the right will show the avatars of the 11 players that will be playing for the next match.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Here is an valid example on how you can use the <code>showLineup</code> command:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>showLineup Arsenal</code><br>
+Displays the 11 main players that will be playing for the next match.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code"><a class="link" href="#scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code">3.5.5. Scheduling trainings for team <code>schedule</code> <code>[Coming in v2.0]</code></a></h4>
 
 </div>
 <div class="sect3">
-<h4 id="sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code"><a class="link" href="#sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code">3.5.5. Sending reminder emails to players: <code>send</code> <code>[Coming in v2.0]</code></a></h4>
+<h4 id="sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code"><a class="link" href="#sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code">3.5.6. Sending reminder emails to players: <code>send</code> <code>[Coming in v2.0]</code></a></h4>
 
 </div>
 <div class="sect3">
-<h4 id="giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code"><a class="link" href="#giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code">3.5.6. Giving feedback to developers: <code>feedback</code> <code>[Coming in v2.0]</code></a></h4>
+<h4 id="giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code"><a class="link" href="#giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code">3.5.7. Giving feedback to developers: <code>feedback</code> <code>[Coming in v2.0]</code></a></h4>
 
 </div>
 <div class="sect3">
-<h4 id="giving-demerit-to-players-based-on-performance-code-demerit-code-code-coming-in-v2-0-code"><a class="link" href="#giving-demerit-to-players-based-on-performance-code-demerit-code-code-coming-in-v2-0-code">3.5.7. Giving demerit to players based on performance: <code>demerit</code> <code>[Coming in v2.0]</code></a></h4>
+<h4 id="giving-demerit-to-players-based-on-performance-code-demerit-code-code-coming-in-v2-0-code"><a class="link" href="#giving-demerit-to-players-based-on-performance-code-demerit-code-code-coming-in-v2-0-code">3.5.8. Giving demerit to players based on performance: <code>demerit</code> <code>[Coming in v2.0]</code></a></h4>
 
 </div>
 </div>
@@ -1540,7 +1577,7 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-11 06:31:27 UTC
+Last updated 2018-04-11 12:33:36 UTC
 </div>
 </div>
 </body>
