@@ -39,4 +39,12 @@ public class PositionTest {
         assertTrue(Position.isValidPosition("1")); // within range
         assertTrue(Position.isValidPosition("4"));
     }
+
+    @Test
+    public void isEqualPosition(){
+        Position x  = new Position("1");
+        Position y = new Position("1");
+        assertTrue(x.equals(y) && y.equals(x));
+        assertTrue(x.hashCode() == y.hashCode());
+    }
 }

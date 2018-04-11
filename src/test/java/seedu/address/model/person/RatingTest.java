@@ -38,4 +38,12 @@ public class RatingTest {
         assertTrue(Rating.isValidRating("1")); // within range
         assertTrue(Rating.isValidRating("5"));
     }
+
+    @Test
+    public void isEqualRating(){
+        Rating x  = new Rating("1");
+        Rating y = new Rating("1");
+        assertTrue(x.equals(y) && y.equals(x));
+        assertTrue(x.hashCode() == y.hashCode());
+    }
 }

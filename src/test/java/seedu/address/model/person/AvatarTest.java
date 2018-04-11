@@ -39,4 +39,12 @@ public class AvatarTest {
         assertTrue(Avatar.isValidAvatar("C:\\file\\path\\avatar.png")); // windows file path
     }
 
+    @Test
+    public void isEqualAvatar(){
+        Avatar x  = new Avatar("avatar.png");
+        Avatar y = new Avatar("avatar.png");
+        assertTrue(x.equals(y) && y.equals(x));
+        assertTrue(x.hashCode() == y.hashCode());
+    }
+
 }

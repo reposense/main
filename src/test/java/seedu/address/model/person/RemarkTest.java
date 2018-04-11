@@ -30,4 +30,12 @@ public class RemarkTest {
         assertFalse(remark.equals(differentRemark));
 
     }
+
+    @Test
+    public void isEqualRemark(){
+        Remark x  = new Remark("Another Remark");
+        Remark y = new Remark("Another Remark");
+        assertTrue(x.equals(y) && y.equals(x));
+        assertTrue(x.hashCode() == y.hashCode());
+    }
 }

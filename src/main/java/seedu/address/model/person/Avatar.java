@@ -95,4 +95,16 @@ public class Avatar {
             LogsCenter.getLogger(Avatar.class).warning("placeholder image file missing");
         }
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Avatar // instanceof handles nulls
+                && this.value.equals(((Avatar) other).value)); // state check
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
 }

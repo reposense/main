@@ -38,5 +38,13 @@ public class JerseyNumberTest {
         assertTrue(JerseyNumber.isValidJerseyNumber("0")); // within 0 - 99
         assertTrue(JerseyNumber.isValidJerseyNumber("99"));
     }
+
+    @Test
+    public void isEqualJerseyNumber(){
+        JerseyNumber x  = new JerseyNumber("0");
+        JerseyNumber y = new JerseyNumber("0");
+        assertTrue(x.equals(y) && y.equals(x));
+        assertTrue(x.hashCode() == y.hashCode());
+    }
 }
 
