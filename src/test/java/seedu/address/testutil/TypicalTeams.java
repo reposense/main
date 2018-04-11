@@ -1,8 +1,5 @@
 package seedu.address.testutil;
 
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_ARSENAL;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_BARCELONA;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +8,6 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.team.Team;
-import seedu.address.model.team.TeamName;
 import seedu.address.model.team.exceptions.DuplicateTeamException;
 
 //@@author jordancjq
@@ -20,12 +16,12 @@ import seedu.address.model.team.exceptions.DuplicateTeamException;
  */
 public class TypicalTeams {
 
-    public static final Team CHELSEA = new Team(new TeamName("Chelsea"));
-    public static final Team LIVERPOOL = new Team(new TeamName("Liverpool"));
+    public static final Team CHELSEA = new TeamBuilder().withTeamName("Chelsea").build();
+    public static final Team LIVERPOOL = new TeamBuilder().withTeamName("Liverpool").build();
 
     // Manually added - Team's details found in {@code CommandTestUtil}
-    public static final Team ARSENAL = new Team(new TeamName(VALID_TEAM_ARSENAL));
-    public static final Team BARCELONA = new Team(new TeamName(VALID_TEAM_BARCELONA));
+    public static final Team ARSENAL = new TeamBuilder().withTeamName("Arsenal").build();
+    public static final Team BARCELONA = new TeamBuilder().withTeamName("Barcelona").build();
 
     private TypicalTeams() {} // prevents instantiation
 
@@ -47,7 +43,7 @@ public class TypicalTeams {
     /**
      * Returns an {@code AddressBook} with all the typical teams and persons.
      */
-    public static AddressBook getTypicalAddressBook() {
+    public static AddressBook getTypicalAddressBookWithPersonsAndTeams() {
         AddressBook ab = new AddressBook();
         for (Team team : getTypicalTeams()) {
             try {
@@ -64,6 +60,7 @@ public class TypicalTeams {
                 throw new AssertionError("not possible");
             }
         }
+
         return ab;
     }
 

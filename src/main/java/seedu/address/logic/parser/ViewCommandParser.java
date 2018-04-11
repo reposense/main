@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.ViewCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.team.TeamName;
@@ -25,7 +26,12 @@ public class ViewCommandParser implements Parser<ViewCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewCommand.MESSAGE_USAGE));
         }
 
-        TeamName targetTeam = new TeamName(trimmedArgs);
+        TeamName targetTeam;
+        try {
+            targetTeam = ParserUtil.parseTeamName(trimmedArgs);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
 
         return new ViewCommand(targetTeam);
     }
