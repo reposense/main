@@ -420,74 +420,67 @@ image::UndoRedoActivityDiagram.png[width="650"]
 === Player-Related Enhancements
 
 // tag::remark[]
-==== Remark Mechanism `since v1.1`
+==== Remark a Player `since v1.1`
+
+Leaving a remark would be ideal for the user to note down any important detail of a player that is useful in the future.
+Remarks given can be in any format and therefore would not look good if it was done using tags instead, as tags are used with minimal words.
+
 ===== Current Implementation
-The remark mechanism is facilitated by `RemarkCommand`. The mechanism allows user to perform the adding, editing, and deleting of a single remark to a specified `Person` via the `INDEX` from the list shown in the `UI`. The field `remark` is similar to the other fields of `Person`, hence some of its logic in `AddCommand.java` and `EditCommand.java` are updated.
+The remark mechanism is facilitated by `RemarkCommand` and it inherits from `UndoableCommand`, making it undoable.
+The mechanism allows user to perform the adding, editing, and deleting of a single remark to a specified `Person` via the `INDEX` from the list shown in the `UI`.
+The field `remark` is similar to the other fields of `Person`, hence some of its logic in `AddCommand.java` and `EditCommand.java` are updated.
 
-The mechanism uses the command `remark` and a `r/` prefix to add, edit, and delete a single remark of a `Person`. When the user leaves the remark as empty after the `r/` prefix, it is an indication to delete the remark, and when it is valid, it either create a new remark for that `Person` or overwrites the current existing remark.
+The mechanism uses the command `remark` and a `r/` prefix to add, edit, and delete a single remark of a `Person`.
+When the user leaves the remark as empty after the `r/` prefix, it is an indication to delete the remark, and when it is valid, it either create a new remark for that `Person` or overwrites the current existing remark.
+Only one `remark` is saved at a time. If the user `remark` on the same person, it will be overwritten.
 
-The following sequence diagram illustrates the operation of the `remark` command:
+The field `remark` is found in `Person`, and it is not modified via `add` or `edit` commands.
+All functions related to `remark` is done strictly via the `remark` command.
 
-//<insert sequence diagram>
+The sequence diagram below illustrates the operation of the `remark` command:
 
-_Figure : Sequence Diagram of `remark` Command_
+//TODO <insert sequence diagram for remark command>
 
-The `remark` field is not required when adding or editing a `Person`, however it will be initialized to an empty string or retrieved to fit the implementation of the other fields.
+//_Figure : Sequence Diagram of `remark` Command_
 
-Code snippet from `AddCommandParser.java` that shows that remark is initialized as empty.
+The `remark` field is not required when adding or editing a `Person`, and it will be initialized to an empty string or retrieved to fit the implementation of the other fields.
+
+Code snippet from `AddCommandParser.java` that shows how remark is initialized as empty.
 
 [source, java]
 ----
 public AddCommand parse(String args) throws ParseException {
 
-    // ... logic code ...
+    /...AddCommandParser code...
 
-    try {
+    Remark remark = new Remark("");
 
-        // ... logic code ...
+    Person person = new Person(name, phone, email, address, remark, teamName, tagList, rating, position,
+                        jerseyNumber, avatar);
 
-        Remark remark = new Remark("");
-
-        Person person = new Person(name, phone, email, address, remark, tagList);
-
-        return new AddCommand(person);
-    } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
-    }
-
-    // ... logic code ...
+    //...AddCommandParser code...
 }
 ----
 
-Code snippet from `EditCommand.java` that shows that remark is being retrieved.
+Code snippet from `EditCommand.java` that shows how remark is being retrieved.
 
 [source, java]
 ----
 private static Person createEditedPerson(Person personToEdit,
     EditPersonDescriptor editPersonDescriptor) {
 
-    // ... logic code ...
+    //...EditCommand code...
 
-    Remark updatedRemark = personToEdit.getRemark();
+    Remark updatedRemark = (personToEdit.getRemark().isPrivate())
+                    ? personToEdit.getRemark() : personToEdit.getRemark();
 
-    return new Person(updatedName, updatedPhone, updatedEmail,
-        updatedAddress, updatedRemark, updatedTags);
+    return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark,
+                    updatedTeamName, updatedTags, updatedRating, updatedPosition, updatedJerseyNumber, updatedAvatar);
 }
 ----
 
-[TIP]
-====
-The field `remark` is found in `Person`, however it cannot be modified via `add` or `edit` commands. +
-All functions related to `remark` is done strictly via the `remark` command.
-====
-
-[TIP]
-====
-Only one `remark` is saved at a time. If the user `remark` on the same person, it will be overwritten.
-====
-
 ===== Design Considerations
-====== Aspect: Implementation of `Remark` command
+====== Aspect: Implementation of `Remark` field
 
 * **Alternative 1 (current choice):** Creates an additional `remark` field in `Person`.
 ** Pros: Follows the existing style of similar fields, making implementation easier.
@@ -495,6 +488,15 @@ Only one `remark` is saved at a time. If the user `remark` on the same person, i
 * **Alternative 2:** Have a list of remarks that associates with the specified `Person`.
 ** Pros: Can have multiple remarks associating with a specific `Person`.
 ** Cons: Harder to maintain, more complicated.
+
+====== Aspect: Implementation of `Remark` command
+
+* **Alternative 1 (current choice):** Create a specific command for remarking `Person`.
+** Pros: Optional for user to enter remark during add, and have an isolated command to give remarks to a player that works as an add and edit command for remark.
+** Cons: Increases the number of commands available for the user, and could mistaken that remark can be done using add/edit command.
+* **Alternative 2:** Make it similar to how other fields are implemented in `Person`.
+** Pros: Quick and easy implementation as it uses the same format as other fields, and can be added and modified through `add` and `edit` commands.
+** Cons: An additional field that can be input when adding a player, making the process longer to execute the command.
 // end::remark[]
 
 // tag::privatefield[]
@@ -633,30 +635,43 @@ The `showBest` command is able to show the current team's best 11 players. There
 === Team-Related Enhancements
 
 // tag::team[]
-==== Team Mechanism `since v1.2`
+==== Team Component `since v1.2`
 
-
+One of the core components to MTM is `Team`, and it is the base to creating more commands for the user to access capability on team management.
+The `Team` component provides user with better organizational methods for organizing their players and interact with multiple teams to manage them effectively.
 
 ===== Current Implementation
 
-The team mechanism is created to provide better organizational methods to the user for organizing their players. We achieved it by introducing a `UniqueTeamList` into the application which consists of a list of `Team` objects.
+We achieved the implementation of `Team` component by introducing a `UniqueTeamList` into the application which consists of a list of `Team` objects.
+`Team` objects consist of `TeamName` object, which is used to uniquely identify the team.
+`Team` inherits `UniquePersonList` object which stores the a list of unique `Person` objects, containing information of the player.
 
-`Team` objects consist of `TeamName` object, which is used to uniquely identify the team, and `UniquePersonList` object which stores the information of `Person` objects which should be identical to those found in `UniquePersonList` in `addressbook`.
+The class diagram below shoes the relationship between the related classes.
 
-Code snippet from `Team.java` that shows the attributes of `Team`.
+//TODO: include class diagram of UniqueTeamList -> Team -> UniquePersonList
+//_Figure <>: Class Diagram of Team Components
+
+Code snippet from `Team.java` that shows the constructor of `Team`.
 
 [source, java]
 ----
 public class Team {
 
     private final TeamName teamName;
-    private final UniquePersonList players = new UniquePersonList();
 
-    // ... model method ...
+    public Team(TeamName teamName) {
+            this.teamName = teamName;
+    }
 }
 ----
 
-Since `Person` stored in `Team` is referencing to the `Person` in `addressbook`, changes made to `Person` needs to be ensured that is properly propagated to the `Person` objects found in `Team`. An additional `TeamName` field is also added to `Person` so that the user can quickly determine the team the player is in.
+Since `Team` inherits the `UniquePersonList` class, we are able to store `Person` object into `Team` by using the super class method `add` in `UniquePersonList`.
+By storing a list of players inside `Team` object, future enhancements can easily make use of the data to perform functions that requires quick access to all players in a team.
+However, this have created a coupling in which data made to the `changes made to `AddressBook.persons` needs to be updated in `Team` to maintain synchronicity.
+
+Code snippet from `
+
+An additional `TeamName` field is also added to `Person` so that the user can quickly determine the team the player is in.
 
 Code snippet from `<somefile>.java` that shows the propagation of details updated in `Person` from `addressbook` to the `Person` objects in `Team`.
 
@@ -726,7 +741,7 @@ Upon finding a matching command, `attemptAutoComplete` returns it and replaces t
 // end::autocomplete[]
 
 // tag::enhancedadd[]
-==== Optional field enhancement to existing add command `since v1.1`
+==== Optional Field Add Command `since v1.1`
 
 MTM is designed to manage a multitude of players and the main function that would be used repetitively is the `add` command, hence it would alleviate the cumbersomeness of entering every detail of the players when you want the command to be executed quickly.
 Having the option to only entering the mandatory fields and leaving the optional ones empty will make the process of adding players more efficient.
@@ -736,7 +751,7 @@ This mechanism enhances the original implementation of the `add` command.
 The required fields that are mandatory to be filled by the user are `n/NAME` and `e/EMAIL`.
 This implementation of making fields optional for `AddCommand` allows user to add players without their full information, and can be updated accordingly when the user retrieves their full information.
 
-The sequence diagram below illustrates the operation of the enhancement made to `add` command:
+The sequence diagram below illustrates the operation after the enhancement made to `add` command:
 
 //TODO <insert sequence diagram for Optional Fields>
 
@@ -796,7 +811,7 @@ Code snippet from `Address.java` that shows an example of an optional field bein
 ----
 public class Address {
 
-    // ... model code ...
+    //...Address code...
 
     public static boolean isValidAddress(String test) {
         return test.matches(ADDRESS_VALIDATION_REGEX) || test.equals(UNSPECIFIED_FIELD);
