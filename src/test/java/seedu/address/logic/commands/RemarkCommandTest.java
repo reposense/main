@@ -29,7 +29,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Remark;
 import seedu.address.testutil.PersonBuilder;
 
-//@@author jordancjq-reused
+//@@author jordancjq
 /**
  * Contains integration tests (interaction with the Model) and unit tests for RemarkCommand.
  */

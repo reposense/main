@@ -4,6 +4,7 @@ ifdef::env-github,env-browser[:relfileprefix: docs/]
 https://travis-ci.org/CS2103JAN2018-F14-B1/main[image:https://travis-ci.org/CS2103JAN2018-F14-B1/main.svg?branch=master[Build Status]]
 https://ci.appveyor.com/project/lithiumlkid/main/branch/master[image:https://ci.appveyor.com/api/projects/status/2itvfqp2b8xnaqqn/branch/master?svg=true[Build status]]
 https://coveralls.io/github/CS2103JAN2018-F14-B1/main?branch=master[image:https://coveralls.io/repos/github/CS2103JAN2018-F14-B1/main/badge.svg?branch=master[Coverage Status]]
+image:https://circleci.com/gh/CS2103JAN2018-F14-B1/main.svg?style=svg["CircleCI", link="https://circleci.com/gh/CS2103JAN2018-F14-B1/main"]
 https://gitter.im/se-edu/Lobby[image:https://badges.gitter.im/se-edu/Lobby.svg[Gitter chat]]
 
 ifdef::env-github[]
@@ -57,6 +58,5 @@ Come and take a look at our link:./UserGuide.adoc[User Guide] to get started wit
 * Some parts of this sample application were inspired by the excellent http://code.makery.ch/library/javafx-8-tutorial/[Java FX tutorial] by
 _Marco Jakob_.
 * Libraries used: https://github.com/TomasMikula/EasyBind[EasyBind], https://github.com/TestFX/TestFX[TextFX], https://bitbucket.org/controlsfx/controlsfx/[ControlsFX], https://github.com/FasterXML/jackson[Jackson], https://github.com/google/guava[Guava], https://github.com/junit-team/junit4[JUnit4]
-* Logo created on http://logomakr.com[LogoMakr]: https://logomakr.com/22Mc9C[My Team Manager Logo]
 
 == Licence : link:LICENSE[MIT]

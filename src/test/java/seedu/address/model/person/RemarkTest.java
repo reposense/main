@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-//@@author jordancjq-reused
+//@@author jordancjq
 public class RemarkTest {
 
     @Test
