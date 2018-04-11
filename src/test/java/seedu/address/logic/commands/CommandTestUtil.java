@@ -78,7 +78,7 @@ public class CommandTestUtil {
     public static final String JERSEY_NUMBER_DESC_2 = " " + PREFIX_JERSEY_NUMBER + VALID_JERSEY_NUMBER_2;
     public static final String JERSEY_NUMBER_DESC_17 = " " + PREFIX_JERSEY_NUMBER + VALID_JERSEY_NUMBER_17;
     public static final String AVATAR_WINDOWS = " " + PREFIX_AVATAR + VALID_AVATAR_WINDOWS;
-    public static final String AVATAR_MAC_LINUX = " " + PREFIX_AVATAR + VALID_AVATAR_WINDOWS;
+    public static final String AVATAR_MAC_LINUX = " " + PREFIX_AVATAR + VALID_AVATAR_MAC_LINUX;
     public static final String TEAM_DESC_ARSENAL = " " + PREFIX_TEAM_NAME + VALID_TEAM_ARSENAL;
     public static final String TEAM_DESC_CHELSEA = " " + PREFIX_TEAM_NAME + VALID_TEAM_CHELSEA;
     public static final String INDEX_DESC_1 = " " + PREFIX_INDEX + VALID_INDEX;
