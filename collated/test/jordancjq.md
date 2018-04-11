@@ -468,10 +468,23 @@ public class AssignCommandTest {
      */
     private void assertExecutionSuccess(Team team, List<Index> indexes) {
         AssignCommand assignCommand = prepareCommand(team.getTeamName(), indexes);
+        String expectedAssignResultMessage = new String();
+
+        for (Index index : indexes) {
+            Person person = model.getFilteredPersonList().get(index.getZeroBased());
+            if (person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+                expectedAssignResultMessage = String.format(AssignCommand.MESSAGE_UNSPECIFIED_TEAM_SUCCESS,
+                        person.getName().toString(), team.getTeamName().toString());
+            } else {
+                expectedAssignResultMessage = String.format(AssignCommand.MESSAGE_TEAM_TO_TEAM_SUCCESS,
+                        person.getName().toString(), person.getTeamName().toString(), team.getTeamName().toString());
+            }
+        }
 
         try {
             CommandResult commandResult = assignCommand.execute();
-            assertEquals(String.format(AssignCommand.MESSAGE_SUCCESS), commandResult.feedbackToUser);
+            assertEquals(String.format(AssignCommand.MESSAGE_SUCCESS + expectedAssignResultMessage),
+                    commandResult.feedbackToUser);
         } catch (CommandException ce) {
             throw new IllegalArgumentException("Execution of command should not fail.", ce);
         }

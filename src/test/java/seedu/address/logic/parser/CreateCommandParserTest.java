@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_TEAM_NAME;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_ARSENAL;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -31,5 +32,11 @@ public class CreateCommandParserTest {
 
         // missing team name
         assertParseFailure(parser, TEAM_NAME_EMPTY, expectedMessage);
+    }
+
+    @Test
+    public void parse_invalidTeamName_failure() {
+        // invalid team name
+        assertParseFailure(parser, INVALID_TEAM_NAME, TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
     }
 }

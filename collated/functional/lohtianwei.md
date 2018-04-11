@@ -35,6 +35,53 @@
     }
 
 ```
+###### /java/seedu/address/logic/parser/AddressBookParser.java
+``` java
+    /**
+     * Checks for low level command words or aliases that do not violate restriction of a locked MTM.
+     * Else, control is returned back to original parseCommand method.
+     * @param commandWord
+     * @param arguments
+     */
+    private Command lowLevelCommand(String commandWord, String arguments) throws ParseException {
+        switch(commandWord) {
+        case ChangeThemeCommand.COMMAND_WORD:
+        case ChangeThemeCommand.COMMAND_ALIAS:
+            return new ChangeThemeCommandParser().parse(arguments);
+
+        case FindCommand.COMMAND_WORD:
+        case FindCommand.COMMAND_ALIAS:
+            return new FindCommandParser().parse(arguments);
+
+        case ListCommand.COMMAND_WORD:
+        case ListCommand.COMMAND_ALIAS:
+            return new ListCommand();
+
+        case KeyCommand.COMMAND_WORD:
+        case KeyCommand.COMMAND_ALIAS:
+            return new KeyCommandParser().parse(arguments);
+
+        case ViewCommand.COMMAND_WORD:
+        case ViewCommand.COMMAND_ALIAS:
+            return new ViewCommandParser().parse(arguments);
+
+        case ExitCommand.COMMAND_WORD:
+            return new ExitCommand();
+
+        case HelpCommand.COMMAND_WORD:
+            return new HelpCommand();
+
+        case SortCommand.COMMAND_WORD:
+        case SortCommand.COMMAND_ALIAS:
+            return new SortCommandParser().parse(arguments);
+
+        default:
+            return null;
+        }
+    }
+
+}
+```
 ###### /java/seedu/address/logic/parser/TogglePrivacyCommandParser.java
 ``` java
 import static java.util.Objects.requireNonNull;
@@ -589,6 +636,77 @@ public class TogglePrivacyCommand extends UndoableCommand {
     }
 }
 ```
+###### /java/seedu/address/logic/commands/KeyCommand.java
+``` java
+import java.nio.charset.StandardCharsets;
+import java.util.logging.Logger;
+
+import com.google.common.hash.Hashing;
+
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.UserPrefs;
+
+/**
+ * Sets lock in model to true/false depending on current state
+ */
+public class KeyCommand extends Command {
+    public static final String COMMAND_WORD = "key";
+    public static final String COMMAND_ALIAS = "k";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Toggles the lock on MTM. "
+            + "Functionality of MTM reduced\n"
+            + "Input empty password to see current lock state\n"
+            + "Parameters: [PASSWORD]\n"
+            + "Example: " + COMMAND_WORD
+            + " myPassword";
+
+    public static final String MESSAGE_SUCCESS = "MTM lock toggled!";
+    public static final String MESSAGE_WRONG_PASS = "Password entered is incorrect. Please try again.";
+
+    private String password;
+
+    private final Logger logger = LogsCenter.getLogger(KeyCommand.class);
+
+    public KeyCommand(String password) {
+        this.password = password;
+    }
+
+    /**
+     * Checks if input password is correct.
+     */
+    private boolean correctPassword() {
+        UserPrefs up = model.getUserPrefs();
+        String hash = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+        return hash.equals(up.getAddressBookHashedPass());
+    }
+
+    private boolean emptyPass() {
+        return password.isEmpty();
+    }
+
+    @Override
+    public CommandResult execute() throws CommandException {
+        if (emptyPass()) {
+            return new CommandResult(MESSAGE_USAGE + "\nLock state is now: "
+                    + Boolean.toString(model.getLockState()));
+        }
+
+        if (correctPassword()) {
+            if (model.getLockState()) {
+                model.unlockAddressBookModel();
+            } else {
+                model.lockAddressBookModel();
+            }
+
+            logger.info("Lock state is now: " + Boolean.toString(model.getLockState()));
+            return new CommandResult(MESSAGE_SUCCESS);
+        } else {
+            throw new CommandException(MESSAGE_WRONG_PASS);
+        }
+    }
+}
+```
 ###### /java/seedu/address/model/person/UniquePersonList.java
 ``` java
     /**
@@ -687,6 +805,25 @@ public class TogglePrivacyCommand extends UndoableCommand {
         }
     }
 ```
+###### /java/seedu/address/model/UserPrefs.java
+``` java
+    public void lockAddressBook() {
+        this.addressBookLockState = true;
+    }
+
+    public void unlockAddressBook() {
+        this.addressBookLockState = false;
+    }
+
+    public String getAddressBookHashedPass() {
+        return addressBookHashedPass;
+    }
+
+    public boolean getAddressBookLockState() {
+        return this.addressBookLockState;
+    }
+
+```
 ###### /java/seedu/address/model/AddressBook.java
 ``` java
     public void sortPlayersBy(String field, String order) throws NoPlayerException {
@@ -699,5 +836,21 @@ public class TogglePrivacyCommand extends UndoableCommand {
     public void sortPlayers(String field, String order) throws NoPlayerException {
         addressBook.sortPlayersBy(field, order);
         indicateAddressBookChanged();
+    }
+
+    public UserPrefs getUserPrefs() {
+        return userPrefs;
+    }
+
+    public void lockAddressBookModel() {
+        getUserPrefs().lockAddressBook();
+    }
+
+    public void unlockAddressBookModel() {
+        getUserPrefs().unlockAddressBook();
+    }
+
+    public boolean getLockState() {
+        return getUserPrefs().getAddressBookLockState();
     }
 ```
