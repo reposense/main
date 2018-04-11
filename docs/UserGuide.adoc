@@ -33,7 +33,7 @@ Head to <<Quick Start>> to get started with My Team Manager!
 Having any Java 8 version is not enough. +
 This app will not work with earlier versions of Java 8.
 +
-.  Download the latest `MyTeamManage.jar` link:{repoURL}/releases[here].
+.  Download the latest `MyTeamManager.jar` link:{repoURL}/releases[here].
 .  Copy the file to the folder you want to use as the home folder for your MTM.
 .  Double-click the file to start the app. The software interface should appear in a few seconds.
 +
