@@ -1027,7 +1027,7 @@ Renames the current team "Arsenal" into "Neo Arsenal".</p>
 <p>Have a player without a team, or have yet to assigned one during the addition of player into MTM, you can call <code>assign</code> command to assign that player to a particular team of your choice.</p>
 </div>
 <div class="paragraph">
-<p>Format: <code>assign tm/TEAM_NAME i/INDEX [INDEX]&#8230;&#8203;</code><br>
+<p>Format: <code>assign [TEAM_NAME] i/INDEX [INDEX]&#8230;&#8203;</code><br>
 Alias: <code>at</code></p>
 </div>
 <div class="admonitionblock note">
@@ -1041,7 +1041,8 @@ Alias: <code>at</code></p>
 <p>The index refers to the index number shown in the most recent listing.<br>
 The index <strong>must be a positive integer</strong> <code>1, 2, 3, &#8230;&#8203;</code><br>
 You can assign multiple players to a team by including more than one valid index.<br>
-A player can only consist of 1 team, assigning a player that have an existing team, will be re-assigned the new team.</p>
+A player can only consist of 1 team, assigning a player that have an existing team, will be re-assigned the new team.
+Assigning a player without a given team will unassign the player from its current team.</p>
 </div>
 </td>
 </tr>
@@ -1056,7 +1057,7 @@ A player can only consist of 1 team, assigning a player that have an existing te
 <td class="content">
 <div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
-<p>Your specified player, via index, will be assigned to the specified team.</p>
+<p>Your specified player, via index, will be assigned to the specified team or unassigned from any team.</p>
 </div>
 </td>
 </tr>
@@ -1071,14 +1072,11 @@ A player can only consist of 1 team, assigning a player that have an existing te
 <p><code>list</code></p>
 </li>
 <li>
-<p><code>assign tm/Arsenal i/1 2 3</code><br>
+<p><code>assign Arsenal i/1 2 3</code><br>
 View the full list of players in MTM and assign the player with index 1, 2, and 3 to team "Arsenal".</p>
 </li>
 <li>
-<p><code>find John</code></p>
-</li>
-<li>
-<p><code>assign tm/Liverpool i/1</code><br>
+<p><code>assign i/1</code><br>
 Find a player by the name of "John" and assign the player with index 1 to team "Liverpool".</p>
 </li>
 </ul>
@@ -1523,8 +1521,8 @@ Displays the 11 main players that will be playing for the next match.</p>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>assign</code></strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>at</code></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>assign tm/TEAM_NAME i/INDEX [INDEX]&#8230;&#8203;</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>assign tm/Barcelona i/1 2 3</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>assign [TEAM_NAME] i/INDEX [INDEX]&#8230;&#8203;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>assign Barcelona i/1 2 3</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>view</code></strong></p></td>
@@ -1566,7 +1564,7 @@ Displays the 11 main players that will be playing for the next match.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-11 18:26:02 UTC
+Last updated 2018-04-11 18:45:00 UTC
 </div>
 </div>
 </body>
