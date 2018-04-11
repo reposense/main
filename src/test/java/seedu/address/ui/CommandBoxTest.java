@@ -14,6 +14,7 @@ import seedu.address.logic.LogicManager;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.ViewCommand;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 
@@ -70,13 +71,13 @@ public class CommandBoxTest extends GuiUnitTest {
         guiRobot.push(KeyCode.A);
         assertEquals(defaultStyleOfCommandBox, commandBoxHandle.getStyleClass());
         assertBehaviorForSuccessfulCommand();
-        guiRobot.push(KeyCode.A);
+        guiRobot.push(KeyCode.V);
         guiRobot.push(KeyCode.TAB);
-        assertEquals(AddCommand.COMMAND_WORD, commandBoxHandle.getInput());
+        assertEquals(ViewCommand.COMMAND_WORD, commandBoxHandle.getInput());
         guiRobot.push(KeyCode.TAB);
-        assertEquals(AddCommand.COMMAND_WORD + " " + AddCommand.MESSAGE_PARAMETERS, commandBoxHandle.getInput());
+        assertEquals(ViewCommand.COMMAND_WORD + " " + ViewCommand.MESSAGE_PARAMETERS, commandBoxHandle.getInput());
         guiRobot.push(KeyCode.TAB);
-        assertEquals(AddCommand.COMMAND_WORD, commandBoxHandle.getInput());
+        assertEquals(ViewCommand.COMMAND_WORD, commandBoxHandle.getInput());
         commandBoxHandle.run(COMMAND_THAT_FAILS);
         guiRobot.push(KeyCode.TAB);
         assertEquals(errorStyleOfCommandBox, commandBoxHandle.getStyleClass());
