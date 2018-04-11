@@ -879,7 +879,7 @@ out the colour they would like to change their tag to; it is a short command, es
 === UI Enhancements
 
 // tag::teamDisplay[]
-==== Team Display Bar
+==== Team Display Bar `[since v1.3]`
 ===== Current Implementation
 
 The Team Display Bar is implemented as `TeamDisplay` in the UI Component and renders `TeamDisplay.fxml`.
@@ -935,7 +935,7 @@ public class TeamDisplay extends UiPart<Region> {
 // end::teamDisplay[]
 
 // tag::PlayerDetails[]
-==== Player Details Pane
+==== Player Details Pane `[since v1.4]`
 ===== Current Implementation
 
 The `Player Details` pane is implemented as `PlayerDetails` in the UI Component.
@@ -970,7 +970,8 @@ place to look at after selection of a person card.
 * **Alternative 2:** `PlayerDetails` pane size is reduced and the extra space is repurposed.
 ** Pros: There will be more space for another new feature e.g. calendar.
 ** Cons: It can only be implemented in v2.0 due to time constraints in development.
-// end::playerDetails[]
+
+// end::PlayerDetails[]
 
 // tag::changeThemeCommand[]
 ==== Change Theme Command `[since v1.5]`
@@ -979,6 +980,12 @@ place to look at after selection of a person card.
 The `ChangeThemeCommand` is a new feature that allows user to change the current theme to another theme. A new css class is implemented to accommodate the new theme, LightTheme.
 The `MainWindow` class is also changed to contain a handleChangeThemeRequestEvent() method which is an event handler to `setAddressBookTheme`,
 which is a method in `UserPrefs`. +
+
+Below is the sequence diagram for how the `ChangeThemeCommand` works:
+
+image::ChangeThemeCommandDiagram.png[width="800"]
+
+
 Code snippet from 'ChangThemeCommand':
 
 [source, java]

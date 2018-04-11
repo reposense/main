@@ -168,6 +168,7 @@ Previously executed `undo` command will be reversed and MTM will be in its previ
 ====
 // end::undoredo[]
 
+// tag::changeTheme[]
 ==== Changing theme : `changeTheme` `[Since v1.5]`
 If you feel that the light theme is not for you, and you prefer to work on a darker interface,
 you can change the theme from the default LightTheme to DarkTheme with the 'changeTheme' command.
@@ -181,6 +182,7 @@ Alias: `ct`
 The current version of `changTheme` is NOT an UndoableCommand. i.e. You cannot `undo` a `changeTheme` command.
 Instead, just enter `cte <your desired theme>` to change the colour back!
 ====
+// end::changeTheme[]
 
 ==== Clearing all entries : `clear`
 
@@ -520,6 +522,7 @@ Details of your team will be displayed on the right panel when `view` command is
 
 === Other Useful Commands
 
+// tag:setTagColour[]
 ==== Setting colour of tags : `setTagColour` `[Since v1.2]`
 
 You can set the tags to a colour of your choice with the 'setColourTag' command.
@@ -533,7 +536,7 @@ Alias: `stc`
 The current version of `setTagColour` is NOT an UndoableCommand. i.e. You cannot `undo` a setTagCommand.
 Instead, just enter `stc <your desired colour>` to change the colour back!
 ====
-
+// end:setTagColour[]
 
 ==== Toggling various fields to private: `toggleprivacy` `[Since v1.4]`
 
@@ -599,7 +602,7 @@ Display the list of players in team "Arsenal" and set an upcoming match for Arse
 
 ==== Viewing the team's next upcoming match: `nextmatch` `[Coming in v2.0]`
 
-Easily determine the up and coming match with the team so that you never miss an important date.
+You can easily determine the up and coming match with the team so that you never miss an important date.
 
 Format: `nextmatch TEAM_NAME`
 Alias: `nm`
@@ -610,12 +613,32 @@ Alias: `nm`
 Displays the date and opponent for the upcoming match of the team specified.
 ====
 
-Here are a few valid examples on how you can use the `create` command:
+Here are a few valid examples on how you can use the `nextmatch` command:
 
 * `view Arsenal`
 * `nextmatch Arsenal` +
 Displays the list of players in team "Arsenal" and view the next upcoming match for "Arsenal".
 // end::teamin2.0[]
+
+// tag::showlineup[]
+==== Displaying lineup for next match: `showLineup` `[Coming in v2.0]`
+
+You can view the lineup for the current best 11 players.
+
+Format: `showLineup TEAM_NAME`
+Alias: `sl`
+
+[IMPORTANT]
+.*What to expect*
+====
+The panel on the right will show the avatars of the 11 players that will be playing for the next match.
+====
+
+Here is an valid example on how you can use the `showLineup` command:
+
+* `showLineup Arsenal` +
+Displays the 11 main players that will be playing for the next match.
+// end::showlineup[]
 
 ==== Scheduling trainings for team `schedule` `[Coming in v2.0]`
 
