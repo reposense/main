@@ -1,45 +1,36 @@
-# Java Gradle CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-java/ for more details
-#
+# CircleCI configuration file
+# For more details see https://circleci.com/docs/2.0/
+
 version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/repo
-
-    environment:
-      # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
-      TERM: dumb
-
+      - image: openjdk:8-jdk
+    working_directory: ~/project
     steps:
       - checkout
-
-      # Download and cache dependencies
+      - run:
+          name: Setup environment variables
+          command: echo 'export TERM=dumb' >>"$BASH_ENV"
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "build.gradle" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      - run: gradle dependencies
-
+            # Increment the version number e.g. v2-gradle-cache-...
+            # to force the caches to be "invalidated".
+            - v1-gradle-cache-{{ checksum "build.gradle" }}
+            - v1-gradle-cache-
+      - run:
+          name: Build documentation
+          command: ./gradlew clean asciidoctor
+      - store_artifacts:
+          path: ~/project/build/docs/html5
+          destination: docs
+      - run:
+          name: Cleanup for save_cache
+          command: >-
+            rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+            rm -fr $HOME/.gradle/caches/*/plugin-resolution/
       - save_cache:
+          key: v1-gradle-cache-{{ checksum "build.gradle" }}
           paths:
-            - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
-
-      # run tests!
-      - run: gradle test
-
-
-
+            - ~/.gradle/caches
+            - ~/.gradle/wrapper
