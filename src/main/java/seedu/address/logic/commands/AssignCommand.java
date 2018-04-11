@@ -36,10 +36,10 @@ public class AssignCommand extends UndoableCommand {
             + PREFIX_INDEX + "INDEX (must be a positive integer) "
             + "[INDEX]...\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_TEAM_NAME + "Arsenal "
+            + "Arsenal "
             + PREFIX_INDEX + "1 2";
 
-    public static final String MESSAGE_PARAMETERS = PREFIX_TEAM_NAME + "TEAM_NAME "
+    public static final String MESSAGE_PARAMETERS = "[TEAM_NAME] "
             + PREFIX_INDEX + "INDEX "
             + "[INDEX]...";
 
@@ -47,9 +47,9 @@ public class AssignCommand extends UndoableCommand {
     public static final String MESSAGE_FAILURE = "Not all players have been successfully processed.";
     public static final String MESSAGE_DUPLICATE_PERSON =
             "\n%1$s: There is already the same player that exists in the team.";
-    public static final String MESSAGE_NO_TEAM_TO_UNASSIGN = "\n%1$s: Cannot unassign player that are not in a team.";
+    public static final String MESSAGE_NO_TEAM_TO_UNASSIGN = "\n%1$s: Cannot unassign player that is not in a team.";
     public static final String MESSAGE_TEAM_TO_TEAM_SUCCESS = "\n%1$s has been assigned from %2$s to %3$s.";
-    public static final String MESSAGE_UNSPECIFIED_TEAM_SUCCESS = "\n%1$s has been assigned from to %2$s.";
+    public static final String MESSAGE_UNSPECIFIED_TEAM_SUCCESS = "\n%1$s has been assigned to %2$s.";
     public static final String MESSAGE_UNASSIGN_TEAM_SUCCESS = "\n%1$s has been unassigned from %2$s.";
 
     private final TeamName targetTeam;

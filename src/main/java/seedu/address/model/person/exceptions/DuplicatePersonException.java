@@ -11,7 +11,7 @@ public class DuplicatePersonException extends DuplicateDataException {
         super("Operation would result in duplicate persons");
     }
 
-    public DuplicatePersonException(String personName) {
-        super(personName);
+    public DuplicatePersonException(String message) {
+        super(message);
     }
 }
