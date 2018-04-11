@@ -213,7 +213,8 @@ public class AssignCommandTest {
                             person.getName().toString(), team.getTeamName().toString());
                 } else {
                     expectedAssignResultMessage += String.format(AssignCommand.MESSAGE_TEAM_TO_TEAM_SUCCESS,
-                            person.getName().toString(), person.getTeamName().toString(), team.getTeamName().toString());
+                            person.getName().toString(), person.getTeamName().toString(),
+                            team.getTeamName().toString());
                 }
             }
         }
