@@ -465,7 +465,7 @@ Renames the current team "Arsenal" into "Neo Arsenal".
 
 Have a player without a team, or have yet to assigned one during the addition of player into MTM, you can call `assign` command to assign that player to a particular team of your choice.
 
-Format: `assign tm/TEAM_NAME i/INDEX [INDEX]...` +
+Format: `assign [TEAM_NAME] i/INDEX [INDEX]...` +
 Alias: `at`
 
 [NOTE]
@@ -474,22 +474,22 @@ The index refers to the index number shown in the most recent listing. +
 The index *must be a positive integer* `1, 2, 3, ...` +
 You can assign multiple players to a team by including more than one valid index. +
 A player can only consist of 1 team, assigning a player that have an existing team, will be re-assigned the new team.
+Assigning a player without a given team will unassign the player from its current team.
 ====
 
 [IMPORTANT]
 .*What to expect*
 ====
-Your specified player, via index, will be assigned to the specified team.
+Your specified player, via index, will be assigned to the specified team or unassigned from any team.
 ====
 
 Here are a few valid examples on how you can use the `create` command:
 
 * `list`
-* `assign tm/Arsenal i/1 2 3` +
+* `assign Arsenal i/1 2 3` +
 View the full list of players in MTM and assign the player with index 1, 2, and 3 to team "Arsenal".
 
-* `find John`
-* `assign tm/Liverpool i/1` +
+* `assign i/1` +
 Find a player by the name of "John" and assign the player with index 1 to team "Liverpool".
 
 ==== Viewing a team: `view` `[Since v1.3]`
@@ -760,8 +760,8 @@ d|List all the players
 
 |`assign`
 |`at`
-|assign tm/TEAM_NAME i/INDEX [INDEX]...
-|assign tm/Barcelona i/1 2 3
+|assign [TEAM_NAME] i/INDEX [INDEX]...
+|assign Barcelona i/1 2 3
 
 |`view`
 |`vt`

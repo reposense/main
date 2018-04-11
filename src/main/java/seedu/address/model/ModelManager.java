@@ -137,9 +137,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     //@@author jordancjq
     @Override
-    public synchronized void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
-        requireAllNonNull(person, teamName);
-        addressBook.removePersonFromTeam(person, teamName);
+    public synchronized void unassignPersonFromTeam(Person person) throws TeamNotFoundException {
+        addressBook.unassignPersonFromTeam(person);
         indicateAddressBookChanged();
     }
 
