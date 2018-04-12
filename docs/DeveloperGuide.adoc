@@ -445,14 +445,11 @@ Code snippet from `AddCommandParser.java` that shows how remark is initialized a
 [source, java]
 ----
 public AddCommand parse(String args) throws ParseException {
-
-    /...AddCommandParser code...
-
+    //...AddCommandParser code...
     Remark remark = new Remark("");
 
-    Person person = new Person(name, phone, email, address, remark, teamName, tagList, rating, position,
-                        jerseyNumber, avatar);
-
+    Person person = new Person(name, phone, email, address, remark, teamName, tagList, rating,
+        position, jerseyNumber, avatar);
     //...AddCommandParser code...
 }
 ----
@@ -463,14 +460,13 @@ Code snippet from `EditCommand.java` that shows how remark is being retrieved.
 ----
 private static Person createEditedPerson(Person personToEdit,
     EditPersonDescriptor editPersonDescriptor) {
-
     //...EditCommand code...
-
-    Remark updatedRemark = (personToEdit.getRemark().isPrivate())
-                    ? personToEdit.getRemark() : personToEdit.getRemark();
+    Remark updatedRemark = (personToEdit.getRemark().isPrivate()) ? personToEdit.getRemark()
+                                                                  : personToEdit.getRemark();
 
     return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark,
-                    updatedTeamName, updatedTags, updatedRating, updatedPosition, updatedJerseyNumber, updatedAvatar);
+        updatedTeamName, updatedTags, updatedRating, updatedPosition, updatedJerseyNumber,
+        updatedAvatar);
 }
 ----
 
@@ -640,7 +636,7 @@ We achieved the implementation of `Team` component by introducing a `UniqueTeamL
 
 The class diagram below shoes the relationship between the related classes.
 
-//TODO: include class diagram of UniqueTeamList -> Team -> UniquePersonList
+//TODO-jordan: include class diagram of UniqueTeamList -> Team -> UniquePersonList
 //_Figure <>: Class Diagram of Team Components
 
 Code snippet from `Team.java` that shows the constructor for `Team`.
@@ -648,12 +644,37 @@ Code snippet from `Team.java` that shows the constructor for `Team`.
 [source, java]
 ----
 public class Team {
-
     private final TeamName teamName;
 
     public Team(TeamName teamName) {
-            this.teamName = teamName;
+        this.teamName = teamName;
     }
+}
+----
+
+For the application to store the information of `Team` into a list, we will need to introduce a new `UniqueTeamList` variable into the `AddressBook.java`, so that it will have a container for all the new `Team` objects that is going to be created in MTM.
+
+Code snippet from `AddressBook.java` that shows the declaration and initialization of `UniqueTeamList`.
+
+[source, java]
+----
+public class AddressBook implements ReadOnlyAddressBook {
+    //...AddressBook code...
+    private final UniqueTeamList teams;
+
+    {
+        teams = new UniqueTeamList;
+    }
+
+    public void setTeams(List<Team> teams) throws DuplicateTeamException {
+        this.teams.setTeams(teams);
+    }
+
+    @Override
+    public ObservableList<Team> getTeamList() {
+        return teams.asObservableList();
+    }
+    //...AddressBook code...
 }
 ----
 
@@ -664,10 +685,9 @@ Code snippet from `AddressBook.java` that shows the propagation of details updat
 [source, java]
 ----
 public void updatePerson(Person target, Person editedPerson)
-            throws DuplicatePersonException, PersonNotFoundException {
+    throws DuplicatePersonException, PersonNotFoundException {
     requireNonNull(editedPerson);
-
-    /...syncEditedPerson initialisation...
+    //...syncEditedPerson initialisation...
 
     if (!editedPerson.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
         teams.getTeam(editedPerson.getTeamName()).setPerson(target, editedPerson);
@@ -686,10 +706,11 @@ public class Person {
 
     private final TeamName teamName;
 
-    public Person(Name name, Phone phone, Email email, Address address, Remark remark, TeamName teamName,
-                      Set<Tag> tags, Rating rating, Position position, JerseyNumber jerseyNumber, Avatar avatar) {
-            //...attributes initialisation...
-            this.teamName = teamName;
+    public Person(Name name, Phone phone, Email email, Address address, Remark remark,
+        TeamName teamName, Set<Tag> tags, Rating rating, Position position,
+        JerseyNumber jerseyNumber, Avatar avatar) {
+        //...attributes initialisation...
+        this.teamName = teamName;
     }
 
     public TeamName getTeamName() {
@@ -722,18 +743,30 @@ Additional exception classes are also created so that these new exceptions can b
 [source, java]
 ----
 public class TeamNotFoundException extends Exception {
-
-    public TeamNotFoundException() {};
-
-    public TeamNotFoundException(String message) {
-        super(message);
-    }
+    //...TeamNotFoundException...
 }
 ----
 
 .`DupliecateTeamException.java`
 [source, java]
 ----
+public class DuplicateTeamException extends DuplicateDataException {
+    //...DuplicateTeamException...
+}
+----
+
+Implementing a new component into MTM, the data consisting of `Team` is also stored into storage using `XmlAdaptedTeam.java` to format the output.
+
+Code snippet from `XmlAdaptedTeam.java` that shows the elements that will be stored into storage.
+
+[source, java]
+----
+public class XmlAdaptedTeam {
+    @XmlElement(required = true)
+    private String teamName;
+    @XmlElement
+    private List<XmlAdaptedPerson> players = new ArrayList<>();
+}
 ----
 
 ===== Design Considerations
@@ -758,20 +791,51 @@ This set of commands provide the basic necessities for the user to efficiently u
 Based on the principles of CRUD, we have created the commands that corresponds to each principles, namely, `create`, `view`, `rename` and `assign`, `remove`.
 With these commands, the application is ready to support the features that the application is designed to be used.
 
-Team-related commands that modifies the data in the application, such as `create`, `rename`, `assign`, and `remove`, inherits from `UndoableCommand` class which makes all these commands undoable.
+Team-related commands that modifies the data in the application, such as `create`, `rename`, `assign`, and `remove`, inherits from `UndoableCommand` class which makes all these commands undoable. Each command has its own `Parser` to uniquely parse user input arguments for the commands, so that it is validated and the command understand what it should be doing.
 
-Each command has its own `Parser` to uniquely parse user input arguments for the commands, so that it is validated and the command understand what it should be doing.
+For each feature, new functions are created in `AddressBook.java` and `ModelManager.java` so that the commands executed are able to manipulate the data accordingly.
 
 `create`: Creates a `Team`, so that other team-related commands can be executed.
 
+The sequence diagram below illustrates the operation of the `create` command:
+//TODO-jordan: create sequence diagram for create
+
 `view`: Views a `Team`, which shows all players in the team.
+
+The sequence diagram below illustrates the operation of the `view` command:
+//TODO-jordan: create sequence diagram for view
 
 `rename`: Renames a given `Team`.
 
+The sequence diagram below illustrates the operation of the `rename` command:
+//TODO-jordan: create sequence diagram for rename
+
 `assign`: Assign a set of `Person` to a specified `Team`.
+
+The sequence diagram below illustrates the operation of the `assign` command:
+//TODO-jordan: create sequence diagram for assign
 
 `remove`: Removes the given `Team`.
 
+The sequence diagram below illustrates the operation of the `remove` command:
+//TODO-jordan: create sequence diagram for remove
+
+===== Design Consideration
+====== Aspect: Implementation of Team Functions
+* **Alternative 1 (current choice):** Uses CRUD design concept to create new commands.
+** Pros: Systematic approach in dealing with what functions should be created to ensure that the product has the features required to perform team management, and provides a platform to work on ideal features that target the needs of the audience.
+** Cons: Simple and only captures the basic requirements of the product.
+* **Alternative 2:** Implement commands based on suggested features.
+** Pros: End product will have features that targets the need of the audiences.
+** Cons: Possible to miss out basic and core features of a team management application.
+
+====== Aspect: Undoable commands for Team Functions
+* **Alternative 1 (current choice):** Make all functions that modifies data to be undoable.
+** Pros: Follows the current implementation of `undo` such that if data are modified in MTM, it will be an undoable command.
+** Cons: Need to ensure that regression bugs are squashed when the new commands are executed, and time consuming in identifying regression.
+* **Alternative 2:** Make all functions not undoable.
+** Pros: Easy to implement and will produce lesser regression bugs.
+** Cons: Does not align with the current implementation of `undo` & `redo`, and the user would require more steps to revert any changes made.
 // end::teamfunction[]
 
 === User Experience Enhancements
@@ -826,7 +890,7 @@ This implementation of making fields optional for `AddCommand` allows user to ad
 
 The sequence diagram below illustrates the operation after the enhancement made to `add` command:
 
-//TODO <insert sequence diagram for Optional Fields>
+//TODO-jordan <insert sequence diagram for Optional Fields>
 
 //_Figure : Sequence Diagram of Enhanced `add` Command_
 
@@ -836,9 +900,7 @@ Code snippet from `ParserUtil.java` that shows the implementation of when a fiel
 [source, java]
 ----
 public class ParserUtil {
-
     public static final String UNSPECIFIED_FIELD = "<UNSPECIFIED>";
-
     //...ParserUtil code...
 
     public static Optional<String> parseValue(Optional<String> value, String messageConstraints)
@@ -848,7 +910,6 @@ public class ParserUtil {
     } else {
         return Optional.of(value.orElse(UNSPECIFIED_FIELD));
     }
-
     //...ParserUtil code ...
 }
 ----
@@ -858,23 +919,19 @@ Code snippet from `AddCommandParser.java` that shows the usage of parsing fields
 [source,java]
 ----
 public AddCommand parse(String args) throws ParseException {
-
         //...tokenize arguments...
-
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_EMAIL)
-                || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+            || !argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                AddCommand.MESSAGE_USAGE));
         }
 
         //...get person details from arguments...
-
         Address address = ParserUtil.parseAddress(ParserUtil.parseValue(argMultimap
-                            .getValue(PREFIX_ADDRESS), Address.MESSAGE_ADDRESS_CONSTRAINTS)).get();
+            .getValue(PREFIX_ADDRESS), Address.MESSAGE_ADDRESS_CONSTRAINTS)).get();
 
         return new AddCommand(person);
-
         //...AddCommandParser code...
-
 }
 ----
 
@@ -883,9 +940,7 @@ Code snippet from `Address.java` that shows an example of an optional field bein
 [source, java]
 ----
 public class Address {
-
     //...Address code...
-
     public static boolean isValidAddress(String test) {
         return test.matches(ADDRESS_VALIDATION_REGEX) || test.equals(UNSPECIFIED_FIELD);
     }
