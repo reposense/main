@@ -85,7 +85,7 @@ TIP: This box give _tips_ that *might be useful*.
 
 NOTE: This box _notes_ down *important details* regarding a feature.
 
-IMPORTANT: This box will let you know _importantly_ what MTM should be *expected to do*.
+IMPORTANT: This box will let you know the _outcome_ and what MTM should be *expected to do*.
 ====
 ****
 
