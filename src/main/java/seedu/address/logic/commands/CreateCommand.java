@@ -8,6 +8,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.team.Team;
 import seedu.address.model.team.exceptions.DuplicateTeamException;
 
+//@@author jordancjq
 /**
  * Creates a team to the application
  */
