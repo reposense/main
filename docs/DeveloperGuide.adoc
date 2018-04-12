@@ -420,7 +420,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 === Player-Related Enhancements
 
 // tag::remark[]
-==== Remark a Player `since v1.1`
+==== Remark a Player `[since v1.1]`
 
 Leaving a remark would be ideal for the user to note down any important detail of a player that is useful in the future.
 Remarks given can be in any format and therefore would not look good if it was done using tags instead, as tags are used with minimal words.
@@ -847,7 +847,7 @@ if (lockState) {
 === Team-Related Enhancements
 
 // tag::team[]
-==== Team Component `since v1.2`
+==== Team Component `[since v1.2]`
 
 One of the core components to MTM is `Team`, and it is the base to creating more commands for the user to access capability on team management. The `Team` component provides user with better organizational methods for organizing their players and interact with multiple teams to manage them effectively.
 
@@ -1002,7 +1002,7 @@ public class XmlAdaptedTeam {
 // end::team[]
 
 // tag::teamfunction[]
-==== Team Functions `since v1.4`
+==== Team Functions `[since v1.4]`
 
 To assist the user with manging teams, we have decided to use the design concept of Create-Read-Update-Delete (CRUD) to implement commands related to `Team`.
 This set of commands provide the basic necessities for the user to efficiently use our application.
@@ -1132,7 +1132,7 @@ Upon finding a matching command, `attemptAutoComplete` returns it and replaces t
 // end::autocomplete[]
 
 // tag::enhancedadd[]
-==== Optional Field Add Command `since v1.1`
+==== Optional Field Add Command `[since v1.1]`
 
 MTM is designed to manage a multitude of players and the main function that would be used repetitively is the `add` command, hence it would alleviate the cumbersomeness of entering every detail of the players when you want the command to be executed quickly.
 Having the option to only entering the mandatory fields and leaving the optional ones empty will make the process of adding players more efficient.
