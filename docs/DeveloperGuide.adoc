@@ -426,16 +426,11 @@ Leaving a remark would be ideal for the user to note down any important detail o
 Remarks given can be in any format and therefore would not look good if it was done using tags instead, as tags are used with minimal words.
 
 ===== Current Implementation
-The remark mechanism is facilitated by `RemarkCommand` and it inherits from `UndoableCommand`, making it undoable.
-The mechanism allows user to perform the adding, editing, and deleting of a single remark to a specified `Person` via the `INDEX` from the list shown in the `UI`.
-The field `remark` is similar to the other fields of `Person`, hence some of its logic in `AddCommand.java` and `EditCommand.java` are updated.
+The remark mechanism is facilitated by `RemarkCommand` and it inherits from `UndoableCommand`, making it undoable. The mechanism allows user to perform the adding, editing, and deleting of a single remark to a specified `Person` via the `INDEX` from the list shown in the `UI`. The field `remark` is similar to the other fields of `Person`, hence some of its logic in `AddCommand.java` and `EditCommand.java` are updated.
 
-The mechanism uses the command `remark` and a `r/` prefix to add, edit, and delete a single remark of a `Person`.
-When the user leaves the remark as empty after the `r/` prefix, it is an indication to delete the remark, and when it is valid, it either create a new remark for that `Person` or overwrites the current existing remark.
-Only one `remark` is saved at a time. If the user `remark` on the same person, it will be overwritten.
+The mechanism uses the command `remark` and a `r/` prefix to add, edit, and delete a single remark of a `Person`. When the user leaves the remark as empty after the `r/` prefix, it is an indication to delete the remark, and when it is valid, it either create a new remark for that `Person` or overwrites the current existing remark. Only one `remark` is saved at a time. If the user `remark` on the same person, it will be overwritten.
 
-The field `remark` is found in `Person`, and it is not modified via `add` or `edit` commands.
-All functions related to `remark` is done strictly via the `remark` command.
+The field `remark` is found in `Person`, and it is not modified via `add` or `edit` commands. All functions related to `remark` is done strictly via the `remark` command.
 
 The sequence diagram below illustrates the operation of the `remark` command:
 
@@ -637,15 +632,11 @@ The `showBest` command is able to show the current team's best 11 players. There
 // tag::team[]
 ==== Team Component `since v1.2`
 
-One of the core components to MTM is `Team`, and it is the base to creating more commands for the user to access capability on team management.
-The `Team` component provides user with better organizational methods for organizing their players and interact with multiple teams to manage them effectively.
+One of the core components to MTM is `Team`, and it is the base to creating more commands for the user to access capability on team management. The `Team` component provides user with better organizational methods for organizing their players and interact with multiple teams to manage them effectively.
 
 ===== Current Implementation
 
-We achieved the implementation of `Team` component by introducing a `UniqueTeamList` into the application which consists of a list of `Team` objects.
-`UniqueTeamList` is similar in context to `UniquePersonList` in which it keeps a unique list of all the `Team` objects.
-`Team` objects consist of `TeamName` object, which is used to uniquely identify the team.
-`Team` inherits `UniquePersonList` object which stores the a list of unique `Person` objects, containing information of the player.
+We achieved the implementation of `Team` component by introducing a `UniqueTeamList` into the application which consists of a list of `Team` objects. `UniqueTeamList` is similar in context to `UniquePersonList` in which it keeps a unique list of all the `Team` objects. `Team` objects consist of `TeamName` object, which is used to uniquely identify the team. `Team` inherits `UniquePersonList` object which stores the a list of unique `Person` objects, containing information of the player.
 
 The class diagram below shoes the relationship between the related classes.
 
@@ -666,9 +657,7 @@ public class Team {
 }
 ----
 
-Since `Team` inherits the `UniquePersonList` class, we are able to store `Person` object into `Team` by using the super class method `add` in `UniquePersonList`.
-By storing a list of players inside `Team` object, future enhancements can easily make use of the data to perform functions that requires quick access to all players in a team.
-However, this have created a coupling in which data made to the `changes made to `AddressBook.persons` needs to be updated in `Team` to maintain synchronicity.
+Since `Team` inherits the `UniquePersonList` class, we are able to store `Person` object into `Team` by using the super class method `add` in `UniquePersonList`. By storing a list of players inside `Team` object, future enhancements can easily make use of the data to perform functions that requires quick access to all players in a team. However, this have created a coupling in which data made to the `changes made to `AddressBook.persons` needs to be updated in `Team` to maintain synchronicity.
 
 Code snippet from `AddressBook.java` that shows the propagation of details updated in `Person` from the full player list to the `Person` objects in `Team`.
 
@@ -725,6 +714,26 @@ public void updateFilteredPersonList(TeamName targetTeam) throws TeamNotFoundExc
         throw new TeamNotFoundException();
     }
 }
+----
+
+Additional exception classes are also created so that these new exceptions can be thrown during the program, such that when these exceptions are thrown, the code is easily comprehensible.
+
+.`TeamNotFoundException.java`
+[source, java]
+----
+public class TeamNotFoundException extends Exception {
+
+    public TeamNotFoundException() {};
+
+    public TeamNotFoundException(String message) {
+        super(message);
+    }
+}
+----
+
+.`DupliecateTeamException.java`
+[source, java]
+----
 ----
 
 ===== Design Considerations
