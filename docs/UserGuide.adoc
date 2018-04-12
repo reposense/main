@@ -559,17 +559,62 @@ Here are some examples on how you can use the `toggleprivacy` command:
 * `tp` 1 p/ ra/ +
 Toggles privacy of phone and rating of player @ index 1
 
+==== Toggling lock on MTM: `key` `[Since v1.5]`
+
+You can toggle a lock on MTM to prevent unauthorised changes to your details in MTM. When MTM is in a locked state, functionality will be limited.
+
+Format: `key` PASSWORD +
+Alias: `k`
+
+[NOTE]
+====
+Current version of `key` uses a fixed default password: *ilikesports* +
+====
+
+[IMPORTANT]
+.*What to expect*
+====
+When MTM is locked, only the following commands can be executed: `changeTheme`, `exit`, `find`, `help`, `key`, `list`, `sort`
+and `view`
+====
+
+Here are examples on how to use `key`:
+
+* If MTM is in a lock state, use this command to unlock it: +
+`key` ilikesports
+
+* To lock MTM, use this command to lock: +
+`key` ilikesports
+
 === Coming Soon
 
-There is more to come with the next upcoming update! Keep a lookout on these newly implemented features soon!
+There is more to come with the next upcoming update! Keep a lookout for these newly implemented features soon!
 
 ==== Showing Best XI players: `showBest` `[Coming in v2.0]`
 
 If you went to see your current best 11 players in your team based on their respective stats, this command
 is for you.
 
-Alias: `sb` +
-Format: `showBest`
+Format: `showBest` +
+Alias: `sb`
+
+[IMPORTANT]
+.*What to expect*
+====
+A lineup of the best 11 players would be displayed. It would consist of 1 Goalkeeper,
+4 Defenders, 4 Midfielders and 2 Strikers.
+====
+
+==== Change password: `changepass` `[Coming in v2.0]`
+
+Should you feel that the default password used in `key` could be more secure, you may change it to a password of your
+choosing with this command.
+
+Format: `changepass` CURRENTPASSWORD NEWPASSWORD CONFIRMPASSWORD +
+Alias: `cpw`
+
+Here is how you can change the your password:
+`changepass` ilikesports Securep@ssword1 Securep@ssword1
 
 // tag::teamin2.0[]
 ==== Setting an upcoming match with an opposing team: `setmatch` `[Coming in v2.0]`
