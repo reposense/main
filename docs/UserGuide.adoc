@@ -696,7 +696,7 @@ Just a quick reference sheet for all your needs. Never forget how to use MTM eve
 
 |<<autocomplete, `Autocomplete`>>
 |kbd:[tab]
-|kbd:[tab]kbd:[space]kbd:[&darr;]kbd:[&uarr;]
+|kbd:[tab]kbd:[space]kbd:[&uarr;]kbd:[&darr;]
 d|Fills in your command for you
 
 |<<help, `help`>>
