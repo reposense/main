@@ -79,7 +79,8 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
                 + RATING_DESC_1 + " " + POSITION_DESC_MIDFILED + " " + JERSEY_NUMBER_DESC_2;
         Person editedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
-                .withRating(VALID_RATING_1).withPosition(VALID_POSITION_MIDFIELD).withJerseyNumber(VALID_JERSEY_NUMBER_2).build();
+                .withRating(VALID_RATING_1).withPosition(VALID_POSITION_MIDFIELD)
+                .withJerseyNumber(VALID_JERSEY_NUMBER_2).build();
         assertCommandSuccess(command, index, editedPerson);
 
         /* Case: undo editing the last person in the list -> last person restored */
