@@ -84,8 +84,8 @@ public interface Model {
     void assignPersonToTeam(Person person, TeamName teamName)
             throws DuplicatePersonException;
 
-    /** Removes person from team */
-    void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException;
+    /** Unassign person from team */
+    void unassignPersonFromTeam(Person person) throws TeamNotFoundException;
 
     /** Removes the given team */
     void removeTeam(TeamName teamName) throws TeamNotFoundException;

@@ -194,7 +194,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
+        public void unassignPersonFromTeam(Person person) throws TeamNotFoundException {
             fail("This method should not be called.");
         }
 

@@ -122,7 +122,7 @@ public class UniqueTeamList implements Iterable<Team> {
         requireAllNonNull(person, target);
 
         if (target.getTeamPlayers().contains(person)) {
-            throw new DuplicatePersonException();
+            throw new DuplicatePersonException(person.getName().toString());
         }
 
         target.add(person);

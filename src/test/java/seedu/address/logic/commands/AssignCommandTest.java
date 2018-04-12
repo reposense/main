@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static seedu.address.logic.commands.AssignCommand.MESSAGE_UNASSIGN_TEAM_SUCCESS;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -70,6 +71,20 @@ public class AssignCommandTest {
     }
 
     @Test
+    public void execute_assignAndUnassignValidTeamValidIndex_success() throws Exception {
+        Team firstTeam = model.getAddressBook().getTeamList().get(0);
+
+        AssignCommand assignCommand = prepareCommand(firstTeam.getTeamName(),
+                Collections.singletonList(INDEX_FIRST_PERSON));
+        assignCommand.execute();
+        eventsCollectorRule.eventsCollector.reset();
+
+        Team unspecifiedTeam = new Team(new TeamName(UNSPECIFIED_FIELD));
+
+        assertExecutionSuccess(unspecifiedTeam, Collections.singletonList(INDEX_FIRST_PERSON));
+    }
+
+    @Test
     public void execute_validTeamAndInvalidIndexUnfilteredList_fail() {
         Index outOfBoundsIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
         Team firstTeam = model.getAddressBook().getTeamList().get(0);
@@ -94,11 +109,16 @@ public class AssignCommandTest {
         AssignCommand assignCommand = prepareCommand(firstTeam.getTeamName(),
                 Collections.singletonList(INDEX_FIRST_PERSON));
 
+        String personName = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()).getName().toString();
+
+        String expectedMessage = AssignCommand.MESSAGE_FAILURE
+                + String.format(AssignCommand.MESSAGE_DUPLICATE_PERSON, personName);
+
         assignCommand.execute();
         eventsCollectorRule.eventsCollector.reset();
 
         assertExecutionFailure(firstTeam, Collections.singletonList(INDEX_FIRST_PERSON),
-               AssignCommand.MESSAGE_DUPLICATE_PERSON);
+               expectedMessage);
     }
 
     @Test
@@ -153,9 +173,11 @@ public class AssignCommandTest {
             throw new IllegalArgumentException("Execution of command should not fail.", ce);
         }
 
-        HighlightSelectedTeamEvent lastEvent =
-                (HighlightSelectedTeamEvent) eventsCollectorRule.eventsCollector.getMostRecent();
-        assertEquals(team.getTeamName().toString(), lastEvent.teamName);
+        if (!team.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+            HighlightSelectedTeamEvent lastEvent =
+                    (HighlightSelectedTeamEvent) eventsCollectorRule.eventsCollector.getMostRecent();
+            assertEquals(team.getTeamName().toString(), lastEvent.teamName);
+        }
 
         team.setPersons(new UniquePersonList());
     }
@@ -182,12 +204,18 @@ public class AssignCommandTest {
         String expectedAssignResultMessage = "";
         for (Index index : indexes) {
             Person person = model.getFilteredPersonList().get(index.getZeroBased());
-            if (person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
-                expectedAssignResultMessage += String.format(AssignCommand.MESSAGE_UNSPECIFIED_TEAM_SUCCESS,
-                        person.getName().toString(), team.getTeamName().toString());
+            if (team.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+                expectedAssignResultMessage += String.format(MESSAGE_UNASSIGN_TEAM_SUCCESS,
+                        person.getName().toString(), person.getTeamName().toString());
             } else {
-                expectedAssignResultMessage += String.format(AssignCommand.MESSAGE_TEAM_TO_TEAM_SUCCESS,
-                        person.getName().toString(), person.getTeamName().toString(), team.getTeamName().toString());
+                if (person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+                    expectedAssignResultMessage += String.format(AssignCommand.MESSAGE_UNSPECIFIED_TEAM_SUCCESS,
+                            person.getName().toString(), team.getTeamName().toString());
+                } else {
+                    expectedAssignResultMessage += String.format(AssignCommand.MESSAGE_TEAM_TO_TEAM_SUCCESS,
+                            person.getName().toString(), person.getTeamName().toString(),
+                            team.getTeamName().toString());
+                }
             }
         }
         return expectedAssignResultMessage;

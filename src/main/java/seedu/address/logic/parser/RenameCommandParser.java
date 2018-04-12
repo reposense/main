@@ -22,7 +22,6 @@ public class RenameCommandParser implements Parser<RenameCommand> {
      */
     public RenameCommand parse(String args) throws ParseException {
         requireNonNull(args);
-
         ArgumentMultimap argMultiMap = ArgumentTokenizer.tokenize(args, PREFIX_TEAM_NAME);
 
         if (!argMultiMap.getValue(PREFIX_TEAM_NAME).isPresent() || argMultiMap.getPreamble().isEmpty()
@@ -35,7 +34,8 @@ public class RenameCommandParser implements Parser<RenameCommand> {
 
         try {
             target = ParserUtil.parseTeamName(argMultiMap.getPreamble());
-            toRename = ParserUtil.parseTeamName(argMultiMap.getValue(PREFIX_TEAM_NAME)).get();
+            toRename = ParserUtil.parseTeamName(ParserUtil.parseValue(argMultiMap.getValue(PREFIX_TEAM_NAME),
+                    TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS)).get();
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }
