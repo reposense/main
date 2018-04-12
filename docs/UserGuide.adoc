@@ -77,6 +77,18 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 ====
 ****
 
+.*Lookout for Tips, Notes, and Expected Outcomes*
+****
+
+====
+TIP: This box give _tips_ that *might be useful*.
+
+NOTE: This box _notes_ down *important details* regarding a feature.
+
+IMPORTANT: This box will let you know _importantly_ what MTM should be *expected to do*.
+====
+****
+
 === Basic Commands and Features
 
 Let's start of with the basic commands that MTM provides that gives you the power to effectively use MTM quickly. These features will make you use MTM more efficiently and teaches you how to navigate through MTM with ease.
