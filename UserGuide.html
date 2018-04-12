@@ -66,18 +66,20 @@
 <ul class="sectlevel3">
 <li><a href="#setting-colour-of-tags-code-settagcolour-code-code-since-v1-2-code">3.4.1. Setting colour of tags : <code>setTagColour</code> <code>[Since v1.2]</code></a></li>
 <li><a href="#toggling-various-fields-to-private-code-toggleprivacy-code-code-since-v1-4-code">3.4.2. Toggling various fields to private: <code>toggleprivacy</code> <code>[Since v1.4]</code></a></li>
+<li><a href="#toggling-lock-on-mtm-code-key-code-code-since-v1-5-code">3.4.3. Toggling lock on MTM: <code>key</code> <code>[Since v1.5]</code></a></li>
 </ul>
 </li>
 <li><a href="#coming-soon">3.5. Coming Soon</a>
 <ul class="sectlevel3">
 <li><a href="#showing-best-xi-players-code-showbest-code-code-coming-in-v2-0-code">3.5.1. Showing Best XI players: <code>showBest</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#setting-an-upcoming-match-with-an-opposing-team-code-setmatch-code-code-coming-in-v2-0-code">3.5.2. Setting an upcoming match with an opposing team: <code>setmatch</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#viewing-the-team-s-next-upcoming-match-code-nextmatch-code-code-coming-in-v2-0-code">3.5.3. Viewing the team&#8217;s next upcoming match: <code>nextmatch</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#displaying-lineup-for-next-match-code-showlineup-code-code-coming-in-v2-0-code">3.5.4. Displaying lineup for next match: <code>showLineup</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code">3.5.5. Scheduling trainings for team <code>schedule</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code">3.5.6. Sending reminder emails to players: <code>send</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code">3.5.7. Giving feedback to developers: <code>feedback</code> <code>[Coming in v2.0]</code></a></li>
-<li><a href="#giving-demerit-to-players-based-on-performance-code-demerit-code-code-coming-in-v2-0-code">3.5.8. Giving demerit to players based on performance: <code>demerit</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#change-password-code-changepass-code-code-coming-in-v2-0-code">3.5.2. Change password: <code>changepass</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#setting-an-upcoming-match-with-an-opposing-team-code-setmatch-code-code-coming-in-v2-0-code">3.5.3. Setting an upcoming match with an opposing team: <code>setmatch</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#viewing-the-team-s-next-upcoming-match-code-nextmatch-code-code-coming-in-v2-0-code">3.5.4. Viewing the team&#8217;s next upcoming match: <code>nextmatch</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#displaying-lineup-for-next-match-code-showlineup-code-code-coming-in-v2-0-code">3.5.5. Displaying lineup for next match: <code>showLineup</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code">3.5.6. Scheduling trainings for team <code>schedule</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code">3.5.7. Sending reminder emails to players: <code>send</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code">3.5.8. Giving feedback to developers: <code>feedback</code> <code>[Coming in v2.0]</code></a></li>
+<li><a href="#giving-demerit-to-players-based-on-performance-code-demerit-code-code-coming-in-v2-0-code">3.5.9. Giving demerit to players based on performance: <code>demerit</code> <code>[Coming in v2.0]</code></a></li>
 </ul>
 </li>
 </ul>
@@ -1205,11 +1207,66 @@ Toggles privacy of phone and rating of player @ index 1</p>
 </ul>
 </div>
 </div>
+<div class="sect3">
+<h4 id="toggling-lock-on-mtm-code-key-code-code-since-v1-5-code"><a class="link" href="#toggling-lock-on-mtm-code-key-code-code-since-v1-5-code">3.4.3. Toggling lock on MTM: <code>key</code> <code>[Since v1.5]</code></a></h4>
+<div class="paragraph">
+<p>You can toggle a lock on MTM to prevent unauthorised changes to your details in MTM. When MTM is in a locked state, functionality will be limited.</p>
+</div>
+<div class="paragraph">
+<p>Format: <code>key</code> PASSWORD<br>
+Alias: <code>k</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Current version of <code>key</code> uses a fixed default password: <strong>ilikesports</strong><br></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="title"><strong>What to expect</strong></div>
+<div class="paragraph">
+<p>When MTM is locked, only the following commands can be executed: <code>changeTheme</code>, <code>exit</code>, <code>find</code>, <code>help</code>, <code>key</code>, <code>list</code>, <code>sort</code>
+and <code>view</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Here are examples on how to use <code>key</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If MTM is in a lock state, use this command to unlock it:<br>
+<code>key</code> ilikesports</p>
+</li>
+<li>
+<p>To lock MTM, use this command to lock:<br>
+<code>key</code> ilikesports</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="coming-soon"><a class="link" href="#coming-soon">3.5. Coming Soon</a></h3>
 <div class="paragraph">
-<p>There is more to come with the next upcoming update! Keep a lookout on these newly implemented features soon!</p>
+<p>There is more to come with the next upcoming update! Keep a lookout for these newly implemented features soon!</p>
 </div>
 <div class="sect3">
 <h4 id="showing-best-xi-players-code-showbest-code-code-coming-in-v2-0-code"><a class="link" href="#showing-best-xi-players-code-showbest-code-code-coming-in-v2-0-code">3.5.1. Showing Best XI players: <code>showBest</code> <code>[Coming in v2.0]</code></a></h4>
@@ -1218,12 +1275,43 @@ Toggles privacy of phone and rating of player @ index 1</p>
 is for you.</p>
 </div>
 <div class="paragraph">
-<p>Alias: <code>sb</code><br>
-Format: <code>showBest</code></p>
+<p>Format: <code>showBest</code><br>
+Alias: <code>sb</code></p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="title"><strong>What to expect</strong></div>
+<div class="paragraph">
+<p>A lineup of the best 11 players would be displayed. It would consist of 1 Goalkeeper,
+4 Defenders, 4 Midfielders and 2 Strikers.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect3">
-<h4 id="setting-an-upcoming-match-with-an-opposing-team-code-setmatch-code-code-coming-in-v2-0-code"><a class="link" href="#setting-an-upcoming-match-with-an-opposing-team-code-setmatch-code-code-coming-in-v2-0-code">3.5.2. Setting an upcoming match with an opposing team: <code>setmatch</code> <code>[Coming in v2.0]</code></a></h4>
+<h4 id="change-password-code-changepass-code-code-coming-in-v2-0-code"><a class="link" href="#change-password-code-changepass-code-code-coming-in-v2-0-code">3.5.2. Change password: <code>changepass</code> <code>[Coming in v2.0]</code></a></h4>
+<div class="paragraph">
+<p>Should you feel that the default password used in <code>key</code> could be more secure, you may change it to a password of your
+choosing with this command.</p>
+</div>
+<div class="paragraph">
+<p>Format: <code>changepass</code> CURRENTPASSWORD NEWPASSWORD CONFIRMPASSWORD<br>
+Alias: <code>cpw</code></p>
+</div>
+<div class="paragraph">
+<p>Here is how you can change the your password:
+<code>changepass</code> ilikesports Securep@ssword1 Securep@ssword1</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="setting-an-upcoming-match-with-an-opposing-team-code-setmatch-code-code-coming-in-v2-0-code"><a class="link" href="#setting-an-upcoming-match-with-an-opposing-team-code-setmatch-code-code-coming-in-v2-0-code">3.5.3. Setting an upcoming match with an opposing team: <code>setmatch</code> <code>[Coming in v2.0]</code></a></h4>
 <div class="paragraph">
 <p>With this command, it gives you a convenient way to keep track of the upcoming match of a team.</p>
 </div>
@@ -1277,7 +1365,7 @@ Display the list of players in team "Arsenal" and set an upcoming match for Arse
 </div>
 </div>
 <div class="sect3">
-<h4 id="viewing-the-team-s-next-upcoming-match-code-nextmatch-code-code-coming-in-v2-0-code"><a class="link" href="#viewing-the-team-s-next-upcoming-match-code-nextmatch-code-code-coming-in-v2-0-code">3.5.3. Viewing the team&#8217;s next upcoming match: <code>nextmatch</code> <code>[Coming in v2.0]</code></a></h4>
+<h4 id="viewing-the-team-s-next-upcoming-match-code-nextmatch-code-code-coming-in-v2-0-code"><a class="link" href="#viewing-the-team-s-next-upcoming-match-code-nextmatch-code-code-coming-in-v2-0-code">3.5.4. Viewing the team&#8217;s next upcoming match: <code>nextmatch</code> <code>[Coming in v2.0]</code></a></h4>
 <div class="paragraph">
 <p>You can easily determine the up and coming match with the team so that you never miss an important date.</p>
 </div>
@@ -1316,7 +1404,7 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 </div>
 </div>
 <div class="sect3">
-<h4 id="displaying-lineup-for-next-match-code-showlineup-code-code-coming-in-v2-0-code"><a class="link" href="#displaying-lineup-for-next-match-code-showlineup-code-code-coming-in-v2-0-code">3.5.4. Displaying lineup for next match: <code>showLineup</code> <code>[Coming in v2.0]</code></a></h4>
+<h4 id="displaying-lineup-for-next-match-code-showlineup-code-code-coming-in-v2-0-code"><a class="link" href="#displaying-lineup-for-next-match-code-showlineup-code-code-coming-in-v2-0-code">3.5.5. Displaying lineup for next match: <code>showLineup</code> <code>[Coming in v2.0]</code></a></h4>
 <div class="paragraph">
 <p>You can view the lineup for the current best 11 players.</p>
 </div>
@@ -1352,19 +1440,19 @@ Displays the 11 main players that will be playing for the next match.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code"><a class="link" href="#scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code">3.5.5. Scheduling trainings for team <code>schedule</code> <code>[Coming in v2.0]</code></a></h4>
+<h4 id="scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code"><a class="link" href="#scheduling-trainings-for-team-code-schedule-code-code-coming-in-v2-0-code">3.5.6. Scheduling trainings for team <code>schedule</code> <code>[Coming in v2.0]</code></a></h4>
 
 </div>
 <div class="sect3">
-<h4 id="sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code"><a class="link" href="#sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code">3.5.6. Sending reminder emails to players: <code>send</code> <code>[Coming in v2.0]</code></a></h4>
+<h4 id="sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code"><a class="link" href="#sending-reminder-emails-to-players-code-send-code-code-coming-in-v2-0-code">3.5.7. Sending reminder emails to players: <code>send</code> <code>[Coming in v2.0]</code></a></h4>
 
 </div>
 <div class="sect3">
-<h4 id="giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code"><a class="link" href="#giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code">3.5.7. Giving feedback to developers: <code>feedback</code> <code>[Coming in v2.0]</code></a></h4>
+<h4 id="giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code"><a class="link" href="#giving-feedback-to-developers-code-feedback-code-code-coming-in-v2-0-code">3.5.8. Giving feedback to developers: <code>feedback</code> <code>[Coming in v2.0]</code></a></h4>
 
 </div>
 <div class="sect3">
-<h4 id="giving-demerit-to-players-based-on-performance-code-demerit-code-code-coming-in-v2-0-code"><a class="link" href="#giving-demerit-to-players-based-on-performance-code-demerit-code-code-coming-in-v2-0-code">3.5.8. Giving demerit to players based on performance: <code>demerit</code> <code>[Coming in v2.0]</code></a></h4>
+<h4 id="giving-demerit-to-players-based-on-performance-code-demerit-code-code-coming-in-v2-0-code"><a class="link" href="#giving-demerit-to-players-based-on-performance-code-demerit-code-code-coming-in-v2-0-code">3.5.9. Giving demerit to players based on performance: <code>demerit</code> <code>[Coming in v2.0]</code></a></h4>
 
 </div>
 </div>
@@ -1564,7 +1652,7 @@ Displays the 11 main players that will be playing for the next match.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-11 22:38:41 UTC
+Last updated 2018-04-12 11:17:42 UTC
 </div>
 </div>
 </body>

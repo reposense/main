@@ -62,28 +62,30 @@
 <li><a href="#player-related-enhancements">4.2. Player-Related Enhancements</a>
 <ul class="sectlevel3">
 <li><a href="#remark-mechanism">4.2.1. Remark Mechanism</a></li>
-<li><a href="#setting-various-player-fields-to-private-code-coming-in-v1-5-code">4.2.2. Setting various player fields to private <code>[coming in v1.5]</code></a></li>
+<li><a href="#setting-various-player-fields-to-private">4.2.2. Setting various player fields to private</a></li>
 <li><a href="#sorting-players-by-fields">4.2.3. Sorting players by fields</a></li>
-<li><a href="#show-best-xi-code-coming-in-v1-5-code">4.2.4. Show Best XI <code>[coming in v1.5]</code></a></li>
+<li><a href="#toggle-lock-on-mtm">4.2.4. Toggle lock on MTM</a></li>
 </ul>
 </li>
 <li><a href="#team-related-enhancements">4.3. Team-Related Enhancements</a>
 <ul class="sectlevel3">
 <li><a href="#team-mechanism">4.3.1. Team Mechanism</a></li>
+<li><a href="#show-best-xi-code-coming-in-v2-0-code">4.3.2. Show Best XI <code>[coming in v2.0]</code></a></li>
 </ul>
 </li>
-<li><a href="#user-experience-enhancements">4.4. User Experience Enhancements</a>
+<li><a href="#usability-enhancements">4.4. Usability Enhancements</a></li>
+<li><a href="#user-experience-enhancements">4.5. User Experience Enhancements</a>
 <ul class="sectlevel3">
-<li><a href="#tab-autocomplete">4.4.1. Tab Autocomplete</a></li>
-<li><a href="#optional-fields-for-add-mechanism">4.4.2. Optional Fields for Add Mechanism</a></li>
+<li><a href="#tab-autocomplete">4.5.1. Tab Autocomplete</a></li>
+<li><a href="#optional-fields-for-add-mechanism">4.5.2. Optional Fields for Add Mechanism</a></li>
 </ul>
 </li>
-<li><a href="#ui-enhancements">4.5. UI Enhancements</a>
+<li><a href="#ui-enhancements">4.6. UI Enhancements</a>
 <ul class="sectlevel3">
-<li><a href="#team-display-bar-code-since-v1-3-code">4.5.1. Team Display Bar <code>[since v1.3]</code></a></li>
-<li><a href="#player-details-pane-code-since-v1-4-code">4.5.2. Player Details Pane <code>[since v1.4]</code></a></li>
-<li><a href="#change-theme-command-code-since-v1-5-code">4.5.3. Change Theme Command <code>[since v1.5]</code></a></li>
-<li><a href="#set-tag-colour-feature-code-since-v1-1-code">4.5.4. Set Tag Colour feature <code>[since v1.1]</code></a></li>
+<li><a href="#team-display-bar-code-since-v1-3-code">4.6.1. Team Display Bar <code>[since v1.3]</code></a></li>
+<li><a href="#player-details-pane-code-since-v1-4-code">4.6.2. Player Details Pane <code>[since v1.4]</code></a></li>
+<li><a href="#change-theme-command-code-since-v1-5-code">4.6.3. Change Theme Command <code>[since v1.5]</code></a></li>
+<li><a href="#set-tag-colour-feature-code-since-v1-1-code">4.6.4. Set Tag Colour feature <code>[since v1.1]</code></a></li>
 </ul>
 </li>
 </ul>
@@ -1146,16 +1148,196 @@ All functions related to <code>remark</code> is done strictly via the <code>rema
 </div>
 </div>
 <div class="sect3">
-<h4 id="setting-various-player-fields-to-private-code-coming-in-v1-5-code"><a class="link" href="#setting-various-player-fields-to-private-code-coming-in-v1-5-code">4.2.2. Setting various player fields to private <code>[coming in v1.5]</code></a></h4>
+<h4 id="setting-various-player-fields-to-private"><a class="link" href="#setting-various-player-fields-to-private">4.2.2. Setting various player fields to private</a></h4>
 <div class="sect4">
 <h5 id="current-implementation-3"><a class="link" href="#current-implementation-3">Current Implementation</a></h5>
 <div class="paragraph">
-<p>There is currently no implementation for this feature. Coming soon!</p>
+<p><code>Phone</code>, <code>Email</code>, <code>Remark</code>, <code>Rating</code> and <code>Address</code> of a player has an additional boolean attribute
+<code>isPrivate</code> which tracks the privacy of the particular field. When a player is added into MTM, <code>isPrivate</code> of these
+fields are set to 'false' by default.</p>
+</div>
+<div class="paragraph">
+<p>Each of these fields have a different <code>toString</code> method which would return <code>&lt;Private 'FIELD'&gt;</code> if privacy of
+the field is set to 'true', as shown in the following code snippet:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="predefined-type">String</span> toString() {
+        <span class="keyword">if</span> (isPrivate) {
+            <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;Private Address&gt;</span><span class="delimiter">&quot;</span></span>;
+        }
+        <span class="keyword">return</span> value;
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>XmlAdaptedPerson</code> under the storage portion has been edited to save the <code>isPrivate</code> value for the fields:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@XmlElement</span>(required = <span class="predefined-constant">true</span>)
+    <span class="directive">private</span> <span class="predefined-type">Boolean</span> phonePrivacy;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Toggling of privacy works in a similar way to <code>Edit</code>. New fields will be created with privacy settings of <code>EditPersonPrivacy</code>
+ based on user input. This is done by first detecting if a particular prefix is present when command is
+entered in <code>TogglePrivacyCommandParser</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">if</span> (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
+            epp.setPrivatePhone(<span class="predefined-constant">false</span>);
+        }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If prefix of a field is not present, the privacy setting of that particular field in <code>EditPersonPrivacy</code> would be null.</p>
+</div>
+<div class="paragraph">
+<p>In <code>TogglePrivacyCommand</code>, the new fields are created with this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">private</span> <span class="directive">static</span> Phone createPhonePrivacy(Person person, EditPersonPrivacy epp) {
+        Phone phone;
+        <span class="keyword">try</span> {
+            <span class="keyword">if</span> (person.getPhone().isPrivate()) {
+                person.getPhone().togglePrivacy();
+                phone = <span class="keyword">new</span> Phone(person.getPhone().toString());
+                person.getPhone().togglePrivacy();
+            } <span class="keyword">else</span> {
+                phone = <span class="keyword">new</span> Phone(person.getPhone().toString());
+            }
+        } <span class="keyword">catch</span> (<span class="exception">Exception</span> e) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">AssertionError</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Invalid Phone</span><span class="delimiter">&quot;</span></span>);
+        }
+        <span class="keyword">if</span> (epp.getPrivatePhone() != <span class="predefined-constant">null</span>) {
+            phone.setPrivate(person.getPhone().isPrivate());
+            phone.togglePrivacy();
+        } <span class="keyword">else</span> {
+            phone.setPrivate(person.getPhone().isPrivate());
+        }
+
+        <span class="keyword">return</span> phone;
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that in the second portion of the code, if <code>epp.getPrivatePhone()</code> is null, this would mean that it&#8217;s privacy
+setting was not toggled and thus is set to the same as it was before. Else, it would be toggled:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">void</span> togglePrivacy() {
+        <span class="local-variable">this</span>.isPrivate = isPrivate ? <span class="predefined-constant">false</span> : <span class="predefined-constant">true</span>;
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A new person object is then created:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">private</span> <span class="directive">static</span> Person createEditedPrivacyPerson(Person personToEdit, EditPersonPrivacy epp)
+            <span class="directive">throws</span> IllegalValueException {
+        <span class="keyword">assert</span> personToEdit != <span class="predefined-constant">null</span>;
+
+        <span class="predefined-type">Name</span> updatedName = personToEdit.getName();
+        Phone updatedPhone = createPhonePrivacy(personToEdit, epp);
+        Email updatedEmail = createEmailPrivacy(personToEdit, epp);
+        Address updatedAddress = createAddressPrivacy(personToEdit, epp);
+        Remark updatedRemark = createRemarkPrivacy(personToEdit, epp);
+        TeamName updatedTeamName = personToEdit.getTeamName();
+        <span class="predefined-type">Set</span>&lt;Tag&gt; updatedTags = personToEdit.getTags();
+        Rating updatedRating = createRatingPrivacy(personToEdit, epp);
+        <span class="predefined-type">Position</span> updatedPosition = personToEdit.getPosition();
+        JerseyNumber updatedJerseyNumber = personToEdit.getJerseyNumber();
+        Avatar updatedAvatar = personToEdit.getAvatar();
+
+        <span class="keyword">return</span> <span class="keyword">new</span> Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark,
+                updatedTeamName, updatedTags, updatedRating, updatedPosition, updatedJerseyNumber, updatedAvatar);
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and is used to update current person:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">model.updatePerson(personToEdit, editedPerson);</code></pre>
+</div>
 </div>
 </div>
 <div class="sect4">
 <h5 id="design-consideration"><a class="link" href="#design-consideration">Design Consideration</a></h5>
-
+<div class="sect5">
+<h6 id="aspect-how-field-privacy-is-implemented"><a class="link" href="#aspect-how-field-privacy-is-implemented">Aspect: How field privacy is implemented</a></h6>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Boolean <code>isPrivate</code> added to field classes.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Privacy settings can be obtained straight from class by calling getter method.</p>
+</li>
+<li>
+<p>Cons: Adddtional methods are needed to set and get value of <code>isPrivate</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Field privacy settings stored in <code>Person</code> in a HashMap.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Field privacy can be accessed and modified easily</p>
+</li>
+<li>
+<p>Cons: <code>Person</code> has to be accessed every time field privacy needs to be checked</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect5">
+<h6 id="aspect-privacy-of-fields-upon-adding-of-player"><a class="link" href="#aspect-privacy-of-fields-upon-adding-of-player">Aspect: Privacy of fields upon adding of player</a></h6>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> All newly added players' fields are not private by default.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: <code>Add</code> command does not need to be tweaked to allow adding player with private fields.</p>
+</li>
+<li>
+<p>Cons: After adding players, user has to do additional command to toggle privacy of fields.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Include implementation of prefixes that denotes private field during <code>Add</code>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Newly added players can have private fields right away.</p>
+</li>
+<li>
+<p>Cons: Addtional changes has to be made to <code>Add</code> command.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -1163,7 +1345,7 @@ All functions related to <code>remark</code> is done strictly via the <code>rema
 <div class="sect4">
 <h5 id="current-implementation-4"><a class="link" href="#current-implementation-4">Current Implementation</a></h5>
 <div class="paragraph">
-<p>The <code>sort</code> command is currently able to sort players by name, phone, email or address, in either ascending or descending order. Support for more fields will be added in subsequent updates.</p>
+<p>The <code>sort</code> command is currently able to sort players by name, email, address, rating, jersey and postition in either ascending or descending order. Support for more fields will be added in subsequent updates.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1181,25 +1363,33 @@ All functions related to <code>remark</code> is done strictly via the <code>rema
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">        <span class="keyword">switch</span> (field) {
-        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:
-            comparator = nameComparator;
-            <span class="keyword">break</span>;
+                <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>:
+                    comparator = nameComparator;
+                    <span class="keyword">break</span>;
 
-        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">phone</span><span class="delimiter">&quot;</span></span>:
-            comparator = phoneComparator;
-            <span class="keyword">break</span>;
+                <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">jersey</span><span class="delimiter">&quot;</span></span>:
+                    comparator = jerseyComparator;
+                    <span class="keyword">break</span>;
 
-        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">email</span><span class="delimiter">&quot;</span></span>:
-            comparator = emailComparator;
-            <span class="keyword">break</span>;
+                <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">pos</span><span class="delimiter">&quot;</span></span>:
+                    comparator = posComparator;
+                    <span class="keyword">break</span>;
 
-        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">address</span><span class="delimiter">&quot;</span></span>:
-            comparator = addressComparator;
-            <span class="keyword">break</span>;
+                <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">rating</span><span class="delimiter">&quot;</span></span>:
+                    comparator = ratingComparator;
+                    <span class="keyword">break</span>;
 
-        <span class="keyword">default</span>:
-            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">AssertionError</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Invalid field parameter entered...</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
-        }
+                <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">email</span><span class="delimiter">&quot;</span></span>:
+                    comparator = emailComparator;
+                    <span class="keyword">break</span>;
+
+                <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">address</span><span class="delimiter">&quot;</span></span>:
+                    comparator = addressComparator;
+                    <span class="keyword">break</span>;
+
+                <span class="keyword">default</span>:
+                    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">AssertionError</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Invalid field parameter entered...</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
+                }
 
         <span class="keyword">switch</span> (order) {
         <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>:
@@ -1221,17 +1411,31 @@ All functions related to <code>remark</code> is done strictly via the <code>rema
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Comparator</span>&lt;Person&gt; nameComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
+<pre class="CodeRay highlight"><code data-lang="java">        <span class="predefined-type">Comparator</span>&lt;Person&gt; nameComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
             <span class="annotation">@Override</span>
             <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
                 <span class="keyword">return</span> p1.getName().fullName.compareTo(p2.getName().fullName);
             }
         };
 
-        <span class="predefined-type">Comparator</span>&lt;Person&gt; phoneComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
+        <span class="predefined-type">Comparator</span>&lt;Person&gt; jerseyComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
             <span class="annotation">@Override</span>
             <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
-                <span class="keyword">return</span> p1.getPhone().value.compareTo(p2.getPhone().value);
+                <span class="keyword">return</span> p1.getJerseyNumber().value.compareTo(p2.getJerseyNumber().value);
+            }
+        };
+
+        <span class="predefined-type">Comparator</span>&lt;Person&gt; ratingComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
+            <span class="annotation">@Override</span>
+            <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
+                <span class="keyword">return</span> p1.getRating().value.compareTo(p2.getRating().value);
+            }
+        };
+
+        <span class="predefined-type">Comparator</span>&lt;Person&gt; posComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
+            <span class="annotation">@Override</span>
+            <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
+                <span class="keyword">return</span> p1.getPosition().value.compareTo(p2.getPosition().value);
             }
         };
 
@@ -1370,16 +1574,138 @@ If address book is empty, a <code>NoPlayerException</code> will be thrown by <co
 </div>
 </div>
 <div class="sect3">
-<h4 id="show-best-xi-code-coming-in-v1-5-code"><a class="link" href="#show-best-xi-code-coming-in-v1-5-code">4.2.4. Show Best XI <code>[coming in v1.5]</code></a></h4>
+<h4 id="toggle-lock-on-mtm"><a class="link" href="#toggle-lock-on-mtm">4.2.4. Toggle lock on MTM</a></h4>
 <div class="sect4">
 <h5 id="current-implementation-5"><a class="link" href="#current-implementation-5">Current Implementation</a></h5>
 <div class="paragraph">
-<p>The <code>showBest</code> command is able to show the current team&#8217;s best 11 players. There is however functional implementation for this feature yet. Coming soon!</p>
+<p>Locking mechanism of MTM can be toggled on and off using the <code>Key</code> command. It utilises the Model to access
+user preferences of MTM. Current lock state and password is stored in <code>UserPrefs</code> in the Storage component.</p>
+</div>
+<div class="paragraph">
+<p>Password checking done in <code>Key</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">private</span> <span class="type">boolean</span> correctPassword() {
+        UserPrefs up = model.getUserPrefs();
+        <span class="predefined-type">String</span> hash = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+        <span class="keyword">return</span> hash.equals(up.getAddressBookHashedPass());
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When password check is done, the lock on MTM is toggled to the state opposite of the current:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">if</span> (correctPassword()) {
+            <span class="keyword">if</span> (model.getLockState()) {
+                model.unlockAddressBookModel();
+            } <span class="keyword">else</span> {
+                model.lockAddressBookModel();
+            }
+
+            logger.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Lock state is now: </span><span class="delimiter">&quot;</span></span> + <span class="predefined-type">Boolean</span>.toString(model.getLockState()));
+            <span class="keyword">return</span> <span class="keyword">new</span> CommandResult(MESSAGE_SUCCESS);
+        }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In a locked state, only certain functions of MTM can be used. This is to prevent unauthorised tampering with the details
+stored on MTM.</p>
+</div>
+<div class="paragraph">
+<p>This is done in <code>AddressBookParser</code>. Commands are split into low level or not. When a command is
+being executed, it is checked if it falls under the low level category. If so, it would execute. When adding new features,
+add them to this list should you feel it is 'low level':</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">private</span> Command lowLevelCommand(<span class="predefined-type">String</span> commandWord, <span class="predefined-type">String</span> arguments) <span class="directive">throws</span> <span class="exception">ParseException</span> {
+        <span class="keyword">switch</span>(commandWord) {
+        <span class="keyword">case</span> ChangeThemeCommand.COMMAND_WORD:
+        <span class="keyword">case</span> ChangeThemeCommand.COMMAND_ALIAS:
+            <span class="keyword">return</span> <span class="keyword">new</span> ChangeThemeCommandParser().parse(arguments);
+
+        <span class="keyword">case</span> FindCommand.COMMAND_WORD:
+        <span class="keyword">case</span> FindCommand.COMMAND_ALIAS:
+            <span class="keyword">return</span> <span class="keyword">new</span> FindCommandParser().parse(arguments);
+
+        <span class="keyword">case</span> ListCommand.COMMAND_WORD:
+        <span class="keyword">case</span> ListCommand.COMMAND_ALIAS:
+            <span class="keyword">return</span> <span class="keyword">new</span> ListCommand();
+
+        <span class="keyword">case</span> KeyCommand.COMMAND_WORD:
+        <span class="keyword">case</span> KeyCommand.COMMAND_ALIAS:
+            <span class="keyword">return</span> <span class="keyword">new</span> KeyCommandParser().parse(arguments);
+
+        <span class="keyword">case</span> ViewCommand.COMMAND_WORD:
+        <span class="keyword">case</span> ViewCommand.COMMAND_ALIAS:
+            <span class="keyword">return</span> <span class="keyword">new</span> ViewCommandParser().parse(arguments);
+
+        <span class="keyword">case</span> ExitCommand.COMMAND_WORD:
+            <span class="keyword">return</span> <span class="keyword">new</span> ExitCommand();
+
+        <span class="keyword">case</span> HelpCommand.COMMAND_WORD:
+            <span class="keyword">return</span> <span class="keyword">new</span> HelpCommand();
+
+        <span class="keyword">case</span> SortCommand.COMMAND_WORD:
+        <span class="keyword">case</span> SortCommand.COMMAND_ALIAS:
+            <span class="keyword">return</span> <span class="keyword">new</span> SortCommandParser().parse(arguments);
+
+        <span class="keyword">default</span>:
+            <span class="keyword">return</span> <span class="predefined-constant">null</span>;
+        }
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If command being executed does not fall into the category of 'low level', a check on the lock state of MTM is done
+before allowing or restricting access:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">if</span> (lockState) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">ParseException</span>(MESSAGE_RESTRICTED);
+        }</code></pre>
+</div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="design-consideration-3"><a class="link" href="#design-consideration-3">Design Consideration</a></h5>
-
+<h5 id="design-considerations-3"><a class="link" href="#design-considerations-3">Design Considerations</a></h5>
+<div class="sect5">
+<h6 id="aspect-implementation-of-locking-mtm"><a class="link" href="#aspect-implementation-of-locking-mtm">Aspect: Implementation of locking MTM</a></h6>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Lock is toggled with only a single command <code>Key</code>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Easy to implement, just check current lock state and switch it.</p>
+</li>
+<li>
+<p>Cons: With a toggle, user might unlock MTM thinking he/she is locking it.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Locking and unlocking of MTM is done with two separate commands.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Ensures that when a lock is done, MTM is truly locked.</p>
+</li>
+<li>
+<p>Cons: Addtional command needs to be created, along with its command parser and implementations.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1431,7 +1757,7 @@ If address book is empty, a <code>NoPlayerException</code> will be thrown by <co
 </div>
 </div>
 <div class="sect4">
-<h5 id="design-considerations-3"><a class="link" href="#design-considerations-3">Design Considerations</a></h5>
+<h5 id="design-considerations-4"><a class="link" href="#design-considerations-4">Design Considerations</a></h5>
 <div class="sect5">
 <h6 id="aspect-implementation-of-code-team-code"><a class="link" href="#aspect-implementation-of-code-team-code">Aspect: Implementation of <code>Team</code></a></h6>
 <div class="ulist">
@@ -1467,13 +1793,30 @@ If address book is empty, a <code>NoPlayerException</code> will be thrown by <co
 </div>
 </div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="user-experience-enhancements"><a class="link" href="#user-experience-enhancements">4.4. User Experience Enhancements</a></h3>
 <div class="sect3">
-<h4 id="tab-autocomplete"><a class="link" href="#tab-autocomplete">4.4.1. Tab Autocomplete</a></h4>
+<h4 id="show-best-xi-code-coming-in-v2-0-code"><a class="link" href="#show-best-xi-code-coming-in-v2-0-code">4.3.2. Show Best XI <code>[coming in v2.0]</code></a></h4>
 <div class="sect4">
 <h5 id="current-implementation-7"><a class="link" href="#current-implementation-7">Current Implementation</a></h5>
+<div class="paragraph">
+<p>The <code>showBest</code> command is able to show the current team&#8217;s best 11 players. There is however no functional implementation for this feature yet. Coming soon!</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="design-consideration-3"><a class="link" href="#design-consideration-3">Design Consideration</a></h5>
+
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="usability-enhancements"><a class="link" href="#usability-enhancements">4.4. Usability Enhancements</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="user-experience-enhancements"><a class="link" href="#user-experience-enhancements">4.5. User Experience Enhancements</a></h3>
+<div class="sect3">
+<h4 id="tab-autocomplete"><a class="link" href="#tab-autocomplete">4.5.1. Tab Autocomplete</a></h4>
+<div class="sect4">
+<h5 id="current-implementation-8"><a class="link" href="#current-implementation-8">Current Implementation</a></h5>
 <div class="paragraph">
 <p>The tab autocomplete feature works by handling the Tab key pressed event, searching for any commands with matching prefix and returns one if found.
 The command strings are stored in a Trie data structure, named <code>CommandTrie</code>, for optimal search.</p>
@@ -1513,9 +1856,9 @@ it will provide the user with possible commands for a given input. In this case,
 </div>
 </div>
 <div class="sect3">
-<h4 id="optional-fields-for-add-mechanism"><a class="link" href="#optional-fields-for-add-mechanism">4.4.2. Optional Fields for Add Mechanism</a></h4>
+<h4 id="optional-fields-for-add-mechanism"><a class="link" href="#optional-fields-for-add-mechanism">4.5.2. Optional Fields for Add Mechanism</a></h4>
 <div class="sect4">
-<h5 id="current-implementation-8"><a class="link" href="#current-implementation-8">Current Implementation</a></h5>
+<h5 id="current-implementation-9"><a class="link" href="#current-implementation-9">Current Implementation</a></h5>
 <div class="paragraph">
 <p>This mechanism enhances the original implementation of the <code>add</code> command. The required fields that are mandatory to be filled by the user are <code>n/NAME</code> and <code>e/EMAIL</code>. This implementation of making fields optional for <code>AddCommand</code> allows user to add players without their full information, and can be updated accordingly when the user retrieves their full information.</p>
 </div>
@@ -1637,11 +1980,11 @@ it will provide the user with possible commands for a given input. In this case,
 </div>
 </div>
 <div class="sect2">
-<h3 id="ui-enhancements"><a class="link" href="#ui-enhancements">4.5. UI Enhancements</a></h3>
+<h3 id="ui-enhancements"><a class="link" href="#ui-enhancements">4.6. UI Enhancements</a></h3>
 <div class="sect3">
-<h4 id="team-display-bar-code-since-v1-3-code"><a class="link" href="#team-display-bar-code-since-v1-3-code">4.5.1. Team Display Bar <code>[since v1.3]</code></a></h4>
+<h4 id="team-display-bar-code-since-v1-3-code"><a class="link" href="#team-display-bar-code-since-v1-3-code">4.6.1. Team Display Bar <code>[since v1.3]</code></a></h4>
 <div class="sect4">
-<h5 id="current-implementation-9"><a class="link" href="#current-implementation-9">Current Implementation</a></h5>
+<h5 id="current-implementation-10"><a class="link" href="#current-implementation-10">Current Implementation</a></h5>
 <div class="paragraph">
 <p>The Team Display Bar is implemented as <code>TeamDisplay</code> in the UI Component and renders <code>TeamDisplay.fxml</code>.
 It is called from <code>MainWindow</code> and will be highlighting
@@ -1688,7 +2031,7 @@ and handleDeselectTeamEvent(), which update the display accordingly</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="design-considerations-4"><a class="link" href="#design-considerations-4">Design Considerations</a></h5>
+<h5 id="design-considerations-5"><a class="link" href="#design-considerations-5">Design Considerations</a></h5>
 <div class="sect5">
 <h6 id="aspect-user-experience"><a class="link" href="#aspect-user-experience">Aspect: User Experience</a></h6>
 <div class="ulist">
@@ -1725,9 +2068,9 @@ and handleDeselectTeamEvent(), which update the display accordingly</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="player-details-pane-code-since-v1-4-code"><a class="link" href="#player-details-pane-code-since-v1-4-code">4.5.2. Player Details Pane <code>[since v1.4]</code></a></h4>
+<h4 id="player-details-pane-code-since-v1-4-code"><a class="link" href="#player-details-pane-code-since-v1-4-code">4.6.2. Player Details Pane <code>[since v1.4]</code></a></h4>
 <div class="sect4">
-<h5 id="current-implementation-10"><a class="link" href="#current-implementation-10">Current Implementation</a></h5>
+<h5 id="current-implementation-11"><a class="link" href="#current-implementation-11">Current Implementation</a></h5>
 <div class="paragraph">
 <p>The <code>Player Details</code> pane is implemented as <code>PlayerDetails</code> in the UI Component.
 It is called from <code>PlayerListPanel</code>. It renders <code>PlayerDetails.fxml</code> and displays the selected <code>PersonCard</code>.
@@ -1754,7 +2097,7 @@ It calls the <code>Person</code> model and displays the fields in the <code>Pers
 </div>
 </div>
 <div class="sect4">
-<h5 id="design-considerations-5"><a class="link" href="#design-considerations-5">Design Considerations</a></h5>
+<h5 id="design-considerations-6"><a class="link" href="#design-considerations-6">Design Considerations</a></h5>
 <div class="sect5">
 <h6 id="aspect-user-experience-2"><a class="link" href="#aspect-user-experience-2">Aspect: User Experience</a></h6>
 <div class="ulist">
@@ -1792,9 +2135,9 @@ place to look at after selection of a person card.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="change-theme-command-code-since-v1-5-code"><a class="link" href="#change-theme-command-code-since-v1-5-code">4.5.3. Change Theme Command <code>[since v1.5]</code></a></h4>
+<h4 id="change-theme-command-code-since-v1-5-code"><a class="link" href="#change-theme-command-code-since-v1-5-code">4.6.3. Change Theme Command <code>[since v1.5]</code></a></h4>
 <div class="sect4">
-<h5 id="current-implementation-11"><a class="link" href="#current-implementation-11">Current Implementation</a></h5>
+<h5 id="current-implementation-12"><a class="link" href="#current-implementation-12">Current Implementation</a></h5>
 <div class="paragraph">
 <p>The <code>ChangeThemeCommand</code> is a new feature that allows user to change the current theme to another theme. A new css class is implemented to accommodate the new theme, LightTheme.
 The <code>MainWindow</code> class is also changed to contain a handleChangeThemeRequestEvent() method which is an event handler to <code>setAddressBookTheme</code>,
@@ -1840,7 +2183,7 @@ which is a method in <code>UserPrefs</code>.<br></p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="design-considerations-6"><a class="link" href="#design-considerations-6">Design Considerations</a></h5>
+<h5 id="design-considerations-7"><a class="link" href="#design-considerations-7">Design Considerations</a></h5>
 <div class="sect5">
 <h6 id="aspect-user-experience-3"><a class="link" href="#aspect-user-experience-3">Aspect: User Experience</a></h6>
 <div class="ulist">
@@ -1877,9 +2220,9 @@ which is a method in <code>UserPrefs</code>.<br></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="set-tag-colour-feature-code-since-v1-1-code"><a class="link" href="#set-tag-colour-feature-code-since-v1-1-code">4.5.4. Set Tag Colour feature <code>[since v1.1]</code></a></h4>
+<h4 id="set-tag-colour-feature-code-since-v1-1-code"><a class="link" href="#set-tag-colour-feature-code-since-v1-1-code">4.6.4. Set Tag Colour feature <code>[since v1.1]</code></a></h4>
 <div class="sect4">
-<h5 id="current-implementation-12"><a class="link" href="#current-implementation-12">Current Implementation</a></h5>
+<h5 id="current-implementation-13"><a class="link" href="#current-implementation-13">Current Implementation</a></h5>
 <div class="paragraph">
 <p>The <code>Set</code> Command is an entirely new command that allows the user to assign a colour to a specific tag.
 This mechanism is facilitated by the <code>SetCommandParser</code>, which creates and returns a new <code>SetCommand</code>.
@@ -1941,7 +2284,7 @@ its handler in <code>PersonCard</code> responds and performs the UI update.<br><
 </div>
 </div>
 <div class="sect4">
-<h5 id="design-considerations-7"><a class="link" href="#design-considerations-7">Design Considerations</a></h5>
+<h5 id="design-considerations-8"><a class="link" href="#design-considerations-8">Design Considerations</a></h5>
 <div class="sect5">
 <h6 id="aspect-implementation-of-code-command-code-vs-code-undoablecommand-code"><a class="link" href="#aspect-implementation-of-code-command-code-vs-code-undoablecommand-code">Aspect: Implementation of <code>Command</code> vs  <code>UndoableCommand</code></a></h6>
 <div class="ulist">
@@ -3023,7 +3366,7 @@ Expected: Similar to previous.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-11 22:38:41 UTC
+Last updated 2018-04-12 11:17:42 UTC
 </div>
 </div>
 </body>
