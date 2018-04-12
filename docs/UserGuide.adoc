@@ -120,7 +120,8 @@ then a dropdown box will appear with the possible commands. These can be navigat
 
 Feeling lost? Not sure what to do? Don't worry, our friendly guide will help you! All you have to do is just type the `help` command, and you will get all the information you require.
 
-Format: `help`
+Format: `help` +
+Alias: kbd:[F1]
 
 [[history]]
 ==== Listing entered commands : `history`
@@ -699,7 +700,7 @@ Just a quick reference sheet for all your needs. Never forget how to use MTM eve
 d|Fills in your command for you
 
 |<<help, `help`>>
-|`NONE`
+|kbd:[F1]
 |help
 d|Shows the user guide
 
