@@ -795,30 +795,52 @@ Team-related commands that modifies the data in the application, such as `create
 
 For each feature, new functions are created in `AddressBook.java` and `ModelManager.java` so that the commands executed are able to manipulate the data accordingly.
 
-`create`: Creates a `Team`, so that other team-related commands can be executed.
+====== `create`: Creates a `Team`, so that other team-related commands can be executed.
+After the creation of a new team, the user will then be able to perform a new set of commands that performs team management functionality. Moreover, the `add` command can be used with the prefix `tm/` to immediately add the user into MTM and into the team specified.
 
 The sequence diagram below illustrates the operation of the `create` command:
 //TODO-jordan: create sequence diagram for create
 
-`view`: Views a `Team`, which shows all players in the team.
+====== `view`: Views a `Team`, which shows all players in the team.
+The command uses the `filteredPersons` list, and an overloaded `updateFilteredPersonList` method that sets a predicate that filters the list based on a `TeamName`, in `ModelManager.java` so that it can be displayed via the UI.
 
 The sequence diagram below illustrates the operation of the `view` command:
-//TODO-jordan: create sequence diagram for view
+//TODO-jordan: view sequence diagram for view
 
-`rename`: Renames a given `Team`.
+====== `rename`: Renames a given `Team`.
+The user can rename a specified team to a new team name only if the current team name does not existing in MTM. On a side note, it prevents the user from renaming the team to the same name that it currently have.
+
+This command will update the name of the teams that are in `teams` in `AddressBook.java` and will update all the players `TeamName` field in `persons` and `Team` with the new team name.
 
 The sequence diagram below illustrates the operation of the `rename` command:
-//TODO-jordan: create sequence diagram for rename
+//TODO-jordan: rename sequence diagram for rename
 
-`assign`: Assign a set of `Person` to a specified `Team`.
+====== `assign`: Assign a set of `Person` to a specified `Team`.
+The core feature that organizes the player into teams so that the user can easily view the desired team players quickly. The command have 2 functions, firstly it is able to assign an individual or a set of players to a specified team, and secondly, it is able to unassign an individual or a set of players from any team.
+
+The command takes in a set of indexes that corresponds to the player in the current list, and will perform the assign operation in ascending index order. If the command is unable to process an index given, it will process all the valid index until the index that causes an issue.
+
+[NOTE]
+====
+Typical issues that the command handles are,
+
+* Assigning a player to the same team that it is currently in.
+* Assigning a player to team that does not exist.
+* Unassigning a player that does not exist in any team.
+* Process index starting from 1.
+* Removes all index that exceeds the current number of player listed.
+====
+
+This command will update and synchronise all affected players in `persons` and in the specified `Team` object, such that their `TeamName` field in `Person` are updated with the new assigned or unassigned team. At the same time, the list of players in `Team` gets update if new player are assigned or unassigned.
 
 The sequence diagram below illustrates the operation of the `assign` command:
-//TODO-jordan: create sequence diagram for assign
+//TODO-jordan: assign sequence diagram for assign
 
-`remove`: Removes the given `Team`.
+====== `remove`: Removes the given `Team`.
+The final step in completing the CRUD design is the removal of team. It will delete the `Team` from `teams` list in `AddressBook.java` and will update all affected players in the team to be unassigned from the team by having their `TeamName` field updated with an unspecifed field.
 
 The sequence diagram below illustrates the operation of the `remove` command:
-//TODO-jordan: create sequence diagram for remove
+//TODO-jordan: remove sequence diagram for remove
 
 ===== Design Consideration
 ====== Aspect: Implementation of Team Functions
