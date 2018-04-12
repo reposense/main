@@ -32,6 +32,14 @@ Head to <<Quick Start>> to get started with My Team Manager!
 
 == Quick Start
 
+Welcome! If you want to learn more about using My Team Manager, you've come to the right place. My Team Manager is the easiest
+way for you to manage your team efficiently, and this quick start section will help you learn the basics so you can get going.
+
+Your team, its players, and relevant information are organized clearly in My Team Manager. Teams can be created and
+players can be assign to teams.
+
+=== Before we begin
+
 .  Ensure you have Java version `1.8.0_60` or later installed in your Computer.
 .  You can download Java 8 link:http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[here].
 +
@@ -41,23 +49,25 @@ This app will not work with earlier versions of Java 8.
 +
 .  Download the latest `MyTeamManage.jar` link:{repoURL}/releases[here].
 .  Copy the file to the folder you want to use as the home folder for your MTM.
-.  Double-click the file to start the app. The software interface should appear in a few seconds.
+.  Double-click the file to start the app. The software interface should appear in a few seconds as shown below.
 +
-image::Ui.png[width="790"]
-+
-.  Type the command in the command box and press kbd:[Enter] to execute it. +
-e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
-.  Some example commands you can try:
+image::Ui_New.png[width="790"]
 
-* *`list`* : lists all contacts
-* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a contact named `John Doe` to MTM.
-* **`delete`**`3` : deletes the 3rd contact shown in the current list
-* *`exit`* : exits the app
+=== Navigating the interface
 
-.  Refer to <<Features>> for details of each command.
+The figure below shows the different components in My Team Manager and the list below explains their purpose.
 
-[[Features]]
-== Features
+image::Ui_Guide.png[width="790"]
+
+. Command Box : This is where you key in the commands to use My Team Manager.
+. Display Box : The display box displays results to any command you input.
+. Team List : This displays the teams you have created in My Team Manager. If a team is being viewed, it would be highlighted.
+. Details Panel : This displays details of the player that is currently selected. Here, the player's name, phone number, address, email, jersey number followed by remarks are shown.
+. Systems Panel : On the left, it displays the time and date when the addressbook is last updated. On the right is the location of the addressbook data.
+. Player List : This is the list of player cards. In each player card, the player's name, tags, team, rating, followed by position is displayed. The player's avatar is also shown on the right column.
+
+[[Using_Commands]]
+=== Using Commands
 
 .*Getting started with Commands*
 ****
@@ -83,7 +93,49 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 ====
 ****
 
-=== Basic Commands and Features
+Now that you are familiar with the interface and using commands, you are now ready to begin using My Team Manager!
+
+== Three steps to get started
+
+=== Add your first player
+
+.  Add your first player, `Ronaldo` by typing the command `add n/Ronaldo e/Ronaldo@arsenal.com` in the command box and pressing kbd:[Enter] to execute it.
+
++
+image::Add.png[width="790"]
++
+.  Your new player, `Ronaldo` should appear in the player list.
+
+=== Create your first team
+Now that you have a player, let's explore teams. Teams allow you to manage and group your players together according to
+the teams they belong to.
+
+. Create your first team, `Arsenal` by typing the command `create Arsenal` in the command box and pressing kbd:[Enter] to execute it.
++
+image::Create.png[width="790"]
++
+. Your new team, `Arsenal` should appear in the team list.
+. You can now assign `Ronaldo` to `Arsenal` by typing the command `assign tm/Arsenal i/1` in the command box and pressing kbd:[Enter] to execute it.
+. `Ronaldo` 's team field should now show Arsenal.
+
+=== Viewing more details
+
+. View more details about a player, by entering `select` followed by the <<Index>> of the player. For example, to view
+`Ronaldo` 's details, enter `select 1`.
+. The details panel should now show the player's details.
++
+image::Select.png[width="790"]
++
+.  You may notice that there are fields that show `<UNSPECIFIED>`. These are optional fields that you can edit later on.
+Furthermore, there are many ways you can customize and add to My Team Manager. Here are a few ways to start:
+
+.. <<Editing>> 
+.. <<ChangeTheme>>
+.. <<setTagColour>>
+.. <<Privacy>>
+.. <<Sort>>
+
+== Basic Commands and Features
 
 Let's start of with the basic commands that MTM provides that gives you the power to effectively use MTM quickly. These features will make you use MTM more efficiently and teaches you how to navigate through MTM with ease.
 
@@ -199,6 +251,7 @@ Format: `exit`
 
 === Player Related Commands
 
+[[Adding]]
 ==== Adding a player: `add`
 This is the command that you will be using most frequently, especially with dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the `add` command.
 
@@ -651,6 +704,11 @@ Displays the 11 main players that will be playing for the next match.
 *A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous MTM folder.
 
 // tag::commandsummary[]
+
+== Glossary
+
+[[Index]] *Index* - The index refers to the index number shown in the last player listing. The index must be a positive integer 1, 2, 3, …​
+
 == Command Summary
 
 Just a quick reference sheet for all your needs. Never forget how to use MTM ever again.
