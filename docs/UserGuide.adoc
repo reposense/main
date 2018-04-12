@@ -128,8 +128,7 @@ image::Select.png[width="790"]
 +
 .  You may notice that there are fields that show `<UNSPECIFIED>`. These are optional fields that you can edit later on.
 Furthermore, there are many ways you can customize and add to My Team Manager. Here are a few ways to start:
-
-.. <<Editing>> 
+.. <<Editing>>
 .. <<ChangeTheme>>
 .. <<setTagColour>>
 .. <<Privacy>>
