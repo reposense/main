@@ -1,9 +1,9 @@
 package seedu.address.model.team.exceptions;
 
+//@@author jordancjq
 /**
  * Signals that the operation is unable to find the specified team.
  */
-//@@author jordancjq
 public class TeamNotFoundException extends Exception {
 
     public TeamNotFoundException() {};
