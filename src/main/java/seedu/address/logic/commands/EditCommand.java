@@ -118,7 +118,7 @@ public class EditCommand extends UndoableCommand {
             throw new CommandException(MESSAGE_FILE_NOT_FOUND);
         }
         //@@author Codee
-        EventsCenter.getInstance().post(new PersonDetailsChangedEvent(editedPerson));
+        EventsCenter.getInstance().post(new PersonDetailsChangedEvent(editedPerson, index));
         //@@author
         EventsCenter.getInstance().post(new DeselectTeamEvent());
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);

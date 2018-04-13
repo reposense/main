@@ -371,6 +371,8 @@ Alias: `e`
 
 ****
 * Edits the player at the specified `INDEX`. The index refers to the index number shown in the last player listing. The index *must be a positive integer* 1, 2, 3, ...
+* Please only edit the player that is currently being selected. If you were to edit a player who is not selected, the player's
+details will be updated, but the selection will remain at the currently selected player.
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When you edit tags, the existing tags of the player will be removed i.e adding of tags is not cumulative.
@@ -421,7 +423,9 @@ Alias: `rm`
 [NOTE]
 ====
 By leaving out `r/REMARK`, the command acts as a remark removal. +
-Only use the `remark` command when you want to leave a remark, `add` or `edit` does not allow you to create a remark for the player.
+Only use the `remark` command when you want to leave a remark, `add` or `edit` does not allow you to create a remark for the player. +
+Please only add remarks to the player that is currently being selected. If you were to add remarks to a player who is not selected, the player's
+remarks will be updated, but the selection will remain at the currently selected player.
 ====
 
 [IMPORTANT]

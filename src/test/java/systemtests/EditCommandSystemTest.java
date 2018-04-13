@@ -244,7 +244,6 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
             throw new IllegalArgumentException(
                     "editedPerson is a duplicate in expectedModel, or it isn't found in the model.");
         }
-
         assertCommandSuccess(command, expectedModel,
                 String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson), expectedSelectedCardIndex);
     }
