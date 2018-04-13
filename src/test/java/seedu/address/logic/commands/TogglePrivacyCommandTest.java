@@ -16,8 +16,8 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
-import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.EditPersonPrivacyBuilder;
+import seedu.address.testutil.PersonBuilder;
 
 public class TogglePrivacyCommandTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());

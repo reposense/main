@@ -79,6 +79,11 @@ public class TogglePrivacyCommandParserTest {
         compareTpCommand(expected, actual);
     }
 
+    /**
+     * Checks if two TP commands are equal
+     * @param expected
+     * @param actual
+     */
     private void compareTpCommand(TogglePrivacyCommand expected, TogglePrivacyCommand actual) {
         assertEquals(expected.getIndex(), actual.getIndex());
         assertEquals(expected.getEpp().getPrivateRemark(), actual.getEpp().getPrivateRemark());
