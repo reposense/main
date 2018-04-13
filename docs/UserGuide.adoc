@@ -690,7 +690,7 @@ Instead, just enter `cte <your desired theme>` to change the colour back!
 
 [[changeTheme]]
 // tag::changeTheme[]
-=== Changing theme : `changeTheme` `[Since v1.5]`
+==== Changing theme : `changeTheme` `[Since v1.5]`
 If you feel that the light theme is not for you, and you prefer to work on a darker interface,
 you can change the theme from the default LightTheme to DarkTheme with the 'changeTheme' command.
 
@@ -822,7 +822,7 @@ Displays the 11 main players that will be playing for the next match.
 
 == Glossary
 
-[[Index]] *Index* - The index refers to the index number shown in the last player listing. The index must be a positive integer 1, 2, 3, …​
+[[Index]] *Index* - The index refers to the index number shown in the last player listing. The index must be a positive integer 1, 2, 3, …
 
 == Command Summary
 
