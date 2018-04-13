@@ -750,111 +750,6 @@ If address book is empty, a `NoPlayerException` will be thrown by `sortBy` metho
 ** Cons: Sort order is lost when program exits. More memory is used to sort a list and reverse it after.
 // end::sort[]
 
-=== Usability Enhancements
-
-// tag::key[]
-==== Toggle lock on MTM
-===== Current Implementation
-Locking mechanism of MTM can be toggled on and off using the `Key` command. It utilises the Model to access
-user preferences of MTM. Current lock state and password is stored in `UserPrefs` in the Storage component.
-
-Password checking done in `Key` command:
-[source, java]
-----
-private boolean correctPassword() {
-        UserPrefs up = model.getUserPrefs();
-        String hash = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
-        return hash.equals(up.getAddressBookHashedPass());
-    }
-----
-When password check is done, the lock on MTM is toggled to the state opposite of the current:
-[source, java]
-----
-if (correctPassword()) {
-            if (model.getLockState()) {
-                model.unlockAddressBookModel();
-            } else {
-                model.lockAddressBookModel();
-            }
-
-            logger.info("Lock state is now: " + Boolean.toString(model.getLockState()));
-            return new CommandResult(MESSAGE_SUCCESS);
-        }
-----
-
-In a locked state, only certain functions of MTM can be used. This is to prevent unauthorised tampering with the details
-stored on MTM.
-
-This is done in `AddressBookParser`. Commands are split into low level or not. When a command is
-being executed, it is checked if it falls under the low level category. If so, it would execute. When adding new features,
-add them to this list should you feel it is 'low level':
-[source, java]
-----
-private Command lowLevelCommand(String commandWord, String arguments) throws ParseException {
-        switch(commandWord) {
-        case ChangeThemeCommand.COMMAND_WORD:
-        case ChangeThemeCommand.COMMAND_ALIAS:
-            return new ChangeThemeCommandParser().parse(arguments);
-
-        case FindCommand.COMMAND_WORD:
-        case FindCommand.COMMAND_ALIAS:
-            return new FindCommandParser().parse(arguments);
-
-        case ListCommand.COMMAND_WORD:
-        case ListCommand.COMMAND_ALIAS:
-            return new ListCommand();
-
-        case KeyCommand.COMMAND_WORD:
-        case KeyCommand.COMMAND_ALIAS:
-            return new KeyCommandParser().parse(arguments);
-
-        case ViewCommand.COMMAND_WORD:
-        case ViewCommand.COMMAND_ALIAS:
-            return new ViewCommandParser().parse(arguments);
-
-        case ExitCommand.COMMAND_WORD:
-            return new ExitCommand();
-
-        case HelpCommand.COMMAND_WORD:
-            return new HelpCommand();
-
-        case SortCommand.COMMAND_WORD:
-        case SortCommand.COMMAND_ALIAS:
-            return new SortCommandParser().parse(arguments);
-
-        default:
-            return null;
-        }
-    }
-----
-If command being executed does not fall into the category of 'low level', a check on the lock state of MTM is done
-before allowing or restricting access:
-[source, java]
-----
-if (lockState) {
-            throw new ParseException(MESSAGE_RESTRICTED);
-        }
-----
-
-===== Design Considerations
-====== Aspect: Implementation of locking MTM
-* **Alternative 1 (current choice):** Lock is toggled with only a single command `Key`.
-** Pros: Easy to implement, just check current lock state and switch it.
-** Cons: With a toggle, user might unlock MTM thinking he/she is locking it.
-* **Alternative 2:** Locking and unlocking of MTM is done with two separate commands.
-** Pros: Ensures that when a lock is done, MTM is truly locked.
-** Cons: Addtional command needs to be created, along with its command parser and implementations.
-// end::key[]
-
-// tag::changepass[]
-==== Change Password `[Coming in v2.0]`
-
-===== Current Implementation
-Default password used for toggling lock on MTM is currently 'ilikesports'. In an upcoming update, user would be able
-to change this password to one of his choosing. There is currently no functional implementation for this feature yet.
-Coming soon!
-// end::changepass[]
-
 === Team-Related Enhancements
 
 // tag::team[]
@@ -1098,6 +993,111 @@ The sequence diagram below illustrates the operation of the `remove` command:
 
 The `showBest` command is able to show the current team's best 11 players. There is however no functional implementation for this feature yet. Coming soon!
 // end::showbestxi[]
+
+=== Usability Enhancements
+
+// tag::key[]
+==== Toggle lock on MTM
+===== Current Implementation
+Locking mechanism of MTM can be toggled on and off using the `Key` command. It utilises the Model to access
+user preferences of MTM. Current lock state and password is stored in `UserPrefs` in the Storage component.
+
+Password checking done in `Key` command:
+[source, java]
+----
+private boolean correctPassword() {
+        UserPrefs up = model.getUserPrefs();
+        String hash = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+        return hash.equals(up.getAddressBookHashedPass());
+    }
+----
+When password check is done, the lock on MTM is toggled to the state opposite of the current:
+[source, java]
+----
+if (correctPassword()) {
+            if (model.getLockState()) {
+                model.unlockAddressBookModel();
+            } else {
+                model.lockAddressBookModel();
+            }
+
+            logger.info("Lock state is now: " + Boolean.toString(model.getLockState()));
+            return new CommandResult(MESSAGE_SUCCESS);
+        }
+----
+
+In a locked state, only certain functions of MTM can be used. This is to prevent unauthorised tampering with the details
+stored on MTM.
+
+This is done in `AddressBookParser`. Commands are split into low level or not. When a command is
+being executed, it is checked if it falls under the low level category. If so, it would execute. When adding new features,
+add them to this list should you feel it is 'low level':
+[source, java]
+----
+private Command lowLevelCommand(String commandWord, String arguments) throws ParseException {
+        switch(commandWord) {
+        case ChangeThemeCommand.COMMAND_WORD:
+        case ChangeThemeCommand.COMMAND_ALIAS:
+            return new ChangeThemeCommandParser().parse(arguments);
+
+        case FindCommand.COMMAND_WORD:
+        case FindCommand.COMMAND_ALIAS:
+            return new FindCommandParser().parse(arguments);
+
+        case ListCommand.COMMAND_WORD:
+        case ListCommand.COMMAND_ALIAS:
+            return new ListCommand();
+
+        case KeyCommand.COMMAND_WORD:
+        case KeyCommand.COMMAND_ALIAS:
+            return new KeyCommandParser().parse(arguments);
+
+        case ViewCommand.COMMAND_WORD:
+        case ViewCommand.COMMAND_ALIAS:
+            return new ViewCommandParser().parse(arguments);
+
+        case ExitCommand.COMMAND_WORD:
+            return new ExitCommand();
+
+        case HelpCommand.COMMAND_WORD:
+            return new HelpCommand();
+
+        case SortCommand.COMMAND_WORD:
+        case SortCommand.COMMAND_ALIAS:
+            return new SortCommandParser().parse(arguments);
+
+        default:
+            return null;
+        }
+    }
+----
+If command being executed does not fall into the category of 'low level', a check on the lock state of MTM is done
+before allowing or restricting access:
+[source, java]
+----
+if (lockState) {
+            throw new ParseException(MESSAGE_RESTRICTED);
+        }
+----
+
+===== Design Considerations
+====== Aspect: Implementation of locking MTM
+* **Alternative 1 (current choice):** Lock is toggled with only a single command `Key`.
+** Pros: Easy to implement, just check current lock state and switch it.
+** Cons: With a toggle, user might unlock MTM thinking he/she is locking it.
+* **Alternative 2:** Locking and unlocking of MTM is done with two separate commands.
+** Pros: Ensures that when a lock is done, MTM is truly locked.
+** Cons: Addtional command needs to be created, along with its command parser and implementations.
+// end::key[]
+
+// tag::changepass[]
+==== Change Password `[coming in v2.0]`
+
+===== Current Implementation
+Default password used for toggling lock on MTM is currently 'ilikesports'. In an upcoming update, user would be able
+to change this password to one of his choosing. There is currently no functional implementation for this feature yet.
+Coming soon!
+// end::changepass[]
 
 === User Experience Enhancements
 

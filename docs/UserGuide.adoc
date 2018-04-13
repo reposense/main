@@ -257,9 +257,10 @@ Format: `exit`
 
 === Player-Related Commands
 
-[[add]]
 // tag::addplayer[]
+[[add]]
 ==== Adding a player: `add`
+
 This is the command that you will be using most frequently, especially when dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the `add` command.
 
 Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [av/AVATAR] [t/TAG]...` +
