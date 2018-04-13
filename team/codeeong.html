@@ -514,6 +514,41 @@ which is a method in <code>UserPrefs</code>.<br></p>
 <div class="sect4">
 <h5 id="design-considerations-4"><a class="link" href="#design-considerations-4">Design Considerations</a></h5>
 <div class="sect5">
+<h6 id="aspect-command-syntax"><a class="link" href="#aspect-command-syntax">Aspect: Command Syntax</a></h6>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> The command syntax is in the form "changeTheme Dark" or "changeTheme Light".</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: This supports future implementation of more themes, so that the developer can easily add the new themes without
+having to change the execution.</p>
+</li>
+<li>
+<p>Cons: The command is longer than it could be. (see alternative 2)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> The command syntax in the form "changeTheme", which would automatically toggle the theme.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: User does not have to type anything to change the theme, so it might be more user friendly.</p>
+</li>
+<li>
+<p>Cons: Future implementation of more themes would be harder for the developer as the toggle function would have to be
+changed quite drastically to become a command for selecting a theme out of multiple themes.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect5">
 <h6 id="aspect-user-experience-3"><a class="link" href="#aspect-user-experience-3">Aspect: User Experience</a></h6>
 <div class="ulist">
 <ul>
@@ -553,7 +588,7 @@ which is a method in <code>UserPrefs</code>.<br></p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-12 11:17:42 UTC
+Last updated 2018-04-13 02:24:25 UTC
 </div>
 </div>
 </body>
