@@ -6,9 +6,9 @@ import seedu.address.commons.events.BaseEvent;
  * Event handler for undoing clearing of all teams.
  */
 // @@author Codee
-public class UndoClearTeamsEvent extends BaseEvent {
+public class UndoTeamsEvent extends BaseEvent {
 
-    public UndoClearTeamsEvent() {
+    public UndoTeamsEvent() {
     }
 
     @Override

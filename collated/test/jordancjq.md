@@ -33,6 +33,37 @@ public class RemoveCommandParserTest {
     }
 }
 ```
+###### /java/seedu/address/logic/parser/CreateCommandParserTest.java
+``` java
+public class CreateCommandParserTest {
+
+    private static final String TEAM_NAME_EMPTY = "";
+
+    private CreateCommandParser parser = new CreateCommandParser();
+
+    @Test
+    public void parse_fieldPresent_success() {
+        // with team name
+        CreateCommand expectedCommand = new CreateCommand(new Team(new TeamName(VALID_TEAM_ARSENAL)));
+        String userInput = VALID_TEAM_ARSENAL;
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_compulsoryFieldMissing_failure() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, CreateCommand.MESSAGE_USAGE);
+
+        // missing team name
+        assertParseFailure(parser, TEAM_NAME_EMPTY, expectedMessage);
+    }
+
+    @Test
+    public void parse_invalidTeamName_failure() {
+        // invalid team name
+        assertParseFailure(parser, INVALID_TEAM_NAME_DESC, TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+    }
+}
+```
 ###### /java/seedu/address/logic/parser/AssignCommandParserTest.java
 ``` java
 public class AssignCommandParserTest {
@@ -101,216 +132,6 @@ public class AssignCommandParserTest {
         assertEquals(expectedIndexes, ParserUtil.parseIndexes("1 2 3"));
     }
 
-    @Test
-    public void parseName_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseName((String) null));
-        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseName((Optional<String>) null));
-    }
-
-    @Test
-    public void parseName_invalidValue_throwsIllegalValueException() {
-        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseName(INVALID_NAME));
-        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseName(Optional.of(INVALID_NAME)));
-    }
-
-    @Test
-    public void parseName_optionalEmpty_returnsOptionalEmpty() throws Exception {
-        assertFalse(ParserUtil.parseName(Optional.empty()).isPresent());
-    }
-
-    @Test
-    public void parseName_validValueWithoutWhitespace_returnsName() throws Exception {
-        Name expectedName = new Name(VALID_NAME);
-        assertEquals(expectedName, ParserUtil.parseName(VALID_NAME));
-        assertEquals(Optional.of(expectedName), ParserUtil.parseName(Optional.of(VALID_NAME)));
-    }
-
-    @Test
-    public void parseName_validValueWithWhitespace_returnsTrimmedName() throws Exception {
-        String nameWithWhitespace = WHITESPACE + VALID_NAME + WHITESPACE;
-        Name expectedName = new Name(VALID_NAME);
-        assertEquals(expectedName, ParserUtil.parseName(nameWithWhitespace));
-        assertEquals(Optional.of(expectedName), ParserUtil.parseName(Optional.of(nameWithWhitespace)));
-    }
-
-    @Test
-    public void parseTeamName_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseTeamName((String) null));
-        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseTeamName((Optional<String>) null));
-    }
-
-    @Test
-    public void parseTeamName_invalidValue_throwsIllegalValueException() {
-        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseTeamName(INVALID_TEAM));
-        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseTeamName(Optional.of(INVALID_TEAM)));
-    }
-
-    @Test
-    public void parseTeamName_optionalEmpty_returnsOptionalEmpty() throws Exception {
-        assertFalse(ParserUtil.parseTeamName(Optional.empty()).isPresent());
-    }
-
-    @Test
-    public void parseTeamName_validValueWithoutWhitespace_returnsName() throws Exception {
-        TeamName expectedTeamName = new TeamName(VALID_TEAM_NAME);
-        assertEquals(expectedTeamName, ParserUtil.parseTeamName(VALID_TEAM_NAME));
-        assertEquals(Optional.of(expectedTeamName), ParserUtil.parseTeamName(Optional.of(VALID_TEAM_NAME)));
-    }
-
-    @Test
-    public void parseTeamName_validValueWithWhitespace_returnsTrimmedName() throws Exception {
-        String nameWithWhitespace = WHITESPACE + VALID_TEAM_NAME + WHITESPACE;
-        TeamName expectedName = new TeamName(VALID_TEAM_NAME);
-        assertEquals(expectedName, ParserUtil.parseTeamName(nameWithWhitespace));
-        assertEquals(Optional.of(expectedName), ParserUtil.parseTeamName(Optional.of(nameWithWhitespace)));
-    }
-
-    @Test
-    public void parsePhone_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parsePhone((String) null));
-        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parsePhone((Optional<String>) null));
-    }
-
-    @Test
-    public void parsePhone_invalidValue_throwsIllegalValueException() {
-        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parsePhone(INVALID_PHONE));
-        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parsePhone(Optional.of(INVALID_PHONE)));
-    }
-
-    @Test
-    public void parsePhone_optionalEmpty_returnsOptionalEmpty() throws Exception {
-        assertFalse(ParserUtil.parsePhone(Optional.empty()).isPresent());
-    }
-
-    @Test
-    public void parsePhone_validValueWithoutWhitespace_returnsPhone() throws Exception {
-        Phone expectedPhone = new Phone(VALID_PHONE);
-        assertEquals(expectedPhone, ParserUtil.parsePhone(VALID_PHONE));
-        assertEquals(Optional.of(expectedPhone), ParserUtil.parsePhone(Optional.of(VALID_PHONE)));
-    }
-
-    @Test
-    public void parsePhone_validValueWithWhitespace_returnsTrimmedPhone() throws Exception {
-        String phoneWithWhitespace = WHITESPACE + VALID_PHONE + WHITESPACE;
-        Phone expectedPhone = new Phone(VALID_PHONE);
-        assertEquals(expectedPhone, ParserUtil.parsePhone(phoneWithWhitespace));
-        assertEquals(Optional.of(expectedPhone), ParserUtil.parsePhone(Optional.of(phoneWithWhitespace)));
-    }
-
-    @Test
-    public void parseAddress_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseAddress((String) null));
-        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseAddress((Optional<String>) null));
-    }
-
-    @Test
-    public void parseAddress_invalidValue_throwsIllegalValueException() {
-        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseAddress(INVALID_ADDRESS));
-        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseAddress(Optional.of(INVALID_ADDRESS)));
-    }
-
-    @Test
-    public void parseAddress_optionalEmpty_returnsOptionalEmpty() throws Exception {
-        assertFalse(ParserUtil.parseAddress(Optional.empty()).isPresent());
-    }
-
-    @Test
-    public void parseAddress_validValueWithoutWhitespace_returnsAddress() throws Exception {
-        Address expectedAddress = new Address(VALID_ADDRESS);
-        assertEquals(expectedAddress, ParserUtil.parseAddress(VALID_ADDRESS));
-        assertEquals(Optional.of(expectedAddress), ParserUtil.parseAddress(Optional.of(VALID_ADDRESS)));
-    }
-
-    @Test
-    public void parseAddress_validValueWithWhitespace_returnsTrimmedAddress() throws Exception {
-        String addressWithWhitespace = WHITESPACE + VALID_ADDRESS + WHITESPACE;
-        Address expectedAddress = new Address(VALID_ADDRESS);
-        assertEquals(expectedAddress, ParserUtil.parseAddress(addressWithWhitespace));
-        assertEquals(Optional.of(expectedAddress), ParserUtil.parseAddress(Optional.of(addressWithWhitespace)));
-    }
-
-    @Test
-    public void parseEmail_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseEmail((String) null));
-        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseEmail((Optional<String>) null));
-    }
-
-    @Test
-    public void parseEmail_invalidValue_throwsIllegalValueException() {
-        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseEmail(INVALID_EMAIL));
-        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parseEmail(Optional.of(INVALID_EMAIL)));
-    }
-
-    @Test
-    public void parseEmail_optionalEmpty_returnsOptionalEmpty() throws Exception {
-        assertFalse(ParserUtil.parseEmail(Optional.empty()).isPresent());
-    }
-
-    @Test
-    public void parseEmail_validValueWithoutWhitespace_returnsEmail() throws Exception {
-        Email expectedEmail = new Email(VALID_EMAIL);
-        assertEquals(expectedEmail, ParserUtil.parseEmail(VALID_EMAIL));
-        assertEquals(Optional.of(expectedEmail), ParserUtil.parseEmail(Optional.of(VALID_EMAIL)));
-    }
-
-    @Test
-    public void parseEmail_validValueWithWhitespace_returnsTrimmedEmail() throws Exception {
-        String emailWithWhitespace = WHITESPACE + VALID_EMAIL + WHITESPACE;
-        Email expectedEmail = new Email(VALID_EMAIL);
-        assertEquals(expectedEmail, ParserUtil.parseEmail(emailWithWhitespace));
-        assertEquals(Optional.of(expectedEmail), ParserUtil.parseEmail(Optional.of(emailWithWhitespace)));
-    }
-
-    @Test
-    public void parseTag_null_throwsNullPointerException() throws Exception {
-        thrown.expect(NullPointerException.class);
-        ParserUtil.parseTag(null);
-    }
-
-    @Test
-    public void parseTag_invalidValue_throwsIllegalValueException() throws Exception {
-        thrown.expect(IllegalValueException.class);
-        ParserUtil.parseTag(INVALID_TAG);
-    }
-
-    @Test
-    public void parseTag_validValueWithoutWhitespace_returnsTag() throws Exception {
-        Tag expectedTag = new Tag(VALID_TAG_1);
-        assertEquals(expectedTag, ParserUtil.parseTag(VALID_TAG_1));
-    }
-
-    @Test
-    public void parseTag_validValueWithWhitespace_returnsTrimmedTag() throws Exception {
-        String tagWithWhitespace = WHITESPACE + VALID_TAG_1 + WHITESPACE;
-        Tag expectedTag = new Tag(VALID_TAG_1);
-        assertEquals(expectedTag, ParserUtil.parseTag(tagWithWhitespace));
-    }
-
-    @Test
-    public void parseTags_null_throwsNullPointerException() throws Exception {
-        thrown.expect(NullPointerException.class);
-        ParserUtil.parseTags(null);
-    }
-
-    @Test
-    public void parseTags_collectionWithInvalidTags_throwsIllegalValueException() throws Exception {
-        thrown.expect(IllegalValueException.class);
-        ParserUtil.parseTags(Arrays.asList(VALID_TAG_1, INVALID_TAG));
-    }
-
-    @Test
-    public void parseTags_emptyCollection_returnsEmptySet() throws Exception {
-        assertTrue(ParserUtil.parseTags(Collections.emptyList()).isEmpty());
-    }
-
-    @Test
-    public void parseTags_collectionWithValidTags_returnsTagSet() throws Exception {
-        Set<Tag> actualTagSet = ParserUtil.parseTags(Arrays.asList(VALID_TAG_1, VALID_TAG_2));
-        Set<Tag> expectedTagSet = new HashSet<Tag>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
-
-        assertEquals(expectedTagSet, actualTagSet);
-    }
-
 ```
 ###### /java/seedu/address/logic/parser/ParserUtilTest.java
 ``` java
@@ -320,9 +141,6 @@ public class AssignCommandParserTest {
                 ParserUtil.parseValue(Optional.empty(), Phone.MESSAGE_PHONE_CONSTRAINTS));
     }
 
-```
-###### /java/seedu/address/logic/parser/ParserUtilTest.java
-``` java
     @Test
     public void parseValue_unspecifiedValue_throwsIllegalValueException() throws Exception {
         thrown.expect(IllegalValueException.class);
@@ -455,9 +273,9 @@ public class RemarkCommandParserTest {
 
 }
 ```
-###### /java/seedu/address/logic/commands/RemoveCommandTest.java
+###### /java/seedu/address/logic/commands/CreateCommandTest.java
 ``` java
-public class RemoveCommandTest {
+public class CreateCommandTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -467,62 +285,170 @@ public class RemoveCommandTest {
     @Test
     public void constructor_nullTeam_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        new RemoveCommand(null);
+        new CreateCommand(null);
     }
 
     @Test
-    public void execute_removeTeam_success() throws Exception {
-        Team teamToRemove = TypicalTeams.LIVERPOOL;
-        String expectedMessage = String.format(RemoveCommand.MESSAGE_REMOVE_TEAM_SUCCESS,
-                teamToRemove.getTeamName().toString());
+    public void execute_createTeam_success() throws Exception {
+        Team teamToAdd = new Team(new TeamName(VALID_TEAM_ARSENAL));
+        String expectedMessage = String.format(CreateCommand.MESSAGE_SUCCESS, teamToAdd);
 
-        RemoveCommand removeCommand = prepareCommand(teamToRemove);
+        CreateCommand createCommand = prepareCommand(VALID_TEAM_ARSENAL);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.removeTeam(teamToRemove.getTeamName());
+        expectedModel.createTeam(teamToAdd);
 
-        assertCommandSuccess(removeCommand, model, expectedMessage, expectedModel);
+        assertCommandSuccess(createCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
-    public void execute_removeNonExistingTeam_throwsTeamNotFoundException() throws Exception {
-        Team teamToRemove = TypicalTeams.ARSENAL;
-        RemoveCommand removeCommand = prepareCommand(teamToRemove);
+    public void execute_createTeamDuplicateTeam_failure() throws Exception {
+        Team firstTeam = model.getAddressBook().getTeamList().get(INDEX_FIRST_TEAM.getZeroBased());
+        CreateCommand createCommand = prepareCommand(CHELSEA.getTeamName().toString());
 
-        assertCommandFailure(removeCommand, model, Messages.MESSAGE_TEAM_NOT_FOUND);
+        assertCommandFailure(createCommand, model, CreateCommand.MESSAGE_DUPLICATE_TEAM);
+    }
+
+    @Test
+    public void executeUndoRedo_createTeam_success() throws Exception {
+        UndoRedoStack undoRedoStack = new UndoRedoStack();
+        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
+        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
+        CreateCommand createCommand = prepareCommand(VALID_TEAM_ARSENAL);
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+
+        // edit -> first team created
+        createCommand.execute();
+        undoRedoStack.push(createCommand);
+
+        // undo -> reverts addressbook back to previous state
+        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+
+        // redo -> same team created again
+        expectedModel.createTeam(new Team(new TeamName(VALID_TEAM_ARSENAL)));
+        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
     public void equals() {
-        TeamName chelsea = TypicalTeams.CHELSEA.getTeamName();
-        TeamName liverpool = TypicalTeams.LIVERPOOL.getTeamName();
-        RemoveCommand removeChelseaCommand = new RemoveCommand(chelsea);
-        RemoveCommand removeLiverpoolCommand = new RemoveCommand(liverpool);
-
-        // same object -> returns true
-        assertTrue(removeChelseaCommand.equals(removeChelseaCommand));
+        final CreateCommand standardCommand = prepareCommand(VALID_TEAM_ARSENAL);
 
         // same values -> returns true
-        RemoveCommand removeChelseaCommandCopy = new RemoveCommand(chelsea);
-        assertTrue(removeChelseaCommand.equals(removeChelseaCommandCopy));
+        CreateCommand commandWithSameValues = prepareCommand(VALID_TEAM_ARSENAL);
+        assertTrue(standardCommand.equals(commandWithSameValues));
+        
+    @Test
+    public void parseTags_collectionWithInvalidTags_throwsIllegalValueException() throws Exception {
+        thrown.expect(IllegalValueException.class);
+        ParserUtil.parseTags(Arrays.asList(VALID_TAG_1, INVALID_TAG));
+    }
 
-        // different types -> returns false
-        assertFalse(removeChelseaCommand.equals(1));
+    @Test
+    public void parseTags_emptyCollection_returnsEmptySet() throws Exception {
+        assertTrue(ParserUtil.parseTags(Collections.emptyList()).isEmpty());
+    }
+        // different type -> returns false
+        assertFalse(standardCommand.equals(new ClearCommand()));
 
-        // null -> returns false
-        assertFalse(removeChelseaCommand.equals(null));
-
-        // different person -> returns false
-        assertFalse(removeChelseaCommand.equals(removeLiverpoolCommand));
+        // different team name -> returns false
+        assertFalse(standardCommand.equals(new CreateCommand(new Team(new TeamName(VALID_TEAM_BARCELONA)))));
     }
 
     /**
-     * Returns an {@code RemoveCommand} with parameters {@code team}.
+     * Returns an {@code CreateCommand} with parameters {@code team}.
      */
-    private RemoveCommand prepareCommand(Team team) {
-        RemoveCommand removeCommand = new RemoveCommand(team.getTeamName());
-        removeCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-        return removeCommand;
+    private CreateCommand prepareCommand(String team) {
+        CreateCommand createCommand = new CreateCommand(new Team(new TeamName(team)));
+        createCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        return createCommand;
+    }
+}
+```
+###### /java/seedu/address/logic/commands/RemoveCommandTest.java
+``` java
+public class ViewCommandParserTest {
+
+    private static final String MESSAGE_INVALID_FORMAT = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            ViewCommand.MESSAGE_USAGE);
+
+    private ViewCommandParser parser = new ViewCommandParser();
+
+    @Test
+    public void parse_missingField_failure() {
+        // no team name specified
+        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parse_invalidTeamName_failure() {
+        // invalid team name
+        assertParseFailure(parser, INVALID_TEAM_NAME_DESC, TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_validTeam_success() {
+        String userInput = VALID_TEAM_ARSENAL;
+        ViewCommand expectedCommand = new ViewCommand(new TeamName(userInput));
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // with space in name
+        userInput = VALID_TEAM_ARSENAL + " " + VALID_TEAM_BARCELONA;
+        expectedCommand = new ViewCommand(new TeamName(userInput));
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+}
+```
+###### /java/seedu/address/logic/parser/RenameCommandParserTest.java
+``` java
+public class RenameCommandParserTest {
+
+    private static final String MESSAGE_INVALID_FORMAT = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            RenameCommand.MESSAGE_USAGE);
+
+    private RenameCommandParser parser = new RenameCommandParser();
+
+    @Test
+    public void parse_missingField_failure() {
+        // no field
+        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
+
+        // no new team name specified
+        assertParseFailure(parser, VALID_TEAM_ARSENAL, MESSAGE_INVALID_FORMAT);
+
+        // no specified team to rename
+        assertParseFailure(parser, TEAM_DESC_ARSENAL, MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parse_extraNewTeamName_failure() {
+        // two new team name specified
+        assertParseFailure(parser, VALID_TEAM_ARSENAL + TEAM_DESC_CHELSEA + TEAM_DESC_CHELSEA,
+                MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parse_sameNameAsSpecified_failure() {
+        // new team name is same as specified team team
+        assertParseFailure(parser, VALID_TEAM_ARSENAL + TEAM_DESC_ARSENAL, RenameCommand.MESSAGE_NO_CHANGE);
+    }
+
+    @Test
+    public void parse_invalidTeamName_failure() {
+        // invalid new team name
+        assertParseFailure(parser, VALID_TEAM_ARSENAL + INVALID_TEAM_NAME_DESC,
+                TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+
+        // invalid given team name
+        assertParseFailure(parser, "&-team" + TEAM_DESC_ARSENAL,
+                TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_validTeamName_success() {
+        String userInput = VALID_TEAM_ARSENAL + TEAM_DESC_CHELSEA;
+        RenameCommand expectedCommand =
+                new RenameCommand(new TeamName(VALID_TEAM_ARSENAL), new TeamName(VALID_TEAM_CHELSEA));
+        assertParseSuccess(parser, userInput, expectedCommand);
     }
 }
 ```
@@ -574,14 +500,11 @@ public class ViewCommandTest {
         ViewCommand commandWithSameValues = prepareCommand(VALID_TEAM_CHELSEA);
         assertTrue(standardCommand.equals(commandWithSameValues));
 
-        // same object -> returns true
-        assertTrue(standardCommand.equals(standardCommand));
+        // different types -> returns false
+        assertFalse(removeChelseaCommand.equals(1));
 
         // null -> returns false
-        assertFalse(standardCommand.equals(null));
-
-        // different type -> returns false
-        assertFalse(standardCommand.equals(new ClearCommand()));
+        assertFalse(removeChelseaCommand.equals(null));
 
         // different team name -> returns false
         assertFalse(standardCommand.equals(new ViewCommand(new TeamName(VALID_TEAM_ARSENAL))));
@@ -939,6 +862,7 @@ public class AssignCommandTest {
     private void assertExecutionFailure(Team team, List<Index> indexes, String expectedMessage) {
         AssignCommand assignCommand = prepareCommand(team.getTeamName(), indexes);
 
+>>
         try {
             assignCommand.execute();
             System.out.println(model.getAddressBook().getTeamList());

@@ -89,6 +89,7 @@ public class ParserUtilTest {
         assertEquals(expectedIndexes, ParserUtil.parseIndexes("1 2 3"));
     }
 
+    //@@author
     @Test
     public void parseName_null_throwsNullPointerException() {
         Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parseName((String) null));
@@ -306,7 +307,6 @@ public class ParserUtilTest {
                 ParserUtil.parseValue(Optional.empty(), Phone.MESSAGE_PHONE_CONSTRAINTS));
     }
 
-    //@@author jordancjq
     @Test
     public void parseValue_unspecifiedValue_throwsIllegalValueException() throws Exception {
         thrown.expect(IllegalValueException.class);

@@ -128,21 +128,18 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
-    //@@author jordancjq
     @Override
     public synchronized void assignPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
         addressBook.assignPersonToTeam(person, teamName);
         indicateAddressBookChanged();
     }
 
-    //@@author jordancjq
     @Override
     public synchronized void unassignPersonFromTeam(Person person) throws TeamNotFoundException {
         addressBook.unassignPersonFromTeam(person);
         indicateAddressBookChanged();
     }
 
-    //@@author jordancjq
     @Override
     public synchronized void removeTeam(TeamName teamName) throws TeamNotFoundException {
         requireNonNull(teamName);
@@ -151,7 +148,6 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
-    //@@author jordancjq
     @Override
     public synchronized void renameTeam(Team targetTeam, TeamName updatedTeamName) {
         requireAllNonNull(targetTeam, updatedTeamName);
@@ -159,7 +155,6 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
-    //@@author
     //@@author Codee
     @Override
     public boolean setTagColour(Tag tag, String colour) {
@@ -178,8 +173,8 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
         return isTagValid;
     }
-    //@@author
 
+    //@@author
     @Override
     public ObservableList<Team> getInitTeamList() {
         return addressBook.getTeamList();

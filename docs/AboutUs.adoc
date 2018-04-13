@@ -21,9 +21,10 @@ Feature Contribution:
 
 * Major Enhancement:
 ** Revamp MTM's GUI for ease of viewing teams and players' details
-*** Remove browser panel, add player details panel, change person card
+*** Remove browser panel, add player details panel, change person card, team display panel
 * Minor Enhancement:
 ** `setTagColour`: Command to set the colour of tags to colour of choice
+** `changeTheme`: Command to change between 2 themes for the product
 
 '''
 
@@ -37,16 +38,16 @@ Feature Contribution:
 
 * Major Enhancement:
 ** Team Components: Create `Team` class and corresponding commands,
-*** `create`, `view`, `assign`, `remove`
+*** `create`, `view`, `assign`, `remove`, `rename`
 * Minor Enhancement:
 ** `remark`: Add remark field to player and command to add/edit/remove a remark to specified player.
 ** `add`: Enhanced functionality of command that allows certain fields to be optional.
 
 '''
 
-=== Syafiq
+=== Ahmad Syafiq
 image::syafiq.jpg[width="150", align="left"]
-{empty}[http://github.com/lithiumlkid[github]] [<<syafiq#, portfolio>>]
+{empty}[http://github.com/lithiumlkid[github]] [<<ahmadsyafiq#, portfolio>>]
 
 Role: Head Developer +
 Responsibilities: Storage Component +
@@ -69,8 +70,9 @@ Responsibilities: Logic Component +
 Feature Contribution:
 
 * Major Enhancement:
-** `Privacy` Components: Implement functionality to hide specified player's information
-*** `toggleprivacy`
+** `Privacy` Components: Implement functionality to hide specified player's information and prevent unauthorised modification.
+*** `toggleprivacy`: Command to toggle the privacy of a specified field
+*** `key`: Command to toggle a lock that prevents unauthorised modification to the data.
 * Minor Enhancement:
 ** `sort`: Command to sort players by specified field and order.
 

@@ -1253,8 +1253,7 @@ public class XmlAdaptedTeam {
     public void changeTagColour(String colour) {
         this.tagColour = colour;
     }
-
-
+    
     /**
      * Returns true if a given string is a valid tag colour.
      */
