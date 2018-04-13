@@ -27,7 +27,7 @@ public class CommandTrie {
                 ListCommand.COMMAND_WORD, RedoCommand.COMMAND_WORD,  UndoCommand.COMMAND_WORD,
                 SortCommand.COMMAND_WORD, SetCommand.COMMAND_WORD, RemarkCommand.COMMAND_WORD,
                 CreateCommand.COMMAND_WORD, AssignCommand.COMMAND_WORD, ViewCommand.COMMAND_WORD,
-                RemoveCommand.COMMAND_WORD
+                RemoveCommand.COMMAND_WORD, KeyCommand.COMMAND_WORD, TogglePrivacyCommand.COMMAND_WORD
         ).collect(Collectors.toSet());
 
         for (String command : commandSet) {
@@ -47,6 +47,8 @@ public class CommandTrie {
         commandMap.put(AssignCommand.COMMAND_WORD, AssignCommand.MESSAGE_PARAMETERS);
         commandMap.put(ViewCommand.COMMAND_WORD, ViewCommand.MESSAGE_PARAMETERS);
         commandMap.put(RemoveCommand.COMMAND_WORD, RemoveCommand.MESSAGE_PARAMETERS);
+        commandMap.put(KeyCommand.COMMAND_WORD, KeyCommand.MESSAGE_PARAMETERS);
+        commandMap.put(TogglePrivacyCommand.COMMAND_WORD, TogglePrivacyCommand.MESSAGE_PARAMETERS);
     }
 
     /**
