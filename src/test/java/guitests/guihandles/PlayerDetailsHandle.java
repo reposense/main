@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 /**
  * Provides a handle to a player details pane.
  */
+//@@author Codee
 public class PlayerDetailsHandle extends NodeHandle<Node> {
 
     private static final String NAME_FIELD_ID = "#name";

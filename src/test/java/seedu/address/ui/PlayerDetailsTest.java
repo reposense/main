@@ -11,6 +11,7 @@ import guitests.guihandles.PlayerDetailsHandle;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
+//@@author Codee
 public class PlayerDetailsTest extends GuiUnitTest {
 
     @Test
