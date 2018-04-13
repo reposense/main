@@ -1,32 +1,92 @@
 # Codee
-###### \java\guitests\guihandles\TeamDisplayHandle.java
+###### /java/seedu/address/ui/TeamDisplayTest.java
 ``` java
-public class TeamDisplayHandle extends NodeHandle<Node> {
-    public static final String TEAM_DISPLAY_ID = "#teams";
+public class TeamDisplayTest extends GuiUnitTest {
 
-    private final List<Label> teamLabels;
+    private static final String NEW_TEAM_NAME = "myTeam";
+    private static final ShowNewTeamNameEvent SHOW_NEW_TEAM_NAME_EVENT = new ShowNewTeamNameEvent(NEW_TEAM_NAME);
 
-    public TeamDisplayHandle(Node teamDisplayNode) {
-        super(teamDisplayNode);
+    private TeamDisplay teamDisplay;
+    private TeamDisplayHandle teamDisplayHandle;
+    private ObservableList<Team> teamList;
 
-        Region teamContainer = getChildNode(TEAM_DISPLAY_ID);
-        this.teamLabels = teamContainer
-                .getChildrenUnmodifiable()
-                .stream()
-                .map(Label.class::cast)
-                .collect(Collectors.toList());
+    @Before
+    public void setUp() {
+        teamList = FXCollections.observableArrayList();
+        teamList.add(new TeamBuilder().withTeamName("Arsenal").build());
+        teamList.add(new TeamBuilder().withTeamName("Chelsea").build());
+        teamDisplay = new TeamDisplay(teamList);
+        uiPartRule.setUiPart(teamDisplay);
+        teamDisplayHandle = new TeamDisplayHandle(teamDisplay.getRoot());
     }
 
-    public List<String> getTeams() {
-        return teamLabels
-                .stream()
-                .map(Label::getText)
-                .collect(Collectors.toList());
+    @Test
+    public void display() {
+        assertTeamDisplay(teamDisplay, teamList);
+    }
+    /**
+     * Asserts that {@code personCard} displays the details of {@code expectedPerson} correctly and matches
+     * {@code expectedId}.
+     */
+    private void assertTeamDisplay(TeamDisplay teamDisplay, ObservableList<Team> teamlist) {
+        guiRobot.pauseForHuman();
+
+        // verify team names are displayed correctly
+        assertTeamDisplayEquals(teamDisplay, teamDisplayHandle);
+    }
+
+    @Test
+    public void handleShowNewTeamNameEvent() {
+        postNow(SHOW_NEW_TEAM_NAME_EVENT);
+
+        // verify team names are displayed correctly after event
+        guiRobot.pauseForHuman();
+
+        teamList.add(new Team(new TeamName(NEW_TEAM_NAME)));
+        TeamDisplay expectedTeamDisplay = new TeamDisplay(teamList);
+        teamDisplayHandle = new TeamDisplayHandle(teamDisplay.getRoot());
+        // verify team names are displayed correctly
+        assertTeamDisplayEquals(expectedTeamDisplay, teamDisplayHandle);
+    }
+}
+```
+###### /java/seedu/address/logic/parser/ChangeThemeCommandParserTest.java
+``` java
+public class ChangeThemeCommandParserTest {
+
+    private ChangeThemeCommandParser parser = new ChangeThemeCommandParser();
+    private String[] listThemes = { "Light", "Dark" };
+
+    @Test
+    public void parse_validArgs_returnsThemeCommand() {
+        for (int i = 0; i < 2; i++) {
+            assertParseSuccess(parser, listThemes[i], new ChangeThemeCommand(listThemes[i]));
+        }
+    }
+
+    @Test
+    public void parse_invalidArgs_throwsParseException() {
+        // Empty Argument
+        assertParseFailure(parser, "",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ChangeThemeCommand.MESSAGE_USAGE));
+    }
+}
+```
+###### /java/seedu/address/logic/parser/SetCommandParserTest.java
+``` java
+public class SetCommandParserTest {
+
+    private SetCommandParser parser = new SetCommandParser();
+
+    @Test
+    public void parse_validArgs_returnsSetCommand() {
+        String userInput = " " + PREFIX_TAG + FRIEND.getTagName() + " " + PREFIX_TAG_COLOUR + "green";
+        assertParseSuccess(parser, userInput, new SetCommand(FRIEND, "green"));
     }
 
 }
 ```
-###### \java\seedu\address\logic\commands\ChangeThemeCommandTest.java
+###### /java/seedu/address/logic/commands/ChangeThemeCommandTest.java
 ``` java
 public class ChangeThemeCommandTest {
 
@@ -105,7 +165,7 @@ public class ChangeThemeCommandTest {
     }
 }
 ```
-###### \java\seedu\address\logic\commands\SetCommandTest.java
+###### /java/seedu/address/logic/commands/SetCommandTest.java
 ``` java
 public class SetCommandTest {
 
@@ -182,43 +242,38 @@ public class SetCommandTest {
     }
 }
 ```
-###### \java\seedu\address\logic\parser\ChangeThemeCommandParserTest.java
+###### /java/seedu/address/testutil/TypicalTags.java
 ``` java
-public class ChangeThemeCommandParserTest {
+public class TypicalTags {
 
-    private ChangeThemeCommandParser parser = new ChangeThemeCommandParser();
-    private String[] listThemes = { "Light", "Dark" };
+    public static final Tag GOOD_ATTITUDE = new Tag("goodAttitude", "teal");
+    public static final Tag FRIEND = new Tag("friends", "teal");
 
-    @Test
-    public void parse_validArgs_returnsThemeCommand() {
-        for (int i = 0; i < 2; i++) {
-            assertParseSuccess(parser, listThemes[i], new ChangeThemeCommand(listThemes[i]));
+    private TypicalTags() {} //prevents instantiation
+
+
+    /**
+     * Returns an {@code AddressBook} with all the typical teams.
+     */
+    public static AddressBook getTypicalAddressBook() {
+        AddressBook ab = new AddressBook();
+        for (Tag tag : getTypicalTags()) {
+            try {
+                ab.addTag(tag);
+            } catch (UniqueTagList.DuplicateTagException e) {
+                throw new AssertionError("not possible");
+            }
         }
+        return ab;
     }
 
-    @Test
-    public void parse_invalidArgs_throwsParseException() {
-        // Empty Argument
-        assertParseFailure(parser, "",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ChangeThemeCommand.MESSAGE_USAGE));
-    }
-}
-```
-###### \java\seedu\address\logic\parser\SetCommandParserTest.java
-``` java
-public class SetCommandParserTest {
-
-    private SetCommandParser parser = new SetCommandParser();
-
-    @Test
-    public void parse_validArgs_returnsSetCommand() {
-        String userInput = " " + PREFIX_TAG + FRIEND.getTagName() + " " + PREFIX_TAG_COLOUR + "green";
-        assertParseSuccess(parser, userInput, new SetCommand(FRIEND, "green"));
+    public static List<Tag> getTypicalTags() {
+        return new ArrayList<>(Arrays.asList(GOOD_ATTITUDE, FRIEND));
     }
 
 }
 ```
-###### \java\seedu\address\testutil\TeamBuilder.java
+###### /java/seedu/address/testutil/TeamBuilder.java
 ``` java
 public class TeamBuilder {
 
@@ -251,85 +306,30 @@ public class TeamBuilder {
     }
 }
 ```
-###### \java\seedu\address\testutil\TypicalTags.java
+###### /java/guitests/guihandles/TeamDisplayHandle.java
 ``` java
-public class TypicalTags {
+public class TeamDisplayHandle extends NodeHandle<Node> {
+    public static final String TEAM_DISPLAY_ID = "#teams";
 
-    public static final Tag GOOD_ATTITUDE = new Tag("goodAttitude", "teal");
-    public static final Tag FRIEND = new Tag("friends", "teal");
+    private final List<Label> teamLabels;
 
-    private TypicalTags() {} //prevents instantiation
+    public TeamDisplayHandle(Node teamDisplayNode) {
+        super(teamDisplayNode);
 
-
-    /**
-     * Returns an {@code AddressBook} with all the typical teams.
-     */
-    public static AddressBook getTypicalAddressBook() {
-        AddressBook ab = new AddressBook();
-        for (Tag tag : getTypicalTags()) {
-            try {
-                ab.addTag(tag);
-            } catch (UniqueTagList.DuplicateTagException e) {
-                throw new AssertionError("not possible");
-            }
-        }
-        return ab;
+        Region teamContainer = getChildNode(TEAM_DISPLAY_ID);
+        this.teamLabels = teamContainer
+                .getChildrenUnmodifiable()
+                .stream()
+                .map(Label.class::cast)
+                .collect(Collectors.toList());
     }
 
-    public static List<Tag> getTypicalTags() {
-        return new ArrayList<>(Arrays.asList(GOOD_ATTITUDE, FRIEND));
+    public List<String> getTeams() {
+        return teamLabels
+                .stream()
+                .map(Label::getText)
+                .collect(Collectors.toList());
     }
 
-}
-```
-###### \java\seedu\address\ui\TeamDisplayTest.java
-``` java
-public class TeamDisplayTest extends GuiUnitTest {
-
-    private static final String NEW_TEAM_NAME = "myTeam";
-    private static final ShowNewTeamNameEvent SHOW_NEW_TEAM_NAME_EVENT = new ShowNewTeamNameEvent(NEW_TEAM_NAME);
-
-    private TeamDisplay teamDisplay;
-    private TeamDisplayHandle teamDisplayHandle;
-    private ObservableList<Team> teamList;
-
-    @Before
-    public void setUp() {
-        teamList = FXCollections.observableArrayList();
-        teamList.add(new TeamBuilder().withTeamName("Arsenal").build());
-        teamList.add(new TeamBuilder().withTeamName("Chelsea").build());
-        teamDisplay = new TeamDisplay(teamList);
-        uiPartRule.setUiPart(teamDisplay);
-        teamDisplayHandle = new TeamDisplayHandle(teamDisplay.getRoot());
-    }
-
-    @Test
-    public void display() {
-        assertTeamDisplay(teamDisplay, teamList);
-    }
-    /**
-     * Asserts that {@code personCard} displays the details of {@code expectedPerson} correctly and matches
-     * {@code expectedId}.
-     */
-    private void assertTeamDisplay(TeamDisplay teamDisplay, ObservableList<Team> teamlist) {
-        guiRobot.pauseForHuman();
-
-        // verify team names are displayed correctly
-        assertTeamDisplayEquals(teamDisplay, teamDisplayHandle);
-    }
-
-    @Test
-    public void handleShowNewTeamNameEvent() {
-        postNow(SHOW_NEW_TEAM_NAME_EVENT);
-
-        // verify team names are displayed correctly after event
-        guiRobot.pauseForHuman();
-
-        teamList.add(new Team(new TeamName(NEW_TEAM_NAME)));
-        TeamDisplay expectedTeamDisplay = new TeamDisplay(teamList);
-        teamDisplayHandle = new TeamDisplayHandle(teamDisplay.getRoot());
-        // verify team names are displayed correctly
-        assertTeamDisplayEquals(expectedTeamDisplay, teamDisplayHandle);
-    }
 }
 ```

@@ -595,7 +595,7 @@ List all players in the team "Liverpool".
 
 === User Experience Commands
 
-// tag:setTagColour[]
+// tag::setTagColour[]
 [[setTagColour]]
 ==== Setting colour of tags : `setTagColour` `[Since v1.2]`
 
@@ -609,7 +609,7 @@ Alias: `stc`
 The current version of `setTagColour` is NOT an UndoableCommand. i.e. You cannot `undo` a setTagCommand.
 Instead, just enter `stc <your desired colour>` to change the colour back!
 ====
-// end:setTagColour[]
+// end::setTagColour[]
 
 // tag::changeTheme[]
 [[changeTheme]]
@@ -660,7 +660,7 @@ Here is how you can change the your password:
 `changepass` ilikesports Securep@ssword1 Securep@ssword1
 // end::changePass2.0[]
 
-// tag::teamin2.0[]
+// tag::team2.0[]
 ==== Setting an upcoming match with an opposing team: `setmatch` `[Coming in v2.0]`
 
 With this command, it gives you a convenient way to keep track of the upcoming match of a team.
@@ -704,7 +704,7 @@ Here are a few valid examples on how you can use the `nextmatch` command:
 * `view Arsenal`
 * `nextmatch Arsenal` +
 Displays the list of players in team "Arsenal" and view the next upcoming match for "Arsenal".
-// end::teamin2.0[]
+// end::team2.0[]
 
 // tag::showlineup[]
 ==== Displaying lineup for next match: `showLineup` `[Coming in v2.0]`
