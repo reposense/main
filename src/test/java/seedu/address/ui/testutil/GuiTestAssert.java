@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import guitests.guihandles.PersonCardHandle;
 import guitests.guihandles.PersonListPanelHandle;
+import guitests.guihandles.PlayerDetailsHandle;
 import guitests.guihandles.ResultDisplayHandle;
 import guitests.guihandles.TeamDisplayHandle;
 import seedu.address.model.person.Person;
@@ -54,6 +55,18 @@ public class GuiTestAssert {
         assertEquals(expectedPerson.getPosition().getPositionName(), actualCard.getPosition());
 
         assertTagsEqual(expectedPerson, actualCard);
+    }
+
+    /**
+     * Asserts that {@code actualPlayerDetails} displays the details of {@code expectedPerson}.
+     */
+    public static void assertPlayerDetailsDisplaysPerson(Person expectedPerson, PlayerDetailsHandle actualPlayerPanel) {
+        assertEquals(expectedPerson.getName().fullName, actualPlayerPanel.getName());
+        assertEquals(expectedPerson.getAddress().toString(), actualPlayerPanel.getAddress());
+        assertEquals(expectedPerson.getEmail().value, actualPlayerPanel.getEmail());
+        assertEquals(expectedPerson.getJerseyNumber().value, actualPlayerPanel.getJerseyNumber());
+        assertEquals(expectedPerson.getPhone().value, actualPlayerPanel.getPhone());
+        assertEquals(expectedPerson.getRemark().toString(), actualPlayerPanel.getRemarks());
     }
 
     /**
