@@ -46,7 +46,7 @@ and *changeTheme* command.
 == Contributions to the User Guide
 
 |===
-|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting the users of MTM._
 |===
 
 include::../UserGuide.adoc[tag=changeTheme]
