@@ -40,6 +40,7 @@ public class CommandBox extends UiPart<Region> {
     @FXML
     private TextField commandTextField;
 
+    //@@author lithiumlkid
     CommandBox(Logic logic) {
         super(FXML);
         this.logic = logic;
@@ -53,7 +54,7 @@ public class CommandBox extends UiPart<Region> {
     }
 
     /**
-     * //@@author lithiumlkid
+     *
      * Handles the key press event, {@code keyEvent}.
      */
     @FXML
@@ -170,6 +171,7 @@ public class CommandBox extends UiPart<Region> {
         styleClass.add(ERROR_STYLE_CLASS);
     }
 
+    //@@author lithiumlkid
     /**
      * Handles the Tab button pressed event. Attempts to autocomplete current input.
      */
@@ -183,6 +185,7 @@ public class CommandBox extends UiPart<Region> {
             } else if (commandSet.contains(command)) {
                 this.replaceText(command);
             } else if (commandSet.contains(input)) {
+                setStyleToIndicateCommandFailure();
                 this.replaceText(input + command);
             }
         } catch (NullPointerException e) {

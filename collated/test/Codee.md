@@ -12,7 +12,9 @@ public class TeamDisplayTest extends GuiUnitTest {
 
     @Before
     public void setUp() {
-        teamList = new TeamBuilder().build();
+        teamList = FXCollections.observableArrayList();
+        teamList.add(new TeamBuilder().withTeamName("Arsenal").build());
+        teamList.add(new TeamBuilder().withTeamName("Chelsea").build());
         teamDisplay = new TeamDisplay(teamList);
         uiPartRule.setUiPart(teamDisplay);
         teamDisplayHandle = new TeamDisplayHandle(teamDisplay.getRoot());
@@ -275,34 +277,33 @@ public class TypicalTags {
 ``` java
 public class TeamBuilder {
 
-    public static final String DEFAULT_TEAMNAME_ONE = "Arsenal";
-    public static final String DEFAULT_TEAMNAME_TWO = "Chelsea";
+    public static final String DEFAULT_TEAM_NAME = "Arsenal";
 
-    private ObservableList<Team> teams;
-
-    private Team teamOne;
-    private Team teamTwo;
-    private TeamName teamNameOne;
-    private TeamName teamNameTwo;
+    private TeamName teamName;
 
 
     public TeamBuilder() {
-        teams = FXCollections.observableArrayList();
-        teamNameOne = new TeamName(DEFAULT_TEAMNAME_ONE);
-        teamNameTwo = new TeamName(DEFAULT_TEAMNAME_TWO);
-        teamOne = new Team(teamNameOne);
-        teamTwo = new Team(teamNameTwo);
-        teams.add(teamOne);
-        teams.add(teamTwo);
+        teamName = new TeamName(DEFAULT_TEAM_NAME);
     }
 
-    public ObservableList<Team> build() {
-        return teams;
+    /**
+     * Initializes the TeamBuilder with the data of {@code teamToCopy}.
+     */
+    public TeamBuilder(Team teamToCopy) {
+        teamName = teamToCopy.getTeamName();
     }
 
+    /**
+     * Sets the {@code TeamName} of the {@code Team} that we are building.
+     */
+    public TeamBuilder withTeamName(String teamName) {
+        this.teamName = new TeamName(teamName);
+        return this;
+    }
 
-
-
+    public Team build() {
+        return new Team(teamName);
+    }
 }
 ```
 ###### /java/guitests/guihandles/TeamDisplayHandle.java

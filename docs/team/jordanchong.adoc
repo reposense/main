@@ -45,16 +45,7 @@ https://github.com/CS2103JAN2018-F11-B4/main/issues/105[2],
 https://github.com/CS2103JAN2018-F11-B4/main/issues/108[3],
 https://github.com/CS2103JAN2018-F11-B4/main/issues/111[4],
 https://github.com/CS2103JAN2018-F11-B4/main/issues/112[5],
-https://github.com/CS2103JAN2018-F11-B4/main/issues/113[6],
-https://github.com/CS2103JAN2018-F11-B4/main/issues/116[7],
-https://github.com/CS2103JAN2018-F11-B4/main/issues/117[8],
-https://github.com/CS2103JAN2018-F11-B4/main/issues/121[9],
-https://github.com/CS2103JAN2018-F11-B4/main/issues/123[10],
-https://github.com/CS2103JAN2018-F11-B4/main/issues/127[11],
-https://github.com/CS2103JAN2018-F11-B4/main/issues/129[12],
-https://github.com/CS2103JAN2018-F11-B4/main/issues/133[13],
-https://github.com/CS2103JAN2018-F11-B4/main/issues/135[14],
-https://github.com/CS2103JAN2018-F11-B4/main/issues/136[15])
+https://github.com/CS2103JAN2018-F11-B4/main/issues/113[6])
 
 
 == Contributions to the User Guide
@@ -64,8 +55,6 @@ https://github.com/CS2103JAN2018-F11-B4/main/issues/136[15])
 |===
 
 include::../UserGuide.adoc[tag=team]
-
-include::../UserGuide.adoc[tag=teamin2.0]
 
 == Contributions to the Developer Guide
 
@@ -77,6 +66,3 @@ include::../DeveloperGuide.adoc[tag=overview]
 
 include::../DeveloperGuide.adoc[tag=team]
 
-include::../DeveloperGuide.adoc[tag=remark]
-
-include::../DeveloperGuide.adoc[tag=enhancedadd]

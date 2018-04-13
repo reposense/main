@@ -17,7 +17,7 @@ public class AutocompleteTest {
 
     @Test
     public void autocomplete_unique_prefix() {
-        assert commandTrie.attemptAutoComplete("a").equals("add");
+        assert commandTrie.attemptAutoComplete("l").equals("list");
         assert commandTrie.attemptAutoComplete("he").equals("help");
     }
 
