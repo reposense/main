@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 //@@author Codee
 public class PlayerDetailsHandle extends NodeHandle<Node> {
 
+    public static final String PLAYER_DETAILS_DISPLAY_ID = "#playerDetails";
+
     private static final String NAME_FIELD_ID = "#name";
     private static final String JERSEY_FIELD_ID = "#jerseyNumber";
     private static final String PHONE_FIELD_ID = "#phone";
