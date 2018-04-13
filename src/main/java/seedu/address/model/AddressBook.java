@@ -140,8 +140,8 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void sortPlayersBy(String field, String order) throws NoPlayerException {
         persons.sortBy(field, order);
     }
-    //@@author
 
+    //@@author
     /**
      *  Updates the master tag list to include tags in {@code person} that are not in the list.
      *  @return a copy of this {@code person} such that every tag in this person points to a Tag object in the master
@@ -195,8 +195,8 @@ public class AddressBook implements ReadOnlyAddressBook {
             }
         }
     }
-    // @@author
 
+    //@@author
     /**
      *
      * Removes {@code tag} from all persons in this {@code AddressBook}.
@@ -255,7 +255,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         teams.add(t);
     }
 
-    //@@author jordancjq
     /**
      * Assigns a {@code person} to a {@code team}.
      * @throws TeamNotFoundException if the {@code team} is not found in this {@code AddressBook}.
@@ -283,7 +282,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
-    //@@author jordancjq
     /**
      * Unassigns a {@code person} from team.
      * @throws TeamNotFoundException if the {@code teamName} in {@code person} is {@code UNSPECIFIED_FIELD}.
@@ -313,7 +311,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
-    //@@author jordancjq
     /**
      * Immediately add a {@code person} to a {@code team}.
      * @throws TeamNotFoundException if the {@code team} is not found in this {@code AddressBook}.
@@ -322,7 +319,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         teams.assignPersonToTeam(person, teams.getTeam(teamName));
     }
 
-    //@@author jordancjq
     /**
      * Removes a {@code person} from a {@code team}.
      */
@@ -336,7 +332,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
-    //@@author jordancjq
     /**
      * Removes a {@code team} from {@code teams}.
      */
@@ -354,7 +349,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         teams.remove(teamToRemove);
     }
 
-    //@@author jordancjq
     /**
      * Removes {@code teamName} from {@code person} in this {@code Team}.
      */
@@ -373,7 +367,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
-    //@@author jordancjq
     /**
      * Renames {@code Team} with {@code updatedTeamName}.
      * @return
@@ -399,7 +392,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
-    //@@author jordancjq
     /**
      * Renames {@code teamName} in {@code person} with {@code teamName}.
      */

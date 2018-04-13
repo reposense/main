@@ -12,6 +12,7 @@ import seedu.address.logic.commands.CreateCommand;
 import seedu.address.model.team.Team;
 import seedu.address.model.team.TeamName;
 
+//@@author jordancjq
 public class CreateCommandParserTest {
 
     private static final String TEAM_NAME_EMPTY = "";

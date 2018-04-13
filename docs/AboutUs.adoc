@@ -44,9 +44,9 @@ Feature Contribution:
 
 '''
 
-=== Syafiq
+=== Ahmad Syafiq
 image::syafiq.jpg[width="150", align="left"]
-{empty}[http://github.com/lithiumlkid[github]] [<<syafiq#, portfolio>>]
+{empty}[http://github.com/lithiumlkid[github]] [<<ahmadsyafiq#, portfolio>>]
 
 Role: Head Developer +
 Responsibilities: Storage Component +
