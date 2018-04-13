@@ -1,7 +1,7 @@
 = My Team Manager - User Guide
 :toc:
 :toc-title:
-:toclevels: 3
+:toclevels: 2
 :toc-placement: preamble
 :sectnums:
 :imagesDir: images
@@ -705,7 +705,7 @@ Instead, just enter `cte <your desired theme>` to change the colour back!
 ====
 // end::changeTheme[]
 
-== Coming Soon
+=== Coming Soon
 
 There is more to come with the next upcoming update! Keep a lookout for these newly implemented features soon!
 
@@ -765,7 +765,7 @@ Here are a few valid examples on how you can use the `create` command:
 * `setmatch Arsenal Liverpool 14/03/2018` +
 Display the list of players in team "Arsenal" and set an upcoming match for Arsenal with Liverpool on 14/03/2018.
 
-=== Viewing the team's next upcoming match: `nextmatch` `[Coming in v2.0]`
+==== Viewing the team's next upcoming match: `nextmatch` `[Coming in v2.0]`
 
 You can easily determine the up and coming match with the team so that you never miss an important date.
 
@@ -786,7 +786,7 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 // end::team2.0[]
 
 // tag::showlineup[]
-=== Displaying lineup for next match: `showLineup` `[Coming in v2.0]`
+==== Displaying lineup for next match: `showLineup` `[Coming in v2.0]`
 
 You can view the lineup for the current best 11 players.
 
@@ -805,13 +805,13 @@ Here is an valid example on how you can use the `showLineup` command:
 Displays the 11 main players that will be playing for the next match.
 // end::showlineup[]
 
-=== Scheduling trainings for team `schedule` `[Coming in v2.0]`
+==== Scheduling trainings for team `schedule` `[Coming in v2.0]`
 
-=== Sending reminder emails to players: `send` `[Coming in v2.0]`
+==== Sending reminder emails to players: `send` `[Coming in v2.0]`
 
-=== Giving feedback to developers: `feedback` `[Coming in v2.0]`
+==== Giving feedback to developers: `feedback` `[Coming in v2.0]`
 
-=== Giving demerit to players based on performance: `demerit` `[Coming in v2.0]`
+==== Giving demerit to players based on performance: `demerit` `[Coming in v2.0]`
 
 == FAQ
 
