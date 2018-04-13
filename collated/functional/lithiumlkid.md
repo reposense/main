@@ -1,204 +1,5 @@
 # lithiumlkid
-###### /java/seedu/address/ui/CommandBox.java
-``` java
-     * Handles the key press event, {@code keyEvent}.
-     */
-    @FXML
-    private void handleKeyPress(KeyEvent keyEvent) {
-        switch (keyEvent.getCode()) {
-        case UP:
-            // As up and down buttons will alter the position of the caret,
-            // consuming it causes the caret's position to remain unchanged
-            keyEvent.consume();
-
-            navigateToPreviousInput();
-            break;
-        case DOWN:
-            keyEvent.consume();
-            navigateToNextInput();
-            break;
-        case TAB:
-            keyEvent.consume();
-            handleAutoComplete();
-            break;
-        default:
-            if (suggestions.isShowing()) {
-                suggestions.hide();
-            }
-            // let JavaFx handle the keypress
-        }
-    }
-
-    /**
-     * Updates the text field with the previous input in {@code historySnapshot},
-     * if there exists a previous input in {@code historySnapshot}
-     */
-    private void navigateToPreviousInput() {
-        assert historySnapshot != null;
-        if (!historySnapshot.hasPrevious()) {
-            return;
-        }
-
-        replaceText(historySnapshot.previous());
-    }
-
-    /**
-     * Updates the text field with the next input in {@code historySnapshot},
-     * if there exists a next input in {@code historySnapshot}
-     */
-    private void navigateToNextInput() {
-        assert historySnapshot != null;
-        if (!historySnapshot.hasNext()) {
-            return;
-        }
-
-        replaceText(historySnapshot.next());
-    }
-
-    /**
-     * Sets {@code CommandBox}'s text field with {@code text} and
-     * positions the caret to the end of the {@code text}.
-     */
-    private void replaceText(String text) {
-        commandTextField.setText(text);
-        commandTextField.positionCaret(commandTextField.getText().length());
-    }
-
-    /**
-     * Handles the Enter button pressed event.
-     */
-    @FXML
-    private void handleCommandInputChanged() {
-        try {
-            CommandResult commandResult = logic.execute(commandTextField.getText());
-            initHistory();
-            historySnapshot.next();
-            // process result of the command
-            commandTextField.setText("");
-            logger.info("Result: " + commandResult.feedbackToUser);
-            raise(new NewResultAvailableEvent(commandResult.feedbackToUser));
-
-        } catch (CommandException | ParseException e) {
-            initHistory();
-            // handle command failure
-            setStyleToIndicateCommandFailure();
-            logger.info("Invalid command: " + commandTextField.getText());
-            raise(new NewResultAvailableEvent(e.getMessage()));
-        }
-    }
-
-    /**
-     * Initializes the history snapshot.
-     */
-    private void initHistory() {
-        historySnapshot = logic.getHistorySnapshot();
-        // add an empty string to represent the most-recent end of historySnapshot, to be shown to
-        // the user if she tries to navigate past the most-recent end of the historySnapshot.
-        historySnapshot.add("");
-    }
-
-    /**
-     * Sets the command box style to use the default style.
-     */
-    private void setStyleToDefault() {
-        commandTextField.getStyleClass().remove(ERROR_STYLE_CLASS);
-    }
-
-    /**
-     * Sets the command box style to indicate a failed command.
-     */
-    private void setStyleToIndicateCommandFailure() {
-        ObservableList<String> styleClass = commandTextField.getStyleClass();
-
-        if (styleClass.contains(ERROR_STYLE_CLASS)) {
-            return;
-        }
-
-        styleClass.add(ERROR_STYLE_CLASS);
-    }
-
-    /**
-     * Handles the Tab button pressed event. Attempts to autocomplete current input.
-     */
-    private void handleAutoComplete() {
-        String input = commandTextField.getText();
-        try {
-            String command = commandTrie.attemptAutoComplete(input);
-            if (input.equals(command)) {
-                setStyleToIndicateCommandFailure();
-                showSuggestions(commandTrie.getOptions(input));
-            } else if (commandSet.contains(command)) {
-                this.replaceText(command);
-            } else if (commandSet.contains(input)) {
-                this.replaceText(input + command);
-            }
-        } catch (NullPointerException e) {
-            setStyleToIndicateCommandFailure();
-        }
-    }
-
-    /**
-     * Populates ContextMenu and shows it to user
-     * @param options the options with matching prefix found in Command Trie
-     */
-    private void showSuggestions(List<String> options) {
-        suggestions.getItems().clear();
-        for (String option : options) {
-            MenuItem item = new MenuItem(option);
-            item.setOnAction(event -> replaceText(item.getText()));
-            suggestions.getItems().add(item);
-        }
-        suggestions.show(commandTextField, Side.BOTTOM, 0.0, 0.0);
-    }
-}
-```
-###### /java/seedu/address/logic/commands/TrieNode.java
-``` java
-/**
- * Represents a Trie Node object. Contains a character, a reference to sibling Trie Node and child Trie Node .
- */
-public class TrieNode {
-    private TrieNode sibling;
-    private TrieNode child;
-
-    private char key;
-
-    TrieNode(char key, TrieNode sibling, TrieNode child) {
-        this.key = key;
-        this.sibling = sibling;
-        this.child = child;
-    }
-
-    public char getKey() {
-        return key;
-    }
-
-    public boolean hasSibling() {
-        return sibling != null;
-    }
-
-    public TrieNode getSibling() {
-        return sibling;
-    }
-
-    public void setSibling(TrieNode sibling) {
-        this.sibling = sibling;
-    }
-
-    public boolean hasChild() {
-        return child != null;
-    }
-
-    public TrieNode getChild() {
-        return child;
-    }
-
-    public void setChild(TrieNode child) {
-        this.child = child;
-    }
-}
-```
-###### /java/seedu/address/logic/commands/CommandTrie.java
+###### \java\seedu\address\logic\commands\CommandTrie.java
 ``` java
 /**
  * Trie of possible commands. Stores all possible commands for the addressbook.
@@ -370,6 +171,205 @@ public class CommandTrie {
             options.addAll(findOptions(start.getChild(), output.toString()));
         }
         return options;
+    }
+}
+```
+###### \java\seedu\address\logic\commands\TrieNode.java
+``` java
+/**
+ * Represents a Trie Node object. Contains a character, a reference to sibling Trie Node and child Trie Node .
+ */
+public class TrieNode {
+    private TrieNode sibling;
+    private TrieNode child;
+
+    private char key;
+
+    TrieNode(char key, TrieNode sibling, TrieNode child) {
+        this.key = key;
+        this.sibling = sibling;
+        this.child = child;
+    }
+
+    public char getKey() {
+        return key;
+    }
+
+    public boolean hasSibling() {
+        return sibling != null;
+    }
+
+    public TrieNode getSibling() {
+        return sibling;
+    }
+
+    public void setSibling(TrieNode sibling) {
+        this.sibling = sibling;
+    }
+
+    public boolean hasChild() {
+        return child != null;
+    }
+
+    public TrieNode getChild() {
+        return child;
+    }
+
+    public void setChild(TrieNode child) {
+        this.child = child;
+    }
+}
+```
+###### \java\seedu\address\ui\CommandBox.java
+``` java
+     * Handles the key press event, {@code keyEvent}.
+     */
+    @FXML
+    private void handleKeyPress(KeyEvent keyEvent) {
+        switch (keyEvent.getCode()) {
+        case UP:
+            // As up and down buttons will alter the position of the caret,
+            // consuming it causes the caret's position to remain unchanged
+            keyEvent.consume();
+
+            navigateToPreviousInput();
+            break;
+        case DOWN:
+            keyEvent.consume();
+            navigateToNextInput();
+            break;
+        case TAB:
+            keyEvent.consume();
+            handleAutoComplete();
+            break;
+        default:
+            if (suggestions.isShowing()) {
+                suggestions.hide();
+            }
+            // let JavaFx handle the keypress
+        }
+    }
+
+    /**
+     * Updates the text field with the previous input in {@code historySnapshot},
+     * if there exists a previous input in {@code historySnapshot}
+     */
+    private void navigateToPreviousInput() {
+        assert historySnapshot != null;
+        if (!historySnapshot.hasPrevious()) {
+            return;
+        }
+
+        replaceText(historySnapshot.previous());
+    }
+
+    /**
+     * Updates the text field with the next input in {@code historySnapshot},
+     * if there exists a next input in {@code historySnapshot}
+     */
+    private void navigateToNextInput() {
+        assert historySnapshot != null;
+        if (!historySnapshot.hasNext()) {
+            return;
+        }
+
+        replaceText(historySnapshot.next());
+    }
+
+    /**
+     * Sets {@code CommandBox}'s text field with {@code text} and
+     * positions the caret to the end of the {@code text}.
+     */
+    private void replaceText(String text) {
+        commandTextField.setText(text);
+        commandTextField.positionCaret(commandTextField.getText().length());
+    }
+
+    /**
+     * Handles the Enter button pressed event.
+     */
+    @FXML
+    private void handleCommandInputChanged() {
+        try {
+            CommandResult commandResult = logic.execute(commandTextField.getText());
+            initHistory();
+            historySnapshot.next();
+            // process result of the command
+            commandTextField.setText("");
+            logger.info("Result: " + commandResult.feedbackToUser);
+            raise(new NewResultAvailableEvent(commandResult.feedbackToUser));
+
+        } catch (CommandException | ParseException e) {
+            initHistory();
+            // handle command failure
+            setStyleToIndicateCommandFailure();
+            logger.info("Invalid command: " + commandTextField.getText());
+            raise(new NewResultAvailableEvent(e.getMessage()));
+        }
+    }
+
+    /**
+     * Initializes the history snapshot.
+     */
+    private void initHistory() {
+        historySnapshot = logic.getHistorySnapshot();
+        // add an empty string to represent the most-recent end of historySnapshot, to be shown to
+        // the user if she tries to navigate past the most-recent end of the historySnapshot.
+        historySnapshot.add("");
+    }
+
+    /**
+     * Sets the command box style to use the default style.
+     */
+    private void setStyleToDefault() {
+        commandTextField.getStyleClass().remove(ERROR_STYLE_CLASS);
+    }
+
+    /**
+     * Sets the command box style to indicate a failed command.
+     */
+    private void setStyleToIndicateCommandFailure() {
+        ObservableList<String> styleClass = commandTextField.getStyleClass();
+
+        if (styleClass.contains(ERROR_STYLE_CLASS)) {
+            return;
+        }
+
+        styleClass.add(ERROR_STYLE_CLASS);
+    }
+
+    /**
+     * Handles the Tab button pressed event. Attempts to autocomplete current input.
+     */
+    private void handleAutoComplete() {
+        String input = commandTextField.getText();
+        try {
+            String command = commandTrie.attemptAutoComplete(input);
+            if (input.equals(command)) {
+                setStyleToIndicateCommandFailure();
+                showSuggestions(commandTrie.getOptions(input));
+            } else if (commandSet.contains(command)) {
+                this.replaceText(command);
+            } else if (commandSet.contains(input)) {
+                this.replaceText(input + command);
+            }
+        } catch (NullPointerException e) {
+            setStyleToIndicateCommandFailure();
+        }
+    }
+
+    /**
+     * Populates ContextMenu and shows it to user
+     * @param options the options with matching prefix found in Command Trie
+     */
+    private void showSuggestions(List<String> options) {
+        suggestions.getItems().clear();
+        for (String option : options) {
+            MenuItem item = new MenuItem(option);
+            item.setOnAction(event -> replaceText(item.getText()));
+            suggestions.getItems().add(item);
+        }
+        suggestions.show(commandTextField, Side.BOTTOM, 0.0, 0.0);
     }
 }
 ```
