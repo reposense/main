@@ -169,6 +169,16 @@ Using MTM, you can organize players into teams, view player statistics, and, gen
 <div class="sect1">
 <h2 id="quick-start"><a class="link" href="#quick-start">Quick Start</a></h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Welcome! If you want to learn more about using My Team Manager, you&#8217;ve come to the right place. My Team Manager is the easiest
+way for you to manage your team efficiently, and this quick start section will help you learn the basics so you can get going.</p>
+</div>
+<div class="paragraph">
+<p>Your team, its players, and relevant information are organized clearly in My Team Manager. Teams can be created and
+players can be assign to teams.</p>
+</div>
+<div class="sect2">
+<h3 id="before-we-begin"><a class="link" href="#before-we-begin">Before we begin</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -197,38 +207,45 @@ This app will not work with earlier versions of Java 8.
 <p>Copy the file to the folder you want to use as the home folder for your MTM.</p>
 </li>
 <li>
-<p>Double-click the file to start the app. The software interface should appear in a few seconds.</p>
+<p>Double-click the file to start the app. The software interface should appear in a few seconds as shown below.</p>
 <div class="imageblock">
 <div class="content">
-<img src="../images/Ui.png" alt="Ui" width="790">
+<img src="../images/Ui%20New.png" alt="Ui New" width="790">
 </div>
 </div>
 </li>
-<li>
-<p>Type the command in the command box and press <kbd>Enter</kbd> to execute it.<br>
-e.g. typing <strong><code>help</code></strong> and pressing <kbd>Enter</kbd> will open the help window.</p>
-</li>
-<li>
-<p>Some example commands you can try:</p>
-<div class="ulist">
-<ul>
-<li>
-<p><strong><code>list</code></strong> : lists all contacts</p>
-</li>
-<li>
-<p><strong><code>add</code></strong><code>n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01</code> : adds a contact named <code>John Doe</code> to MTM.</p>
-</li>
-<li>
-<p><strong><code>delete</code></strong><code>3</code> : deletes the 3rd contact shown in the current list</p>
-</li>
-<li>
-<p><strong><code>exit</code></strong> : exits the app</p>
-</li>
-</ul>
+</ol>
 </div>
+</div>
+<div class="sect2">
+<h3 id="navigating-the-interface"><a class="link" href="#navigating-the-interface">Navigating the interface</a></h3>
+<div class="paragraph">
+<p>The figure below shows the different components in My Team Manager and the list below explains their purpose.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/Ui%20Guide.png" alt="Ui Guide" width="790">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Command Box : This is where you key in the commands to use My Team Manager.</p>
 </li>
 <li>
-<p>Refer to <a href="#Features">[Features]</a> for details of each command.</p>
+<p>Display Box : The display box displays results to any command you input.</p>
+</li>
+<li>
+<p>Team List : This displays the teams you have created in My Team Manager. If a team is being viewed, it would be highlighted.</p>
+</li>
+<li>
+<p>Details Panel : This displays details of the player that is currently selected. Here, the player&#8217;s name, phone number, address, email, jersey number followed by remarks are shown.</p>
+</li>
+<li>
+<p>Systems Panel : On the left, it displays the time and date when the addressbook is last updated. On the right is the location of the addressbook data.</p>
+</li>
+<li>
+<p>Player List : This is the list of player cards. In each player card, the player&#8217;s name, tags, team, rating, followed by position is displayed. The player&#8217;s avatar is also shown on the right column.</p>
 </li>
 </ol>
 </div>
@@ -300,8 +317,8 @@ Alias: <code>a</code></p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">av/AVATAR</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Filepath for avatar image file. Eg. C:\image.png (for Windows) or /User/username/path/to/image.jpg(for MacOS)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">av/C:\image.png  av//User/username/path/to/image.jpg</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Absolute filepath to player&#8217;s avatar image file</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">av/C:\avatar.png (for Windows) av//User/username/path/to/image.jpg (for MacOS)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">t/TAG</p></td>
@@ -429,6 +446,7 @@ You can use the autocompleted parameters as a template after viewing them.
 <div class="paragraph">
 <p>If there are multiple possible commands for a given input, i.e. 'e' could be 'edit' or 'exit',
 then a dropdown box will appear with the possible commands. These can be navigated using mouse or arrow keys. Press enter to select the desired command.</p>
+</div>
 </div>
 </div>
 </div>
@@ -603,7 +621,7 @@ This implementation of making fields optional for <code>AddCommand</code> allows
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-13 05:43:45 UTC
+Last updated 2018-04-13 05:46:57 UTC
 </div>
 </div>
 </body>
