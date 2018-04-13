@@ -630,6 +630,7 @@ Instead, just enter `cte <your desired theme>` to change the colour back!
 === Coming Soon
 
 There is more to come with the next upcoming update! Keep a lookout for these newly implemented features soon!
+
 // tag::showBest2.0[]
 ==== Showing Best XI players: `showBest` `[Coming in v2.0]`
 
