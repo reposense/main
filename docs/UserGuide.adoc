@@ -1,7 +1,7 @@
 = My Team Manager - User Guide
 :toc:
 :toc-title:
-:toclevels: 2
+:toclevels: 3
 :toc-placement: preamble
 :sectnums:
 :imagesDir: images
@@ -106,9 +106,9 @@ IMPORTANT: This box will let you know the _outcome_ and what MTM should be *expe
 
 Now that you are familiar with the interface and using commands, you are now ready to begin using My Team Manager!
 
-== Three steps to get started
+=== Three steps to get started
 
-=== Add your first player
+==== Add your first player
 
 .  Add your first player, `Ronaldo` by typing the command `add n/Ronaldo e/Ronaldo@arsenal.com` in the command box and pressing kbd:[Enter] to execute it.
 
@@ -121,10 +121,7 @@ image::add.png[width="400"]
 TIP: The `Add` command has additional optional parameters for you to include more information. For the full list,
 refer to <<add, Adding a player>>.
 
-
-=== Basic Commands and Features
-
-=== Create your first team
+==== Create your first team
 Now that you have a player, let's explore teams. Teams allow you to manage and group your players together according to
 the teams they belong to.
 
@@ -138,7 +135,7 @@ image::create.png[width="300"]
 - `Ronaldo` 's player card should now show NUS in the team field as shown in the white box labeled 2 above.
 - The player list shows only players assigned to the team `NUS`
 
-=== Viewing more details
+==== Viewing more details
 
 . View more details about a player, by entering `select` followed by the <<Index>> of the player. For example, to view
 `Ronaldo` 's details, enter `select 1`.
@@ -154,7 +151,7 @@ There are also many ways you can customize and add to My Team Manager. Here are 
 .. <<toggleprivacy, Setting privacy>>
 .. <<sort, Sorting players in the list>>
 
-== Fundamentals
+=== Fundamentals
 
 MTM provides tools that gives you the power to use MTM more efficiently and teach you how to navigate through MTM with ease.
 
