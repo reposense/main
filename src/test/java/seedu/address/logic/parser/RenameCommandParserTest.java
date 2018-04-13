@@ -1,7 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_TEAM_NAME;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_TEAM_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.TEAM_DESC_ARSENAL;
 import static seedu.address.logic.commands.CommandTestUtil.TEAM_DESC_CHELSEA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TEAM_ARSENAL;
@@ -50,7 +50,7 @@ public class RenameCommandParserTest {
     @Test
     public void parse_invalidTeamName_failure() {
         // invalid new team name
-        assertParseFailure(parser, VALID_TEAM_ARSENAL + INVALID_TEAM_NAME,
+        assertParseFailure(parser, VALID_TEAM_ARSENAL + INVALID_TEAM_NAME_DESC,
                 TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
 
         // invalid given team name

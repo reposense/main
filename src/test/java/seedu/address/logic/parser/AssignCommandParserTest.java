@@ -45,10 +45,10 @@ public class AssignCommandParserTest {
         assertParseFailure(parser, INVALID_TEAM_NAME + INDEX_DESC_1, TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
 
         // invalid index
-        assertParseFailure(parser, TEAM_DESC_ARSENAL + INVALID_INDEX, ParserUtil.MESSAGE_INVALID_INDEX);
+        assertParseFailure(parser, VALID_TEAM_ARSENAL + INVALID_INDEX, ParserUtil.MESSAGE_INVALID_INDEX);
 
         // multiple index, with 1 invalid
-        assertParseFailure(parser, TEAM_DESC_ARSENAL + INDEX_DESC_1 + " -1", ParserUtil.MESSAGE_INVALID_INDEX);
+        assertParseFailure(parser, VALID_TEAM_ARSENAL + INDEX_DESC_1 + " -1", ParserUtil.MESSAGE_INVALID_INDEX);
 
         // multiple invalid values, first invalid value captured
         assertParseFailure(parser, INVALID_TEAM_NAME + INVALID_INDEX, TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
@@ -59,13 +59,13 @@ public class AssignCommandParserTest {
         // valid team name and 1 index
         TeamName targetTeam = new TeamName(VALID_TEAM_ARSENAL);
         List<Index> targetIndex = Collections.singletonList(INDEX_FIRST_PERSON);
-        String userInput = TEAM_DESC_ARSENAL + INDEX_DESC_1;
+        String userInput = VALID_TEAM_ARSENAL + INDEX_DESC_1;
         AssignCommand expectedCommand = new AssignCommand(targetTeam, targetIndex);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // valid team name and multiple valid indexes
         targetIndex = Arrays.asList(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON, INDEX_THIRD_PERSON);
-        userInput = TEAM_DESC_ARSENAL + INDEX_DESC_1 + " 2 3";
+        userInput = VALID_TEAM_ARSENAL + INDEX_DESC_1 + " 2 3";
         expectedCommand = new AssignCommand(targetTeam, targetIndex);
         assertParseSuccess(parser, userInput, expectedCommand);
     }

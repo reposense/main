@@ -498,19 +498,133 @@ Only one `remark` is saved at a time. If the user `remark` on the same person, i
 // end::remark[]
 
 // tag::privatefield[]
-==== Setting various player fields to private `[coming in v1.5]`
+==== Setting various player fields to private
 ===== Current Implementation
 
-There is currently no implementation for this feature. Coming soon!
+`Phone`, `Email`, `Remark`, `Rating` and `Address` of a player has an additional boolean attribute
+`isPrivate` which tracks the privacy of the particular field. When a player is added into MTM, `isPrivate` of these
+fields are set to 'false' by default.
+
+Each of these fields have a different `toString` method which would return `<Private 'FIELD'>` if privacy of
+the field is set to 'true', as shown in the following code snippet:
+[source, java]
+----
+@Override
+    public String toString() {
+        if (isPrivate) {
+            return "<Private Address>";
+        }
+        return value;
+    }
+----
+
+`XmlAdaptedPerson` under the storage portion has been edited to save the `isPrivate` value for the fields:
+[source, java]
+----
+@XmlElement(required = true)
+    private Boolean phonePrivacy;
+----
+
+Toggling of privacy works in a similar way to `Edit`. New fields will be created with privacy settings of `EditPersonPrivacy`
+ based on user input. This is done by first detecting if a particular prefix is present when command is
+entered in `TogglePrivacyCommandParser`:
+[source, java]
+----
+if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
+            epp.setPrivatePhone(false);
+        }
+----
+If prefix of a field is not present, the privacy setting of that particular field in `EditPersonPrivacy` would be null.
+
+In `TogglePrivacyCommand`, the new fields are created with this:
+[source, java]
+----
+private static Phone createPhonePrivacy(Person person, EditPersonPrivacy epp) {
+        Phone phone;
+        try {
+            if (person.getPhone().isPrivate()) {
+                person.getPhone().togglePrivacy();
+                phone = new Phone(person.getPhone().toString());
+                person.getPhone().togglePrivacy();
+            } else {
+                phone = new Phone(person.getPhone().toString());
+            }
+        } catch (Exception e) {
+            throw new AssertionError("Invalid Phone");
+        }
+        if (epp.getPrivatePhone() != null) {
+            phone.setPrivate(person.getPhone().isPrivate());
+            phone.togglePrivacy();
+        } else {
+            phone.setPrivate(person.getPhone().isPrivate());
+        }
+
+        return phone;
+    }
+----
+Note that in the second portion of the code, if `epp.getPrivatePhone()` is null, this would mean that it's privacy
+setting was not toggled and thus is set to the same as it was before. Else, it would be toggled:
+[source, java]
+----
+public void togglePrivacy() {
+        this.isPrivate = isPrivate ? false : true;
+    }
+----
+
+A new person object is then created:
+[source, java]
+----
+private static Person createEditedPrivacyPerson(Person personToEdit, EditPersonPrivacy epp)
+            throws IllegalValueException {
+        assert personToEdit != null;
+
+        Name updatedName = personToEdit.getName();
+        Phone updatedPhone = createPhonePrivacy(personToEdit, epp);
+        Email updatedEmail = createEmailPrivacy(personToEdit, epp);
+        Address updatedAddress = createAddressPrivacy(personToEdit, epp);
+        Remark updatedRemark = createRemarkPrivacy(personToEdit, epp);
+        TeamName updatedTeamName = personToEdit.getTeamName();
+        Set<Tag> updatedTags = personToEdit.getTags();
+        Rating updatedRating = createRatingPrivacy(personToEdit, epp);
+        Position updatedPosition = personToEdit.getPosition();
+        JerseyNumber updatedJerseyNumber = personToEdit.getJerseyNumber();
+        Avatar updatedAvatar = personToEdit.getAvatar();
+
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRemark,
+                updatedTeamName, updatedTags, updatedRating, updatedPosition, updatedJerseyNumber, updatedAvatar);
+    }
+----
+and is used to update current person:
+[source, java]
+----
+model.updatePerson(personToEdit, editedPerson);
+----
 
 ===== Design Consideration
+====== Aspect: How field privacy is implemented
+
+* **Alternative 1 (current choice):** Boolean `isPrivate` added to field classes.
+** Pros: Privacy settings can be obtained straight from class by calling getter method.
+** Cons: Adddtional methods are needed to set and get value of `isPrivate`.
+* **Alternative 2:** Field privacy settings stored in `Person` in a HashMap.
+** Pros: Field privacy can be accessed and modified easily
+** Cons: `Person` has to be accessed every time field privacy needs to be checked
+
+====== Aspect: Privacy of fields upon adding of player
+
+* **Alternative 1 (current choice):** All newly added players' fields are not private by default.
+** Pros: `Add` command does not need to be tweaked to allow adding player with private fields.
+** Cons: After adding players, user has to do additional command to toggle privacy of fields.
+* **Alternative 2:** Include implementation of prefixes that denotes private field during `Add`.
+** Pros: Newly added players can have private fields right away.
+** Cons: Addtional changes has to be made to `Add` command.
 // end::privatefield[]
 
-// tag:sorting[]
+// tag::sort[]
 ==== Sorting players by fields
 ===== Current Implementation
 
-The `sort` command is currently able to sort players by name, phone, email or address, in either ascending or descending order. Support for more fields will be added in subsequent updates.
+The `sort` command is currently able to sort players by name, email, address, rating, jersey and postition in either ascending or descending order. Support for more fields will be added in subsequent updates.
 
 * The `sort` command is parsed through `SortCommandParser` which hands control to the `SortCommand` class.
 
@@ -520,25 +634,33 @@ Sorting is facilitated by the `SortCommand` which uses method `sortPlayers` to u
 [source, java]
 ----
         switch (field) {
-        case "name":
-            comparator = nameComparator;
-            break;
+                case "name":
+                    comparator = nameComparator;
+                    break;
 
-        case "phone":
-            comparator = phoneComparator;
-            break;
+                case "jersey":
+                    comparator = jerseyComparator;
+                    break;
 
-        case "email":
-            comparator = emailComparator;
-            break;
+                case "pos":
+                    comparator = posComparator;
+                    break;
 
-        case "address":
-            comparator = addressComparator;
-            break;
+                case "rating":
+                    comparator = ratingComparator;
+                    break;
 
-        default:
-            throw new AssertionError("Invalid field parameter entered...\n");
-        }
+                case "email":
+                    comparator = emailComparator;
+                    break;
+
+                case "address":
+                    comparator = addressComparator;
+                    break;
+
+                default:
+                    throw new AssertionError("Invalid field parameter entered...\n");
+                }
 
         switch (order) {
         case "asc":
@@ -558,17 +680,31 @@ Sorting is facilitated by the `SortCommand` which uses method `sortPlayers` to u
 The code above utilises a custom `Comparator` defined in the code below:
 [source, java]
 ----
-Comparator<Person> nameComparator = new Comparator<Person>() {
+        Comparator<Person> nameComparator = new Comparator<Person>() {
             @Override
             public int compare(Person p1, Person p2) {
                 return p1.getName().fullName.compareTo(p2.getName().fullName);
             }
         };
 
-        Comparator<Person> phoneComparator = new Comparator<Person>() {
+        Comparator<Person> jerseyComparator = new Comparator<Person>() {
             @Override
             public int compare(Person p1, Person p2) {
-                return p1.getPhone().value.compareTo(p2.getPhone().value);
+                return p1.getJerseyNumber().value.compareTo(p2.getJerseyNumber().value);
+            }
+        };
+
+        Comparator<Person> ratingComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getRating().value.compareTo(p2.getRating().value);
+            }
+        };
+
+        Comparator<Person> posComparator = new Comparator<Person>() {
+            @Override
+            public int compare(Person p1, Person p2) {
+                return p1.getPosition().value.compareTo(p2.getPosition().value);
             }
         };
 
@@ -619,16 +755,8 @@ If address book is empty, a `NoPlayerException` will be thrown by `sortBy` metho
 * **Alternative 2:** Address book is not saved after sorting.
 ** Pros: Good if team manager wants to sort players for current session only.
 ** Cons: Sort order is lost when program exits. More memory is used to sort a list and reverse it after.
-// end::sorting[]
+// end::sort[]
 
-// tag::showbestxi[]
-==== Show Best XI `[coming in v1.5]`
-===== Current Implementation
-
-The `showBest` command is able to show the current team's best 11 players. There is however functional implementation for this feature yet. Coming soon!
-
-===== Design Consideration
-// end::showbestxi[]
 
 === Team-Related Enhancements
 
@@ -679,6 +807,120 @@ _Figure : Sequence Diagram of `Team` mechanism_
 ** Cons: Excess storage wasted due to duplicated data of `Team` in every `Person`.
 // end::team[]
 
+// tag::showbestxi[]
+==== Show Best XI `[coming in v2.0]`
+===== Current Implementation
+
+The `showBest` command is able to show the current team's best 11 players. There is however no functional implementation for this feature yet. Coming soon!
+
+===== Design Consideration
+// end::showbestxi[]
+
+=== Usability Enhancements
+
+
+// tag::key[]
+==== Toggle lock on MTM
+===== Current Implementation
+Locking mechanism of MTM can be toggled on and off using the `Key` command. It utilises the Model to access
+user preferences of MTM. Current lock state and password is stored in `UserPrefs` in the Storage component.
+
+Password checking done in `Key` command:
+[source, java]
+----
+private boolean correctPassword() {
+        UserPrefs up = model.getUserPrefs();
+        String hash = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+        return hash.equals(up.getAddressBookHashedPass());
+    }
+----
+When password check is done, the lock on MTM is toggled to the state opposite of the current:
+[source, java]
+----
+if (correctPassword()) {
+            if (model.getLockState()) {
+                model.unlockAddressBookModel();
+            } else {
+                model.lockAddressBookModel();
+            }
+
+            logger.info("Lock state is now: " + Boolean.toString(model.getLockState()));
+            return new CommandResult(MESSAGE_SUCCESS);
+        }
+----
+
+In a locked state, only certain functions of MTM can be used. This is to prevent unauthorised tampering with the details
+stored on MTM.
+
+This is done in `AddressBookParser`. Commands are split into low level or not. When a command is
+being executed, it is checked if it falls under the low level category. If so, it would execute. When adding new features,
+add them to this list should you feel it is 'low level':
+[source, java]
+----
+private Command lowLevelCommand(String commandWord, String arguments) throws ParseException {
+        switch(commandWord) {
+        case ChangeThemeCommand.COMMAND_WORD:
+        case ChangeThemeCommand.COMMAND_ALIAS:
+            return new ChangeThemeCommandParser().parse(arguments);
+
+        case FindCommand.COMMAND_WORD:
+        case FindCommand.COMMAND_ALIAS:
+            return new FindCommandParser().parse(arguments);
+
+        case ListCommand.COMMAND_WORD:
+        case ListCommand.COMMAND_ALIAS:
+            return new ListCommand();
+
+        case KeyCommand.COMMAND_WORD:
+        case KeyCommand.COMMAND_ALIAS:
+            return new KeyCommandParser().parse(arguments);
+
+        case ViewCommand.COMMAND_WORD:
+        case ViewCommand.COMMAND_ALIAS:
+            return new ViewCommandParser().parse(arguments);
+
+        case ExitCommand.COMMAND_WORD:
+            return new ExitCommand();
+
+        case HelpCommand.COMMAND_WORD:
+            return new HelpCommand();
+
+        case SortCommand.COMMAND_WORD:
+        case SortCommand.COMMAND_ALIAS:
+            return new SortCommandParser().parse(arguments);
+
+        default:
+            return null;
+        }
+    }
+----
+If command being executed does not fall into the category of 'low level', a check on the lock state of MTM is done
+before allowing or restricting access:
+[source, java]
+----
+if (lockState) {
+            throw new ParseException(MESSAGE_RESTRICTED);
+        }
+----
+
+===== Design Considerations
+====== Aspect: Implementation of locking MTM
+* **Alternative 1 (current choice):** Lock is toggled with only a single command `Key`.
+** Pros: Easy to implement, just check current lock state and switch it.
+** Cons: With a toggle, user might unlock MTM thinking he/she is locking it.
+* **Alternative 2:** Locking and unlocking of MTM is done with two separate commands.
+** Pros: Ensures that when a lock is done, MTM is truly locked.
+** Cons: Addtional command needs to be created, along with its command parser and implementations.
+// end::key[]
+
+// tag::changepass[]
+==== Change Password `[Coming in v2.0]`
+===== Current Implementation
+Default password used for toggling lock on MTM is currently 'ilikesports'. In an upcoming update, user would be able
+to change this password to one of his choosing. There is currently no functional implementation for this feature yet.
+Coming soon!
+
+// end::changepass[]
 === User Experience Enhancements
 
 // tag::autocomplete[]
@@ -949,6 +1191,17 @@ public class ChangeThemeCommand extends Command {
 ----
 
 ===== Design Considerations
+====== Aspect: Command Syntax
+
+* **Alternative 1 (current choice):** The command syntax is in the form "changeTheme Dark" or "changeTheme Light".
+** Pros: This supports future implementation of more themes, so that the developer can easily add the new themes without
+having to change the execution.
+** Cons: The command is longer than it could be. (see alternative 2)
+* **Alternative 2:** The command syntax in the form "changeTheme", which would automatically toggle the theme.
+** Pros: User does not have to type anything to change the theme, so it might be more user friendly.
+** Cons: Future implementation of more themes would be harder for the developer as the toggle function would have to be
+changed quite drastically to become a command for selecting a theme out of multiple themes.
+
 ====== Aspect: User Experience
 
 * **Alternative 1 (current choice):** `ChangeThemeCommand` is implemented as a CLI command.
@@ -1742,13 +1995,13 @@ These instructions only provide a starting point for testers to work on; testers
 
 _{ more test cases ... }_
 
-=== Deleting a person
+=== Deleting a player
 
-. Deleting a person while all persons are listed
+. Deleting a player while all players are listed
 
-.. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+.. Prerequisites: List all players using the `list` command. Multiple players in the list.
 .. Test case: `delete 1` +
-   Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+   Expected: First player is deleted from the list. Details of the deleted player shown in the status message. Timestamp in the status bar is updated.
 .. Test case: `delete 0` +
    Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +

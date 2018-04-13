@@ -96,7 +96,9 @@ public class CommandTestUtil {
     public static final String INVALID_AVATAR_TYPE = " " + PREFIX_AVATAR + "images.gif";
     //only jpg and png file type allowed
     public static final String INVALID_AVATAR_NO_FILE = " " + PREFIX_AVATAR + "file.png";
-    public static final String INVALID_TEAM_NAME = " " + PREFIX_TEAM_NAME + "&-Team-&"; // '&' not allowed in team names
+    public static final String INVALID_TEAM_NAME_DESC = " " + PREFIX_TEAM_NAME
+            + "&-Team-&"; // '&' not allowed in team names
+    public static final String INVALID_TEAM_NAME = "&-Team-&"; // without prefix and '&' not allowed in team names
     public static final String INVALID_INDEX = " " + PREFIX_INDEX + "-1"; // negative not allowed as index
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";

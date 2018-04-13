@@ -201,7 +201,6 @@ Format: `exit`
 This is the command that you will be using most frequently, especially when dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the `add` command.
 
 Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [av/AVATAR] [t/TAG]...` +
-
 Alias: `a`
 
 The table below explains the correct inputs for the parameters.
@@ -217,7 +216,7 @@ The table below explains the correct inputs for the parameters.
 |j/JERSEY_NUMBER| Player's jersey number| j/17
 |ra/RATING| Player's performance rating (Any integer from 1 to 5)| ra/5
 |po/POSITION| Player's postion (1 for Striker, 2 for Midfiled, 3 for Defender, 4 for Goalkeeper)| po/1
-|av/AVATAR| Filepath for avatar image file. Eg. C:\image.png (for Windows) or /User/username/path/to/image.jpg(for MacOS)| i/C:\image.png  i//User/username/path/to/image.jpg
+|av/AVATAR| Filepath for avatar image file. Eg. C:\image.png (for Windows) or /User/username/path/to/image.jpg(for MacOS)| av/C:\image.png  av//User/username/path/to/image.jpg
 |t/TAG| Your tag for the player| t/Injured
 
 |=========================================================
@@ -320,6 +319,7 @@ To view a list of all the players you are managing, you can use the `list` comma
 Format: `list` +
 Alias: `l`
 
+// tag::sort[]
 ==== Sorting players by field: `sort` `[Since v1.2]`
 
 You can sort the players by fields with the 'sort' command. Players can be sorted in both ascending or descending order.
@@ -339,6 +339,7 @@ This will sort MTM by names, in alphabetical order.
 
 * `sort` name dsc +
 This will sort MTM by names, in reverse alphabetical order.
+// end::sort[]
 
 ==== Locating players by name: `find`
 
@@ -466,7 +467,7 @@ Renames the current team "Arsenal" into "Neo Arsenal".
 
 Have a player without a team, or have yet to assigned one during the addition of player into MTM, you can call `assign` command to assign that player to a particular team of your choice.
 
-Format: `assign tm/TEAM_NAME i/INDEX [INDEX]...` +
+Format: `assign [TEAM_NAME] i/INDEX [INDEX]...` +
 Alias: `at`
 
 [NOTE]
@@ -475,27 +476,30 @@ The index refers to the index number shown in the most recent listing. +
 The index *must be a positive integer* `1, 2, 3, ...` +
 You can assign multiple players to a team by including more than one valid index. +
 A player can only consist of 1 team, assigning a player that have an existing team, will be re-assigned the new team.
+Assigning a player without a given team will unassign the player from its current team.
 ====
 
 [IMPORTANT]
 .*What to expect*
 ====
-Your specified player, via index, will be assigned to the specified team.
+Your specified player, via index, will be assigned to the specified team or unassigned from any team.
 ====
 
 Here are a few valid examples on how you can use the `create` command:
 
 * `list`
-* `assign tm/Arsenal i/1 2 3` +
+* `assign Arsenal i/1 2 3` +
 View the full list of players in MTM and assign the player with index 1, 2, and 3 to team "Arsenal".
 
-* `find John`
-* `assign tm/Liverpool i/1` +
+* `assign i/1` +
 Find a player by the name of "John" and assign the player with index 1 to team "Liverpool".
 
 ==== Viewing a team: `view` `[Since v1.3]`
 
 With the ability to manage different teams, you will be able to identify all players in a team easily with the `view` command.
+
+`Coming in v2.0` +
+Details of your team will be displayed on the right panel when `view` command is executed.
 
 Format: `view TEAM_NAME` +
 Alias: `vt`
@@ -515,12 +519,6 @@ List all players in the team "Arsenal".
 List all players in the team "Liverpool".
 // end::team[]
 
-[NOTE]
-====
-`Coming in v2.0` +
-Details of your team will be displayed on the right panel when `view` command is executed.
-====
-
 === Other Useful Commands
 
 // tag:setTagColour[]
@@ -539,6 +537,7 @@ Instead, just enter `stc <your desired colour>` to change the colour back!
 ====
 // end:setTagColour[]
 
+// tag::togglePrivacy[]
 ==== Toggling various fields to private: `toggleprivacy` `[Since v1.4]`
 
 You can toggle the privacy of various fields of players in MTM.
@@ -562,18 +561,71 @@ Here are some examples on how you can use the `toggleprivacy` command:
 
 * `tp` 1 p/ ra/ +
 Toggles privacy of phone and rating of player @ index 1
+// end::togglePrivacy[]
+
+// tag::key[]
+
+==== Toggling lock on MTM: `key` `[Since v1.5]`
+
+You can toggle a lock on MTM to prevent unauthorised changes to your details in MTM. When MTM is in a locked state, functionality will be limited.
+
+Format: `key` PASSWORD +
+Alias: `k`
+
+[NOTE]
+====
+Current version of `key` uses a fixed default password: *ilikesports* +
+====
+
+[IMPORTANT]
+.*What to expect*
+====
+When MTM is locked, only the following commands can be executed: `changeTheme`, `exit`, `find`, `help`, `key`, `list`, `sort`
+and `view`
+====
+
+Here are examples on how to use `key`:
+
+* If MTM is in a lock state, use this command to unlock it: +
+`key` ilikesports
+
+* To lock MTM, use this command to lock: +
+`key` ilikesports
+
+// end::key[]
 
 === Coming Soon
 
-There is more to come with the next upcoming update! Keep a lookout on these newly implemented features soon!
-
+There is more to come with the next upcoming update! Keep a lookout for these newly implemented features soon!
+// tag::showBest2.0[]
 ==== Showing Best XI players: `showBest` `[Coming in v2.0]`
 
 If you went to see your current best 11 players in your team based on their respective stats, this command
 is for you.
 
-Alias: `sb` +
-Format: `showBest`
+Format: `showBest` +
+Alias: `sb`
+
+[IMPORTANT]
+.*What to expect*
+====
+A lineup of the best 11 players would be displayed. It would consist of 1 Goalkeeper,
+4 Defenders, 4 Midfielders and 2 Strikers.
+====
+// end::showBest2.0[]
+
+// tag::changePass2.0[]
+==== Change password: `changepass` `[Coming in v2.0]`
+
+Should you feel that the default password used in `key` could be more secure, you may change it to a password of your
+choosing with this command.
+
+Format: `changepass` CURRENTPASSWORD NEWPASSWORD CONFIRMPASSWORD +
+Alias: `cpw`
+
+Here is how you can change the your password:
+`changepass` ilikesports Securep@ssword1 Securep@ssword1
+// end::changePass2.0[]
 
 // tag::teamin2.0[]
 ==== Setting an upcoming match with an opposing team: `setmatch` `[Coming in v2.0]`
@@ -764,8 +816,8 @@ d|List all the players
 
 |`assign`
 |`at`
-|assign tm/TEAM_NAME i/INDEX [INDEX]...
-|assign tm/Barcelona i/1 2 3
+|assign [TEAM_NAME] i/INDEX [INDEX]...
+|assign Barcelona i/1 2 3
 
 |`view`
 |`vt`

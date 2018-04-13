@@ -23,8 +23,8 @@ import seedu.address.commons.core.LogsCenter;
 public class Avatar {
 
     public static final String MESSAGE_AVATAR_CONSTRAINTS =
-            "Please specify the filepath for the avatar image eg. i/C:\\image.png\n (for Windows), "
-            + "i//User/username/path/to/image.jpg (for MacOS). "
+            "Please specify the absolute filepath for the avatar image eg. av/C:\\image.png\n (for Windows), "
+            + "av//User/username/path/to/image.jpg (for MacOS). "
             + "Image file should be 200x200 and in jpg or png format";
 
     public static final String AVATAR_VALIDATION_PATTERN = "([^\\s]+(\\.(?i)(jpg|png))$)";

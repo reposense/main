@@ -129,6 +129,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         // TODO: the tags master list will be updated even though the below line fails.
         // This can cause the tags master list to have additional tags that are not tagged to any person
         // in the person list.
+        if (!editedPerson.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+            teams.getTeam(editedPerson.getTeamName()).setPerson(target, editedPerson);
+        }
         persons.setPerson(target, syncedEditedPerson);
         removeUnusedTags();
     }
@@ -258,10 +261,19 @@ public class AddressBook implements ReadOnlyAddressBook {
      * @throws TeamNotFoundException if the {@code team} is not found in this {@code AddressBook}.
      */
     public void assignPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
+        teams.assignPersonToTeam(person, teams.getTeam(teamName));
+
+        try {
+            removePersonFromTeam(person, person.getTeamName());
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("Impossible: Team should contain of this person");
+        }
+
         Person newPersonWithTeam =
                 new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                         person.getRemark(), teamName, person.getTags(), person.getRating(), person.getPosition(),
                         person.getJerseyNumber(), person.getAvatar());
+
         try {
             updatePerson(person, newPersonWithTeam);
         } catch (DuplicatePersonException dpe) {
@@ -269,13 +281,35 @@ public class AddressBook implements ReadOnlyAddressBook {
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("Impossible: AddressBook should contain this person");
         }
+    }
 
-        teams.assignPersonToTeam(newPersonWithTeam, teams.getTeam(teamName));
+    //@@author jordancjq
+    /**
+     * Unassigns a {@code person} from team.
+     * @throws TeamNotFoundException if the {@code teamName} in {@code person} is {@code UNSPECIFIED_FIELD}.
+     */
+    public void unassignPersonFromTeam(Person person) throws TeamNotFoundException {
+        if (person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+            throw new TeamNotFoundException(person.getName().toString());
+        }
+
+        Person newPersonWithTeam =
+                new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
+                        person.getRemark(), new TeamName(UNSPECIFIED_FIELD), person.getTags(), person.getRating(),
+                        person.getPosition(), person.getJerseyNumber(), person.getAvatar());
 
         try {
             removePersonFromTeam(person, person.getTeamName());
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("Impossible: Team should contain of this person");
+        }
+
+        try {
+            updatePerson(person, newPersonWithTeam);
+        } catch (DuplicatePersonException dpe) {
+            throw new AssertionError("AddressBook should not have duplicate person after assigning team");
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("Impossible: AddressBook should contain this person");
         }
     }
 
@@ -292,7 +326,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     /**
      * Removes a {@code person} from a {@code team}.
      */
-    public void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
+    private void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
         if (!person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
             try {
                 teams.removePersonFromTeam(person, teams.getTeam(teamName));

@@ -1,9 +1,11 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;
 import static seedu.address.model.team.TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS;
 
+import java.util.Optional;
+
+import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.CreateCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.team.Team;
@@ -26,11 +28,14 @@ public class CreateCommandParser implements Parser<CreateCommand> {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, CreateCommand.MESSAGE_USAGE));
         }
-        if (!TeamName.isValidName(trimmedArgs) || trimmedArgs.equals(UNSPECIFIED_FIELD)) {
-            throw new ParseException(MESSAGE_TEAM_NAME_CONSTRAINTS);
-        }
 
-        TeamName teamName = new TeamName(trimmedArgs);
+        TeamName teamName;
+        try {
+            teamName = ParserUtil.parseTeamName(ParserUtil.parseValue(Optional.of(trimmedArgs),
+                    MESSAGE_TEAM_NAME_CONSTRAINTS)).get();
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
 
         return new CreateCommand(new Team(teamName));
     }
