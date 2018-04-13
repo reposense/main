@@ -47,13 +47,13 @@ This app will not work with earlier versions of Java 8.
 .  Double-click the file to start the app. The software interface should appear in a few seconds as shown below.
 +
 
-image::UINew.png[width="790"]
+image::UiNew.png[width="790"]
 
 === Navigating the interface
 
 The figure below shows the different components in My Team Manager and the list below explains their purpose.
 
-image::UIGuide.png[width="790"]
+image::UiGuide.png[width="790"]
 
 . Command Box : This is where you key in the commands to use My Team Manager.
 . Display Box : The display box displays results to any command you input.
