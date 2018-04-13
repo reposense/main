@@ -46,7 +46,7 @@ This app will not work with earlier versions of Java 8.
 .  Copy the file to the folder you want to use as the home folder for your MTM.
 .  Double-click the file to start the app. The software interface should appear in a few seconds as shown below.
 +
-image::UI New.png[width="790"]
+image::UI New.PNG[width="790"]
 
 === Navigating the interface
 
