@@ -362,6 +362,10 @@ public class TogglePrivacyCommand extends UndoableCommand {
             return privateRating;
         }
 
+        /**
+         *
+         * @return true if at least one field is not null
+         */
         public boolean anyNonNullField() {
             return CollectionUtil.isAnyNonNull(this.privateAddress, this.privateEmail, this.privatePhone,
                     this.privateRating, this.privateRemark);
