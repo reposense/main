@@ -191,7 +191,7 @@ This app will not work with earlier versions of Java 8.
 </div>
 </li>
 <li>
-<p>Download the latest <code>MyTeamManage.jar</code> <a href="{repoURL}/releases">here</a>.</p>
+<p>Download the latest <code>MyTeamManager.jar</code> <a href="{repoURL}/releases">here</a>.</p>
 </li>
 <li>
 <p>Copy the file to the folder you want to use as the home folder for your MTM.</p>
@@ -356,7 +356,7 @@ team <code>Real Madrid</code>, jersey number <code>17</code>, rating <code>5</co
 </div>
 </div>
 <div class="sect3">
-<h4 id="editing-a-player-code-edit-code"><a class="link" href="#editing-a-player-code-edit-code">Editing a player : <code>edit</code></a></h4>
+<h4 id="edit"><a class="link" href="#edit">Editing a player : <code>edit</code></a></h4>
 <div class="paragraph">
 <p>If you made a mistake when adding a player, or if there&#8217;s player information that needs updating, you may edit an existing player in MTM with the 'edit' command.</p>
 </div>
@@ -404,7 +404,7 @@ Edits the name of the 2nd player to be <code>Betsy Crower</code> and clears all 
 </div>
 </div>
 <div class="sect3">
-<h4 id="using-tab-autocomplete"><a class="link" href="#using-tab-autocomplete">Using Tab Autocomplete</a></h4>
+<h4 id="autocomplete"><a class="link" href="#autocomplete">Using <kbd>tab</kbd> Autocomplete</a></h4>
 <div class="paragraph">
 <p>After typing in the first few characters of a command, pressing <kbd>tab</kbd> will fill in the rest of the item.</p>
 </div>
@@ -489,36 +489,39 @@ it will provide the user with possible commands for a given input. In this case,
 </div>
 </div>
 <div class="sect3">
-<h4 id="optional-fields-for-add-mechanism"><a class="link" href="#optional-fields-for-add-mechanism">Optional Fields for Add Mechanism</a></h4>
+<h4 id="optional-field-add-command-code-since-v1-1-code"><a class="link" href="#optional-field-add-command-code-since-v1-1-code">Optional Field Add Command <code>[since v1.1]</code></a></h4>
+<div class="paragraph">
+<p>MTM is designed to manage a multitude of players and the main function that would be used repetitively is the <code>add</code> command, hence it would alleviate the cumbersomeness of entering every detail of the players when you want the command to be executed quickly.
+Having the option to only entering the mandatory fields and leaving the optional ones empty will make the process of adding players more efficient.</p>
+</div>
 <div class="sect4">
 <h5 id="current-implementation-2"><a class="link" href="#current-implementation-2">Current Implementation</a></h5>
 <div class="paragraph">
-<p>This mechanism enhances the original implementation of the <code>add</code> command. The required fields that are mandatory to be filled by the user are <code>n/NAME</code> and <code>e/EMAIL</code>. This implementation of making fields optional for <code>AddCommand</code> allows user to add players without their full information, and can be updated accordingly when the user retrieves their full information.</p>
+<p>This mechanism enhances the original implementation of the <code>add</code> command.
+The required fields that are mandatory to be filled by the user are <code>n/NAME</code> and <code>e/EMAIL</code>.
+This implementation of making fields optional for <code>AddCommand</code> allows user to add players without their full information, and can be updated accordingly when the user retrieves their full information.</p>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram illustrates the operation of the enhancement made to <code>add</code> command:</p>
+<p>The sequence diagram below illustrates the operation after the enhancement made to <code>add</code> command:</p>
 </div>
 <div class="paragraph">
-<p><em>Figure : Sequence Diagram of Enhanced <code>add</code> Command</em></p>
-</div>
-<div class="paragraph">
-<p>Code snippet from <code>ParserUtil.java</code> that shows the implementation of when a field is left empty. "&lt;UNSPECIFED&gt;" string will be return when the value passed in is empty.</p>
+<p>Code snippet from <code>ParserUtil.java</code> that shows the implementation of when a field is left empty.
+"&lt;UNSPECIFIED&gt;" string will be return when the value passed in is empty.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">ParserUtil</span> {
-
-    <span class="comment">// ... model code ...</span>
-
     <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> UNSPECIFIED_FIELD = <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;UNSPECIFIED&gt;</span><span class="delimiter">&quot;</span></span>;
+    <span class="comment">//...ParserUtil code...</span>
 
-    <span class="comment">// ... model code ...</span>
-
-    <span class="directive">public</span> <span class="directive">static</span> Optional&lt;<span class="predefined-type">String</span>&gt; parseValue(Optional&lt;<span class="predefined-type">String</span>&gt; value) {
+    <span class="directive">public</span> <span class="directive">static</span> Optional&lt;<span class="predefined-type">String</span>&gt; parseValue(Optional&lt;<span class="predefined-type">String</span>&gt; value, <span class="predefined-type">String</span> messageConstraints)
+        <span class="directive">throws</span> IllegalValueException {
+    <span class="keyword">if</span> (value.isPresent() &amp;&amp; value.get().equals(UNSPECIFIED_FIELD)) {
+        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalValueException(messageConstraints);
+    } <span class="keyword">else</span> {
         <span class="keyword">return</span> Optional.of(value.orElse(UNSPECIFIED_FIELD));
     }
-
-    <span class="comment">// ... model code ...</span>
+    <span class="comment">//...ParserUtil code ...</span>
 }</code></pre>
 </div>
 </div>
@@ -528,33 +531,19 @@ it will provide the user with possible commands for a given input. In this case,
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> AddCommand parse(<span class="predefined-type">String</span> args) <span class="directive">throws</span> <span class="exception">ParseException</span> {
+        <span class="comment">//...tokenize arguments...</span>
+        <span class="keyword">if</span> (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_EMAIL)
+            || !argMultimap.getPreamble().isEmpty()) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">ParseException</span>(<span class="predefined-type">String</span>.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                AddCommand.MESSAGE_USAGE));
+        }
 
-    <span class="comment">// ... logic code ...</span>
-
-    <span class="keyword">if</span> (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_EMAIL)
-        || !argMultimap.getPreamble().isEmpty()) {
-        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">ParseException</span>(<span class="predefined-type">String</span>.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
-    }
-
-    <span class="keyword">try</span> {
-
-    <span class="comment">// ... logic code ...</span>
-
-        Phone phone = ParserUtil.parsePhone(
-            ParserUtil.parseValue(argMultimap.getValue(PREFIX_PHONE)).get());
-        Address address = ParserUtil.parseAddress(
-            ParserUtil.parseValue(argMultimap.getValue(PREFIX_ADDRESS)).get());
-
-        <span class="comment">// ... logic code ...</span>
-
-        Person person = <span class="keyword">new</span> Person(name, phone, email, address, tagList);
+        <span class="comment">//...get person details from arguments...</span>
+        Address address = ParserUtil.parseAddress(ParserUtil.parseValue(argMultimap
+            .getValue(PREFIX_ADDRESS), Address.MESSAGE_ADDRESS_CONSTRAINTS)).get();
 
         <span class="keyword">return</span> <span class="keyword">new</span> AddCommand(person);
-    } <span class="keyword">catch</span> (IllegalValueException ive) {
-        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">ParseException</span>(ive.getMessage(), ive);
-    }
-
-    <span class="comment">// ... logic code ...</span>
+        <span class="comment">//...AddCommandParser code...</span>
 }</code></pre>
 </div>
 </div>
@@ -564,9 +553,7 @@ it will provide the user with possible commands for a given input. In this case,
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">Address</span> {
-
-    <span class="comment">// ... model code ...</span>
-
+    <span class="comment">//...Address code...</span>
     <span class="directive">public</span> <span class="directive">static</span> <span class="type">boolean</span> isValidAddress(<span class="predefined-type">String</span> test) {
         <span class="keyword">return</span> test.matches(ADDRESS_VALIDATION_REGEX) || test.equals(UNSPECIFIED_FIELD);
     }
@@ -676,7 +663,7 @@ team managers, with added gui.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-13 03:47:13 UTC
+Last updated 2018-04-13 04:23:01 UTC
 </div>
 </div>
 </body>
