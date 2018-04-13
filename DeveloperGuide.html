@@ -64,7 +64,6 @@
 <li><a href="#remark-mechanism">4.2.1. Remark Mechanism</a></li>
 <li><a href="#setting-various-player-fields-to-private">4.2.2. Setting various player fields to private</a></li>
 <li><a href="#sorting-players-by-fields">4.2.3. Sorting players by fields</a></li>
-<li><a href="#toggle-lock-on-mtm">4.2.4. Toggle lock on MTM</a></li>
 </ul>
 </li>
 <li><a href="#team-related-enhancements">4.3. Team-Related Enhancements</a>
@@ -73,7 +72,12 @@
 <li><a href="#show-best-xi-code-coming-in-v2-0-code">4.3.2. Show Best XI <code>[coming in v2.0]</code></a></li>
 </ul>
 </li>
-<li><a href="#usability-enhancements">4.4. Usability Enhancements</a></li>
+<li><a href="#usability-enhancements">4.4. Usability Enhancements</a>
+<ul class="sectlevel3">
+<li><a href="#toggle-lock-on-mtm">4.4.1. Toggle lock on MTM</a></li>
+<li><a href="#change-password-code-coming-in-v2-0-code">4.4.2. Change Password <code>[Coming in v2.0]</code></a></li>
+</ul>
+</li>
 <li><a href="#user-experience-enhancements">4.5. User Experience Enhancements</a>
 <ul class="sectlevel3">
 <li><a href="#tab-autocomplete">4.5.1. Tab Autocomplete</a></li>
@@ -1573,10 +1577,111 @@ If address book is empty, a <code>NoPlayerException</code> will be thrown by <co
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="team-related-enhancements"><a class="link" href="#team-related-enhancements">4.3. Team-Related Enhancements</a></h3>
 <div class="sect3">
-<h4 id="toggle-lock-on-mtm"><a class="link" href="#toggle-lock-on-mtm">4.2.4. Toggle lock on MTM</a></h4>
+<h4 id="team-mechanism"><a class="link" href="#team-mechanism">4.3.1. Team Mechanism</a></h4>
 <div class="sect4">
 <h5 id="current-implementation-5"><a class="link" href="#current-implementation-5">Current Implementation</a></h5>
+<div class="paragraph">
+<p>The team mechanism is created to provide better organizational methods to the user for organizing their players. We achieved it by introducing a <code>UniqueTeamList</code> into the application which consists of a list of <code>Team</code> objects.</p>
+</div>
+<div class="paragraph">
+<p><code>Team</code> objects consist of <code>TeamName</code> object, which is used to uniquely identify the team, and <code>UniquePersonList</code> object which stores the information of <code>Person</code> objects which should be identical to those found in <code>UniquePersonList</code> in <code>addressbook</code>.</p>
+</div>
+<div class="paragraph">
+<p>Code snippet from <code>Team.java</code> that shows the attributes of <code>Team</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">Team</span> {
+
+    <span class="directive">private</span> <span class="directive">final</span> TeamName teamName;
+    <span class="directive">private</span> <span class="directive">final</span> UniquePersonList players = <span class="keyword">new</span> UniquePersonList();
+
+    <span class="comment">// ... model method ...</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Since <code>Person</code> stored in <code>Team</code> is referencing to the <code>Person</code> in <code>addressbook</code>, changes made to <code>Person</code> needs to be ensured that is properly propagated to the <code>Person</code> objects found in <code>Team</code>. An additional <code>TeamName</code> field is also added to <code>Person</code> so that the user can quickly determine the team the player is in.</p>
+</div>
+<div class="paragraph">
+<p>Code snippet from <code>&lt;somefile&gt;.java</code> that shows the propagation of details updated in <code>Person</code> from <code>addressbook</code> to the <code>Person</code> objects in <code>Team</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">    <span class="comment">// placeholder</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Currently, with the <code>Team</code> mechanism, additional commands such as <code>create</code>, <code>remove</code>, and <code>editteam</code> gives the user basic functionality for team management. Additionally, commands like <code>assign</code>, <code>view</code>, <code>setmatch</code>, and <code>viewmatch</code> gives the user more practical uses in managing multiple teams.</p>
+</div>
+<div class="paragraph">
+<p>The following sequence diagram illustrates the operation of the <code>Team</code> mechanism and some of its respective commands:</p>
+</div>
+<div class="paragraph">
+<p><em>Figure : Sequence Diagram of <code>Team</code> mechanism</em></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="design-considerations-3"><a class="link" href="#design-considerations-3">Design Considerations</a></h5>
+<div class="sect5">
+<h6 id="aspect-implementation-of-code-team-code"><a class="link" href="#aspect-implementation-of-code-team-code">Aspect: Implementation of <code>Team</code></a></h6>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> <code>Team</code> object stores the reference to <code>Person</code> objects that is also in <code>UniquePersonList</code> and <code>TeamName</code> is also an attribute of <code>Person</code>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Provides an easier lookup of person belonging in which team without the need of iterating through the <code>UniqueTeamList</code> for a specific <code>Person</code>, and efficient way of listing all <code>Persons</code> in a <code>Team</code>.</p>
+</li>
+<li>
+<p>Cons: Checks need to be done thoroughly to ensure that code does not break when changes are made, especially the synchronisation of <code>Person</code> details in <code>Team</code> and in <code>addressbook</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> <code>Team</code> object is stored in <code>Person</code> object as an attribute.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Logical thought process to include <code>Team</code> as an attribute.</p>
+</li>
+<li>
+<p>Cons: Excess storage wasted due to duplicated data of <code>Team</code> in every <code>Person</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="show-best-xi-code-coming-in-v2-0-code"><a class="link" href="#show-best-xi-code-coming-in-v2-0-code">4.3.2. Show Best XI <code>[coming in v2.0]</code></a></h4>
+<div class="sect4">
+<h5 id="current-implementation-6"><a class="link" href="#current-implementation-6">Current Implementation</a></h5>
+<div class="paragraph">
+<p>The <code>showBest</code> command is able to show the current team&#8217;s best 11 players. There is however no functional implementation for this feature yet. Coming soon!</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="design-consideration-3"><a class="link" href="#design-consideration-3">Design Consideration</a></h5>
+
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="usability-enhancements"><a class="link" href="#usability-enhancements">4.4. Usability Enhancements</a></h3>
+<div class="sect3">
+<h4 id="toggle-lock-on-mtm"><a class="link" href="#toggle-lock-on-mtm">4.4.1. Toggle lock on MTM</a></h4>
+<div class="sect4">
+<h5 id="current-implementation-7"><a class="link" href="#current-implementation-7">Current Implementation</a></h5>
 <div class="paragraph">
 <p>Locking mechanism of MTM can be toggled on and off using the <code>Key</code> command. It utilises the Model to access
 user preferences of MTM. Current lock state and password is stored in <code>UserPrefs</code> in the Storage component.</p>
@@ -1672,7 +1777,7 @@ before allowing or restricting access:</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="design-considerations-3"><a class="link" href="#design-considerations-3">Design Considerations</a></h5>
+<h5 id="design-considerations-4"><a class="link" href="#design-considerations-4">Design Considerations</a></h5>
 <div class="sect5">
 <h6 id="aspect-implementation-of-locking-mtm"><a class="link" href="#aspect-implementation-of-locking-mtm">Aspect: Implementation of locking MTM</a></h6>
 <div class="ulist">
@@ -1708,115 +1813,24 @@ before allowing or restricting access:</p>
 </div>
 </div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="team-related-enhancements"><a class="link" href="#team-related-enhancements">4.3. Team-Related Enhancements</a></h3>
 <div class="sect3">
-<h4 id="team-mechanism"><a class="link" href="#team-mechanism">4.3.1. Team Mechanism</a></h4>
+<h4 id="change-password-code-coming-in-v2-0-code"><a class="link" href="#change-password-code-coming-in-v2-0-code">4.4.2. Change Password <code>[Coming in v2.0]</code></a></h4>
 <div class="sect4">
-<h5 id="current-implementation-6"><a class="link" href="#current-implementation-6">Current Implementation</a></h5>
+<h5 id="current-implementation-8"><a class="link" href="#current-implementation-8">Current Implementation</a></h5>
 <div class="paragraph">
-<p>The team mechanism is created to provide better organizational methods to the user for organizing their players. We achieved it by introducing a <code>UniqueTeamList</code> into the application which consists of a list of <code>Team</code> objects.</p>
-</div>
-<div class="paragraph">
-<p><code>Team</code> objects consist of <code>TeamName</code> object, which is used to uniquely identify the team, and <code>UniquePersonList</code> object which stores the information of <code>Person</code> objects which should be identical to those found in <code>UniquePersonList</code> in <code>addressbook</code>.</p>
-</div>
-<div class="paragraph">
-<p>Code snippet from <code>Team.java</code> that shows the attributes of <code>Team</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">Team</span> {
-
-    <span class="directive">private</span> <span class="directive">final</span> TeamName teamName;
-    <span class="directive">private</span> <span class="directive">final</span> UniquePersonList players = <span class="keyword">new</span> UniquePersonList();
-
-    <span class="comment">// ... model method ...</span>
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Since <code>Person</code> stored in <code>Team</code> is referencing to the <code>Person</code> in <code>addressbook</code>, changes made to <code>Person</code> needs to be ensured that is properly propagated to the <code>Person</code> objects found in <code>Team</code>. An additional <code>TeamName</code> field is also added to <code>Person</code> so that the user can quickly determine the team the player is in.</p>
-</div>
-<div class="paragraph">
-<p>Code snippet from <code>&lt;somefile&gt;.java</code> that shows the propagation of details updated in <code>Person</code> from <code>addressbook</code> to the <code>Person</code> objects in <code>Team</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">    <span class="comment">// placeholder</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Currently, with the <code>Team</code> mechanism, additional commands such as <code>create</code>, <code>remove</code>, and <code>editteam</code> gives the user basic functionality for team management. Additionally, commands like <code>assign</code>, <code>view</code>, <code>setmatch</code>, and <code>viewmatch</code> gives the user more practical uses in managing multiple teams.</p>
-</div>
-<div class="paragraph">
-<p>The following sequence diagram illustrates the operation of the <code>Team</code> mechanism and some of its respective commands:</p>
-</div>
-<div class="paragraph">
-<p><em>Figure : Sequence Diagram of <code>Team</code> mechanism</em></p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="design-considerations-4"><a class="link" href="#design-considerations-4">Design Considerations</a></h5>
-<div class="sect5">
-<h6 id="aspect-implementation-of-code-team-code"><a class="link" href="#aspect-implementation-of-code-team-code">Aspect: Implementation of <code>Team</code></a></h6>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1 (current choice):</strong> <code>Team</code> object stores the reference to <code>Person</code> objects that is also in <code>UniquePersonList</code> and <code>TeamName</code> is also an attribute of <code>Person</code>.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Provides an easier lookup of person belonging in which team without the need of iterating through the <code>UniqueTeamList</code> for a specific <code>Person</code>, and efficient way of listing all <code>Persons</code> in a <code>Team</code>.</p>
-</li>
-<li>
-<p>Cons: Checks need to be done thoroughly to ensure that code does not break when changes are made, especially the synchronisation of <code>Person</code> details in <code>Team</code> and in <code>addressbook</code>.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 2:</strong> <code>Team</code> object is stored in <code>Person</code> object as an attribute.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Logical thought process to include <code>Team</code> as an attribute.</p>
-</li>
-<li>
-<p>Cons: Excess storage wasted due to duplicated data of <code>Team</code> in every <code>Person</code>.</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
+<p>Default password used for toggling lock on MTM is currently 'ilikesports'. In an upcoming update, user would be able
+to change this password to one of his choosing. There is currently no functional implementation for this feature yet.
+Coming soon!</p>
 </div>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="show-best-xi-code-coming-in-v2-0-code"><a class="link" href="#show-best-xi-code-coming-in-v2-0-code">4.3.2. Show Best XI <code>[coming in v2.0]</code></a></h4>
-<div class="sect4">
-<h5 id="current-implementation-7"><a class="link" href="#current-implementation-7">Current Implementation</a></h5>
-<div class="paragraph">
-<p>The <code>showBest</code> command is able to show the current team&#8217;s best 11 players. There is however no functional implementation for this feature yet. Coming soon!</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="design-consideration-3"><a class="link" href="#design-consideration-3">Design Consideration</a></h5>
-
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="usability-enhancements"><a class="link" href="#usability-enhancements">4.4. Usability Enhancements</a></h3>
-
 </div>
 <div class="sect2">
 <h3 id="user-experience-enhancements"><a class="link" href="#user-experience-enhancements">4.5. User Experience Enhancements</a></h3>
 <div class="sect3">
 <h4 id="tab-autocomplete"><a class="link" href="#tab-autocomplete">4.5.1. Tab Autocomplete</a></h4>
 <div class="sect4">
-<h5 id="current-implementation-8"><a class="link" href="#current-implementation-8">Current Implementation</a></h5>
+<h5 id="current-implementation-9"><a class="link" href="#current-implementation-9">Current Implementation</a></h5>
 <div class="paragraph">
 <p>The tab autocomplete feature works by handling the Tab key pressed event, searching for any commands with matching prefix and returns one if found.
 The command strings are stored in a Trie data structure, named <code>CommandTrie</code>, for optimal search.</p>
@@ -1858,7 +1872,7 @@ it will provide the user with possible commands for a given input. In this case,
 <div class="sect3">
 <h4 id="optional-fields-for-add-mechanism"><a class="link" href="#optional-fields-for-add-mechanism">4.5.2. Optional Fields for Add Mechanism</a></h4>
 <div class="sect4">
-<h5 id="current-implementation-9"><a class="link" href="#current-implementation-9">Current Implementation</a></h5>
+<h5 id="current-implementation-10"><a class="link" href="#current-implementation-10">Current Implementation</a></h5>
 <div class="paragraph">
 <p>This mechanism enhances the original implementation of the <code>add</code> command. The required fields that are mandatory to be filled by the user are <code>n/NAME</code> and <code>e/EMAIL</code>. This implementation of making fields optional for <code>AddCommand</code> allows user to add players without their full information, and can be updated accordingly when the user retrieves their full information.</p>
 </div>
@@ -1984,7 +1998,7 @@ it will provide the user with possible commands for a given input. In this case,
 <div class="sect3">
 <h4 id="team-display-bar-code-since-v1-3-code"><a class="link" href="#team-display-bar-code-since-v1-3-code">4.6.1. Team Display Bar <code>[since v1.3]</code></a></h4>
 <div class="sect4">
-<h5 id="current-implementation-10"><a class="link" href="#current-implementation-10">Current Implementation</a></h5>
+<h5 id="current-implementation-11"><a class="link" href="#current-implementation-11">Current Implementation</a></h5>
 <div class="paragraph">
 <p>The Team Display Bar is implemented as <code>TeamDisplay</code> in the UI Component and renders <code>TeamDisplay.fxml</code>.
 It is called from <code>MainWindow</code> and will be highlighting
@@ -2070,7 +2084,7 @@ and handleDeselectTeamEvent(), which update the display accordingly</p>
 <div class="sect3">
 <h4 id="player-details-pane-code-since-v1-4-code"><a class="link" href="#player-details-pane-code-since-v1-4-code">4.6.2. Player Details Pane <code>[since v1.4]</code></a></h4>
 <div class="sect4">
-<h5 id="current-implementation-11"><a class="link" href="#current-implementation-11">Current Implementation</a></h5>
+<h5 id="current-implementation-12"><a class="link" href="#current-implementation-12">Current Implementation</a></h5>
 <div class="paragraph">
 <p>The <code>Player Details</code> pane is implemented as <code>PlayerDetails</code> in the UI Component.
 It is called from <code>PlayerListPanel</code>. It renders <code>PlayerDetails.fxml</code> and displays the selected <code>PersonCard</code>.
@@ -2137,7 +2151,7 @@ place to look at after selection of a person card.</p>
 <div class="sect3">
 <h4 id="change-theme-command-code-since-v1-5-code"><a class="link" href="#change-theme-command-code-since-v1-5-code">4.6.3. Change Theme Command <code>[since v1.5]</code></a></h4>
 <div class="sect4">
-<h5 id="current-implementation-12"><a class="link" href="#current-implementation-12">Current Implementation</a></h5>
+<h5 id="current-implementation-13"><a class="link" href="#current-implementation-13">Current Implementation</a></h5>
 <div class="paragraph">
 <p>The <code>ChangeThemeCommand</code> is a new feature that allows user to change the current theme to another theme. A new css class is implemented to accommodate the new theme, LightTheme.
 The <code>MainWindow</code> class is also changed to contain a handleChangeThemeRequestEvent() method which is an event handler to <code>setAddressBookTheme</code>,
@@ -2257,7 +2271,7 @@ changed quite drastically to become a command for selecting a theme out of multi
 <div class="sect3">
 <h4 id="set-tag-colour-feature-code-since-v1-1-code"><a class="link" href="#set-tag-colour-feature-code-since-v1-1-code">4.6.4. Set Tag Colour feature <code>[since v1.1]</code></a></h4>
 <div class="sect4">
-<h5 id="current-implementation-13"><a class="link" href="#current-implementation-13">Current Implementation</a></h5>
+<h5 id="current-implementation-14"><a class="link" href="#current-implementation-14">Current Implementation</a></h5>
 <div class="paragraph">
 <p>The <code>Set</code> Command is an entirely new command that allows the user to assign a colour to a specific tag.
 This mechanism is facilitated by the <code>SetCommandParser</code>, which creates and returns a new <code>SetCommand</code>.
@@ -3401,7 +3415,7 @@ Expected: Similar to previous.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-13 02:56:11 UTC
+Last updated 2018-04-13 03:31:18 UTC
 </div>
 </div>
 </body>
