@@ -18,7 +18,7 @@ import seedu.address.commons.events.ui.DeselectTeamEvent;
 import seedu.address.commons.events.ui.HighlightSelectedTeamEvent;
 import seedu.address.commons.events.ui.RemoveSelectedTeamEvent;
 import seedu.address.commons.events.ui.ShowNewTeamNameEvent;
-import seedu.address.commons.events.ui.UndoClearTeamsEvent;
+import seedu.address.commons.events.ui.UndoTeamsEvent;
 import seedu.address.model.team.Team;
 
 /**
@@ -114,7 +114,7 @@ public class TeamDisplay extends UiPart<Region> {
     }
 
     @Subscribe
-    private void handleUndoClearTeamsEvent(UndoClearTeamsEvent event) {
+    private void handleUndoTeamsEvent(UndoTeamsEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         teams.getChildren().clear();
         initTeams();
