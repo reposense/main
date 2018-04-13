@@ -1,7 +1,7 @@
 = My Team Manager - User Guide
 :toc:
 :toc-title:
-:toclevels: 3
+:toclevels: 2
 :toc-placement: preamble
 :sectnums:
 :imagesDir: images
@@ -51,13 +51,13 @@ This app will not work with earlier versions of Java 8.
 .  Copy the file to the folder you want to use as the home folder for your MTM.
 .  Double-click the file to start the app. The software interface should appear in a few seconds as shown below.
 +
-image::Ui_New.png[width="790"]
+image::Ui New.png[width="790"]
 
 === Navigating the interface
 
 The figure below shows the different components in My Team Manager and the list below explains their purpose.
 
-image::Ui_Guide.png[width="790"]
+image::Ui Guide.png[width="790"]
 
 . Command Box : This is where you key in the commands to use My Team Manager.
 . Display Box : The display box displays results to any command you input.
@@ -102,21 +102,27 @@ Now that you are familiar with the interface and using commands, you are now rea
 .  Add your first player, `Ronaldo` by typing the command `add n/Ronaldo e/Ronaldo@arsenal.com` in the command box and pressing kbd:[Enter] to execute it.
 
 +
-image::Add.png[width="790"]
+image::add.png[width="400"]
 +
-.  Your new player, `Ronaldo` should appear in the player list.
+
+.  Your new player, `Ronaldo` should appear in the player list as shown in the white box above.
+
+TIP: The `Add` command has additional optional parameters for you to include more information. For the full list,
+refer to <<Adding, Adding a player>>.
 
 === Create your first team
 Now that you have a player, let's explore teams. Teams allow you to manage and group your players together according to
 the teams they belong to.
 
-. Create your first team, `Arsenal` by typing the command `create Arsenal` in the command box and pressing kbd:[Enter] to execute it.
+. Create your first team, `NUS` by typing the command `create NUS` in the command box and pressing kbd:[Enter] to execute it.
 +
-image::Create.png[width="790"]
+image::create.png[width="300"]
 +
-. Your new team, `Arsenal` should appear in the team list.
-. You can now assign `Ronaldo` to `Arsenal` by typing the command `assign tm/Arsenal i/1` in the command box and pressing kbd:[Enter] to execute it.
-. `Ronaldo` 's team field should now show Arsenal.
+. Your new team, `NUS` should appear in the team list.
+. You can now assign `Ronaldo` to `NUS` by typing the command `assign tm/NUS i/1` in the command box and pressing kbd:[Enter] to execute it.
+- The Team List should now show NUS highlighted as shown in the white box labeled 1 above.
+- `Ronaldo` 's player card should now show NUS in the team field as shown in the white box labeled 2 above.
+- The player list shows only players assigned to the team `NUS`
 
 === Viewing more details
 
@@ -124,19 +130,19 @@ image::Create.png[width="790"]
 `Ronaldo` 's details, enter `select 1`.
 . The details panel should now show the player's details.
 +
-image::Select.png[width="790"]
+image::select.png[width="790"]
 +
 .  You may notice that there are fields that show `<UNSPECIFIED>`. These are optional fields that you can edit later on.
-Furthermore, there are many ways you can customize and add to My Team Manager. Here are a few ways to start:
-.. <<Editing>>
-.. <<ChangeTheme>>
-.. <<setTagColour>>
-.. <<Privacy>>
-.. <<Sort>>
+There are also many ways you can customize and add to My Team Manager. Here are a few ways to start:
+.. <<editing, Editing a player>>
+.. <<changeTheme, Changing MTM theme>>
+.. <<setTagColour, Setting Tag Colour>>
+.. <<privacy, Setting privacy>>
+.. <<sort, Sorting players in the list>>
 
-== Basic Commands and Features
+== Fundamentals
 
-Let's start of with the basic commands that MTM provides that gives you the power to effectively use MTM quickly. These features will make you use MTM more efficiently and teaches you how to navigate through MTM with ease.
+MTM provides tools that gives you the power to use MTM more efficiently and teach you how to navigate through MTM with ease.
 
 ==== Saving the data
 
@@ -219,22 +225,6 @@ Previously executed `undo` command will be reversed and MTM will be in its previ
 ====
 // end::undoredo[]
 
-// tag::changeTheme[]
-==== Changing theme : `changeTheme` `[Since v1.5]`
-If you feel that the light theme is not for you, and you prefer to work on a darker interface,
-you can change the theme from the default LightTheme to DarkTheme with the 'changeTheme' command.
-
-
-Format: `changeTheme` +
-Alias: `ct`
-
-[NOTE]
-====
-The current version of `changTheme` is NOT an UndoableCommand. i.e. You cannot `undo` a `changeTheme` command.
-Instead, just enter `cte <your desired theme>` to change the colour back!
-====
-// end::changeTheme[]
-
 ==== Clearing all entries : `clear`
 
 You can clear all entries from MTM with the 'clear' command.
@@ -248,10 +238,10 @@ You can exit the program by entering the 'exit' command.
 
 Format: `exit`
 
-=== Player Related Commands
+== Player Related Commands
 
 [[Adding]]
-==== Adding a player: `add`
+=== Adding a player: `add`
 This is the command that you will be using most frequently, especially with dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the `add` command.
 
 Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...` +
@@ -270,6 +260,7 @@ The table below explains the correct inputs for the parameters.
 |j/JERSEY_NUMBER| Player's jersey number| j/17
 |ra/RATING| Player's performance rating (Any integer from 1 to 5)| ra/5
 |po/POSITION| Player's postion (1 for Striker, 2 for Midfiled, 3 for Defender, 4 for Goalkeeper)| po/1
+|av/Avatar| Absolute filepath to player's avatar image file| av/C:\avatar.png (for Windows) av//User/username/path/to/image.jpg (for MacOS)
 |t/TAG| Your tag for the player| t/Injured
 
 |=========================================================
@@ -291,7 +282,8 @@ Adds a player named `Mo Salah` with email `mo@soccer.com`.
 Adds a player named Ronaldo with phone number `92331322`, email `ronaldo@soccer.com`, address `Portugal`,
 team `Real Madrid`, jersey number `17`, rating `5`, and position Striker.
 
-==== Editing a player : `edit`
+[[editing]]
+=== Editing a player : `edit`
 
 You may edit an existing player in MTM with the 'edit' command.
 
@@ -313,7 +305,7 @@ Edits the phone number and email address of the 1st player to be `91234567` and 
 * `edit 2 n/Betsy Crower t/` +
 Edits the name of the 2nd player to be `Betsy Crower` and clears all existing tags.
 
-==== Deleting a player : `delete`
+=== Deleting a player : `delete`
 
 If you want to remove a player from MTM, you may use this command to delete the player.
 
@@ -336,7 +328,7 @@ Deletes the 2nd player in the MTM.
 `delete 1` +
 Deletes the 1st player in the results of the `find` command.
 
-==== Noting down a remark for player: `remark` `[Since v1.1]`
+=== Noting down a remark for player: `remark` `[Since v1.1]`
 
 When you need to drop yourself a self-note with regards to a specific player you're managing, you can make a self-note
 of a specific player easily by giving the player a remark for you to remember by.
@@ -364,14 +356,15 @@ Removes the remark from the specified player at index 1.
 * `remark 5 r/MVP Player` +
 Give a remark to the specified player at index 5 with the remark "MVP Player".
 
-==== Listing all players : `list`
+=== Listing all players : `list`
 
 To view a list of all the players you are managing, you can use the `list` command to see all of your players.
 
 Format: `list` +
 Alias: `l`
 
-==== Sorting players by field: `sort` `[Since v1.2]`
+[[sort]]
+=== Sorting players by field: `sort` `[Since v1.2]`
 
 You can sort the players by fields with the 'sort' command. Players can be sorted in both ascending or descending order.
 
@@ -391,7 +384,7 @@ This will sort MTM by names, in alphabetical order.
 * `sort` name dsc +
 This will sort MTM by names, in reverse alphabetical order.
 
-==== Locating players by name: `find`
+=== Locating players by name: `find`
 
 You can find a player whose name contain any of the given keywords with this command.
 
@@ -414,7 +407,7 @@ Returns `john` and `John Doe`
 * `find Betsy Tim John` +
 Returns any player having names `Betsy`, `Tim`, or `John`
 
-==== Selecting a player : `select`
+=== Selecting a player : `select`
 
 Identified the player you're looking for and want to see more details about the player?
 MTM offers you the ability to view details of your specified player via an index shown in the current listing of players.
@@ -447,9 +440,9 @@ Displays the list of all players and selects the 2nd player in that list.
 Finds a player named Betsy and selects the 1st player in the results of the `find` command.
 
 // tag::team[]
-=== Team Related Commands
+== Team Related Commands
 
-==== Creating a team: `create` `[Since v1.2]`
+=== Creating a team: `create` `[Since v1.2]`
 
 What is a team management application without the functionality of creating a team? When you use this command, it allows you to create a team that can be assigned to players later on.
 
@@ -470,7 +463,7 @@ Creates a new team with the name "Arsenal".
 * `create Liverpool` +
 Creates another new team with the name "Liverpool"
 
-==== Removing a team: `remove` `[Since v1.4]`
+=== Removing a team: `remove` `[Since v1.4]`
 
 No longer managing the team or the team has been disbanded, you can easily remove the team from MTM.
 
@@ -495,7 +488,7 @@ Here are a few valid examples of how you can use the `remove` command:
 `remove Arsenal` +
 Display the list of players in team "Arsenal" and remove the team.
 
-==== Rename a team: `rename` `[Since v1.4]`
+=== Rename a team: `rename` `[Since v1.4]`
 
 Entered your team name wrongly or you need to update it to accordingly, you can use the `rename` command to help you make that change.
 
@@ -513,7 +506,7 @@ Here are a few valid examples on how you can use the `rename` command:
 * `rename Arsenal tm/Neo Arsenal`
 Renames the current team "Arsenal" into "Neo Arsenal".
 
-==== Assigning player to teams: `assign` `[Since v1.3]`
+=== Assigning player to teams: `assign` `[Since v1.3]`
 
 Have a player without a team, or have yet to assigned one during the addition of player into MTM, you can call `assign` command to assign that player to a particular team of your choice.
 
@@ -544,7 +537,7 @@ View the full list of players in MTM and assign the player with index 1, 2, and 
 * `assign i/1` +
 Find a player by the name of "John" and assign the player with index 1 to team "Liverpool".
 
-==== Viewing a team: `view` `[Since v1.3]`
+=== Viewing a team: `view` `[Since v1.3]`
 
 With the ability to manage different teams, you will be able to identify all players in a team easily with the `view` command.
 
@@ -569,10 +562,11 @@ List all players in the team "Arsenal".
 List all players in the team "Liverpool".
 // end::team[]
 
-=== Other Useful Commands
+== Other Useful Commands
 
+[[setTagColour]]
 // tag:setTagColour[]
-==== Setting colour of tags : `setTagColour` `[Since v1.2]`
+=== Setting colour of tags : `setTagColour` `[Since v1.2]`
 
 You can set the tags to a colour of your choice with the 'setColourTag' command.
 
@@ -587,7 +581,8 @@ Instead, just enter `stc <your desired colour>` to change the colour back!
 ====
 // end:setTagColour[]
 
-==== Toggling various fields to private: `toggleprivacy` `[Since v1.4]`
+[[privacy]]
+=== Toggling various fields to private: `toggleprivacy` `[Since v1.4]`
 
 You can toggle the privacy of various fields of players in MTM.
 
@@ -611,11 +606,28 @@ Here are some examples on how you can use the `toggleprivacy` command:
 * `tp` 1 p/ ra/ +
 Toggles privacy of phone and rating of player @ index 1
 
-=== Coming Soon
+[[changeTheme]]
+// tag::changeTheme[]
+=== Changing theme : `changeTheme` `[Since v1.5]`
+If you feel that the light theme is not for you, and you prefer to work on a darker interface,
+you can change the theme from the default LightTheme to DarkTheme with the 'changeTheme' command.
+
+
+Format: `changeTheme` +
+Alias: `ct`
+
+[NOTE]
+====
+The current version of `changTheme` is NOT an UndoableCommand. i.e. You cannot `undo` a `changeTheme` command.
+Instead, just enter `cte <your desired theme>` to change the colour back!
+====
+// end::changeTheme[]
+
+== Coming Soon
 
 There is more to come with the next upcoming update! Keep a lookout on these newly implemented features soon!
 
-==== Showing Best XI players: `showBest` `[Coming in v2.0]`
+=== Showing Best XI players: `showBest` `[Coming in v2.0]`
 
 If you went to see your current best 11 players in your team based on their respective stats, this command
 is for you.
@@ -624,7 +636,7 @@ Alias: `sb` +
 Format: `showBest`
 
 // tag::teamin2.0[]
-==== Setting an upcoming match with an opposing team: `setmatch` `[Coming in v2.0]`
+=== Setting an upcoming match with an opposing team: `setmatch` `[Coming in v2.0]`
 
 With this command, it gives you a convenient way to keep track of the upcoming match of a team.
 
@@ -649,7 +661,7 @@ Here are a few valid examples on how you can use the `create` command:
 * `setmatch Arsenal Liverpool 14/03/2018` +
 Display the list of players in team "Arsenal" and set an upcoming match for Arsenal with Liverpool on 14/03/2018.
 
-==== Viewing the team's next upcoming match: `nextmatch` `[Coming in v2.0]`
+=== Viewing the team's next upcoming match: `nextmatch` `[Coming in v2.0]`
 
 You can easily determine the up and coming match with the team so that you never miss an important date.
 
@@ -670,7 +682,7 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 // end::teamin2.0[]
 
 // tag::showlineup[]
-==== Displaying lineup for next match: `showLineup` `[Coming in v2.0]`
+=== Displaying lineup for next match: `showLineup` `[Coming in v2.0]`
 
 You can view the lineup for the current best 11 players.
 
@@ -689,13 +701,13 @@ Here is an valid example on how you can use the `showLineup` command:
 Displays the 11 main players that will be playing for the next match.
 // end::showlineup[]
 
-==== Scheduling trainings for team `schedule` `[Coming in v2.0]`
+=== Scheduling trainings for team `schedule` `[Coming in v2.0]`
 
-==== Sending reminder emails to players: `send` `[Coming in v2.0]`
+=== Sending reminder emails to players: `send` `[Coming in v2.0]`
 
-==== Giving feedback to developers: `feedback` `[Coming in v2.0]`
+=== Giving feedback to developers: `feedback` `[Coming in v2.0]`
 
-==== Giving demerit to players based on performance: `demerit` `[Coming in v2.0]`
+=== Giving demerit to players based on performance: `demerit` `[Coming in v2.0]`
 
 == FAQ
 
