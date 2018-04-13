@@ -128,7 +128,7 @@ the teams they belong to.
 
 . Create your first team, `NUS` by typing the command `create NUS` in the command box and pressing kbd:[Enter] to execute it.
 +
-image::create.png[width="300"]
+image::create.PNG[width="300"]
 +
 . Your new team, `NUS` should appear in the team list.
 . You can now assign `Ronaldo` to `NUS` by typing the command `assign tm/NUS i/1` in the command box and pressing kbd:[Enter] to execute it.
