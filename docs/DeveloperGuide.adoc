@@ -750,67 +750,7 @@ If address book is empty, a `NoPlayerException` will be thrown by `sortBy` metho
 ** Cons: Sort order is lost when program exits. More memory is used to sort a list and reverse it after.
 // end::sort[]
 
-
-=== Team-Related Enhancements
-
-// tag::team[]
-==== Team Mechanism
-===== Current Implementation
-
-The team mechanism is created to provide better organizational methods to the user for organizing their players. We achieved it by introducing a `UniqueTeamList` into the application which consists of a list of `Team` objects.
-
-`Team` objects consist of `TeamName` object, which is used to uniquely identify the team, and `UniquePersonList` object which stores the information of `Person` objects which should be identical to those found in `UniquePersonList` in `addressbook`.
-
-Code snippet from `Team.java` that shows the attributes of `Team`.
-
-[source, java]
-----
-public class Team {
-
-    private final TeamName teamName;
-    private final UniquePersonList players = new UniquePersonList();
-
-    // ... model method ...
-}
-----
-
-Since `Person` stored in `Team` is referencing to the `Person` in `addressbook`, changes made to `Person` needs to be ensured that is properly propagated to the `Person` objects found in `Team`. An additional `TeamName` field is also added to `Person` so that the user can quickly determine the team the player is in.
-
-Code snippet from `<somefile>.java` that shows the propagation of details updated in `Person` from `addressbook` to the `Person` objects in `Team`.
-
-[source, java]
-----
-    // placeholder
-----
-
-Currently, with the `Team` mechanism, additional commands such as `create`, `remove`, and `editteam` gives the user basic functionality for team management. Additionally, commands like `assign`, `view`, `setmatch`, and `viewmatch` gives the user more practical uses in managing multiple teams.
-
-The following sequence diagram illustrates the operation of the `Team` mechanism and some of its respective commands:
-
-_Figure : Sequence Diagram of `Team` mechanism_
-
-===== Design Considerations
-====== Aspect: Implementation of `Team`
-
-* **Alternative 1 (current choice):** `Team` object stores the reference to `Person` objects that is also in `UniquePersonList` and `TeamName` is also an attribute of `Person`.
-** Pros: Provides an easier lookup of person belonging in which team without the need of iterating through the `UniqueTeamList` for a specific `Person`, and efficient way of listing all `Persons` in a `Team`.
-** Cons: Checks need to be done thoroughly to ensure that code does not break when changes are made, especially the synchronisation of `Person` details in `Team` and in `addressbook`.
-* **Alternative 2:** `Team` object is stored in `Person` object as an attribute.
-** Pros: Logical thought process to include `Team` as an attribute.
-** Cons: Excess storage wasted due to duplicated data of `Team` in every `Person`.
-// end::team[]
-
-// tag::showbestxi[]
-==== Show Best XI `[coming in v2.0]`
-===== Current Implementation
-
-The `showBest` command is able to show the current team's best 11 players. There is however no functional implementation for this feature yet. Coming soon!
-
-===== Design Consideration
-// end::showbestxi[]
-
 === Usability Enhancements
-
 
 // tag::key[]
 ==== Toggle lock on MTM
@@ -1157,11 +1097,7 @@ The sequence diagram below illustrates the operation of the `remove` command:
 ===== Current Implementation
 
 The `showBest` command is able to show the current team's best 11 players. There is however no functional implementation for this feature yet. Coming soon!
-
-===== Design Consideration
 // end::showbestxi[]
-
-=== Usability Enhancements
 
 === User Experience Enhancements
 
