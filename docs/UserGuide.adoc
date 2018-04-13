@@ -104,7 +104,7 @@ You can use the autocompleted parameters as a template after viewing them.
 
 Text will turn red if the input has no parameters or if no matching command exists.
 
-If there are multiple possible commands for a given input, i.e. 'e' could be 'edit', 'exit', or 'export',
+If there are multiple possible commands for a given input, i.e. 'e' could be 'edit' or 'exit',
 then a dropdown box will appear with the possible commands. These can be navigated using mouse or arrow keys. Press enter to select the desired command.
 // end::autocomplete[]
 
@@ -202,7 +202,8 @@ Format: `exit`
 ==== Adding a player: `add`
 This is the command that you will be using most frequently, especially with dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the `add` command.
 
-Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...` +
+Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [av/AVATAR] [t/TAG]...` +
+
 Alias: `a`
 
 The table below explains the correct inputs for the parameters.
@@ -218,6 +219,7 @@ The table below explains the correct inputs for the parameters.
 |j/JERSEY_NUMBER| Player's jersey number| j/17
 |ra/RATING| Player's performance rating (Any integer from 1 to 5)| ra/5
 |po/POSITION| Player's postion (1 for Striker, 2 for Midfiled, 3 for Defender, 4 for Goalkeeper)| po/1
+|av/AVATAR| Filepath for avatar image file. Eg. C:\image.png (for Windows) or /User/username/path/to/image.jpg(for MacOS)| av/C:\image.png  av//User/username/path/to/image.jpg
 |t/TAG| Your tag for the player| t/Injured
 
 |=========================================================
@@ -759,8 +761,8 @@ d|Exits the application
 
 |`add`
 |`a`
-|add n/NAME e/EMAIL [tm/TEAM] [p/PHONE_NUMBER] [a/ADDRESS] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...
-|add n/Ronaldo e/ronaldo@soccer.com tm/Real Madrid p/92331322 a/Portugal j/17 po/Striker t/famous
+|add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [av/AVATAR] [t/TAG]...
+|add n/Ospina e/Ospina@arsenal.com tm/Arsenal a/70 Jurong Central Circle p/90722998 j/1 ra/2 po/4 av/Capture.png t/redCard
 
 |`edit`
 |`e`

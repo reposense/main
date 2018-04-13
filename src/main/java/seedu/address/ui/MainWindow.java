@@ -44,6 +44,7 @@ public class MainWindow extends UiPart<Stage> {
     private PersonListPanel personListPanel;
     private Config config;
     private UserPrefs prefs;
+    private HelpWindow helpWindow;
 
     @FXML
     private Menu mtmLogo;
@@ -205,7 +206,9 @@ public class MainWindow extends UiPart<Stage> {
      */
     @FXML
     public void handleHelp() {
-        HelpWindow helpWindow = new HelpWindow();
+        if (helpWindow == null) {
+            helpWindow = new HelpWindow();
+        }
         helpWindow.show();
     }
 
