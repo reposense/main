@@ -56,10 +56,6 @@ https://github.com/CS2103JAN2018-F11-B4/main/issues/113[6])
 
 include::../UserGuide.adoc[tag=team]
 
-include::../UserGuide.adoc[tag=team2.0]
-
-include::../UserGuide.adoc[tag=commandsummary]
-
 == Contributions to the Developer Guide
 
 |===
@@ -70,8 +66,3 @@ include::../DeveloperGuide.adoc[tag=overview]
 
 include::../DeveloperGuide.adoc[tag=team]
 
-include::../DeveloperGuide.adoc[tag=teamfunction]
-
-include::../DeveloperGuide.adoc[tag=enhancedadd]
-
-include::../DeveloperGuide.adoc[tag=remark]

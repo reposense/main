@@ -1,334 +1,5 @@
 # lithiumlkid
-###### \java\seedu\address\logic\AutocompleteTest.java
-``` java
-import org.junit.Before;
-import org.junit.Test;
-
-import seedu.address.logic.commands.CommandTrie;
-
-public class AutocompleteTest {
-
-    private CommandTrie commandTrie;
-
-    @Before
-    public void setup() {
-        commandTrie = new CommandTrie();
-    }
-
-    @Test
-    public void autocomplete_unique_prefix() {
-        assert commandTrie.attemptAutoComplete("a").equals("add");
-        assert commandTrie.attemptAutoComplete("he").equals("help");
-    }
-
-    @Test
-    public void autocomplete_multiple_prefix() {
-        assert commandTrie.attemptAutoComplete("e").equals("e");
-        assert commandTrie.attemptAutoComplete("H").equals("H");
-
-    }
-}
-```
-###### \java\seedu\address\model\person\AvatarTest.java
-``` java
-public class AvatarTest {
-
-    @Test
-    public void constructor_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> new Avatar(null));
-    }
-
-    @Test
-    public void constructor_invalidAvatar_throwsIllegalArgumentException() {
-        String invalidAvatar = "";
-        Assert.assertThrows(IllegalArgumentException.class, () -> new Avatar(invalidAvatar));
-    }
-
-    @Test
-    public void isValidAvatar() {
-        // null avatar number
-        Assert.assertThrows(NullPointerException.class, () -> Avatar.isValidAvatar(null));
-
-        // invalid avatar numbers
-        assertFalse(Avatar.isValidAvatar("")); // empty string
-        assertFalse(Avatar.isValidAvatar(" ")); // spaces only
-        assertFalse(Avatar.isValidAvatar("avatar.gif")); // invalid filtype
-        assertFalse(Avatar.isValidAvatar("avatar")); // no file type
-        assertFalse(Avatar.isValidAvatar("a a")); // spaces within digits
-
-        // valid avatar numbers
-        assertTrue(Avatar.isValidAvatar("avatar.png")); // png file
-        assertTrue(Avatar.isValidAvatar("/file/path/to/avatar.png")); //mac file path
-        assertTrue(Avatar.isValidAvatar("C:\\file\\path\\avatar.png")); // windows file path
-    }
-}
-
-```
-###### \java\seedu\address\model\person\JerseyNumberTest.java
-``` java
-public class JerseyNumberTest {
-
-    @Test
-    public void constructor_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> new JerseyNumber(null));
-    }
-
-    @Test
-    public void constructor_invalidJerseyNumber_throwsIllegalArgumentException() {
-        String invalidJerseyNumber = "";
-        Assert.assertThrows(IllegalArgumentException.class, () -> new JerseyNumber(invalidJerseyNumber));
-    }
-
-    @Test
-    public void isValidJerseyNumber() {
-        // null jerseyNumber number
-        Assert.assertThrows(NullPointerException.class, () -> JerseyNumber.isValidJerseyNumber(null));
-
-        // invalid jerseyNumber numbers
-        assertFalse(JerseyNumber.isValidJerseyNumber("")); // empty string
-        assertFalse(JerseyNumber.isValidJerseyNumber(" ")); // spaces only
-        assertFalse(JerseyNumber.isValidJerseyNumber("-1")); // less than 0
-        assertFalse(JerseyNumber.isValidJerseyNumber("100")); // larger than 99
-        assertFalse(JerseyNumber.isValidJerseyNumber("1a")); // alphabets with digits
-        assertFalse(JerseyNumber.isValidJerseyNumber("1 1")); // spaces within digits
-
-        // valid jerseyNumber numbers
-        assertTrue(JerseyNumber.isValidJerseyNumber("0")); // within 0 - 99
-        assertTrue(JerseyNumber.isValidJerseyNumber("99"));
-    }
-}
-
-```
-###### \java\seedu\address\model\person\PositionTest.java
-``` java
-public class PositionTest {
-
-    @Test
-    public void constructor_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> new Position(null));
-    }
-
-    @Test
-    public void constructor_invalidPosition_throwsIllegalArgumentException() {
-        String invalidPosition = "";
-        Assert.assertThrows(IllegalArgumentException.class, () -> new Position(invalidPosition));
-    }
-
-    @Test
-    public void isValidPosition() {
-        // null position number
-        Assert.assertThrows(NullPointerException.class, () -> Position.isValidPosition(null));
-
-        // invalid position numbers
-        assertFalse(Position.isValidPosition("")); // empty string
-        assertFalse(Position.isValidPosition(" ")); // spaces only
-        assertFalse(Position.isValidPosition("0")); // less than 1
-        assertFalse(Position.isValidPosition("-1")); // negative
-        assertFalse(Position.isValidPosition("position")); // non-numeric
-        assertFalse(Position.isValidPosition("1a")); // alphabets within digits
-        assertFalse(Position.isValidPosition("1 1")); // spaces within digits
-
-        // valid position numbers
-        assertTrue(Position.isValidPosition("1")); // within range
-        assertTrue(Position.isValidPosition("4"));
-    }
-}
-```
-###### \java\seedu\address\model\person\RatingTest.java
-``` java
-public class RatingTest {
-
-    @Test
-    public void constructor_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> new Rating(null));
-    }
-
-    @Test
-    public void constructor_invalidRating_throwsIllegalArgumentException() {
-        String invalidRating = "";
-        Assert.assertThrows(IllegalArgumentException.class, () -> new Rating(invalidRating));
-    }
-
-    @Test
-    public void isValidRating() {
-        // null rating number
-        Assert.assertThrows(NullPointerException.class, () -> Rating.isValidRating(null));
-
-        // invalid rating numbers
-        assertFalse(Rating.isValidRating("")); // empty string
-        assertFalse(Rating.isValidRating(" ")); // spaces only
-        assertFalse(Rating.isValidRating("-1")); // negative
-        assertFalse(Rating.isValidRating("rating")); // non-numeric
-        assertFalse(Rating.isValidRating("1a")); // alphabets within digits
-        assertFalse(Rating.isValidRating("1 1")); // spaces within digits
-
-        // valid rating numbers
-        assertTrue(Rating.isValidRating("1")); // within range
-        assertTrue(Rating.isValidRating("5"));
-    }
-}
-```
-###### \java\seedu\address\ui\CommandBoxTest.java
-``` java
-public class CommandBoxTest extends GuiUnitTest {
-
-    private static final String COMMAND_THAT_SUCCEEDS = ListCommand.COMMAND_WORD;
-    private static final String COMMAND_THAT_FAILS = "invalid command";
-
-    private ArrayList<String> defaultStyleOfCommandBox;
-    private ArrayList<String> errorStyleOfCommandBox;
-
-    private CommandBoxHandle commandBoxHandle;
-
-    @Before
-    public void setUp() {
-        Model model = new ModelManager();
-        Logic logic = new LogicManager(model);
-
-        CommandBox commandBox = new CommandBox(logic);
-        commandBoxHandle = new CommandBoxHandle(getChildNode(commandBox.getRoot(),
-                CommandBoxHandle.COMMAND_INPUT_FIELD_ID));
-        uiPartRule.setUiPart(commandBox);
-
-        defaultStyleOfCommandBox = new ArrayList<>(commandBoxHandle.getStyleClass());
-
-        errorStyleOfCommandBox = new ArrayList<>(defaultStyleOfCommandBox);
-        errorStyleOfCommandBox.add(CommandBox.ERROR_STYLE_CLASS);
-    }
-
-    @Test
-    public void commandBox_startingWithSuccessfulCommand() {
-        assertBehaviorForSuccessfulCommand();
-        assertBehaviorForFailedCommand();
-    }
-
-    @Test
-    public void commandBox_startingWithFailedCommand() {
-        assertBehaviorForFailedCommand();
-        assertBehaviorForSuccessfulCommand();
-
-        // verify that style is changed correctly even after multiple consecutive failed commands
-        assertBehaviorForSuccessfulCommand();
-        assertBehaviorForFailedCommand();
-        assertBehaviorForFailedCommand();
-    }
-
-    @Test
-    public void commandBox_handleKeyPress() {
-        commandBoxHandle.run(COMMAND_THAT_FAILS);
-        assertEquals(errorStyleOfCommandBox, commandBoxHandle.getStyleClass());
-        guiRobot.push(KeyCode.ESCAPE);
-        assertEquals(errorStyleOfCommandBox, commandBoxHandle.getStyleClass());
-        guiRobot.push(KeyCode.A);
-        assertEquals(defaultStyleOfCommandBox, commandBoxHandle.getStyleClass());
-        assertBehaviorForSuccessfulCommand();
-        guiRobot.push(KeyCode.A);
-        guiRobot.push(KeyCode.TAB);
-        assertEquals(AddCommand.COMMAND_WORD, commandBoxHandle.getInput());
-        guiRobot.push(KeyCode.TAB);
-        assertEquals(AddCommand.COMMAND_WORD + " " + AddCommand.MESSAGE_PARAMETERS, commandBoxHandle.getInput());
-        guiRobot.push(KeyCode.TAB);
-        assertEquals(AddCommand.COMMAND_WORD, commandBoxHandle.getInput());
-        commandBoxHandle.run(COMMAND_THAT_FAILS);
-        guiRobot.push(KeyCode.TAB);
-        assertEquals(errorStyleOfCommandBox, commandBoxHandle.getStyleClass());
-        commandBoxHandle.run("e");
-        guiRobot.push(KeyCode.TAB);
-        guiRobot.push(KeyCode.TAB);
-        guiRobot.push(KeyCode.ENTER);
-        assertEquals(ExitCommand.COMMAND_WORD, commandBoxHandle.getInput());
-
-
-    }
-
-    @Test
-    public void handleKeyPress_startingWithUp() {
-        // empty history
-        assertInputHistory(KeyCode.UP, "");
-        assertInputHistory(KeyCode.DOWN, "");
-
-        // one command
-        commandBoxHandle.run(COMMAND_THAT_SUCCEEDS);
-        assertInputHistory(KeyCode.UP, COMMAND_THAT_SUCCEEDS);
-        assertInputHistory(KeyCode.DOWN, "");
-
-        // two commands (latest command is failure)
-        commandBoxHandle.run(COMMAND_THAT_FAILS);
-        assertInputHistory(KeyCode.UP, COMMAND_THAT_SUCCEEDS);
-        assertInputHistory(KeyCode.UP, COMMAND_THAT_SUCCEEDS);
-        assertInputHistory(KeyCode.DOWN, COMMAND_THAT_FAILS);
-        assertInputHistory(KeyCode.DOWN, "");
-        assertInputHistory(KeyCode.DOWN, "");
-        assertInputHistory(KeyCode.UP, COMMAND_THAT_FAILS);
-
-        // insert command in the middle of retrieving previous commands
-        guiRobot.push(KeyCode.UP);
-        String thirdCommand = "list";
-        commandBoxHandle.run(thirdCommand);
-        assertInputHistory(KeyCode.UP, thirdCommand);
-        assertInputHistory(KeyCode.UP, COMMAND_THAT_FAILS);
-        assertInputHistory(KeyCode.UP, COMMAND_THAT_SUCCEEDS);
-        assertInputHistory(KeyCode.DOWN, COMMAND_THAT_FAILS);
-        assertInputHistory(KeyCode.DOWN, thirdCommand);
-        assertInputHistory(KeyCode.DOWN, "");
-    }
-
-    @Test
-    public void handleKeyPress_startingWithDown() {
-        // empty history
-        assertInputHistory(KeyCode.DOWN, "");
-        assertInputHistory(KeyCode.UP, "");
-
-        // one command
-        commandBoxHandle.run(COMMAND_THAT_SUCCEEDS);
-        assertInputHistory(KeyCode.DOWN, "");
-        assertInputHistory(KeyCode.UP, COMMAND_THAT_SUCCEEDS);
-
-        // two commands
-        commandBoxHandle.run(COMMAND_THAT_FAILS);
-        assertInputHistory(KeyCode.DOWN, "");
-        assertInputHistory(KeyCode.UP, COMMAND_THAT_FAILS);
-
-        // insert command in the middle of retrieving previous commands
-        guiRobot.push(KeyCode.UP);
-        String thirdCommand = "list";
-        commandBoxHandle.run(thirdCommand);
-        assertInputHistory(KeyCode.DOWN, "");
-        assertInputHistory(KeyCode.UP, thirdCommand);
-    }
-
-    /**
-     * Runs a command that fails, then verifies that <br>
-     *      - the text remains <br>
-     *      - the command box's style is the same as {@code errorStyleOfCommandBox}.
-     */
-    private void assertBehaviorForFailedCommand() {
-        commandBoxHandle.run(COMMAND_THAT_FAILS);
-        assertEquals(COMMAND_THAT_FAILS, commandBoxHandle.getInput());
-        assertEquals(errorStyleOfCommandBox, commandBoxHandle.getStyleClass());
-    }
-
-    /**
-     * Runs a command that succeeds, then verifies that <br>
-     *      - the text is cleared <br>
-     *      - the command box's style is the same as {@code defaultStyleOfCommandBox}.
-     */
-    private void assertBehaviorForSuccessfulCommand() {
-        commandBoxHandle.run(COMMAND_THAT_SUCCEEDS);
-        assertEquals("", commandBoxHandle.getInput());
-        assertEquals(defaultStyleOfCommandBox, commandBoxHandle.getStyleClass());
-    }
-
-    /**
-     * Pushes {@code keycode} and checks that the input in the {@code commandBox} equals to {@code expectedCommand}.
-     */
-    private void assertInputHistory(KeyCode keycode, String expectedCommand) {
-        guiRobot.push(keycode);
-        assertEquals(expectedCommand, commandBoxHandle.getInput());
-    }
-}
-```
-###### \java\systemtests\AddCommandSystemTest.java
+###### /java/systemtests/AddCommandSystemTest.java
 ``` java
         /* Case: invalid rating -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
@@ -429,4 +100,365 @@ public class CommandBoxTest extends GuiUnitTest {
         assertStatusBarUnchanged();
     }
 }
+```
+###### /java/seedu/address/ui/CommandBoxTest.java
+``` java
+public class CommandBoxTest extends GuiUnitTest {
+
+    private static final String COMMAND_THAT_SUCCEEDS = ListCommand.COMMAND_WORD;
+    private static final String COMMAND_THAT_FAILS = "invalid command";
+
+    private ArrayList<String> defaultStyleOfCommandBox;
+    private ArrayList<String> errorStyleOfCommandBox;
+
+    private CommandBoxHandle commandBoxHandle;
+
+    @Before
+    public void setUp() {
+        Model model = new ModelManager();
+        Logic logic = new LogicManager(model);
+
+        CommandBox commandBox = new CommandBox(logic);
+        commandBoxHandle = new CommandBoxHandle(getChildNode(commandBox.getRoot(),
+                CommandBoxHandle.COMMAND_INPUT_FIELD_ID));
+        uiPartRule.setUiPart(commandBox);
+
+        defaultStyleOfCommandBox = new ArrayList<>(commandBoxHandle.getStyleClass());
+
+        errorStyleOfCommandBox = new ArrayList<>(defaultStyleOfCommandBox);
+        errorStyleOfCommandBox.add(CommandBox.ERROR_STYLE_CLASS);
+    }
+
+    @Test
+    public void commandBox_startingWithSuccessfulCommand() {
+        assertBehaviorForSuccessfulCommand();
+        assertBehaviorForFailedCommand();
+    }
+
+    @Test
+    public void commandBox_startingWithFailedCommand() {
+        assertBehaviorForFailedCommand();
+        assertBehaviorForSuccessfulCommand();
+
+        // verify that style is changed correctly even after multiple consecutive failed commands
+        assertBehaviorForSuccessfulCommand();
+        assertBehaviorForFailedCommand();
+        assertBehaviorForFailedCommand();
+    }
+
+    @Test
+    public void commandBox_handleKeyPress() {
+        commandBoxHandle.run(COMMAND_THAT_FAILS);
+        assertEquals(errorStyleOfCommandBox, commandBoxHandle.getStyleClass());
+        guiRobot.push(KeyCode.ESCAPE);
+        assertEquals(errorStyleOfCommandBox, commandBoxHandle.getStyleClass());
+        guiRobot.push(KeyCode.A);
+        assertEquals(defaultStyleOfCommandBox, commandBoxHandle.getStyleClass());
+        assertBehaviorForSuccessfulCommand();
+        guiRobot.push(KeyCode.V);
+        guiRobot.push(KeyCode.TAB);
+        assertEquals(ViewCommand.COMMAND_WORD, commandBoxHandle.getInput());
+        guiRobot.push(KeyCode.TAB);
+        assertEquals(ViewCommand.COMMAND_WORD + " " + ViewCommand.MESSAGE_PARAMETERS, commandBoxHandle.getInput());
+        guiRobot.push(KeyCode.TAB);
+        assertEquals(ViewCommand.COMMAND_WORD, commandBoxHandle.getInput());
+        commandBoxHandle.run(COMMAND_THAT_FAILS);
+        guiRobot.push(KeyCode.TAB);
+        assertEquals(errorStyleOfCommandBox, commandBoxHandle.getStyleClass());
+        commandBoxHandle.run("e");
+        guiRobot.push(KeyCode.TAB);
+        guiRobot.push(KeyCode.TAB);
+        guiRobot.push(KeyCode.ENTER);
+        assertEquals(ExitCommand.COMMAND_WORD, commandBoxHandle.getInput());
+
+
+    }
+
+    @Test
+    public void handleKeyPress_startingWithUp() {
+        // empty history
+        assertInputHistory(KeyCode.UP, "");
+        assertInputHistory(KeyCode.DOWN, "");
+
+        // one command
+        commandBoxHandle.run(COMMAND_THAT_SUCCEEDS);
+        assertInputHistory(KeyCode.UP, COMMAND_THAT_SUCCEEDS);
+        assertInputHistory(KeyCode.DOWN, "");
+
+        // two commands (latest command is failure)
+        commandBoxHandle.run(COMMAND_THAT_FAILS);
+        assertInputHistory(KeyCode.UP, COMMAND_THAT_SUCCEEDS);
+        assertInputHistory(KeyCode.UP, COMMAND_THAT_SUCCEEDS);
+        assertInputHistory(KeyCode.DOWN, COMMAND_THAT_FAILS);
+        assertInputHistory(KeyCode.DOWN, "");
+        assertInputHistory(KeyCode.DOWN, "");
+        assertInputHistory(KeyCode.UP, COMMAND_THAT_FAILS);
+
+        // insert command in the middle of retrieving previous commands
+        guiRobot.push(KeyCode.UP);
+        String thirdCommand = "list";
+        commandBoxHandle.run(thirdCommand);
+        assertInputHistory(KeyCode.UP, thirdCommand);
+        assertInputHistory(KeyCode.UP, COMMAND_THAT_FAILS);
+        assertInputHistory(KeyCode.UP, COMMAND_THAT_SUCCEEDS);
+        assertInputHistory(KeyCode.DOWN, COMMAND_THAT_FAILS);
+        assertInputHistory(KeyCode.DOWN, thirdCommand);
+        assertInputHistory(KeyCode.DOWN, "");
+    }
+
+    @Test
+    public void handleKeyPress_startingWithDown() {
+        // empty history
+        assertInputHistory(KeyCode.DOWN, "");
+        assertInputHistory(KeyCode.UP, "");
+
+        // one command
+        commandBoxHandle.run(COMMAND_THAT_SUCCEEDS);
+        assertInputHistory(KeyCode.DOWN, "");
+        assertInputHistory(KeyCode.UP, COMMAND_THAT_SUCCEEDS);
+
+        // two commands
+        commandBoxHandle.run(COMMAND_THAT_FAILS);
+        assertInputHistory(KeyCode.DOWN, "");
+        assertInputHistory(KeyCode.UP, COMMAND_THAT_FAILS);
+
+        // insert command in the middle of retrieving previous commands
+        guiRobot.push(KeyCode.UP);
+        String thirdCommand = "list";
+        commandBoxHandle.run(thirdCommand);
+        assertInputHistory(KeyCode.DOWN, "");
+        assertInputHistory(KeyCode.UP, thirdCommand);
+    }
+
+    /**
+     * Runs a command that fails, then verifies that <br>
+     *      - the text remains <br>
+     *      - the command box's style is the same as {@code errorStyleOfCommandBox}.
+     */
+    private void assertBehaviorForFailedCommand() {
+        commandBoxHandle.run(COMMAND_THAT_FAILS);
+        assertEquals(COMMAND_THAT_FAILS, commandBoxHandle.getInput());
+        assertEquals(errorStyleOfCommandBox, commandBoxHandle.getStyleClass());
+    }
+
+    /**
+     * Runs a command that succeeds, then verifies that <br>
+     *      - the text is cleared <br>
+     *      - the command box's style is the same as {@code defaultStyleOfCommandBox}.
+     */
+    private void assertBehaviorForSuccessfulCommand() {
+        commandBoxHandle.run(COMMAND_THAT_SUCCEEDS);
+        assertEquals("", commandBoxHandle.getInput());
+        assertEquals(defaultStyleOfCommandBox, commandBoxHandle.getStyleClass());
+    }
+
+    /**
+     * Pushes {@code keycode} and checks that the input in the {@code commandBox} equals to {@code expectedCommand}.
+     */
+    private void assertInputHistory(KeyCode keycode, String expectedCommand) {
+        guiRobot.push(keycode);
+        assertEquals(expectedCommand, commandBoxHandle.getInput());
+    }
+}
+```
+###### /java/seedu/address/logic/AutocompleteTest.java
+``` java
+import org.junit.Before;
+import org.junit.Test;
+
+import seedu.address.logic.commands.CommandTrie;
+
+public class AutocompleteTest {
+
+    private CommandTrie commandTrie;
+
+    @Before
+    public void setup() {
+        commandTrie = new CommandTrie();
+    }
+
+    @Test
+    public void autocomplete_unique_prefix() {
+        assert commandTrie.attemptAutoComplete("l").equals("list");
+        assert commandTrie.attemptAutoComplete("he").equals("help");
+    }
+
+    @Test
+    public void autocomplete_multiple_prefix() {
+        assert commandTrie.attemptAutoComplete("e").equals("e");
+        assert commandTrie.attemptAutoComplete("H").equals("H");
+
+    }
+}
+```
+###### /java/seedu/address/model/person/RatingTest.java
+``` java
+public class RatingTest {
+
+    @Test
+    public void constructor_null_throwsNullPointerException() {
+        Assert.assertThrows(NullPointerException.class, () -> new Rating(null));
+    }
+
+    @Test
+    public void constructor_invalidRating_throwsIllegalArgumentException() {
+        String invalidRating = "";
+        Assert.assertThrows(IllegalArgumentException.class, () -> new Rating(invalidRating));
+    }
+
+    @Test
+    public void isValidRating() {
+        // null rating number
+        Assert.assertThrows(NullPointerException.class, () -> Rating.isValidRating(null));
+
+        // invalid rating numbers
+        assertFalse(Rating.isValidRating("")); // empty string
+        assertFalse(Rating.isValidRating(" ")); // spaces only
+        assertFalse(Rating.isValidRating("-1")); // negative
+        assertFalse(Rating.isValidRating("rating")); // non-numeric
+        assertFalse(Rating.isValidRating("1a")); // alphabets within digits
+        assertFalse(Rating.isValidRating("1 1")); // spaces within digits
+
+        // valid rating numbers
+        assertTrue(Rating.isValidRating("1")); // within range
+        assertTrue(Rating.isValidRating("5"));
+    }
+
+    @Test
+    public void isEqualRating() {
+        Rating x  = new Rating("1");
+        Rating y = new Rating("1");
+        assertTrue(x.equals(y) && y.equals(x));
+        assertTrue(x.hashCode() == y.hashCode());
+    }
+}
+```
+###### /java/seedu/address/model/person/AvatarTest.java
+``` java
+public class AvatarTest {
+
+    @Test
+    public void constructor_null_throwsNullPointerException() {
+        Assert.assertThrows(NullPointerException.class, () -> new Avatar(null));
+    }
+
+    @Test
+    public void constructor_invalidAvatar_throwsIllegalArgumentException() {
+        String invalidAvatar = "";
+        Assert.assertThrows(IllegalArgumentException.class, () -> new Avatar(invalidAvatar));
+    }
+
+    @Test
+    public void isValidAvatar() {
+        // null avatar number
+        Assert.assertThrows(NullPointerException.class, () -> Avatar.isValidAvatar(null));
+
+        // invalid avatar numbers
+        assertFalse(Avatar.isValidAvatar("")); // empty string
+        assertFalse(Avatar.isValidAvatar(" ")); // spaces only
+        assertFalse(Avatar.isValidAvatar("avatar.gif")); // invalid filtype
+        assertFalse(Avatar.isValidAvatar("avatar")); // no file type
+        assertFalse(Avatar.isValidAvatar("a a")); // spaces within digits
+
+        // valid avatar numbers
+        assertTrue(Avatar.isValidAvatar("avatar.png")); // png file
+        assertTrue(Avatar.isValidAvatar("/file/path/to/avatar.png")); //mac file path
+        assertTrue(Avatar.isValidAvatar("C:\\file\\path\\avatar.png")); // windows file path
+    }
+
+    @Test
+    public void isEqualAvatar() {
+        Avatar x  = new Avatar("avatar.png");
+        Avatar y = new Avatar("avatar.png");
+        assertTrue(x.equals(y) && y.equals(x));
+        assertTrue(x.hashCode() == y.hashCode());
+    }
+
+}
+```
+###### /java/seedu/address/model/person/PositionTest.java
+``` java
+public class PositionTest {
+
+    @Test
+    public void constructor_null_throwsNullPointerException() {
+        Assert.assertThrows(NullPointerException.class, () -> new Position(null));
+    }
+
+    @Test
+    public void constructor_invalidPosition_throwsIllegalArgumentException() {
+        String invalidPosition = "";
+        Assert.assertThrows(IllegalArgumentException.class, () -> new Position(invalidPosition));
+    }
+
+    @Test
+    public void isValidPosition() {
+        // null position number
+        Assert.assertThrows(NullPointerException.class, () -> Position.isValidPosition(null));
+
+        // invalid position numbers
+        assertFalse(Position.isValidPosition("")); // empty string
+        assertFalse(Position.isValidPosition(" ")); // spaces only
+        assertFalse(Position.isValidPosition("0")); // less than 1
+        assertFalse(Position.isValidPosition("-1")); // negative
+        assertFalse(Position.isValidPosition("position")); // non-numeric
+        assertFalse(Position.isValidPosition("1a")); // alphabets within digits
+        assertFalse(Position.isValidPosition("1 1")); // spaces within digits
+
+        // valid position numbers
+        assertTrue(Position.isValidPosition("1")); // within range
+        assertTrue(Position.isValidPosition("4"));
+    }
+
+    @Test
+    public void isEqualPosition() {
+        Position x  = new Position("1");
+        Position y = new Position("1");
+        assertTrue(x.equals(y) && y.equals(x));
+        assertTrue(x.hashCode() == y.hashCode());
+    }
+}
+```
+###### /java/seedu/address/model/person/JerseyNumberTest.java
+``` java
+public class JerseyNumberTest {
+
+    @Test
+    public void constructor_null_throwsNullPointerException() {
+        Assert.assertThrows(NullPointerException.class, () -> new JerseyNumber(null));
+    }
+
+    @Test
+    public void constructor_invalidJerseyNumber_throwsIllegalArgumentException() {
+        String invalidJerseyNumber = "";
+        Assert.assertThrows(IllegalArgumentException.class, () -> new JerseyNumber(invalidJerseyNumber));
+    }
+
+    @Test
+    public void isValidJerseyNumber() {
+        // null jerseyNumber number
+        Assert.assertThrows(NullPointerException.class, () -> JerseyNumber.isValidJerseyNumber(null));
+
+        // invalid jerseyNumber numbers
+        assertFalse(JerseyNumber.isValidJerseyNumber("")); // empty string
+        assertFalse(JerseyNumber.isValidJerseyNumber(" ")); // spaces only
+        assertFalse(JerseyNumber.isValidJerseyNumber("-1")); // less than 0
+        assertFalse(JerseyNumber.isValidJerseyNumber("100")); // larger than 99
+        assertFalse(JerseyNumber.isValidJerseyNumber("1a")); // alphabets with digits
+        assertFalse(JerseyNumber.isValidJerseyNumber("1 1")); // spaces within digits
+
+        // valid jerseyNumber numbers
+        assertTrue(JerseyNumber.isValidJerseyNumber("0")); // within 0 - 99
+        assertTrue(JerseyNumber.isValidJerseyNumber("99"));
+    }
+
+    @Test
+    public void isEqualJerseyNumber() {
+        JerseyNumber x  = new JerseyNumber("0");
+        JerseyNumber y = new JerseyNumber("0");
+        assertTrue(x.equals(y) && y.equals(x));
+        assertTrue(x.hashCode() == y.hashCode());
+    }
+}
+
 ```

@@ -257,9 +257,10 @@ Format: `exit`
 
 === Player-Related Commands
 
-[[add]]
 // tag::addplayer[]
+[[add]]
 ==== Adding a player: `add`
+
 This is the command that you will be using most frequently, especially when dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the `add` command.
 
 Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [av/AVATAR] [t/TAG]...` +
@@ -595,7 +596,7 @@ List all players in the team "Liverpool".
 
 === User Experience Commands
 
-// tag:setTagColour[]
+// tag::setTagColour[]
 [[setTagColour]]
 ==== Setting colour of tags : `setTagColour` `[Since v1.2]`
 
@@ -609,7 +610,7 @@ Alias: `stc`
 The current version of `setTagColour` is NOT an UndoableCommand. i.e. You cannot `undo` a setTagCommand.
 Instead, just enter `stc <your desired colour>` to change the colour back!
 ====
-// end:setTagColour[]
+// end::setTagColour[]
 
 // tag::changeTheme[]
 [[changeTheme]]
@@ -630,6 +631,7 @@ Instead, just enter `cte <your desired theme>` to change the colour back!
 === Coming Soon
 
 There is more to come with the next upcoming update! Keep a lookout for these newly implemented features soon!
+
 // tag::showBest2.0[]
 ==== Showing Best XI players: `showBest` `[Coming in v2.0]`
 
@@ -660,7 +662,7 @@ Here is how you can change the your password:
 `changepass` ilikesports Securep@ssword1 Securep@ssword1
 // end::changePass2.0[]
 
-// tag::teamin2.0[]
+// tag::team2.0[]
 ==== Setting an upcoming match with an opposing team: `setmatch` `[Coming in v2.0]`
 
 With this command, it gives you a convenient way to keep track of the upcoming match of a team.
@@ -704,7 +706,7 @@ Here are a few valid examples on how you can use the `nextmatch` command:
 * `view Arsenal`
 * `nextmatch Arsenal` +
 Displays the list of players in team "Arsenal" and view the next upcoming match for "Arsenal".
-// end::teamin2.0[]
+// end::team2.0[]
 
 // tag::showlineup[]
 ==== Displaying lineup for next match: `showLineup` `[Coming in v2.0]`
@@ -746,7 +748,7 @@ Just a quick reference sheet for all your needs. Never forget how to use MTM eve
 
 === Basic Commands and Features
 
-[cols="^1s, ^1s, <2m, <2m", options="header"]
+[width="100%", cols="^1s, ^1s, <2m, <2m", options="header"]
 |===
 ^|Command
 ^|Alias
@@ -802,7 +804,7 @@ d|Exits the application
 
 === Player-Related Commands
 
-[cols="^1s, ^1s, <2m, <2m", options="header"]
+[width="100%", cols="^1s, ^1s, <2m, <2m", options="header"]
 |===
 ^|Command
 ^|Alias
@@ -853,7 +855,7 @@ d|List all the players
 
 === Team-Related Commands
 
-[cols="^1s, ^1s, <2m, <2m", options="header"]
+[width="100%", cols="^1s, ^1s, <2m, <2m", options="header"]
 |===
 ^|Command
 ^|Alias
@@ -889,7 +891,7 @@ d|List all the players
 
 === User Experience Commands
 
-[cols="^1s, ^1s, <2m, <2m", options="header"]
+[width="100%", cols="^1s, ^1s, <2m, <2m", options="header"]
 |===
 ^|Command
 ^|Alias
@@ -904,7 +906,7 @@ d|List all the players
 |<<changeTheme, `changeTheme`>>
 |`ct`
 |changeTheme THEME_NAME
-d|Changes current theme to theme of choice (Light/Dark)
+|changeTheme Dark
 
 |===
 // end::commandsummary[]
