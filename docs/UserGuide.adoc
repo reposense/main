@@ -906,7 +906,7 @@ d|List all the players
 |<<changeTheme, `changeTheme`>>
 |`ct`
 |changeTheme THEME_NAME
-d|Changes current theme to theme of choice (Light/Dark)
+|changeTheme Dark
 
 |===
 // end::commandsummary[]
