@@ -53,7 +53,7 @@ image::UiNew.png[width="790"]
 
 The figure below shows the different components in My Team Manager and the list below explains their purpose.
 
-image::UiGuide.png[width="790"]
+image::UIGuide.png[width="790"]
 
 . Command Box : This is where you key in the commands to use My Team Manager.
 . Display Box : The display box displays results to any command you input.
