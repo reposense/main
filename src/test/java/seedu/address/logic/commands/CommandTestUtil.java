@@ -57,7 +57,8 @@ public class CommandTestUtil {
     public static final String VALID_POSITION_MIDFIELD = "2";
     public static final String VALID_JERSEY_NUMBER_2 = "2";
     public static final String VALID_JERSEY_NUMBER_17 = "17";
-    public static final String VALID_AVATAR = System.getProperty("user.dir") + "\\images\\placeholder_test.png";
+    public static final String VALID_AVATAR_WINDOWS = System.getProperty("user.dir") + "\\images\\placeholder_test.png";
+    public static final String VALID_AVATAR_MAC_LINUX = System.getProperty("user.dir") + "/images/placeholder_test.png";
     public static final String VALID_INDEX = "1";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
@@ -76,7 +77,8 @@ public class CommandTestUtil {
     public static final String POSITION_DESC_MIDFILED = " " + PREFIX_POSITION + VALID_POSITION_MIDFIELD;
     public static final String JERSEY_NUMBER_DESC_2 = " " + PREFIX_JERSEY_NUMBER + VALID_JERSEY_NUMBER_2;
     public static final String JERSEY_NUMBER_DESC_17 = " " + PREFIX_JERSEY_NUMBER + VALID_JERSEY_NUMBER_17;
-    public static final String AVATAR = " " + PREFIX_AVATAR + VALID_AVATAR;
+    public static final String AVATAR_WINDOWS = " " + PREFIX_AVATAR + VALID_AVATAR_WINDOWS;
+    public static final String AVATAR_MAC_LINUX = " " + PREFIX_AVATAR + VALID_AVATAR_MAC_LINUX;
     public static final String TEAM_DESC_ARSENAL = " " + PREFIX_TEAM_NAME + VALID_TEAM_ARSENAL;
     public static final String TEAM_DESC_CHELSEA = " " + PREFIX_TEAM_NAME + VALID_TEAM_CHELSEA;
     public static final String INDEX_DESC_1 = " " + PREFIX_INDEX + VALID_INDEX;

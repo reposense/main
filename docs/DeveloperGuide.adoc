@@ -613,7 +613,7 @@ model.updatePerson(personToEdit, editedPerson);
 ** Cons: Addtional changes has to be made to `Add` command.
 // end::privatefield[]
 
-// tag:sorting[]
+// tag::sort[]
 ==== Sorting players by fields
 ===== Current Implementation
 
@@ -748,7 +748,69 @@ If address book is empty, a `NoPlayerException` will be thrown by `sortBy` metho
 * **Alternative 2:** Address book is not saved after sorting.
 ** Pros: Good if team manager wants to sort players for current session only.
 ** Cons: Sort order is lost when program exits. More memory is used to sort a list and reverse it after.
-// end::sorting[]
+// end::sort[]
+
+
+=== Team-Related Enhancements
+
+// tag::team[]
+==== Team Mechanism
+===== Current Implementation
+
+The team mechanism is created to provide better organizational methods to the user for organizing their players. We achieved it by introducing a `UniqueTeamList` into the application which consists of a list of `Team` objects.
+
+`Team` objects consist of `TeamName` object, which is used to uniquely identify the team, and `UniquePersonList` object which stores the information of `Person` objects which should be identical to those found in `UniquePersonList` in `addressbook`.
+
+Code snippet from `Team.java` that shows the attributes of `Team`.
+
+[source, java]
+----
+public class Team {
+
+    private final TeamName teamName;
+    private final UniquePersonList players = new UniquePersonList();
+
+    // ... model method ...
+}
+----
+
+Since `Person` stored in `Team` is referencing to the `Person` in `addressbook`, changes made to `Person` needs to be ensured that is properly propagated to the `Person` objects found in `Team`. An additional `TeamName` field is also added to `Person` so that the user can quickly determine the team the player is in.
+
+Code snippet from `<somefile>.java` that shows the propagation of details updated in `Person` from `addressbook` to the `Person` objects in `Team`.
+
+[source, java]
+----
+    // placeholder
+----
+
+Currently, with the `Team` mechanism, additional commands such as `create`, `remove`, and `editteam` gives the user basic functionality for team management. Additionally, commands like `assign`, `view`, `setmatch`, and `viewmatch` gives the user more practical uses in managing multiple teams.
+
+The following sequence diagram illustrates the operation of the `Team` mechanism and some of its respective commands:
+
+_Figure : Sequence Diagram of `Team` mechanism_
+
+===== Design Considerations
+====== Aspect: Implementation of `Team`
+
+* **Alternative 1 (current choice):** `Team` object stores the reference to `Person` objects that is also in `UniquePersonList` and `TeamName` is also an attribute of `Person`.
+** Pros: Provides an easier lookup of person belonging in which team without the need of iterating through the `UniqueTeamList` for a specific `Person`, and efficient way of listing all `Persons` in a `Team`.
+** Cons: Checks need to be done thoroughly to ensure that code does not break when changes are made, especially the synchronisation of `Person` details in `Team` and in `addressbook`.
+* **Alternative 2:** `Team` object is stored in `Person` object as an attribute.
+** Pros: Logical thought process to include `Team` as an attribute.
+** Cons: Excess storage wasted due to duplicated data of `Team` in every `Person`.
+// end::team[]
+
+// tag::showbestxi[]
+==== Show Best XI `[coming in v2.0]`
+===== Current Implementation
+
+The `showBest` command is able to show the current team's best 11 players. There is however no functional implementation for this feature yet. Coming soon!
+
+===== Design Consideration
+// end::showbestxi[]
+
+=== Usability Enhancements
+
 
 // tag::key[]
 ==== Toggle lock on MTM
@@ -842,7 +904,16 @@ if (lockState) {
 * **Alternative 2:** Locking and unlocking of MTM is done with two separate commands.
 ** Pros: Ensures that when a lock is done, MTM is truly locked.
 ** Cons: Addtional command needs to be created, along with its command parser and implementations.
-// end:: key[]
+// end::key[]
+
+// tag::changepass[]
+==== Change Password `[Coming in v2.0]`
+
+===== Current Implementation
+Default password used for toggling lock on MTM is currently 'ilikesports'. In an upcoming update, user would be able
+to change this password to one of his choosing. There is currently no functional implementation for this feature yet.
+Coming soon!
+// end::changepass[]
 
 === Team-Related Enhancements
 
@@ -1352,6 +1423,17 @@ public class ChangeThemeCommand extends Command {
 ----
 
 ===== Design Considerations
+====== Aspect: Command Syntax
+
+* **Alternative 1 (current choice):** The command syntax is in the form "changeTheme Dark" or "changeTheme Light".
+** Pros: This supports future implementation of more themes, so that the developer can easily add the new themes without
+having to change the execution.
+** Cons: The command is longer than it could be. (see alternative 2)
+* **Alternative 2:** The command syntax in the form "changeTheme", which would automatically toggle the theme.
+** Pros: User does not have to type anything to change the theme, so it might be more user friendly.
+** Cons: Future implementation of more themes would be harder for the developer as the toggle function would have to be
+changed quite drastically to become a command for selecting a theme out of multiple themes.
+
 ====== Aspect: User Experience
 
 * **Alternative 1 (current choice):** `ChangeThemeCommand` is implemented as a CLI command.
@@ -1865,13 +1947,13 @@ These instructions only provide a starting point for testers to work on; testers
 
 _{ more test cases ... }_
 
-=== Deleting a person
+=== Deleting a player
 
-. Deleting a person while all persons are listed
+. Deleting a player while all players are listed
 
-.. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+.. Prerequisites: List all players using the `list` command. Multiple players in the list.
 .. Test case: `delete 1` +
-   Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+   Expected: First player is deleted from the list. Details of the deleted player shown in the status message. Timestamp in the status bar is updated.
 .. Test case: `delete 0` +
    Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
 .. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +

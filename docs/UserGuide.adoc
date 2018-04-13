@@ -17,6 +17,7 @@ endif::[]
 
 By: `F14-B1`      Since: `Mar 2018`      Licence: `MIT`
 
+// tag::introduction[]
 == Introduction
 My Team Manager (MTM) is a link:https://en.wikipedia.org/wiki/Command-line_interface[Command-Line Interface] (CLI) based address book application for *football team managers*.
 It is a one-stop solution to help you manage your player's contact details in an efficient and convenient manner.
@@ -49,6 +50,8 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 * *`exit`* : exits the app
 
 .  Refer to <<Features>> for details of each command.
+
+// end::introduction[]
 
 [[Features]]
 == Features
@@ -111,7 +114,7 @@ You can use the autocompleted parameters as a template after viewing them.
 
 Text will turn red if the input has no parameters or if no matching command exists.
 
-If there are multiple possible commands for a given input, i.e. 'e' could be 'edit', 'exit', or 'export',
+If there are multiple possible commands for a given input, i.e. 'e' could be 'edit' or 'exit',
 then a dropdown box will appear with the possible commands. These can be navigated using mouse or arrow keys. Press enter to select the desired command.
 // end::autocomplete[]
 
@@ -180,6 +183,7 @@ Previously executed `undo` command will be reversed and MTM will be in its previ
 ====
 // end::undoredo[]
 
+// tag::togglePrivacy[]
 [[toggleprivacy]]
 ==== Toggling various fields to private: `toggleprivacy` `[Since v1.4]`
 
@@ -204,6 +208,37 @@ Here are some examples on how you can use the `toggleprivacy` command:
 
 * `tp` 1 p/ ra/ +
 Toggles privacy of phone and rating of player @ index 1
+// end::togglePrivacy[]
+
+// tag::key[]
+[[key]]
+==== Toggling lock on MTM: `key` `[Since v1.5]`
+
+You can toggle a lock on MTM to prevent unauthorised changes to your details in MTM. When MTM is in a locked state, functionality will be limited.
+
+Format: `key` PASSWORD +
+Alias: `k`
+
+[NOTE]
+====
+Current version of `key` uses a fixed default password: *ilikesports* +
+====
+
+[IMPORTANT]
+.*What to expect*
+====
+When MTM is locked, only the following commands can be executed: `changeTheme`, `exit`, `find`, `help`, `key`, `list`, `sort`
+and `view`
+====
+
+Here are examples on how to use `key`:
+
+* If MTM is in a lock state, use this command to unlock it: +
+`key` ilikesports
+
+* To lock MTM, use this command to lock: +
+`key` ilikesports
+// end::key[]
 
 [[clear]]
 ==== Clearing all entries : `clear`
@@ -223,10 +258,11 @@ Format: `exit`
 === Player-Related Commands
 
 [[add]]
+// tag::addplayer[]
 ==== Adding a player: `add`
-This is the command that you will be using most frequently, especially with dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the `add` command.
+This is the command that you will be using most frequently, especially when dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the `add` command.
 
-Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...` +
+Format: `add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [av/AVATAR] [t/TAG]...` +
 Alias: `a`
 
 The table below explains the correct inputs for the parameters.
@@ -242,6 +278,7 @@ The table below explains the correct inputs for the parameters.
 |j/JERSEY_NUMBER| Player's jersey number| j/17
 |ra/RATING| Player's performance rating (Any integer from 1 to 5)| ra/5
 |po/POSITION| Player's postion (1 for Striker, 2 for Midfiled, 3 for Defender, 4 for Goalkeeper)| po/1
+|av/AVATAR| Filepath for avatar image file. Eg. C:\image.png (for Windows) or /User/username/path/to/image.jpg(for MacOS)| av/C:\image.png  av//User/username/path/to/image.jpg
 |t/TAG| Your tag for the player| t/Injured
 
 |=========================================================
@@ -266,7 +303,7 @@ team `Real Madrid`, jersey number `17`, rating `5`, and position Striker.
 [[edit]]
 ==== Editing a player : `edit`
 
-You may edit an existing player in MTM with the 'edit' command.
+If you made a mistake when adding a player, or if there's player information that needs updating, you may edit an existing player in MTM with the 'edit' command.
 
 Format: `edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...` +
 Alias: `e`
@@ -285,6 +322,7 @@ Examples:
 Edits the phone number and email address of the 1st player to be `91234567` and `johndoe@example.com` respectively.
 * `edit 2 n/Betsy Crower t/` +
 Edits the name of the 2nd player to be `Betsy Crower` and clears all existing tags.
+// end::addplayer[]
 
 [[delete]]
 ==== Deleting a player : `delete`
@@ -348,6 +386,7 @@ Format: `list` +
 Alias: `l`
 
 [[sort]]
+// tag::sort[]
 ==== Sorting players by field: `sort` `[Since v1.2]`
 
 You can sort the players by fields with the 'sort' command. Players can be sorted in both ascending or descending order.
@@ -367,6 +406,7 @@ This will sort MTM by names, in alphabetical order.
 
 * `sort` name dsc +
 This will sort MTM by names, in reverse alphabetical order.
+// end::sort[]
 
 [[find]]
 ==== Locating players by name: `find`
@@ -561,7 +601,6 @@ List all players in the team "Liverpool".
 
 You can set the tags to a colour of your choice with the 'setColourTag' command.
 
-
 Format: `setTagColour` +
 Alias: `stc`
 
@@ -578,7 +617,6 @@ Instead, just enter `stc <your desired colour>` to change the colour back!
 If you feel that the light theme is not for you, and you prefer to work on a darker interface,
 you can change the theme from the default LightTheme to DarkTheme with the 'changeTheme' command.
 
-
 Format: `changeTheme` +
 Alias: `ct`
 
@@ -589,37 +627,10 @@ Instead, just enter `cte <your desired theme>` to change the colour back!
 ====
 // end::changeTheme[]
 
-==== Toggling lock on MTM: `key` `[Since v1.5]`
-
-You can toggle a lock on MTM to prevent unauthorised changes to your details in MTM. When MTM is in a locked state, functionality will be limited.
-
-Format: `key` PASSWORD +
-Alias: `k`
-
-[NOTE]
-====
-Current version of `key` uses a fixed default password: *ilikesports* +
-====
-
-[IMPORTANT]
-.*What to expect*
-====
-When MTM is locked, only the following commands can be executed: `changeTheme`, `exit`, `find`, `help`, `key`, `list`, `sort`
-and `view`
-====
-
-Here are examples on how to use `key`:
-
-* If MTM is in a lock state, use this command to unlock it: +
-`key` ilikesports
-
-* To lock MTM, use this command to lock: +
-`key` ilikesports
-
 === Coming Soon
 
 There is more to come with the next upcoming update! Keep a lookout for these newly implemented features soon!
-
+// tag::showBest2.0[]
 ==== Showing Best XI players: `showBest` `[Coming in v2.0]`
 
 If you went to see your current best 11 players in your team based on their respective stats, this command
@@ -634,7 +645,9 @@ Alias: `sb`
 A lineup of the best 11 players would be displayed. It would consist of 1 Goalkeeper,
 4 Defenders, 4 Midfielders and 2 Strikers.
 ====
+// end::showBest2.0[]
 
+// tag::changePass2.0[]
 ==== Change password: `changepass` `[Coming in v2.0]`
 
 Should you feel that the default password used in `key` could be more secure, you may change it to a password of your
@@ -645,6 +658,7 @@ Alias: `cpw`
 
 Here is how you can change the your password:
 `changepass` ilikesports Securep@ssword1 Securep@ssword1
+// end::changePass2.0[]
 
 // tag::teamin2.0[]
 ==== Setting an upcoming match with an opposing team: `setmatch` `[Coming in v2.0]`
@@ -797,8 +811,8 @@ d|Exits the application
 
 |<<add, `add`>>
 |`a`
-|add n/NAME e/EMAIL [tm/TEAM] [p/PHONE_NUMBER] [a/ADDRESS] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...
-|add n/Ronaldo e/ronaldo@soccer.com tm/Real Madrid p/92331322 a/Portugal j/17 po/Striker t/famous
+|add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [av/AVATAR] [t/TAG]...
+|add n/Ospina e/Ospina@arsenal.com tm/Arsenal a/70 Jurong Central Circle p/90722998 j/1 ra/2 po/4 av/Capture.png t/redCard
 
 |<<edit, `edit`>>
 |`e`
