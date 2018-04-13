@@ -284,7 +284,7 @@ You can use the autocompleted parameters as a template after viewing them.
 <p>Text will turn red if the input has no parameters or if no matching command exists.</p>
 </div>
 <div class="paragraph">
-<p>If there are multiple possible commands for a given input, i.e. 'e' could be 'edit', 'exit', or 'export',
+<p>If there are multiple possible commands for a given input, i.e. 'e' could be 'edit' or 'exit',
 then a dropdown box will appear with the possible commands. These can be navigated using mouse or arrow keys. Press enter to select the desired command.</p>
 </div>
 </div>
@@ -459,8 +459,10 @@ Alias: <code>c</code></p>
 <p>This is the command that you will be using most frequently, especially with dealing with new players. You will be able to add new players with the details that you have obtained into MTM by using the <code>add</code> command.</p>
 </div>
 <div class="paragraph">
-<p>Format: <code>add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]&#8230;&#8203;</code><br>
-Alias: <code>a</code></p>
+<p>Format: <code>add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [av/AVATAR] [t/TAG]&#8230;&#8203;</code><br></p>
+</div>
+<div class="paragraph">
+<p>Alias: <code>a</code></p>
 </div>
 <div class="paragraph">
 <p>The table below explains the correct inputs for the parameters.</p>
@@ -518,6 +520,11 @@ Alias: <code>a</code></p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">po/POSITION</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Player&#8217;s postion (1 for Striker, 2 for Midfiled, 3 for Defender, 4 for Goalkeeper)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">po/1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">av/AVATAR</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Filepath for avatar image file. Eg. C:\image.png (for Windows) or /User/username/path/to/image.jpg(for MacOS)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">av/C:\image.png  av//User/username/path/to/image.jpg</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">t/TAG</p></td>
@@ -1537,8 +1544,8 @@ Displays the 11 main players that will be playing for the next match.</p>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>add</code></strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>a</code></strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>add n/NAME e/EMAIL [tm/TEAM] [p/PHONE_NUMBER] [a/ADDRESS] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]&#8230;&#8203;</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>add n/Ronaldo e/ronaldo@soccer.com tm/Real Madrid p/92331322 a/Portugal j/17 po/Striker t/famous</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>add n/NAME e/EMAIL [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [av/AVATAR] [t/TAG]&#8230;&#8203;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>add n/Ospina e/Ospina@arsenal.com tm/Arsenal a/70 Jurong Central Circle p/90722998 j/1 ra/2 po/4 av/Capture.png t/redCard</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><strong><code>edit</code></strong></p></td>
@@ -1649,7 +1656,7 @@ Displays the 11 main players that will be playing for the next match.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-13 03:31:18 UTC
+Last updated 2018-04-13 03:31:58 UTC
 </div>
 </div>
 </body>
