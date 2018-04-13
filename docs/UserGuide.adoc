@@ -746,7 +746,7 @@ Just a quick reference sheet for all your needs. Never forget how to use MTM eve
 
 === Basic Commands and Features
 
-[cols="^1s, ^1s, <2m, <2m", options="header"]
+[width="100%", cols="^1s, ^1s, <2m, <2m", options="header"]
 |===
 ^|Command
 ^|Alias
@@ -802,7 +802,7 @@ d|Exits the application
 
 === Player-Related Commands
 
-[cols="^1s, ^1s, <2m, <2m", options="header"]
+[width="100%", cols="^1s, ^1s, <2m, <2m", options="header"]
 |===
 ^|Command
 ^|Alias
@@ -853,7 +853,7 @@ d|List all the players
 
 === Team-Related Commands
 
-[cols="^1s, ^1s, <2m, <2m", options="header"]
+[width="100%", cols="^1s, ^1s, <2m, <2m", options="header"]
 |===
 ^|Command
 ^|Alias
@@ -889,7 +889,7 @@ d|List all the players
 
 === User Experience Commands
 
-[cols="^1s, ^1s, <2m, <2m", options="header"]
+[width="100%", cols="^1s, ^1s, <2m, <2m", options="header"]
 |===
 ^|Command
 ^|Alias
