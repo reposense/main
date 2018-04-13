@@ -118,7 +118,6 @@ public class PersonListPanelHandle extends NodeHandle<ListView<PersonCard>> {
         List<PersonCard> selectedItems = getRootNode().getSelectionModel().getSelectedItems();
 
         if (selectedItems.size() == 0) {
-            System.out.println("selected size = " + selectedItems.size());
             return lastRememberedSelectedPersonCard.isPresent();
         } else {
             return !lastRememberedSelectedPersonCard.isPresent()
