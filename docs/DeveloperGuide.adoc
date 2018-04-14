@@ -435,8 +435,7 @@ The field `remark` is found in `Person`, and it is not modified via `add` or `ed
 The sequence diagram below illustrates the operation of the `remark` command:
 
 //TODO <insert sequence diagram for remark command>
-
-//_Figure : Sequence Diagram of `remark` Command_
+.Remark Command Sequence Diagram
 
 The `remark` field is not required when adding or editing a `Person`, and it will be initialized to an empty string or retrieved to fit the implementation of the other fields.
 
@@ -763,7 +762,6 @@ We achieved the implementation of `Team` component by introducing a `UniqueTeamL
 
 The class diagrams below shoes the relationship between the related classes.
 
-//TODO-jordan: include class diagram of UniqueTeamList -> Team -> UniquePersonList
 .Model Component: Team Class Diagram
 image::TeamModelClassDiagram.png[width="800"]
 
@@ -1159,8 +1157,7 @@ This implementation of making fields optional for `AddCommand` allows user to ad
 The sequence diagram below illustrates the operation after the enhancement made to `add` command:
 
 //TODO-jordan <insert sequence diagram for Optional Fields>
-
-//_Figure : Sequence Diagram of Enhanced `add` Command_
+.Enhanced Add with Optional Field Sequence Diagram
 
 Code snippet from `ParserUtil.java` that shows the implementation of when a field is left empty.
 "<UNSPECIFIED>" string will be return when the value passed in is empty.
