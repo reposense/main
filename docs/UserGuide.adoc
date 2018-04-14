@@ -17,6 +17,7 @@ endif::[]
 
 By: `F14-B1`      Since: `Mar 2018`      Licence: `MIT`
 
+// tag::IntroQuickStart[]
 == Introduction
 My Team Manager (MTM) is a link:https://en.wikipedia.org/wiki/Command-line_interface[Command-Line Interface] (CLI) based address book application for *football team managers*.
 It is a one-stop solution to help you manage your player's contact details in an efficient and convenient manner.
@@ -140,6 +141,7 @@ There are also many ways you can customize and add to My Team Manager. Here are 
 .. <<privacy, Setting privacy>>
 .. <<sort, Sorting players in the list>>
 
+// end::IntroQuickStart[]
 == Fundamentals
 
 MTM provides tools that gives you the power to use MTM more efficiently and teach you how to navigate through MTM with ease.
