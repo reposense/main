@@ -137,7 +137,7 @@ confidentiality of certain information</p>
 <p>You can toggle the privacy of various fields of players in MTM.</p>
 </div>
 <div class="paragraph">
-<p>Format: <code>toggleprivacy</code> INDEX FIELD [MORE_FIELDS]<br>
+<p>Format: <code>toggleprivacy INDEX [p/] [e/] [r/] [ra/] [a/]</code><br>
 Alias: <code>tp</code></p>
 </div>
 <div class="admonitionblock note">
@@ -147,8 +147,19 @@ Alias: <code>tp</code></p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<div class="paragraph">
-<p>Current version of <code>toggleprivacy</code> supports the following fields: Phone, Email, Address, Remark &amp; Rating</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Current version of <code>toggleprivacy</code> supports the field to be privated:<br></p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>p/</code>: PHONE, <code>e/</code>: EMAIL, <code>r/</code>: REMARK, <code>ra/</code>:RATING &amp; <code>a/</code>: ADDRESS.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 </td>
 </tr>
@@ -163,8 +174,9 @@ Alias: <code>tp</code></p>
 <td class="content">
 <div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
-<p>Privacy of field will be toggled between private or public. If phone field of player at index 1 is private,
-running command: <strong><code>tp</code> 1 p/</strong> would change phone field to public. Private fields are shown as &lt;Private 'field'&gt;.</p>
+<p>Privacy of field will be toggled between private or public.<br>
+If Phone: <code>p/</code> of player at <a href="#Index"><code>INDEX</code></a> 1 is private, running command: <code>tp 1 p/</code> would change phone field to public.<br>
+Private fields are shown as &lt;Private <code>FIELD</code>&gt;.</p>
 </div>
 </td>
 </tr>
@@ -176,10 +188,12 @@ running command: <strong><code>tp</code> 1 p/</strong> would change phone field 
 <div class="ulist">
 <ul>
 <li>
-<p><code>tp</code> 1 p/ ra/<br>
-Toggles privacy of phone and rating of player @ index 1</p>
+<p><code>tp 1 p/ ra/</code></p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>Toggles privacy of phone and rating of player at <a href="#Index"><code>INDEX</code></a> 1.</p>
 </div>
 </div>
 <div class="sect3">
@@ -198,8 +212,22 @@ Alias: <code>so</code></p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<div class="paragraph">
-<p>Current version of <code>sort</code> supports the following fields: Name, Email, Address, Rating, Jersey Number &amp; Position.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Current version of <code>sort</code> supports the following fields and order:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>FIELD</code>: <code>name</code>, <code>email</code>, <code>address</code>, <code>rating</code>, <code>jersey</code> &amp; <code>position</code></p>
+</li>
+<li>
+<p><code>ORDER</code>: <code>asc</code> &amp; <code>desc</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 </td>
 </tr>
@@ -211,14 +239,22 @@ Alias: <code>so</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>sort</code> name asc<br>
-This will sort MTM by names, in alphabetical order.</p>
-</li>
-<li>
-<p><code>sort</code> name dsc<br>
-This will sort MTM by names, in reverse alphabetical order.</p>
+<p><code>sort name asc</code></p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>This will sort MTM by names, in alphabetical order.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sort name desc</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This will sort MTM by names, in reverse alphabetical order.</p>
 </div>
 </div>
 <div class="sect3">
@@ -227,7 +263,7 @@ This will sort MTM by names, in reverse alphabetical order.</p>
 <p>You can toggle a lock on MTM to prevent unauthorised changes to your details in MTM. When MTM is in a locked state, functionality will be limited.</p>
 </div>
 <div class="paragraph">
-<p>Format: <code>key</code> PASSWORD<br>
+<p>Format: <code>key PASSWORD</code><br>
 Alias: <code>k</code></p>
 </div>
 <div class="admonitionblock note">
@@ -237,8 +273,12 @@ Alias: <code>k</code></p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<div class="paragraph">
-<p>Current version of <code>key</code> uses a fixed default password: <strong>ilikesports</strong><br></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Current version of <code>key</code> uses a fixed default <code>PASSWORD</code>: <strong>ilikesports</strong></p>
+</li>
+</ul>
 </div>
 </td>
 </tr>
@@ -253,8 +293,8 @@ Alias: <code>k</code></p>
 <td class="content">
 <div class="title"><strong>What to expect</strong></div>
 <div class="paragraph">
-<p>When MTM is locked, only the following commands can be executed: <code>changeTheme</code>, <code>exit</code>, <code>find</code>, <code>help</code>, <code>key</code>, <code>list</code>, <code>sort</code>
-and <code>view</code></p>
+<p>When MTM is locked, only the following commands can be executed:<br>
+<code>changeTheme</code>, <code>exit</code>, <code>find</code>, <code>help</code>, <code>key</code>, <code>list</code>, <code>sort</code> and <code>view</code></p>
 </div>
 </td>
 </tr>
@@ -266,14 +306,22 @@ and <code>view</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p>If MTM is in a lock state, use this command to unlock it:<br>
-<code>key</code> ilikesports</p>
-</li>
-<li>
-<p>To lock MTM, use this command to lock:<br>
-<code>key</code> ilikesports</p>
+<p><code>key ilikesports</code></p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>If MTM is in a lock state, use this command to unlock it.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>key ilikesports</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To lock MTM, use this command to lock.</p>
 </div>
 </div>
 </div>
@@ -872,7 +920,7 @@ before allowing or restricting access:</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-14 23:00:25 UTC
+Last updated 2018-04-14 23:01:19 UTC
 </div>
 </div>
 </body>

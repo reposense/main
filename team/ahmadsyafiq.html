@@ -193,8 +193,16 @@ players can be assign to teams.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Having any Java 8 version is not enough.<br>
-This app will not work with earlier versions of Java 8.
+<div class="ulist">
+<ul>
+<li>
+<p>Having any Java 8 version is not enough.<br></p>
+</li>
+<li>
+<p>This app will not work with <strong>earlier</strong> or <strong>later</strong> versions of Java 8.</p>
+</li>
+</ul>
+</div>
 </td>
 </tr>
 </table>
@@ -230,22 +238,56 @@ This app will not work with earlier versions of Java 8.
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Command Box : This is where you key in the commands to use My Team Manager.</p>
+<p><strong>Command Box</strong>: This is where you <em>key in the commands</em> to use My Team Manager.</p>
 </li>
 <li>
-<p>Display Box : The display box displays results to any command you input.</p>
+<p><strong>Display Box</strong>: The display box <em>displays results</em> to any command you input.</p>
 </li>
 <li>
-<p>Team List : This displays the teams you have created in My Team Manager. If a team is being viewed, it would be highlighted.</p>
+<p><strong>Team List</strong> : This <em>displays the teams</em> you have created in My Team Manager.<br></p>
+<div class="ulist">
+<ul>
+<li>
+<p>If a team is being viewed, it would be highlighted.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>Details Panel : This displays details of the player that is currently selected. Here, the player&#8217;s name, phone number, address, email, jersey number followed by remarks are shown.</p>
+<p><strong>Details Panel</strong>: This <em>displays details of the player</em> that is currently selected.<br></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Here, the player&#8217;s <em>name</em>, <em>phone number</em>, <em>address</em>, <em>email</em>, <em>jersey number</em> followed by <em>remarks</em> are shown.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>Systems Panel : On the left, it displays the time and date when the addressbook is last updated. On the right is the location of the addressbook data.</p>
+<p><strong>Systems Panel</strong>: This displays information regarding modification to MTM&#8217;s data.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>On the left, it displays the time and date when MTM is last updated.</p>
 </li>
 <li>
-<p>Player List : This is the list of player cards. In each player card, the player&#8217;s name, tags, team, rating, followed by position is displayed. The player&#8217;s avatar is also shown on the right column.</p>
+<p>On the right, is the location of the data.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Player List</strong>: This is the list of player cards. In each player card,<br></p>
+<div class="ulist">
+<ul>
+<li>
+<p>The player&#8217;s <em>name</em>, <em>tags</em>, <em>team</em>, <em>rating</em>, followed by <em>position</em> is displayed.</p>
+</li>
+<li>
+<p>The player&#8217;s <em>avatar</em> is also shown on the right column.</p>
+</li>
+</ul>
+</div>
 </li>
 </ol>
 </div>
@@ -307,12 +349,16 @@ Alias: <code>a</code></p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ra/RATING</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Player&#8217;s performance rating (Any integer from 1 to 5)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Player&#8217;s performance rating (From 1 to 5)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ra/5</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">po/POSITION</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Player&#8217;s postion (1 for Striker, 2 for Midfiled, 3 for Defender, 4 for Goalkeeper)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Player&#8217;s postion<br>
+(1 for Striker,<br>
+2 for Midfiled,<br>
+3 for Defender,<br>
+4 for Goalkeeper)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">po/1</p></td>
 </tr>
 <tr>
@@ -334,8 +380,16 @@ Alias: <code>a</code></p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-A player can only be added to an existing team.
-If you have not created the team yet, you can create one first using the <a href="#Creating a team: <code>create</code> <code>[Since v1.2]</code>"><code>create</code></a> command.
+<div class="ulist">
+<ul>
+<li>
+<p>A player can only be added to an existing team.</p>
+</li>
+<li>
+<p>If you have not created the team yet, you can create one first using the <a href="#Creating a team: <code>create</code> <code>[Since v1.2]</code>"><code>create</code></a> command.</p>
+</li>
+</ul>
+</div>
 </td>
 </tr>
 </table>
@@ -361,15 +415,23 @@ A player can have any number of tags (including 0).
 <div class="ulist">
 <ul>
 <li>
-<p><code>add n/Mo Salah e/mo@soccer.com</code><br>
-Adds a player named <code>Mo Salah</code> with email <code>mo@soccer.com</code>.</p>
-</li>
-<li>
-<p><code>add n/Ronaldo p/92331322 e/ronaldo@soccer.com a/Portugal tm/Real Madrid j/17 ra/5 po/1<br>
-Adds a player named Ronaldo with phone number `92331322</code>, email <code>ronaldo@soccer.com</code>, address <code>Portugal</code>,
-team <code>Real Madrid</code>, jersey number <code>17</code>, rating <code>5</code>, and position Striker.</p>
+<p><code>add n/Mo Salah e/mo@soccer.com</code></p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>Adds a player named <code>Mo Salah</code> with email <code>mo@soccer.com</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>add n/Ronaldo p/92331322 e/ronaldo@soccer.com a/Portugal tm/Real Madrid j/17 ra/5 po/1</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Adds a player named Ronaldo with phone number <code>92331322</code>, email <code>ronaldo@soccer.com</code>, address <code>Portugal</code>,
+team <code>Real Madrid</code>, jersey number <code>17</code>, rating <code>5</code>, and position <code>1</code> corresponding to <code>Striker</code>.</p>
 </div>
 </div>
 <div class="sect3">
@@ -381,16 +443,20 @@ team <code>Real Madrid</code>, jersey number <code>17</code>, rating <code>5</co
 <p>Format: <code>edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]&#8230;&#8203;</code><br>
 Alias: <code>e</code></p>
 </div>
-<div class="sidebarblock">
-<div class="content">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>Edits the player at the specified <code>INDEX</code>. The index refers to the index number shown in the last player listing. The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+<p>Edits the player at the specified <a href="#Index"><code>INDEX</code></a>.</p>
 </li>
 <li>
-<p>Please only edit the player that is currently being selected. If you were to edit a player who is not selected, the player&#8217;s
-details will be updated, but the selection will remain at the currently selected player.</p>
+<p>Please only edit the player that is currently being selected. If you were to edit a player who is not selected, the player&#8217;s details will be updated, but the selection will remain at the currently selected player.</p>
 </li>
 <li>
 <p>At least one of the optional fields must be provided.</p>
@@ -406,7 +472,9 @@ details will be updated, but the selection will remain at the currently selected
 </li>
 </ul>
 </div>
-</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Examples:</p>
@@ -414,14 +482,22 @@ details will be updated, but the selection will remain at the currently selected
 <div class="ulist">
 <ul>
 <li>
-<p><code>edit 1 p/91234567 e/johndoe@example.com</code><br>
-Edits the phone number and email address of the 1st player to be <code>91234567</code> and <code>johndoe@example.com</code> respectively.</p>
-</li>
-<li>
-<p><code>edit 2 n/Betsy Crower t/</code><br>
-Edits the name of the 2nd player to be <code>Betsy Crower</code> and clears all existing tags.</p>
+<p><code>edit 1 p/91234567 e/johndoe@example.com</code></p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>Edits the phone number and email address of the 1st player to be <code>91234567</code> and <code>johndoe@example.com</code> respectively.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>edit 2 n/Betsy Crower t/</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Edits the name of the 2nd player to be <code>Betsy Crower</code> and clears all existing tags.</p>
 </div>
 </div>
 <div class="sect3">
@@ -625,7 +701,7 @@ This implementation of making fields optional for <code>AddCommand</code> allows
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-14 23:00:25 UTC
+Last updated 2018-04-14 23:01:19 UTC
 </div>
 </div>
 </body>
