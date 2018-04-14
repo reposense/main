@@ -39,8 +39,10 @@ players can be assign to teams.
 .  You can download Java 8 link:http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[here].
 +
 [NOTE]
-Having any Java 8 version is not enough. +
-This app will not work with earlier versions of Java 8.
+====
+* Having any Java 8 version is not enough. +
+* This app will not work with *earlier* or *later* versions of Java 8.
+====
 +
 .  Download the latest `MyTeamManager.jar` link:{repoURL}/releases[here].
 .  Copy the file to the folder you want to use as the home folder for your MTM.
@@ -55,12 +57,18 @@ The figure below shows the different components in My Team Manager and the list 
 
 image::UIGuide.png[width="790"]
 
-. Command Box : This is where you key in the commands to use My Team Manager.
-. Display Box : The display box displays results to any command you input.
-. Team List : This displays the teams you have created in My Team Manager. If a team is being viewed, it would be highlighted.
-. Details Panel : This displays details of the player that is currently selected. Here, the player's name, phone number, address, email, jersey number followed by remarks are shown.
-. Systems Panel : On the left, it displays the time and date when the addressbook is last updated. On the right is the location of the addressbook data.
-. Player List : This is the list of player cards. In each player card, the player's name, tags, team, rating, followed by position is displayed. The player's avatar is also shown on the right column.
+. *Command Box*: This is where you _key in the commands_ to use My Team Manager.
+. *Display Box*: The display box _displays results_ to any command you input.
+. *Team List* : This _displays the teams_ you have created in My Team Manager. +
+* If a team is being viewed, it would be highlighted.
+. *Details Panel*: This _displays details of the player_ that is currently selected. +
+* Here, the player's _name_, _phone number_, _address_, _email_, _jersey number_ followed by _remarks_ are shown.
+. *Systems Panel*: This displays information regarding modification to MTM's data.
+* On the left, it displays the time and date when MTM is last updated.
+* On the right, is the location of the data.
+. *Player List*: This is the list of player cards. In each player card, +
+* The player's _name_, _tags_, _team_, _rating_, followed by _position_ is displayed.
+* The player's _avatar_ is also shown on the right column.
 // end::introduction[]
 
 [[Using_Commands]]
@@ -138,7 +146,7 @@ image::create.PNG[width="300"]
 
 ==== Viewing more details
 
-. View more details about a player, by entering `select` followed by the <<Index>> of the player. For example, to view
+. View more details about a player, by entering `select` followed by the <<Index, `INDEX`>> of the player. For example, to view
 `Ronaldo` 's details, enter `select 1`.
 . The details panel should now show the player's details.
 +
@@ -196,7 +204,7 @@ Alias: `h`
 
 [NOTE]
 ====
-Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and next input respectively in the command box.
+* Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and next input respectively in the command box.
 ====
 
 [IMPORTANT]
@@ -218,9 +226,9 @@ Alias: `u`
 
 [NOTE]
 ====
-There are a few commands that can be undoable: commands that modify MTM's content that are related to players or teams +
-Player related commands: `add`, `delete`, `edit`, `clear`, `remark` +
-Team related commands: `create`, `assign`, `remove`, `rename`
+* There are a few commands that can be undoable: commands that modify MTM's content that are related to players or teams.
+** Player related commands: `add`, `delete`, `edit`, `clear`, `remark` +
+** Team related commands: `create`, `assign`, `remove`, `rename`
 ====
 
 [IMPORTANT]
@@ -249,25 +257,28 @@ Previously executed `undo` command will be reversed and MTM will be in its previ
 
 You can toggle the privacy of various fields of players in MTM.
 
-Format: `toggleprivacy` INDEX FIELD [MORE_FIELDS] +
+Format: `toggleprivacy <<Index, INDEX>> FIELD [FIELD]...` +
 Alias: `tp`
 
 [NOTE]
 ====
-Current version of `toggleprivacy` supports the following fields: Phone, Email, Address, Remark & Rating
+* Current version of `toggleprivacy` supports the following `FIELD`: +
+** Phone: `p/`, Email: `e/`, Address: `a/`, Remark: `r/` & Rating: `ra/`.
 ====
 
 [IMPORTANT]
 .*What to expect*
 ====
-Privacy of field will be toggled between private or public. If phone field of player at index 1 is private,
-running command: *`tp` 1 p/* would change phone field to public. Private fields are shown as <Private 'field'>.
+Privacy of field will be toggled between private or public. +
+If Phone: `p/` of player at <<Index, `INDEX`>> 1 is private, running command: `tp 1 p/` would change phone field to public. +
+Private fields are shown as <Private `FIELD`>.
 ====
 
 Here are some examples on how you can use the `toggleprivacy` command:
 
-* `tp` 1 p/ ra/ +
-Toggles privacy of phone and rating of player @ index 1
+* `tp 1 p/ ra/`
+
+Toggles privacy of phone and rating of player at <<Index, `INDEX`>> 1.
 // end::togglePrivacy[]
 
 // tag::key[]
@@ -276,28 +287,32 @@ Toggles privacy of phone and rating of player @ index 1
 
 You can toggle a lock on MTM to prevent unauthorised changes to your details in MTM. When MTM is in a locked state, functionality will be limited.
 
-Format: `key` PASSWORD +
+Format: `key PASSWORD` +
 Alias: `k`
 
 [NOTE]
 ====
-Current version of `key` uses a fixed default password: *ilikesports* +
+* Current version of `key` uses a fixed default password: *ilikesports*
 ====
 
 [IMPORTANT]
 .*What to expect*
 ====
-When MTM is locked, only the following commands can be executed: `changeTheme`, `exit`, `find`, `help`, `key`, `list`, `sort`
-and `view`
+When MTM is locked, only the following commands can be executed: +
+`changeTheme`, `exit`, `find`, `help`, `key`, `list`, `sort` and `view`
 ====
 
 Here are examples on how to use `key`:
 
-* If MTM is in a lock state, use this command to unlock it: +
-`key` ilikesports
+* `key ilikesports`
 
-* To lock MTM, use this command to lock: +
-`key` ilikesports
+If MTM is in a lock state, use this command to unlock it.
+
+
+* `key ilikesports`
+
+To lock MTM, use this command to lock.
+
 // end::key[]
 
 [[clear]]
@@ -337,16 +352,22 @@ The table below explains the correct inputs for the parameters.
 |a/ADDRESS |Player's address| a/Blk 123 Bukit Batok St 21
 |p/PHONE_NUMBER| Player's phone number| p/92343433
 |j/JERSEY_NUMBER| Player's jersey number| j/17
-|ra/RATING| Player's performance rating (Any integer from 1 to 5)| ra/5
-|po/POSITION| Player's postion (1 for Striker, 2 for Midfiled, 3 for Defender, 4 for Goalkeeper)| po/1
+|ra/RATING| Player's performance rating (From 1 to 5)| ra/5
+|po/POSITION| Player's postion +
+(1 for Striker, +
+2 for Midfiled, +
+3 for Defender, +
+4 for Goalkeeper)| po/1
 |av/AVATAR| Absolute filepath to player's avatar image file| av/C:\avatar.png (for Windows) av//User/username/path/to/image.jpg (for MacOS)
 |t/TAG| Your tag for the player| t/Injured
 
 |=========================================================
 
 [NOTE]
-A player can only be added to an existing team.
-If you have not created the team yet, you can create one first using the <<Creating a team: `create` `[Since v1.2]`, `create`>> command.
+====
+* A player can only be added to an existing team.
+* If you have not created the team yet, you can create one first using the <<Creating a team: `create` `[Since v1.2]`, `create`>> command.
+====
 
 [TIP]
 A player can have any number of tags (including 0).
@@ -359,27 +380,28 @@ Examples:
 
 Adds a player named `Mo Salah` with email `mo@soccer.com`.
 
-* `add n/Ronaldo p/92331322 e/ronaldo@soccer.com a/Portugal tm/Real Madrid j/17 ra/5 po/1
+* `add n/Ronaldo p/92331322 e/ronaldo@soccer.com a/Portugal tm/Real Madrid j/17 ra/5 po/1`
+
 Adds a player named Ronaldo with phone number `92331322`, email `ronaldo@soccer.com`, address `Portugal`,
-team `Real Madrid`, jersey number `17`, rating `5`, and position Striker.
+team `Real Madrid`, jersey number `17`, rating `5`, and position `1` corresponding to `Striker`.
 
 [[edit]]
 ==== Editing a player : `edit`
 
 If you made a mistake when adding a player, or if there's player information that needs updating, you may edit an existing player in MTM with the 'edit' command.
 
-Format: `edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...` +
+Format: `edit <<Index, INDEX>> [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...` +
 Alias: `e`
 
-****
-* Edits the player at the specified `INDEX`. The index refers to the index number shown in the last player listing. The index *must be a positive integer* 1, 2, 3, ...
-* Please only edit the player that is currently being selected. If you were to edit a player who is not selected, the player's
-details will be updated, but the selection will remain at the currently selected player.
+[NOTE]
+====
+* Edits the player at the specified <<Index, `INDEX`>>.
+* Please only edit the player that is currently being selected. If you were to edit a player who is not selected, the player's details will be updated, but the selection will remain at the currently selected player.
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When you edit tags, the existing tags of the player will be removed i.e adding of tags is not cumulative.
 * You can remove all the player's tags by typing `t/` without specifying any tags after it.
-****
+====
 
 Examples:
 
@@ -397,14 +419,12 @@ Edits the name of the 2nd player to be `Betsy Crower` and clears all existing ta
 
 If you want to remove a player from MTM, you may use this command to delete the player.
 
-Format: `delete INDEX` +
+Format: `delete <<Index, INDEX>>` +
 Alias: `d`
 
 [NOTE]
 ====
-* Deletes the player at the specified `INDEX`.
-* The index refers to the index number shown in the most recent listing.
-* The index *must be a positive integer* 1, 2, 3, ...
+* Deletes the player at the specified <<Index, `INDEX`>>.
 ====
 
 Examples:
@@ -425,15 +445,14 @@ Deletes the 1st player in the results of the `find` command.
 When you need to drop yourself a self-note with regards to a specific player you're managing, you can make a self-note
 of a specific player easily by giving the player a remark for you to remember by.
 
-Format: `remark INDEX [r/REMARK]` +
+Format: `remark <<Index, INDEX>> [r/REMARK]` +
 Alias: `rm`
 
 [NOTE]
 ====
-By leaving out `r/REMARK`, the command acts as a remark removal. +
-Only use the `remark` command when you want to leave a remark, `add` or `edit` does not allow you to create a remark for the player. +
-Please only add remarks to the player that is currently being selected. If you were to add remarks to a player who is not selected, the player's
-remarks will be updated, but the selection will remain at the currently selected player.
+* By leaving out `r/REMARK`, the command acts as a remark removal.
+* Only use the `remark` command when you want to leave a remark, `add` or `edit` does not allow you to create a remark for the player.
+* Please only add remarks to the player that is currently being selected. If you were to add remarks to a player who is not selected, the player's remarks will be updated, but the selection will remain at the currently selected player.
 ====
 
 [IMPORTANT]
@@ -446,11 +465,11 @@ Here are a few valid examples on how you can use the `remark` command:
 
 * `remark 1`
 
-Removes the remark from the specified player at index 1.
+Removes the remark from the specified player at <<Index, `INDEX`>> 1.
 
 * `remark 5 r/MVP Player`
 
-Give a remark to the specified player at index 5 with the remark "MVP Player".
+Give a remark to the specified player at <<Index, `INDEX`>> 5 with the remark "MVP Player".
 
 [[list]]
 ==== Listing all players : `list`
@@ -472,16 +491,18 @@ Alias: `so`
 
 [NOTE]
 ====
-Current version of `sort` supports the following fields: Name, Email, Address, Rating, Jersey Number & Position.
+* Current version of `sort` supports the following fields and order:
+** `FIELD`: `name`, `email`, `address`, `rating`, `jersey` & `position`
+** `ORDER`: `asc` & `desc`
 ====
 
 Here are a few valid examples on how you can use the `sort` command:
 
-* `sort` name asc
+* `sort name asc`
 
 This will sort MTM by names, in alphabetical order.
 
-* `sort` name dsc
+* `sort name desc`
 
 This will sort MTM by names, in reverse alphabetical order.
 // end::sort[]
@@ -491,44 +512,38 @@ This will sort MTM by names, in reverse alphabetical order.
 
 You can find a player whose name contain any of the given keywords with this command.
 
-Format: `find KEYWORD [MORE_KEYWORDS]` +
+Format: `find KEYWORD [KEYWORD]...` +
 Alias: `f`
 
 [NOTE]
 ====
-* The search is case insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* The search is case insensitive. e.g `hans` will match `Hans`.
+* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`.
 * Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Players matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Only full words will be matched e.g. `Han` will not match `Hans`.
+* Players matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`.
 ====
 
 Examples:
 
 * `find John`
 
-Returns `john` and `John Doe`
+MTM will find all players with the name `john` with uppercase/lowercase characters in it.
 
 * `find Betsy Tim John`
 
-Returns any player having names `Betsy`, `Tim`, or `John`
+Display all players that have the name `betsy`, `tim`, or `john`.
 
 [[select]]
 ==== Selecting a player : `select`
 
 Identified the player you're looking for and want to see more details about the player?
-MTM offers you the ability to view details of your specified player via an index shown in the current listing of players.
+MTM offers you the ability to view details of your specified player via an <<Index, `INDEX`>> shown in the current listing of players.
 Alternatively, you can just scroll to the player you want, click their card,
 and their details will be displayed on the right hand side of the screen.
 
-Format: `select INDEX` +
+Format: `select <<Index, INDEX>>` +
 Alias: `s`
-
-[NOTE]
-====
-The index refers to the index number shown in the most recent listing. +
-The index *must be a positive integer* `1, 2, 3, ...`
-====
 
 [IMPORTANT]
 .*What to expect*
@@ -547,7 +562,7 @@ Displays the list of all players and selects the 2nd player in that list.
 * `find Betsy`
 * `select 1`
 
-Finds a player named Betsy and selects the 1st player in the results of the `find` command.
+Finds a player named `betsy` and selects the 1st player in the results of the `find` command.
 
 // tag::team[]
 === Team-Related Commands
@@ -563,7 +578,7 @@ Alias: `ct`
 
 [NOTE]
 ====
-You can't create a team that already exist in MTM.
+* You can't create a team that already exist in MTM.
 ====
 
 [IMPORTANT]
@@ -622,22 +637,20 @@ image::TeamViewExampleAfter.png[width="700"]
 
 Have a player without a team, or have yet to assigned one during the addition of player into MTM, you can call `assign` command to assign that player to a particular team of your choice.
 
-Format: `assign [TEAM_NAME] i/INDEX [INDEX]...` +
+Format: `assign [TEAM_NAME] i/<<Index, INDEX>> [<<Index, INDEX>>]...` +
 Alias: `at`
 
 [NOTE]
 ====
-The index refers to the index number shown in the most recent listing. +
-The index *must be a positive integer* `1, 2, 3, ...` +
-You can assign multiple players to a team by including more than one valid index. +
-A player can only consist of 1 team, assigning a player that have an existing team, will be re-assigned the new team.
-Assigning a player without a given team will unassign the player from its current team.
+* You can assign multiple players to a team by including more than one valid <<Index, `INDEX`>>.
+* A player can only consist of 1 team, assigning a player that have an existing team, will be re-assigned the new team.
+* Assigning a player without a given team will unassign the player from its current team.
 ====
 
 [IMPORTANT]
 .*What to expect*
 ====
-Your specified player, via index, will be assigned to the specified team or unassigned from any team.
+Your specified player, via <<Index, `INDEX`>>, will be assigned to the specified team or unassigned from any team.
 ====
 
 Here are a few valid examples on how you can use the `create` command:
@@ -650,7 +663,7 @@ image::TeamAssignListExample.png[width="700"]
 
 * `assign Liverpool i/1 2`
 
-Enter the command into the Command Box which will assign the player with index 1, and 2 to team "Liverpool".
+Enter the command into the Command Box which will assign the player with <<Index, `INDEX`>> 1 and 2 to team "Liverpool".
 
 image::TeamAssignExampleBefore.png[width="200"]
 
@@ -704,8 +717,8 @@ Alias: `rt`
 
 [NOTE]
 ====
-Removing a team will automatically update all affected players' `Team` field. +
-Players without a team will need to be re-assigned.
+* Removing a team will automatically update all affected players' `Team` field.
+* Players without a team will need to be re-assigned.
 ====
 
 [IMPORTANT]
@@ -738,13 +751,17 @@ image::TeamRemoveExampleAfter.png[width="700"]
 
 You can set the tags to a colour of your choice with the 'setColourTag' command.
 
-Format: `setTagColour` +
+Format: `setTagColour t/TAG tc/COLOUR` +
 Alias: `stc`
 
 [NOTE]
 ====
-The current version of `setTagColour` is NOT an UndoableCommand. i.e. You cannot `undo` a setTagCommand.
-Instead, just enter `stc <your desired colour>` to change the colour back!
+* The tag must currently be in used in MTM for this command to work.
+* Current version of `setTagColour` supports only this list of preset `COLOUR`:
+** `teal`, `red`, `yellow`, `blue`, `orange`, `brown`, `green`, `pink`, `black`, `grey`
+* The current version of `setTagColour` is *NOT* an UndoableCommand.
+** i.e. You cannot `undo` a setTagCommand.
+* Instead, just enter `stc t/TAG tc/COLOUR` to change the colour back!
 ====
 // end::setTagColour[]
 
@@ -755,13 +772,16 @@ If you feel that the light theme is not for you, and you prefer to work on a dar
 you can change the theme from the default LightTheme to DarkTheme with the 'changeTheme' command.
 
 
-Format: `changeTheme` +
+Format: `changeTheme THEME` +
 Alias: `ct`
 
 [NOTE]
 ====
-The current version of `changTheme` is NOT an UndoableCommand. i.e. You cannot `undo` a `changeTheme` command.
-Instead, just enter `cte <your desired theme>` to change the colour back!
+* Current version of `changeTheme` only supports this 2 `THEME`:
+** `Light` or `Dark`
+* The current version of `changTheme` is *NOT* an UndoableCommand.
+** i.e. You cannot `undo` a `changeTheme` command.
+* Instead, just enter `cte THEME` to change the colour back!
 ====
 // end::changeTheme[]
 
@@ -775,12 +795,12 @@ There is more to come with the next upcoming update! Keep a lookout for these ne
 Should you feel that the default password used in `key` could be more secure, you may change it to a password of your
 choosing with this command.
 
-Format: `changepass` CURRENTPASSWORD NEWPASSWORD CONFIRMPASSWORD +
+Format: `changepass CURRENT_PASSWORD NEW_PASSWORD CONFIRM_PASSWORD` +
 Alias: `cpw`
 
 Here is how you can change the your password:
 
-* `changepass` ilikesports Securep@ssword1 Securep@ssword1
+* `changepass ilikesports Securep@ssword1 Securep@ssword1`
 // end::changePass2.0[]
 
 // tag::showBest2.0[]
@@ -810,8 +830,8 @@ Alias: `sm`
 
 [NOTE]
 ====
-Date format to be entered is in `DD/MM/YYYY`. +
-Opponent team does not need to exist in MTM.
+* Date format to be entered is in `DD/MM/YYYY`. +
+* Opponent team does not need to exist in MTM.
 ====
 
 [IMPORTANT]
@@ -886,7 +906,7 @@ Displays the 11 main players that will be playing for the next match.
 
 == Glossary
 
-[[Index]] *Index* - The index refers to the index number shown in the last player listing. The index must be a positive integer 1, 2, 3, …
+[[Index]]`INDEX` - The `INDEX` refers to the index number shown in the last player listing. The `INDEX` must be a positive integer 1, 2, 3, …
 
 == Command Summary
 
@@ -928,7 +948,7 @@ d|Redo the previous command
 
 |<<toggleprivacy, `toggleprivacy`>>
 |`tp`
-|toggleprivacy INDEX [p/] [e/] [a/]
+|toggleprivacy INDEX [p/] [e/] [a/] [r/] [ra/]
 |toggleprivacy 2 a/
 
 |<<key, `key`>>
@@ -989,12 +1009,12 @@ d|List all the players
 
 |<<find, `find`>>
 |`f`
-|find KEYWORD [MORE_KEYWORDS]
+|find KEYWORD [KEYWORD]...
 |find James Jake
 
 |<<select, `select`>>
 |`s`
-|select INDEX
+|select <<Index, INDEX>>
 |select 2
 
 |===
@@ -1046,12 +1066,12 @@ d|List all the players
 
 |<<setTagColour, `setTagColour`>>
 |`stc`
-|setTagColour TAG COLOUR
-|setTagColour friends yellow
+|setTagColour t/TAG tc/COLOUR
+|setTagColour t/friends tc/yellow
 
 |<<changeTheme, `changeTheme`>>
-|`ct`
-|changeTheme THEME_NAME
+|`cte`
+|changeTheme THEME
 |changeTheme Dark
 
 |===
