@@ -297,6 +297,7 @@ The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides insi
 
 `UndoRedoStack` only deals with `UndoableCommands`. Commands that cannot be undone will inherit from `Command` instead. The following diagram shows the inheritance diagram for commands:
 
+.Logic Class Diagram
 image::LogicCommandClassDiagram.png[width="800"]
 
 As you can see from the diagram, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks need to be done when executing a command in an _undoable_ way, such as saving the state of the address book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while the child classes implements the details of how to execute the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
@@ -336,10 +337,12 @@ Suppose that the user has just launched the application. The `UndoRedoStack` wil
 
 The user executes a new `UndoableCommand`, `delete 5`, to delete the 5th person in the address book. The current state of the address book is saved before the `delete 5` command executes. The `delete 5` command will then be pushed onto the `undoStack` (the current state is saved together with the command).
 
+.Undo/Redo Stack Diagram (Part 1)
 image::UndoRedoStartingStackDiagram.png[width="800"]
 
 As the user continues to use the program, more commands are added into the `undoStack`. For example, the user may execute `add n/David ...` to add a new person.
 
+.Undo/Redo New Command Stack Diagram (Part 1)
 image::UndoRedoNewCommand1StackDiagram.png[width="800"]
 
 [NOTE]
@@ -349,6 +352,7 @@ The user now decides that adding the person was a mistake, and decides to undo t
 
 We will pop the most recent command out of the `undoStack` and push it back to the `redoStack`. We will restore the address book to the state before the `add` command executed.
 
+.Undo/Redo Stack Diagram (Part 2)
 image::UndoRedoExecuteUndoStackDiagram.png[width="800"]
 
 [NOTE]
@@ -356,6 +360,7 @@ If the `undoStack` is empty, then there are no other commands left to be undone,
 
 The following sequence diagram shows how the undo operation works:
 
+.Undo/Redo Sequence Diagram
 image::UndoRedoSequenceDiagram.png[width="800"]
 
 The redo does the exact opposite (pops from `redoStack`, push to `undoStack`, and restores the address book to the state after the command is executed).
@@ -365,14 +370,17 @@ If the `redoStack` is empty, then there are no other commands left to be redone,
 
 The user now decides to execute a new command, `clear`. As before, `clear` will be pushed into the `undoStack`. This time the `redoStack` is no longer empty. It will be purged as it no longer make sense to redo the `add n/David` command (this is the behavior that most modern desktop applications follow).
 
+.Undo/Redo New Command Stack Diagram (Part 2)
 image::UndoRedoNewCommand2StackDiagram.png[width="800"]
 
 Commands that are not undoable are not added into the `undoStack`. For example, `list`, which inherits from `Command` rather than `UndoableCommand`, will not be added after execution:
 
+.Undo/Redo New Command Stack Diagram (Part 3)
 image::UndoRedoNewCommand3StackDiagram.png[width="800"]
 
 The following activity diagram summarize what happens inside the `UndoRedoStack` when a user executes a new command:
 
+.Undo/Redo Activity Diagram
 image::UndoRedoActivityDiagram.png[width="650"]
 
 ===== Design Considerations
@@ -674,49 +682,52 @@ The code above utilises a custom `Comparator` defined in the code below:
 [source, java]
 ----
         Comparator<Person> nameComparator = new Comparator<Person>() {
-            @Override
-            public int compare(Person p1, Person p2) {
-                return p1.getName().fullName.compareTo(p2.getName().fullName);
-            }
-        };
+                    @Override
+                    public int compare(Person p1, Person p2) {
+                        return p1.getName().fullName.compareTo(p2.getName().fullName);
+                    }
+                };
 
-        Comparator<Person> jerseyComparator = new Comparator<Person>() {
-            @Override
-            public int compare(Person p1, Person p2) {
-                return p1.getJerseyNumber().value.compareTo(p2.getJerseyNumber().value);
-            }
-        };
+                Comparator<Person> jerseyComparator = new Comparator<Person>() {
+                    @Override
+                    public int compare(Person p1, Person p2) {
+                        return p1.getJerseyNumber().value.compareTo(p2.getJerseyNumber().value);
+                    }
+                };
 
-        Comparator<Person> ratingComparator = new Comparator<Person>() {
-            @Override
-            public int compare(Person p1, Person p2) {
-                return p1.getRating().value.compareTo(p2.getRating().value);
-            }
-        };
+                Comparator<Person> ratingComparator = new Comparator<Person>() {
+                    @Override
+                    public int compare(Person p1, Person p2) {
+                        return p1.getRating().toString().compareTo(p2.getRating().toString());
+                    }
+                };
 
-        Comparator<Person> posComparator = new Comparator<Person>() {
-            @Override
-            public int compare(Person p1, Person p2) {
-                return p1.getPosition().value.compareTo(p2.getPosition().value);
-            }
-        };
+                Comparator<Person> posComparator = new Comparator<Person>() {
+                    @Override
+                    public int compare(Person p1, Person p2) {
+                        return p1.getPosition().value.compareTo(p2.getPosition().value);
+                    }
+                };
 
-        Comparator<Person> emailComparator = new Comparator<Person>() {
-            @Override
-            public int compare(Person p1, Person p2) {
-                return p1.getEmail().value.compareTo(p2.getEmail().value);
-            }
-        };
+                Comparator<Person> emailComparator = new Comparator<Person>() {
+                    @Override
+                    public int compare(Person p1, Person p2) {
+                        return p1.getEmail().toString().compareTo(p2.getEmail().toString());
+                    }
+                };
 
-        Comparator<Person> addressComparator = new Comparator<Person>() {
-            @Override
-            public int compare(Person p1, Person p2) {
-                return p1.getAddress().value.compareTo(p2.getAddress().value);
-            }
-        };
+                Comparator<Person> addressComparator = new Comparator<Person>() {
+                    @Override
+                    public int compare(Person p1, Person p2) {
+                        return p1.getAddress().toString().compareTo(p2.getAddress().toString());
+                    }
+                };
 ----
 
-The following sequence diagram shows the program flow when `sort` is used: <image>
+The following sequence diagram shows the program flow when `sort` is used:
+
+.Sort Sequence Diagram
+image::sortSeq.png[width="900"]
 
 [NOTE]
 If address book is empty, a `NoPlayerException` will be thrown by `sortBy` method in UniquePlayerList.
@@ -1001,6 +1012,11 @@ The `showBest` command is able to show the current team's best 11 players. There
 ===== Current Implementation
 Locking mechanism of MTM can be toggled on and off using the `Key` command. It utilises the Model to access
 user preferences of MTM. Current lock state and password is stored in `UserPrefs` in the Storage component.
+
+This activity diagram shows the logic behind the `Key` command:
+
+.Key Activity Diagram
+image::Keyactdiag.png[width="900"]
 
 Password checking done in `Key` command:
 [source, java]
