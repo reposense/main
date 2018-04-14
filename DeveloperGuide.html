@@ -742,6 +742,7 @@ Note how the event is propagated through the <code>EventsCenter</code> to the <c
 <div class="content">
 <img src="images/LogicCommandClassDiagram.png" alt="LogicCommandClassDiagram" width="800">
 </div>
+<div class="title">Figure 11. Logic Class Diagram</div>
 </div>
 <div class="paragraph">
 <p>As you can see from the diagram, <code>UndoableCommand</code> adds an extra layer between the abstract <code>Command</code> class and concrete commands that can be undone, such as the <code>DeleteCommand</code>. Note that extra tasks need to be done when executing a command in an <em>undoable</em> way, such as saving the state of the address book before execution. <code>UndoableCommand</code> contains the high-level algorithm for those extra tasks while the child classes implements the details of how to execute the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the <a href="https://www.tutorialspoint.com/design_pattern/template_pattern.htm">template pattern</a>.</p>
@@ -791,6 +792,7 @@ Note how the event is propagated through the <code>EventsCenter</code> to the <c
 <div class="content">
 <img src="images/UndoRedoStartingStackDiagram.png" alt="UndoRedoStartingStackDiagram" width="800">
 </div>
+<div class="title">Figure 12. Undo/Redo Stack Diagram (Part 1)</div>
 </div>
 <div class="paragraph">
 <p>As the user continues to use the program, more commands are added into the <code>undoStack</code>. For example, the user may execute <code>add n/David &#8230;&#8203;</code> to add a new person.</p>
@@ -799,6 +801,7 @@ Note how the event is propagated through the <code>EventsCenter</code> to the <c
 <div class="content">
 <img src="images/UndoRedoNewCommand1StackDiagram.png" alt="UndoRedoNewCommand1StackDiagram" width="800">
 </div>
+<div class="title">Figure 13. Undo/Redo New Command Stack Diagram (Part 1)</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -822,6 +825,7 @@ If a command fails its execution, it will not be pushed to the <code>UndoRedoSta
 <div class="content">
 <img src="images/UndoRedoExecuteUndoStackDiagram.png" alt="UndoRedoExecuteUndoStackDiagram" width="800">
 </div>
+<div class="title">Figure 14. Undo/Redo Stack Diagram (Part 2)</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -842,6 +846,7 @@ If the <code>undoStack</code> is empty, then there are no other commands left to
 <div class="content">
 <img src="images/UndoRedoSequenceDiagram.png" alt="UndoRedoSequenceDiagram" width="800">
 </div>
+<div class="title">Figure 15. Undo/Redo Sequence Diagram</div>
 </div>
 <div class="paragraph">
 <p>The redo does the exact opposite (pops from <code>redoStack</code>, push to <code>undoStack</code>, and restores the address book to the state after the command is executed).</p>
@@ -865,6 +870,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 <div class="content">
 <img src="images/UndoRedoNewCommand2StackDiagram.png" alt="UndoRedoNewCommand2StackDiagram" width="800">
 </div>
+<div class="title">Figure 16. Undo/Redo New Command Stack Diagram (Part 2)</div>
 </div>
 <div class="paragraph">
 <p>Commands that are not undoable are not added into the <code>undoStack</code>. For example, <code>list</code>, which inherits from <code>Command</code> rather than <code>UndoableCommand</code>, will not be added after execution:</p>
@@ -873,6 +879,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 <div class="content">
 <img src="images/UndoRedoNewCommand3StackDiagram.png" alt="UndoRedoNewCommand3StackDiagram" width="800">
 </div>
+<div class="title">Figure 17. Undo/Redo New Command Stack Diagram (Part 3)</div>
 </div>
 <div class="paragraph">
 <p>The following activity diagram summarize what happens inside the <code>UndoRedoStack</code> when a user executes a new command:</p>
@@ -881,6 +888,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 <div class="content">
 <img src="images/UndoRedoActivityDiagram.png" alt="UndoRedoActivityDiagram" width="650">
 </div>
+<div class="title">Figure 18. Undo/Redo Activity Diagram</div>
 </div>
 </div>
 <div class="sect4">
@@ -1414,50 +1422,56 @@ setting was not toggled and thus is set to the same as it was before. Else, it w
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">        <span class="predefined-type">Comparator</span>&lt;Person&gt; nameComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
-            <span class="annotation">@Override</span>
-            <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
-                <span class="keyword">return</span> p1.getName().fullName.compareTo(p2.getName().fullName);
-            }
-        };
+                    <span class="annotation">@Override</span>
+                    <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
+                        <span class="keyword">return</span> p1.getName().fullName.compareTo(p2.getName().fullName);
+                    }
+                };
 
-        <span class="predefined-type">Comparator</span>&lt;Person&gt; jerseyComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
-            <span class="annotation">@Override</span>
-            <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
-                <span class="keyword">return</span> p1.getJerseyNumber().value.compareTo(p2.getJerseyNumber().value);
-            }
-        };
+                <span class="predefined-type">Comparator</span>&lt;Person&gt; jerseyComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
+                    <span class="annotation">@Override</span>
+                    <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
+                        <span class="keyword">return</span> p1.getJerseyNumber().value.compareTo(p2.getJerseyNumber().value);
+                    }
+                };
 
-        <span class="predefined-type">Comparator</span>&lt;Person&gt; ratingComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
-            <span class="annotation">@Override</span>
-            <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
-                <span class="keyword">return</span> p1.getRating().value.compareTo(p2.getRating().value);
-            }
-        };
+                <span class="predefined-type">Comparator</span>&lt;Person&gt; ratingComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
+                    <span class="annotation">@Override</span>
+                    <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
+                        <span class="keyword">return</span> p1.getRating().toString().compareTo(p2.getRating().toString());
+                    }
+                };
 
-        <span class="predefined-type">Comparator</span>&lt;Person&gt; posComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
-            <span class="annotation">@Override</span>
-            <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
-                <span class="keyword">return</span> p1.getPosition().value.compareTo(p2.getPosition().value);
-            }
-        };
+                <span class="predefined-type">Comparator</span>&lt;Person&gt; posComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
+                    <span class="annotation">@Override</span>
+                    <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
+                        <span class="keyword">return</span> p1.getPosition().value.compareTo(p2.getPosition().value);
+                    }
+                };
 
-        <span class="predefined-type">Comparator</span>&lt;Person&gt; emailComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
-            <span class="annotation">@Override</span>
-            <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
-                <span class="keyword">return</span> p1.getEmail().value.compareTo(p2.getEmail().value);
-            }
-        };
+                <span class="predefined-type">Comparator</span>&lt;Person&gt; emailComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
+                    <span class="annotation">@Override</span>
+                    <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
+                        <span class="keyword">return</span> p1.getEmail().toString().compareTo(p2.getEmail().toString());
+                    }
+                };
 
-        <span class="predefined-type">Comparator</span>&lt;Person&gt; addressComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
-            <span class="annotation">@Override</span>
-            <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
-                <span class="keyword">return</span> p1.getAddress().value.compareTo(p2.getAddress().value);
-            }
-        };</code></pre>
+                <span class="predefined-type">Comparator</span>&lt;Person&gt; addressComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
+                    <span class="annotation">@Override</span>
+                    <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
+                        <span class="keyword">return</span> p1.getAddress().toString().compareTo(p2.getAddress().toString());
+                    }
+                };</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows the program flow when <code>sort</code> is used: &lt;image&gt;</p>
+<p>The following sequence diagram shows the program flow when <code>sort</code> is used:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/sortSeq.png" alt="sortSeq" width="900">
+</div>
+<div class="title">Figure 19. Sort Sequence Diagram</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1965,6 +1979,15 @@ With these commands, the application is ready to support the features that the a
 <div class="paragraph">
 <p>Locking mechanism of MTM can be toggled on and off using the <code>Key</code> command. It utilises the Model to access
 user preferences of MTM. Current lock state and password is stored in <code>UserPrefs</code> in the Storage component.</p>
+</div>
+<div class="paragraph">
+<p>This activity diagram shows the logic behind the <code>Key</code> command:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/Keyactdiag.png" alt="Keyactdiag" width="900">
+</div>
+<div class="title">Figure 20. Key Activity Diagram</div>
 </div>
 <div class="paragraph">
 <p>Password checking done in <code>Key</code> command:</p>
@@ -2700,7 +2723,7 @@ Alternatively, you can download the AsciiDoc plugin for IntelliJ, which allows y
 <div class="content">
 <img src="images/chrome_save_as_pdf.png" alt="chrome save as pdf" width="300">
 </div>
-<div class="title">Figure 11. Saving documentation as PDF files in Chrome</div>
+<div class="title">Figure 21. Saving documentation as PDF files in Chrome</div>
 </div>
 </div>
 </div>
@@ -3682,7 +3705,7 @@ Expected: Similar to previous.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-14 06:29:38 UTC
+Last updated 2018-04-14 13:56:22 UTC
 </div>
 </div>
 </body>
