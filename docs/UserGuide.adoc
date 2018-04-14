@@ -257,13 +257,13 @@ Previously executed `undo` command will be reversed and MTM will be in its previ
 
 You can toggle the privacy of various fields of players in MTM.
 
-Format: `toggleprivacy <<Index, INDEX>> FIELD [FIELD]...` +
+Format: `toggleprivacy INDEX [p/] [e/] [r/] [ra/] [a/]` +
 Alias: `tp`
 
 [NOTE]
 ====
-* Current version of `toggleprivacy` supports the following `FIELD`: +
-** Phone: `p/`, Email: `e/`, Address: `a/`, Remark: `r/` & Rating: `ra/`.
+* Current version of `toggleprivacy` supports the field to be privated: +
+** `p/`: PHONE, `e/`: EMAIL, `r/`: REMARK, `ra/`:RATING & `a/`: ADDRESS.
 ====
 
 [IMPORTANT]
@@ -292,7 +292,7 @@ Alias: `k`
 
 [NOTE]
 ====
-* Current version of `key` uses a fixed default password: *ilikesports*
+* Current version of `key` uses a fixed default `PASSWORD`: *ilikesports*
 ====
 
 [IMPORTANT]
@@ -390,7 +390,7 @@ team `Real Madrid`, jersey number `17`, rating `5`, and position `1` correspondi
 
 If you made a mistake when adding a player, or if there's player information that needs updating, you may edit an existing player in MTM with the 'edit' command.
 
-Format: `edit <<Index, INDEX>> [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...` +
+Format: `edit INDEX [n/NAME] [e/EMAIL] [tm/TEAM] [a/ADDRESS] [p/PHONE_NUMBER] [j/JERSEY_NUMBER] [ra/RATING] [po/POSITION] [t/TAG]...` +
 Alias: `e`
 
 [NOTE]
@@ -419,7 +419,7 @@ Edits the name of the 2nd player to be `Betsy Crower` and clears all existing ta
 
 If you want to remove a player from MTM, you may use this command to delete the player.
 
-Format: `delete <<Index, INDEX>>` +
+Format: `delete INDEX` +
 Alias: `d`
 
 [NOTE]
@@ -445,12 +445,12 @@ Deletes the 1st player in the results of the `find` command.
 When you need to drop yourself a self-note with regards to a specific player you're managing, you can make a self-note
 of a specific player easily by giving the player a remark for you to remember by.
 
-Format: `remark <<Index, INDEX>> [r/REMARK]` +
+Format: `remark INDEX [r/[REMARK]]` +
 Alias: `rm`
 
 [NOTE]
 ====
-* By leaving out `r/REMARK`, the command acts as a remark removal.
+* By leaving out `r/REMARK` or `REMARK`, the command acts as a remark removal.
 * Only use the `remark` command when you want to leave a remark, `add` or `edit` does not allow you to create a remark for the player.
 * Please only add remarks to the player that is currently being selected. If you were to add remarks to a player who is not selected, the player's remarks will be updated, but the selection will remain at the currently selected player.
 ====
@@ -542,7 +542,7 @@ MTM offers you the ability to view details of your specified player via an <<Ind
 Alternatively, you can just scroll to the player you want, click their card,
 and their details will be displayed on the right hand side of the screen.
 
-Format: `select <<Index, INDEX>>` +
+Format: `select INDEX` +
 Alias: `s`
 
 [IMPORTANT]
@@ -637,7 +637,7 @@ image::TeamViewExampleAfter.png[width="700"]
 
 Have a player without a team, or have yet to assigned one during the addition of player into MTM, you can call `assign` command to assign that player to a particular team of your choice.
 
-Format: `assign [TEAM_NAME] i/<<Index, INDEX>> [<<Index, INDEX>>]...` +
+Format: `assign [TEAM_NAME] i/INDEX [INDEX]...` +
 Alias: `at`
 
 [NOTE]
@@ -948,7 +948,7 @@ d|Redo the previous command
 
 |<<toggleprivacy, `toggleprivacy`>>
 |`tp`
-|toggleprivacy INDEX [p/] [e/] [a/] [r/] [ra/]
+|toggleprivacy INDEX [p/] [e/] [r/] [ra/] [a/]
 |toggleprivacy 2 a/
 
 |<<key, `key`>>
@@ -994,7 +994,7 @@ d|Exits the application
 
 |<<remark, `remark`>>
 |`rm`
-|remark INDEX [r/REMARK]
+|remark INDEX [r/[REMARK]]
 |remark 4 r/Gotta go faster
 
 |<<list, `list`>>
@@ -1014,7 +1014,7 @@ d|List all the players
 
 |<<select, `select`>>
 |`s`
-|select <<Index, INDEX>>
+|select INDEX
 |select 2
 
 |===
