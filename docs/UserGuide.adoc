@@ -534,6 +534,7 @@ Finds a player named Betsy and selects the 1st player in the results of the `fin
 // tag::team[]
 === Team-Related Commands
 
+// tag::create[]
 [[create]]
 ==== Creating a team: `create` `[Since v1.2]`
 
@@ -541,6 +542,11 @@ What is a team management application without the functionality of creating a te
 
 Format: `create TEAM_NAME` +
 Alias: `ct`
+
+[NOTE]
+====
+You can't create a team that already exist in MTM.
+====
 
 [IMPORTANT]
 .*What to expect*
@@ -550,57 +556,18 @@ Your newly specified team will be created with the name you have given without a
 
 Here are a few valid examples on how you can use the `create` command:
 
-* `create Arsenal` +
-Creates a new team with the name "Arsenal".
+* `create Liverpool`
 
-* `create Liverpool` +
-Creates another new team with the name "Liverpool"
+Creates another new team with the name "Liverpool" by entering `create Liverpool` into the Command Box and pressing kbd:[Enter].
 
-[[remove]]
-==== Removing a team: `remove` `[Since v1.4]`
+image::createExampleBefore.png[width="450"]
 
-No longer managing the team or the team has been disbanded, you can easily remove the team from MTM.
+"Liverpool" will be shown in the Team List.
 
-Format: `remove TEAM_NAME` +
-Alias: `rt`
+image::createExampleAfter.png[width="450"]
+// end::create[]
 
-[NOTE]
-====
-Removing a team will automatically update all affected players' `Team` field. +
-Players without a team will need to be re-assigned.
-====
-
-[IMPORTANT]
-.*What to expect*
-====
-Remove the specified team and update all affected players.
-====
-
-Here are a few valid examples of how you can use the `remove` command:
-
-* `view Arsenal` +
-`remove Arsenal` +
-Display the list of players in team "Arsenal" and remove the team.
-
-[[rename]]
-==== Rename a team: `rename` `[Since v1.4]`
-
-Entered your team name wrongly or you need to update it to accordingly, you can use the `rename` command to help you make that change.
-
-Format: `rename TEAM_NAME tm/RENAME_TEAM_NAME` +
-Alias: `rnt`
-
-[IMPORTANT]
-.*What to expect*
-====
-Your specified team will be updated with the new team name along with the affected players in the existing team.
-====
-
-Here are a few valid examples on how you can use the `rename` command:
-
-* `rename Arsenal tm/Neo Arsenal`
-Renames the current team "Arsenal" into "Neo Arsenal".
-
+// tag::assign[]
 [[assign]]
 ==== Assigning player to teams: `assign` `[Since v1.3]`
 
@@ -627,12 +594,47 @@ Your specified player, via index, will be assigned to the specified team or unas
 Here are a few valid examples on how you can use the `create` command:
 
 * `list`
-* `assign Arsenal i/1 2 3` +
-View the full list of players in MTM and assign the player with index 1, 2, and 3 to team "Arsenal".
 
-* `assign i/1` +
-Find a player by the name of "John" and assign the player with index 1 to team "Liverpool".
+View the full list of players in MTM so that you can determine which player you want to assign a team.
 
+image::assignExampleList.png[width="450"]
+
+* `assign Liverpool i/1 2`
+
+Enter the command into the Command Box which will assign the player with index 1, and 2 to team "Liverpool".
+
+image::assignExampleBefore.png[width="450"]
+
+image::assignExampleAfter.png[width="450"]
+
+* `add n/Rembart Loeri e/remlo@tam.com tm/Liverpool`
+
+
+
+
+
+// tag::rename[]
+[[rename]]
+==== Rename a team: `rename` `[Since v1.4]`
+
+Entered your team name wrongly or you need to update it to accordingly, you can use the `rename` command to help you make that change.
+
+Format: `rename TEAM_NAME tm/RENAME_TEAM_NAME` +
+Alias: `rnt`
+
+[IMPORTANT]
+.*What to expect*
+====
+Your specified team will be updated with the new team name along with the affected players in the existing team.
+====
+
+Here are a few valid examples on how you can use the `rename` command:
+
+* `rename Arsenal tm/Neo Arsenal`
+Renames the current team "Arsenal" into "Neo Arsenal".
+// end::rename[]
+
+// tag::view[]
 [[view]]
 ==== Viewing a team: `view` `[Since v1.3]`
 
@@ -657,6 +659,36 @@ List all players in the team "Arsenal".
 
 * `view Liverpool` +
 List all players in the team "Liverpool".
+// end::view[]
+
+// tag::remove[]
+[[remove]]
+==== Removing a team: `remove` `[Since v1.4]`
+
+No longer managing the team or the team has been disbanded, you can easily remove the team from MTM.
+
+Format: `remove TEAM_NAME` +
+Alias: `rt`
+
+[NOTE]
+====
+Removing a team will automatically update all affected players' `Team` field. +
+Players without a team will need to be re-assigned.
+====
+
+[IMPORTANT]
+.*What to expect*
+====
+Remove the specified team and update all affected players.
+====
+
+Here are a few valid examples of how you can use the `remove` command:
+
+* `view Arsenal` +
+`remove Arsenal` +
+Display the list of players in team "Arsenal" and remove the team.
+// end::remove[]
+
 // end::team[]
 
 === User Experience Commands
@@ -714,6 +746,19 @@ Instead, just enter `cte <your desired theme>` to change the colour back!
 
 There is more to come with the next upcoming update! Keep a lookout for these newly implemented features soon!
 
+// tag::changePass2.0[]
+==== Change password: `changepass` `[Coming in v2.0]`
+
+Should you feel that the default password used in `key` could be more secure, you may change it to a password of your
+choosing with this command.
+
+Format: `changepass` CURRENTPASSWORD NEWPASSWORD CONFIRMPASSWORD +
+Alias: `cpw`
+
+Here is how you can change the your password:
+`changepass` ilikesports Securep@ssword1 Securep@ssword1
+// end::changePass2.0[]
+
 // tag::showBest2.0[]
 ==== Showing Best XI players: `showBest` `[Coming in v2.0]`
 
@@ -730,19 +775,6 @@ A lineup of the best 11 players would be displayed. It would consist of 1 Goalke
 4 Defenders, 4 Midfielders and 2 Strikers.
 ====
 // end::showBest2.0[]
-
-// tag::changePass2.0[]
-==== Change password: `changepass` `[Coming in v2.0]`
-
-Should you feel that the default password used in `key` could be more secure, you may change it to a password of your
-choosing with this command.
-
-Format: `changepass` CURRENTPASSWORD NEWPASSWORD CONFIRMPASSWORD +
-Alias: `cpw`
-
-Here is how you can change the your password:
-`changepass` ilikesports Securep@ssword1 Securep@ssword1
-// end::changePass2.0[]
 
 // tag::team2.0[]
 ==== Setting an upcoming match with an opposing team: `setmatch` `[Coming in v2.0]`
@@ -774,7 +806,7 @@ Display the list of players in team "Arsenal" and set an upcoming match for Arse
 
 You can easily determine the up and coming match with the team so that you never miss an important date.
 
-Format: `nextmatch TEAM_NAME`
+Format: `nextmatch TEAM_NAME` +
 Alias: `nm`
 
 [IMPORTANT]
@@ -795,7 +827,7 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 
 You can view the lineup for the current best 11 players.
 
-Format: `showLineup TEAM_NAME`
+Format: `showLineup TEAM_NAME` +
 Alias: `sl`
 
 [IMPORTANT]
