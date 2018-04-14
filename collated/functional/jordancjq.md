@@ -31,12 +31,17 @@ public class RemoveCommandParser implements Parser<RemoveCommand> {
      * @throws ParseException if the user input des not conform to the expected format
      */
     public RemoveCommand parse(String args) throws ParseException {
-        try {
-            TeamName teamToRemove = ParserUtil.parseTeamName(args);
-            return new RemoveCommand(teamToRemove);
-        } catch (IllegalValueException ive) {
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemoveCommand.MESSAGE_USAGE));
+        }
+
+        try {
+            TeamName teamToRemove = ParserUtil.parseTeamName(trimmedArgs);
+            return new RemoveCommand(teamToRemove);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
         }
     }
 }
@@ -85,7 +90,6 @@ public class RenameCommandParser implements Parser<RenameCommand> {
      */
     public RenameCommand parse(String args) throws ParseException {
         requireNonNull(args);
-
         ArgumentMultimap argMultiMap = ArgumentTokenizer.tokenize(args, PREFIX_TEAM_NAME);
 
         if (!argMultiMap.getValue(PREFIX_TEAM_NAME).isPresent() || argMultiMap.getPreamble().isEmpty()
@@ -98,7 +102,8 @@ public class RenameCommandParser implements Parser<RenameCommand> {
 
         try {
             target = ParserUtil.parseTeamName(argMultiMap.getPreamble());
-            toRename = ParserUtil.parseTeamName(argMultiMap.getValue(PREFIX_TEAM_NAME)).get();
+            toRename = ParserUtil.parseTeamName(ParserUtil.parseValue(argMultiMap.getValue(PREFIX_TEAM_NAME),
+                    TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS)).get();
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }
@@ -133,152 +138,6 @@ public class RenameCommandParser implements Parser<RenameCommand> {
         return indexList;
     }
 
-    /**
-     * Parses a {@code String name} into a {@code Name}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws IllegalValueException if the given {@code name} is invalid.
-     */
-    public static Name parseName(String name) throws IllegalValueException {
-        requireNonNull(name);
-        String trimmedName = name.trim();
-        if (!Name.isValidName(trimmedName)) {
-            throw new IllegalValueException(Name.MESSAGE_NAME_CONSTRAINTS);
-        }
-        return new Name(trimmedName);
-    }
-
-    /**
-     * Parses a {@code Optional<String> name} into an {@code Optional<Name>} if {@code name} is present.
-     * See header comment of this class regarding the use of {@code Optional} parameters.
-     */
-    public static Optional<Name> parseName(Optional<String> name) throws IllegalValueException {
-        requireNonNull(name);
-        return name.isPresent() ? Optional.of(parseName(name.get())) : Optional.empty();
-    }
-
-    /**
-     * Parses a {@code String phone} into a {@code Phone}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws IllegalValueException if the given {@code phone} is invalid.
-     */
-    public static Phone parsePhone(String phone) throws IllegalValueException {
-        requireNonNull(phone);
-        String trimmedPhone = phone.trim();
-        if (!Phone.isValidPhone(trimmedPhone)) {
-            throw new IllegalValueException(Phone.MESSAGE_PHONE_CONSTRAINTS);
-        }
-        return new Phone(trimmedPhone);
-    }
-
-    /**
-     * Parses a {@code Optional<String> phone} into an {@code Optional<Phone>} if {@code phone} is present.
-     * See header comment of this class regarding the use of {@code Optional} parameters.
-     */
-    public static Optional<Phone> parsePhone(Optional<String> phone) throws IllegalValueException {
-        requireNonNull(phone);
-        return phone.isPresent() ? Optional.of(parsePhone(phone.get())) : Optional.empty();
-    }
-
-    /**
-     * Parses a {@code String address} into an {@code Address}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws IllegalValueException if the given {@code address} is invalid.
-     */
-    public static Address parseAddress(String address) throws IllegalValueException {
-        requireNonNull(address);
-        String trimmedAddress = address.trim();
-        if (!Address.isValidAddress(trimmedAddress)) {
-            throw new IllegalValueException(Address.MESSAGE_ADDRESS_CONSTRAINTS);
-        }
-        return new Address(trimmedAddress);
-    }
-
-    /**
-     * Parses a {@code Optional<String> address} into an {@code Optional<Address>} if {@code address} is present.
-     * See header comment of this class regarding the use of {@code Optional} parameters.
-     */
-    public static Optional<Address> parseAddress(Optional<String> address) throws IllegalValueException {
-        requireNonNull(address);
-        return address.isPresent() ? Optional.of(parseAddress(address.get())) : Optional.empty();
-    }
-
-    /**
-     * Parses a {@code String email} into an {@code Email}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws IllegalValueException if the given {@code email} is invalid.
-     */
-    public static Email parseEmail(String email) throws IllegalValueException {
-        requireNonNull(email);
-        String trimmedEmail = email.trim();
-        if (!Email.isValidEmail(trimmedEmail)) {
-            throw new IllegalValueException(Email.MESSAGE_EMAIL_CONSTRAINTS);
-        }
-        return new Email(trimmedEmail);
-    }
-
-    /**
-     * Parses a {@code Optional<String> email} into an {@code Optional<Email>} if {@code email} is present.
-     * See header comment of this class regarding the use of {@code Optional} parameters.
-     */
-    public static Optional<Email> parseEmail(Optional<String> email) throws IllegalValueException {
-        requireNonNull(email);
-        return email.isPresent() ? Optional.of(parseEmail(email.get())) : Optional.empty();
-    }
-
-    /**
-     * Parses a {@code String tag} into a {@code Tag}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws IllegalValueException if the given {@code tag} is invalid.
-     */
-    public static Tag parseTag(String tag) throws IllegalValueException {
-        requireNonNull(tag);
-        String trimmedTag = tag.trim();
-        if (!Tag.isValidTagName(trimmedTag)) {
-            throw new IllegalValueException(Tag.MESSAGE_TAG_CONSTRAINTS);
-        }
-        return new Tag(trimmedTag);
-    }
-
-    /**
-     * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
-     */
-    public static Set<Tag> parseTags(Collection<String> tags) throws IllegalValueException {
-        requireNonNull(tags);
-        final Set<Tag> tagSet = new HashSet<>();
-        for (String tagName : tags) {
-            tagSet.add(parseTag(tagName));
-        }
-        return tagSet;
-    }
-
-    /**
-     * Parses {@code String teamName} into an {@code TeamName}.
-     * Leading and trailing whitespaces will be trimmed.
-     */
-    public static TeamName parseTeamName(String teamName) throws IllegalValueException {
-        requireNonNull(teamName);
-        String trimmedTeamName = teamName.trim();
-        if (!TeamName.isValidName(trimmedTeamName)) {
-            throw new IllegalValueException(TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
-        }
-
-        return new TeamName(trimmedTeamName);
-    }
-
-    /**
-     * Parses a {@code Optional<String> teamName} into an {@code Optional<TeamName>} if {@code teamName} is present.
-     * See header comment of this class regarding the use of {@code Optional} parameters.
-     */
-    public static Optional<TeamName> parseTeamName(Optional<String> teamName) throws IllegalValueException {
-        requireNonNull(teamName);
-        return teamName.isPresent() ? Optional.of(parseTeamName(teamName.get())) : Optional.empty();
-    }
-
 ```
 ###### /java/seedu/address/logic/parser/ParserUtil.java
 ``` java
@@ -309,28 +168,25 @@ public class AssignCommandParser implements Parser<AssignCommand> {
      */
     public AssignCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_TEAM_NAME, PREFIX_INDEX);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_INDEX);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_TEAM_NAME, PREFIX_INDEX)) {
+        if (!argMultimap.getValue(PREFIX_INDEX).isPresent() || argMultimap.getAllValues(PREFIX_INDEX).size() > 1) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AssignCommand.MESSAGE_USAGE));
         }
 
+        TeamName teamName;
         try {
-            TeamName teamName = ParserUtil.parseTeamName(argMultimap.getValue(PREFIX_TEAM_NAME).get());
+            if (!argMultimap.getPreamble().isEmpty()) {
+                teamName = ParserUtil.parseTeamName(argMultimap.getPreamble());
+            } else {
+                teamName = new TeamName(UNSPECIFIED_FIELD);
+            }
             List<Index> indexList = ParserUtil.parseIndexes(argMultimap.getValue(PREFIX_INDEX).get());
 
             return new AssignCommand(teamName, indexList);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }
-    }
-
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }
 ```
@@ -354,7 +210,12 @@ public class ViewCommandParser implements Parser<ViewCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewCommand.MESSAGE_USAGE));
         }
 
-        TeamName targetTeam = new TeamName(trimmedArgs);
+        TeamName targetTeam;
+        try {
+            targetTeam = ParserUtil.parseTeamName(trimmedArgs);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
 
         return new ViewCommand(targetTeam);
     }
@@ -378,13 +239,68 @@ public class CreateCommandParser implements Parser<CreateCommand> {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, CreateCommand.MESSAGE_USAGE));
         }
-        if (!TeamName.isValidName(trimmedArgs) || trimmedArgs.equals(UNSPECIFIED_FIELD)) {
-            throw new ParseException(MESSAGE_TEAM_NAME_CONSTRAINTS);
+
+        TeamName teamName;
+        try {
+            teamName = ParserUtil.parseTeamName(ParserUtil.parseValue(Optional.of(trimmedArgs),
+                    MESSAGE_TEAM_NAME_CONSTRAINTS)).get();
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
         }
 
-        TeamName teamName = new TeamName(trimmedArgs);
-
         return new CreateCommand(new Team(teamName));
+    }
+}
+```
+###### /java/seedu/address/logic/commands/CreateCommand.java
+``` java
+/**
+ * Creates a team to the application
+ */
+public class CreateCommand extends UndoableCommand {
+
+    public static final String COMMAND_WORD = "create";
+    public static final String COMMAND_ALIAS = "ct";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + "Creates a team in MTM. "
+            + "Parameters: "
+            + "TEAM_NAME\n"
+            + "Example: " + COMMAND_WORD + " "
+            + "Arsenal";
+
+    public static final String MESSAGE_PARAMETERS = "TEAM_NAME";
+
+    public static final String MESSAGE_SUCCESS = "New team created: %1$s";
+    public static final String MESSAGE_DUPLICATE_TEAM = "This team already exist in the manager";
+
+    private final Team toCreate;
+
+    /**
+     * Creates a CreateCommand to add the specified (@code Team)
+     *
+     */
+    public CreateCommand(Team team) {
+        requireNonNull(team);
+        this.toCreate = team;
+    }
+
+    @Override
+    public CommandResult executeUndoableCommand() throws CommandException {
+        requireNonNull(model);
+        try {
+            model.createTeam(toCreate);
+        } catch (DuplicateTeamException e) {
+            throw new CommandException(MESSAGE_DUPLICATE_TEAM);
+        }
+        EventsCenter.getInstance().post(new ShowNewTeamNameEvent(toCreate.getTeamName().toString()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toCreate));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof CreateCommand // instanceof handles nulls
+                && toCreate.equals(((CreateCommand) other).toCreate));
     }
 }
 ```
@@ -494,21 +410,25 @@ public class AssignCommand extends UndoableCommand {
             + "Team of the player will be updated and will be added to team.\n"
             + "Only 1 team can be assigned to each player.\n"
             + "Parameters: "
-            + PREFIX_TEAM_NAME + "TEAM_NAME "
+            + "[TEAM_NAME] "
             + PREFIX_INDEX + "INDEX (must be a positive integer) "
             + "[INDEX]...\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_TEAM_NAME + "Arsenal "
+            + "Arsenal "
             + PREFIX_INDEX + "1 2";
 
-    public static final String MESSAGE_PARAMETERS = PREFIX_TEAM_NAME + "TEAM_NAME "
+    public static final String MESSAGE_PARAMETERS = "[TEAM_NAME] "
             + PREFIX_INDEX + "INDEX "
             + "[INDEX]...";
 
     public static final String MESSAGE_SUCCESS = "Players successfully assigned to team.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the team";
+    public static final String MESSAGE_FAILURE = "Not all players have been successfully processed.";
+    public static final String MESSAGE_DUPLICATE_PERSON =
+            "\n%1$s: There is already the same player that exists in the team.";
+    public static final String MESSAGE_NO_TEAM_TO_UNASSIGN = "\n%1$s: Cannot unassign player that is not in a team.";
     public static final String MESSAGE_TEAM_TO_TEAM_SUCCESS = "\n%1$s has been assigned from %2$s to %3$s.";
-    public static final String MESSAGE_UNSPECIFIED_TEAM_SUCCESS = "\n%1$s has been assigned from to %2$s.";
+    public static final String MESSAGE_UNSPECIFIED_TEAM_SUCCESS = "\n%1$s has been assigned to %2$s.";
+    public static final String MESSAGE_UNASSIGN_TEAM_SUCCESS = "\n%1$s has been unassigned from %2$s.";
 
     private final TeamName targetTeam;
     private final List<Index> targetIndexes;
@@ -529,32 +449,48 @@ public class AssignCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         String successfulPlayerAssignedMessage = new String();
-        try {
-            for (Person person : personsToAssign) {
-                model.assignPersonToTeam(person, targetTeam);
-                if (person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
-                    successfulPlayerAssignedMessage += String.format(MESSAGE_UNSPECIFIED_TEAM_SUCCESS,
-                            person.getName().toString(), targetTeam.toString());
-                } else {
-                    successfulPlayerAssignedMessage += String.format(MESSAGE_TEAM_TO_TEAM_SUCCESS,
-                            person.getName().toString(), person.getTeamName().toString(), targetTeam.toString());
-                }
 
+        if (targetTeam.toString().equals(UNSPECIFIED_FIELD)) {
+            try {
+                for (Person person : personsToAssign) {
+                    model.unassignPersonFromTeam(person);
+                    successfulPlayerAssignedMessage += String.format(MESSAGE_UNASSIGN_TEAM_SUCCESS,
+                            person.getName().toString(), person.getTeamName().toString());
+                }
+            } catch (TeamNotFoundException tnfe) {
+                successfulPlayerAssignedMessage += String.format(MESSAGE_NO_TEAM_TO_UNASSIGN, tnfe.getMessage());
+                throw new CommandException(MESSAGE_FAILURE + successfulPlayerAssignedMessage);
             }
-            model.updateFilteredPersonList(targetTeam);
-        } catch (DuplicatePersonException e) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
-        } catch (TeamNotFoundException tnfe) {
-            throw new AssertionError("Impossible: Team should exist in this addressbook");
+        } else {
+            try {
+                for (Person person : personsToAssign) {
+                    model.assignPersonToTeam(person, targetTeam);
+                    if (person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+                        successfulPlayerAssignedMessage += String.format(MESSAGE_UNSPECIFIED_TEAM_SUCCESS,
+                                person.getName().toString(), targetTeam.toString());
+                    } else {
+                        successfulPlayerAssignedMessage += String.format(MESSAGE_TEAM_TO_TEAM_SUCCESS,
+                                person.getName().toString(), person.getTeamName().toString(), targetTeam.toString());
+                    }
+                }
+                model.updateFilteredPersonList(targetTeam);
+                EventsCenter.getInstance().post(new HighlightSelectedTeamEvent(targetTeam.toString()));
+            } catch (DuplicatePersonException e) {
+                successfulPlayerAssignedMessage += String.format(MESSAGE_DUPLICATE_PERSON, e.getMessage());
+                throw new CommandException(MESSAGE_FAILURE + successfulPlayerAssignedMessage);
+            } catch (TeamNotFoundException tnfe) {
+                throw new AssertionError("Impossible: Team should exist in this addressbook");
+            }
         }
 
-        EventsCenter.getInstance().post(new HighlightSelectedTeamEvent(targetTeam.toString()));
         return new CommandResult(MESSAGE_SUCCESS + successfulPlayerAssignedMessage);
     }
 
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
-        if (!model.getAddressBook().getTeamList().stream().anyMatch(t -> t.getTeamName().equals(targetTeam))) {
+
+        if (!targetTeam.toString().equals(UNSPECIFIED_FIELD)
+                && !model.getAddressBook().getTeamList().stream().anyMatch(t -> t.getTeamName().equals(targetTeam))) {
             throw new CommandException(Messages.MESSAGE_TEAM_NOT_FOUND);
         }
 
@@ -772,6 +708,18 @@ public class RenameCommand extends UndoableCommand {
     }
 }
 ```
+###### /java/seedu/address/model/person/exceptions/DuplicatePersonException.java
+``` java
+public class DuplicatePersonException extends DuplicateDataException {
+    public DuplicatePersonException() {
+        super("Operation would result in duplicate persons");
+    }
+
+    public DuplicatePersonException(String message) {
+        super(message);
+    }
+}
+```
 ###### /java/seedu/address/model/person/Remark.java
 ``` java
 /**
@@ -845,18 +793,24 @@ public class Remark {
         teams.add(t);
     }
 
-```
-###### /java/seedu/address/model/AddressBook.java
-``` java
     /**
      * Assigns a {@code person} to a {@code team}.
      * @throws TeamNotFoundException if the {@code team} is not found in this {@code AddressBook}.
      */
     public void assignPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
+        teams.assignPersonToTeam(person, teams.getTeam(teamName));
+
+        try {
+            removePersonFromTeam(person, person.getTeamName());
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("Impossible: Team should contain of this person");
+        }
+
         Person newPersonWithTeam =
                 new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                         person.getRemark(), teamName, person.getTags(), person.getRating(), person.getPosition(),
                         person.getJerseyNumber(), person.getAvatar());
+
         try {
             updatePerson(person, newPersonWithTeam);
         } catch (DuplicatePersonException dpe) {
@@ -864,19 +818,37 @@ public class Remark {
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("Impossible: AddressBook should contain this person");
         }
+    }
 
-        teams.assignPersonToTeam(newPersonWithTeam, teams.getTeam(teamName));
+    /**
+     * Unassigns a {@code person} from team.
+     * @throws TeamNotFoundException if the {@code teamName} in {@code person} is {@code UNSPECIFIED_FIELD}.
+     */
+    public void unassignPersonFromTeam(Person person) throws TeamNotFoundException {
+        if (person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+            throw new TeamNotFoundException(person.getName().toString());
+        }
+
+        Person newPersonWithTeam =
+                new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
+                        person.getRemark(), new TeamName(UNSPECIFIED_FIELD), person.getTags(), person.getRating(),
+                        person.getPosition(), person.getJerseyNumber(), person.getAvatar());
 
         try {
             removePersonFromTeam(person, person.getTeamName());
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("Impossible: Team should contain of this person");
         }
+
+        try {
+            updatePerson(person, newPersonWithTeam);
+        } catch (DuplicatePersonException dpe) {
+            throw new AssertionError("AddressBook should not have duplicate person after assigning team");
+        } catch (PersonNotFoundException pnfe) {
+            throw new AssertionError("Impossible: AddressBook should contain this person");
+        }
     }
 
-```
-###### /java/seedu/address/model/AddressBook.java
-``` java
     /**
      * Immediately add a {@code person} to a {@code team}.
      * @throws TeamNotFoundException if the {@code team} is not found in this {@code AddressBook}.
@@ -885,13 +857,10 @@ public class Remark {
         teams.assignPersonToTeam(person, teams.getTeam(teamName));
     }
 
-```
-###### /java/seedu/address/model/AddressBook.java
-``` java
     /**
      * Removes a {@code person} from a {@code team}.
      */
-    public void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
+    private void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
         if (!person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
             try {
                 teams.removePersonFromTeam(person, teams.getTeam(teamName));
@@ -901,9 +870,6 @@ public class Remark {
         }
     }
 
-```
-###### /java/seedu/address/model/AddressBook.java
-``` java
     /**
      * Removes a {@code team} from {@code teams}.
      */
@@ -921,9 +887,6 @@ public class Remark {
         teams.remove(teamToRemove);
     }
 
-```
-###### /java/seedu/address/model/AddressBook.java
-``` java
     /**
      * Removes {@code teamName} from {@code person} in this {@code Team}.
      */
@@ -942,9 +905,6 @@ public class Remark {
         }
     }
 
-```
-###### /java/seedu/address/model/AddressBook.java
-``` java
     /**
      * Renames {@code Team} with {@code updatedTeamName}.
      * @return
@@ -970,9 +930,6 @@ public class Remark {
         }
     }
 
-```
-###### /java/seedu/address/model/AddressBook.java
-``` java
     /**
      * Renames {@code teamName} in {@code person} with {@code teamName}.
      */
@@ -1000,8 +957,6 @@ public class Remark {
  * Guarantees: details are present and not null, field values are validated, im!mutable
  */
 public class Team extends UniquePersonList {
-
-    public static final String MESSAGE_TEAM_CONSTRAINTS = "Team names should be a string";
 
     private final TeamName teamName;
 
@@ -1168,7 +1123,7 @@ public class UniqueTeamList implements Iterable<Team> {
         requireAllNonNull(person, target);
 
         if (target.getTeamPlayers().contains(person)) {
-            throw new DuplicatePersonException();
+            throw new DuplicatePersonException(person.getName().toString());
         }
 
         target.add(person);
@@ -1215,12 +1170,12 @@ public class UniqueTeamList implements Iterable<Team> {
 ``` java
 /**
  * Represents a Team's name in the application.
- * Guarantees: imm utable; is valid as declared in {@link #isValidName(String)}
+ * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
  */
 public class TeamName {
+
     public static final String MESSAGE_TEAM_NAME_CONSTRAINTS =
-            "Team name should only contain alphanumeric characters and spaces,"
-            + " and it should not be blank or consist of only numbers";
+            "Team name should only contain alphanumeric characters and spaces, and it should not be blank";
 
     /*
      * The first character of the team name must not be a whitespace,
@@ -1266,6 +1221,20 @@ public class TeamName {
     }
 }
 ```
+###### /java/seedu/address/model/team/exceptions/TeamNotFoundException.java
+``` java
+/**
+ * Signals that the operation is unable to find the specified team.
+ */
+public class TeamNotFoundException extends Exception {
+
+    public TeamNotFoundException() {};
+
+    public TeamNotFoundException(String message) {
+        super(message);
+    }
+}
+```
 ###### /java/seedu/address/model/team/exceptions/DuplicateTeamException.java
 ``` java
 /**
@@ -1285,28 +1254,18 @@ public class DuplicateTeamException extends DuplicateDataException {
         indicateAddressBookChanged();
     }
 
-```
-###### /java/seedu/address/model/ModelManager.java
-``` java
     @Override
     public synchronized void assignPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
         addressBook.assignPersonToTeam(person, teamName);
         indicateAddressBookChanged();
     }
 
-```
-###### /java/seedu/address/model/ModelManager.java
-``` java
     @Override
-    public synchronized void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
-        requireAllNonNull(person, teamName);
-        addressBook.removePersonFromTeam(person, teamName);
+    public synchronized void unassignPersonFromTeam(Person person) throws TeamNotFoundException {
+        addressBook.unassignPersonFromTeam(person);
         indicateAddressBookChanged();
     }
 
-```
-###### /java/seedu/address/model/ModelManager.java
-``` java
     @Override
     public synchronized void removeTeam(TeamName teamName) throws TeamNotFoundException {
         requireNonNull(teamName);
@@ -1315,9 +1274,6 @@ public class DuplicateTeamException extends DuplicateDataException {
         indicateAddressBookChanged();
     }
 
-```
-###### /java/seedu/address/model/ModelManager.java
-``` java
     @Override
     public synchronized void renameTeam(Team targetTeam, TeamName updatedTeamName) {
         requireAllNonNull(targetTeam, updatedTeamName);

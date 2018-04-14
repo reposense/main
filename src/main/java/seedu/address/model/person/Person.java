@@ -134,6 +134,14 @@ public class Person {
                 .append(getEmail())
                 .append(" Address: ")
                 .append(getAddress())
+                .append(" Jersey Number: ")
+                .append(getJerseyNumber())
+                .append(" Rating: ")
+                .append(getRating())
+                .append(" Position: ")
+                .append(getPosition())
+                .append(" Avatar File Path: ")
+                .append(getAvatar())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         builder.append("\n");

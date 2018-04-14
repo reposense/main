@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
 
+//@@author lithiumlkid
 /**
  * Represents a Player's avatar in the address book. Contains filepath to avatar image file.
  * Guarantees: immutable; is valid as declared in {@link #isValidAvatar(String)}
@@ -22,8 +23,8 @@ import seedu.address.commons.core.LogsCenter;
 public class Avatar {
 
     public static final String MESSAGE_AVATAR_CONSTRAINTS =
-            "Please specify the filepath for the avatar image eg. C:\\image.png\n (for Windows), "
-            + "/User/username/path/to/image.jpg (for MacOS). "
+            "Please specify the absolute filepath for the avatar image eg. av/C:\\image.png\n (for Windows), "
+            + "av//User/username/path/to/image.jpg (for MacOS). "
             + "Image file should be 200x200 and in jpg or png format";
 
     public static final String AVATAR_VALIDATION_PATTERN = "([^\\s]+(\\.(?i)(jpg|png))$)";
@@ -95,11 +96,15 @@ public class Avatar {
         }
     }
 
-    /*
     @Override
-   public int hashCode() {
-       return value.hashCode();
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Avatar // instanceof handles nulls
+                && this.value.equals(((Avatar) other).value)); // state check
     }
-    */
 
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
 }

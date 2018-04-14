@@ -1220,6 +1220,7 @@ public class XmlAdaptedTeam {
             }
         }
     }
+
 ```
 ###### /java/seedu/address/model/ModelManager.java
 ``` java
@@ -1240,6 +1241,7 @@ public class XmlAdaptedTeam {
         indicateAddressBookChanged();
         return isTagValid;
     }
+
 ```
 ###### /java/seedu/address/model/tag/Tag.java
 ``` java

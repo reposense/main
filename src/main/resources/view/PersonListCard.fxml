@@ -35,7 +35,7 @@
       <Label fx:id="rating" styleClass="cell_small_label" text="\$rating" />
       <Label fx:id="position" styleClass="cell_small_label" text="\$position" />
 
-
+      <!-- @@author lithiumlkid -->
     </VBox>
       <Circle fx:id="avatar" radius="80.0" stroke="WHITE" strokeType="INSIDE" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
       <rowConstraints>

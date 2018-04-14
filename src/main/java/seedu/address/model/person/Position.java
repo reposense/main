@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+//@@author lithiumlkid
 /**
  * Represents a Player's position in the address book.
  * Guarantees: immutable; is valid as declared in {@link #isValidPosition(String)}
@@ -57,7 +58,7 @@ public class Position {
 
     @Override
     public String toString() {
-        return value;
+        return getPositionName();
     }
 
     @Override

@@ -4,7 +4,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.events.ui.PersonDetailsChangedNoParamEvent;
-import seedu.address.commons.events.ui.UndoClearTeamsEvent;
+import seedu.address.commons.events.ui.UndoTeamsEvent;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -30,7 +30,7 @@ public class UndoCommand extends Command {
 
         undoRedoStack.popUndo().undo();
         // @@author Codee
-        EventsCenter.getInstance().post(new UndoClearTeamsEvent());
+        EventsCenter.getInstance().post(new UndoTeamsEvent());
         EventsCenter.getInstance().post(new PersonDetailsChangedNoParamEvent());
         // @@author
         return new CommandResult(MESSAGE_SUCCESS);

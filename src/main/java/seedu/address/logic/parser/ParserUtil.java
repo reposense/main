@@ -74,6 +74,7 @@ public class ParserUtil {
         return indexList;
     }
 
+    //@@author
     /**
      * Parses a {@code String name} into a {@code Name}.
      * Leading and trailing whitespaces will be trimmed.

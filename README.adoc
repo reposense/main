@@ -44,7 +44,7 @@ Say goodbye to manual tracking of information on excel sheet after excel sheet!
 * Sort players by field of choice
 * Manage Schedule of Teams
 
-Come and take a look at our link:./UserGuide.adoc[User Guide] to get started with MTM now.
+Come and take a look at our <<UserGuide#, User Guide>> to get started with MTM now.
 
 == Site Map
 

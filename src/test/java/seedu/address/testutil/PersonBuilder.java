@@ -1,8 +1,10 @@
 package seedu.address.testutil;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Avatar;
 import seedu.address.model.person.Email;
@@ -29,9 +31,9 @@ public class PersonBuilder {
     public static final String DEFAULT_REMARK = "";
     public static final String DEFAULT_TAGS = "friends";
     public static final String DEFAULT_TEAMNAME = "<UNSPECIFIED>";
-    public static final String DEFAULT_RATING = "5";
+    public static final String DEFAULT_RATING = "1";
     public static final String DEFAULT_POSITION = "1";
-    public static final String DEFAULT_JERSEY_NUMBER = "17";
+    public static final String DEFAULT_JERSEY_NUMBER = "1";
     public static final String DEFAULT_AVATAR = "<UNSPECIFIED>";
 
     private Name name;
@@ -58,6 +60,7 @@ public class PersonBuilder {
         position = new Position(DEFAULT_POSITION);
         jerseyNumber = new JerseyNumber(DEFAULT_JERSEY_NUMBER);
         avatar = new Avatar(DEFAULT_AVATAR);
+        setFilePath();
     }
 
     /**
@@ -75,6 +78,15 @@ public class PersonBuilder {
         position = personToCopy.getPosition();
         jerseyNumber = personToCopy.getJerseyNumber();
         avatar = personToCopy.getAvatar();
+        setFilePath();
+    }
+
+    private void setFilePath() {
+        try {
+            avatar.setFilePath(name.fullName);
+        } catch (IOException e) {
+            LogsCenter.getLogger(Avatar.class).warning("image file missing");
+        }
     }
 
     /**
@@ -162,6 +174,7 @@ public class PersonBuilder {
      */
     public PersonBuilder withAvatar(String avatar) {
         this.avatar = new Avatar(avatar);
+        setFilePath();
         return this;
     }
 
