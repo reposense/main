@@ -355,9 +355,11 @@ Output: The added player should appear in the player list panel.
 
 Examples:
 
-* `add n/Mo Salah e/mo@soccer.com` +
+* `add n/Mo Salah e/mo@soccer.com`
+
 Adds a player named `Mo Salah` with email `mo@soccer.com`.
-* `add n/Ronaldo p/92331322 e/ronaldo@soccer.com a/Portugal tm/Real Madrid j/17 ra/5 po/1 +
+
+* `add n/Ronaldo p/92331322 e/ronaldo@soccer.com a/Portugal tm/Real Madrid j/17 ra/5 po/1
 Adds a player named Ronaldo with phone number `92331322`, email `ronaldo@soccer.com`, address `Portugal`,
 team `Real Madrid`, jersey number `17`, rating `5`, and position Striker.
 
@@ -381,9 +383,12 @@ details will be updated, but the selection will remain at the currently selected
 
 Examples:
 
-* `edit 1 p/91234567 e/johndoe@example.com` +
+* `edit 1 p/91234567 e/johndoe@example.com`
+
 Edits the phone number and email address of the 1st player to be `91234567` and `johndoe@example.com` respectively.
-* `edit 2 n/Betsy Crower t/` +
+
+* `edit 2 n/Betsy Crower t/`
+
 Edits the name of the 2nd player to be `Betsy Crower` and clears all existing tags.
 // end::addplayer[]
 
@@ -404,11 +409,14 @@ Alias: `d`
 
 Examples:
 
-* `list` +
-`delete 2` +
+* `list`
+* `delete 2`
+
 Deletes the 2nd player in the MTM.
-* `find Betsy` +
-`delete 1` +
+
+* `find Betsy`
+* `delete 1`
+
 Deletes the 1st player in the results of the `find` command.
 
 [[remark]]
@@ -436,10 +444,12 @@ Your specified player will either be given a new remark or have its existing rem
 
 Here are a few valid examples on how you can use the `remark` command:
 
-* `remark 1` +
+* `remark 1`
+
 Removes the remark from the specified player at index 1.
 
-* `remark 5 r/MVP Player` +
+* `remark 5 r/MVP Player`
+
 Give a remark to the specified player at index 5 with the remark "MVP Player".
 
 [[list]]
@@ -467,10 +477,12 @@ Current version of `sort` supports the following fields: Name, Email, Address, R
 
 Here are a few valid examples on how you can use the `sort` command:
 
-* `sort` name asc +
+* `sort` name asc
+
 This will sort MTM by names, in alphabetical order.
 
-* `sort` name dsc +
+* `sort` name dsc
+
 This will sort MTM by names, in reverse alphabetical order.
 // end::sort[]
 
@@ -493,9 +505,12 @@ Alias: `f`
 
 Examples:
 
-* `find John` +
+* `find John`
+
 Returns `john` and `John Doe`
-* `find Betsy Tim John` +
+
+* `find Betsy Tim John`
+
 Returns any player having names `Betsy`, `Tim`, or `John`
 
 [[select]]
@@ -524,11 +539,14 @@ jersey number, and remarks on the right side of the screen.
 
 Here are a few valid examples on how you can use the `select` command:
 
-* `list` +
-`select 2` +
+* `list`
+* `select 2`
+
 Displays the list of all players and selects the 2nd player in that list.
-* `find Betsy` +
-`select 1` +
+
+* `find Betsy`
+* `select 1`
+
 Finds a player named Betsy and selects the 1st player in the results of the `find` command.
 
 // tag::team[]
@@ -560,12 +578,43 @@ Here are a few valid examples on how you can use the `create` command:
 
 Creates another new team with the name "Liverpool" by entering `create Liverpool` into the Command Box and pressing kbd:[Enter].
 
-image::createExampleBefore.png[width="450"]
+image::TeamCreateExampleBefore.png[width="200"]
 
 "Liverpool" will be shown in the Team List.
 
-image::createExampleAfter.png[width="450"]
+image::TeamCreateExampleAfter.png[width="350"]
 // end::create[]
+
+// tag::view[]
+[[view]]
+==== Viewing a team: `view` `[Since v1.3]`
+
+With the ability to manage different teams, you will be able to identify all players in a team easily with the `view` command.
+
+`Coming in v2.0` +
+Details of your team will be displayed on the right panel when `view` command is executed.
+
+Format: `view TEAM_NAME` +
+Alias: `vt`
+
+[IMPORTANT]
+.*What to expect*
+====
+Displays the list of players on the left panel that are in the team specified.
+====
+
+Here are a few valid examples on how you can use the `view` command:
+
+* `view Arsenal`
+
+You can use the command above to easily view all the players that exist in "Arsenal".
+
+image::TeamViewExampleBefore.png[width="350"]
+
+The Player List will be updated with all players in the specified team, "Arsenal".
+
+image::TeamViewExampleAfter.png[width="700"]
+// end::view[]
 
 // tag::assign[]
 [[assign]]
@@ -597,21 +646,24 @@ Here are a few valid examples on how you can use the `create` command:
 
 View the full list of players in MTM so that you can determine which player you want to assign a team.
 
-image::assignExampleList.png[width="450"]
+image::TeamAssignListExample.png[width="700"]
 
 * `assign Liverpool i/1 2`
 
 Enter the command into the Command Box which will assign the player with index 1, and 2 to team "Liverpool".
 
-image::assignExampleBefore.png[width="450"]
+image::TeamAssignExampleBefore.png[width="200"]
 
-image::assignExampleAfter.png[width="450"]
+image::TeamAssignExampleAfter.png[width="700"]
 
 * `add n/Rembart Loeri e/remlo@tam.com tm/Liverpool`
 
+Add a player with the prefix `tm/` for `Team` will automatically be assigned to the team specified.
 
+image::TeamAssignAddExampleBefore.png[width="350"]
 
-
+image::TeamAssignAddExampleAfter.png[width="700"]
+// end:assign[]
 
 // tag::rename[]
 [[rename]]
@@ -630,36 +682,16 @@ Your specified team will be updated with the new team name along with the affect
 
 Here are a few valid examples on how you can use the `rename` command:
 
-* `rename Arsenal tm/Neo Arsenal`
-Renames the current team "Arsenal" into "Neo Arsenal".
+* `rename Liverpool tm/Tello Mello`
+
+You can rename a `Team` easily by entering a similar command above, which will rename "Liverpool" into "Tello Mello".
+
+image::TeamRenameExampleBefore.png[width="700"]
+
+After renaming, the team name will be updated in the Team List and will be update for each individual player.
+
+image::TeamRenameExampleAfter.png[width="700"]
 // end::rename[]
-
-// tag::view[]
-[[view]]
-==== Viewing a team: `view` `[Since v1.3]`
-
-With the ability to manage different teams, you will be able to identify all players in a team easily with the `view` command.
-
-`Coming in v2.0` +
-Details of your team will be displayed on the right panel when `view` command is executed.
-
-Format: `view TEAM_NAME` +
-Alias: `vt`
-
-[IMPORTANT]
-.*What to expect*
-====
-Displays the list of players on the left panel that are in the team specified.
-====
-
-Here are a few valid examples on how you can use the `view` command:
-
-* `view Arsenal` +
-List all players in the team "Arsenal".
-
-* `view Liverpool` +
-List all players in the team "Liverpool".
-// end::view[]
 
 // tag::remove[]
 [[remove]]
@@ -684,11 +716,18 @@ Remove the specified team and update all affected players.
 
 Here are a few valid examples of how you can use the `remove` command:
 
-* `view Arsenal` +
-`remove Arsenal` +
-Display the list of players in team "Arsenal" and remove the team.
-// end::remove[]
+* `view Arsenal`
 
+Here we show you what it would be like before the removal of "Arsenal".
+
+image::TeamRemoveExampleBefore.png[width="700"]
+
+* `remove Arsenal`
+
+After typing the command, you will remove the the team from MTM and will be taken off the Team Display as well as updating each individual player affected to be without a team.
+
+image::TeamRemoveExampleAfter.png[width="700"]
+// end::remove[]
 // end::team[]
 
 === User Experience Commands
@@ -708,22 +747,6 @@ The current version of `setTagColour` is NOT an UndoableCommand. i.e. You cannot
 Instead, just enter `stc <your desired colour>` to change the colour back!
 ====
 // end::setTagColour[]
-
-// tag::changeTheme[]
-[[changeTheme]]
-==== Changing theme : `changeTheme` `[Since v1.5]`
-If you feel that the light theme is not for you, and you prefer to work on a darker interface,
-you can change the theme from the default LightTheme to DarkTheme with the 'changeTheme' command.
-
-Format: `changeTheme` +
-Alias: `ct`
-
-[NOTE]
-====
-The current version of `changTheme` is NOT an UndoableCommand. i.e. You cannot `undo` a `changeTheme` command.
-Instead, just enter `cte <your desired theme>` to change the colour back!
-====
-// end::changeTheme[]
 
 [[changeTheme]]
 // tag::changeTheme[]
@@ -756,7 +779,8 @@ Format: `changepass` CURRENTPASSWORD NEWPASSWORD CONFIRMPASSWORD +
 Alias: `cpw`
 
 Here is how you can change the your password:
-`changepass` ilikesports Securep@ssword1 Securep@ssword1
+
+* `changepass` ilikesports Securep@ssword1 Securep@ssword1
 // end::changePass2.0[]
 
 // tag::showBest2.0[]
@@ -799,7 +823,8 @@ The upcoming match of the team will be captured and displayed to you.
 Here are a few valid examples on how you can use the `create` command:
 
 * `view Arsenal`
-* `setmatch Arsenal Liverpool 14/03/2018` +
+* `setmatch Arsenal Liverpool 14/03/2018`
+
 Display the list of players in team "Arsenal" and set an upcoming match for Arsenal with Liverpool on 14/03/2018.
 
 ==== Viewing the team's next upcoming match: `nextmatch` `[Coming in v2.0]`
@@ -818,7 +843,8 @@ Displays the date and opponent for the upcoming match of the team specified.
 Here are a few valid examples on how you can use the `nextmatch` command:
 
 * `view Arsenal`
-* `nextmatch Arsenal` +
+* `nextmatch Arsenal`
+
 Displays the list of players in team "Arsenal" and view the next upcoming match for "Arsenal".
 // end::team2.0[]
 
@@ -838,7 +864,8 @@ The panel on the right will show the avatars of the 11 players that will be play
 
 Here is an valid example on how you can use the `showLineup` command:
 
-* `showLineup Arsenal` +
+* `showLineup Arsenal`
+
 Displays the 11 main players that will be playing for the next match.
 // end::showlineup[]
 
@@ -876,7 +903,7 @@ Just a quick reference sheet for all your needs. Never forget how to use MTM eve
 
 |<<autocomplete, `Autocomplete`>>
 |kbd:[tab]
-|kbd:[tab]kbd:[space]kbd:[&uarr;]kbd:[&darr;]
+|kbd:[tab] kbd:[space] kbd:[&uarr;] kbd:[&darr;]
 d|Fills in your command for you
 
 |<<help, `help`>>
@@ -986,25 +1013,25 @@ d|List all the players
 |create TEAM_NAME
 |create Arsenal
 
-|<<remove, `remove`>>
-|`rt`
-|remove TEAM_NAME
-|remove Real Madrid
-
-|<<rename, `rename`>>
-|`rnt`
-|rename TEAM_NAME tm/RENAME_TEAM_NAME
-|rename Arsenal tm/Neo Arsenal
+|<<view, `view`>>
+|`vt`
+|view TEAM_NAME
+|view Liverpool
 
 |<<assign, `assign`>>
 |`at`
 |assign [TEAM_NAME] i/INDEX [INDEX]...
 |assign Barcelona i/1 2 3
 
-|<<view, `view`>>
-|`vt`
-|view TEAM_NAME
-|view Liverpool
+|<<rename, `rename`>>
+|`rnt`
+|rename TEAM_NAME tm/RENAME_TEAM_NAME
+|rename Arsenal tm/Neo Arsenal
+
+|<<remove, `remove`>>
+|`rt`
+|remove TEAM_NAME
+|remove Real Madrid
 
 |===
 
