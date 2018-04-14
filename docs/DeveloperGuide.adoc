@@ -1579,32 +1579,28 @@ Exclusive application for management of footballers and football teams that prov
 
 === Feature Contribution
 * Codee +
- ** Major - Revamp MTM’s whole GUI for ease of viewing teams and players’ details +
- e.g. remove browser panel, add player details panel, change person card +
- ** Minor - Command to set the colour of tags to colour of choice
+** Major - Revamp MTM’s whole GUI for ease of viewing teams and players’ details.
+*** e.g. remove browser panel, add player details panel, change person card.
+** Minor - Command to set the colour of tags to colour of choice.
 
 * Jordan
- ** Major - Creation of Team and related functions. +
-        e.g. assignment of players,
-        viewing of teams,
-        removal of team.
-
- ** Minor
-    *** Introduce `remark` command and `remark` field.
-    *** Enhanced add functionality to allow optional fields.
+** Major - Implementation of Team Component and Related Functions.
+*** e.g. creation of team, assignment of players, viewing of teams, removal of team, renaming of team.
+** Minor
+*** Introduce `remark` command and `remark` field.
+*** Enhanced add functionality to allow optional fields.
 
 * Syafiq
- ** Major
-    *** Create a new player class that contains more information about the players +
- e.g. Position, Rating (0 - 5 Star),  Remarks +
-    *** Update add, edit ,list, sort to include these fields accordingly. +
- ** Minor - Autocomplete command
+** Major - Create a new player class that contains more information about the players.
+*** e.g. Position, Rating (0 - 5 Star),  Remarks
+*** Update add, edit ,list, sort to include these fields accordingly.
+** Minor - Autocomplete command
 
 * Tianwei
- ** Major - privacy
-    *** Set private field and passwords
-    *** Make accounts
- ** Minor - Sorting players by different fields
+** Major - privacy
+*** Set private field and passwords
+*** Make accounts
+** Minor - Sorting players by different fields
 
 [appendix]
 == User Stories
@@ -1842,23 +1838,6 @@ A list of players that are playing for a match, with their positions specified
 [[user-guide]] User Guide::
 A documentation on the functionality and usability of MTM
 
-//[appendix]
-//== Product Survey
-//
-//*Product Name*
-//
-//Author: ...
-//
-//Pros:
-//
-//* ...
-//* ...
-//
-//Cons:
-//
-//* ...
-//* ...
-
 [appendix]
 == Instructions for Manual Testing
 
@@ -1904,3 +1883,15 @@ _{ more test cases ... }_
 .. _{explain how to simulate a missing/corrupted file and the expected behavior}_
 
 _{ more test cases ... }_
+
+=== Team-Related Functions
+
+==== Creating a Team
+
+==== Removing a Team
+
+==== Assigning Players to Team
+
+==== Renaming a Team
+
+==== Viewing a Team
