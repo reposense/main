@@ -1524,6 +1524,7 @@ image::chrome_save_as_pdf.png[width="300"]
 
 [[Testing]]
 == Testing
+If you are intending to develop our software further, it is highly recommended that you run tests in the ways listed below.
 
 === Running Tests
 
@@ -1573,6 +1574,7 @@ e.g. `seedu.address.logic.LogicManagerTest`
 * Solution: Execute Gradle task `processResources`.
 
 == Dev Ops
+
 
 === Build Automation
 
