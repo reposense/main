@@ -1574,7 +1574,7 @@ e.g. `seedu.address.logic.LogicManagerTest`
 * Solution: Execute Gradle task `processResources`.
 
 == Dev Ops
-
+This section covers resources for you to develop this software with good practices and prepare it for release.
 
 === Build Automation
 
@@ -1608,6 +1608,8 @@ b. Require developers to download those libraries manually (this creates extra w
 
 [appendix]
 == Product Scope
+
+This section tells you more details of our software, our target users, the user stories, and gives you a sneak peak into our development process.
 
 === Target user profile:
 
@@ -1743,7 +1745,6 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |=======================================================================
 
-// TODO: fix and add more use cases
 [appendix]
 == Use Cases
 
