@@ -260,18 +260,12 @@ The `Storage` component,
 
 Classes used by multiple components are in the `seedu.addressbook.commons` package.
 
-== Implementation
-
-This section describes some noteworthy details on how certain features are implemented.
-
-=== Pre-existing
-
-==== Configuration
+=== Configuration
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
 // tag::logging[]
-==== Logging
+=== Logging
 
 We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
 
@@ -288,6 +282,12 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 [[Implementation-Configuration]]
 // end::logging[]
+
+== Implementation
+
+This section describes some noteworthy details on how certain features are implemented.
+
+=== Pre-existing
 
 // tag::undoredo[]
 ==== Undo/Redo feature
