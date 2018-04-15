@@ -435,7 +435,7 @@ The field `remark` is found in `Person`, and it is not modified via `add` or `ed
 The sequence diagram below illustrates the operation of the `remark` command:
 
 .Remark Activity Diagram
-image::RemarkActivityDiagram.png[width="800"]
+image::RemarkActivityDiagram.png[width="100%"]
 
 The `remark` field is not required when adding or editing a `Person`, and it will be initialized to an empty string or retrieved to fit the implementation of the other fields.
 
@@ -933,10 +933,10 @@ After the creation of a new team, the user will then be able to perform a new se
 The sequence diagram below illustrates the operation of the `create` command:
 
 .Logic Component: Create Sequence Diagram
-image::TeamCreateSequenceDiagram1.png[width="800"]
+image::TeamCreateSequenceDiagram1.png[width="100%"]
 
 .Model Component: Create Sequence Diagram
-image::TeamCreateSequenceDiagram2.png[width="500"]
+image::TeamCreateSequenceDiagram2.png[width="70%"]
 
 ====== `view`: Views a `Team`, which shows all players in the team.
 The command uses the `filteredPersons` list, and an overloaded `updateFilteredPersonList` method that sets a predicate that filters the list based on a `TeamName`, in `ModelManager.java` so that it can be displayed via the UI.
@@ -944,7 +944,7 @@ The command uses the `filteredPersons` list, and an overloaded `updateFilteredPe
 The sequence diagram below illustrates the operation of the `view` command:
 
 .View Sequence Diagram
-image::TeamViewSequenceDiagram.png[width="800"]
+image::TeamViewSequenceDiagram.png[width="100%"]
 
 ====== `rename`: Renames a given `Team`.
 The user can rename a specified team to a new team name only if the current team name does not existing in MTM. On a side note, it prevents the user from renaming the team to the same name that it currently have.
@@ -954,10 +954,10 @@ This command will update the name of the teams that are in `teams` in `AddressBo
 The sequence diagram below illustrates the operation of the `rename` command:
 
 .Logic Component: Rename Sequence Diagram
-image::TeamRenameSequenceDiagram1.png[width="800"]
+image::TeamRenameSequenceDiagram1.png[width="100%"]
 
 .Model Component: Rename Sequence Diagram
-image::TeamRenameSequenceDiagram2.png[width="500"]
+image::TeamRenameSequenceDiagram2.png[width="70%"]
 
 ====== `assign`: Assign a set of `Person` to a specified `Team`.
 The core feature that organizes the player into teams so that the user can easily view the desired team players quickly. The command have 2 functions, firstly it is able to assign an individual or a set of players to a specified team, and secondly, it is able to unassign an individual or a set of players from any team.
@@ -980,7 +980,7 @@ This command will update and synchronise all affected players in `persons` and i
 The sequence diagram below illustrates the operation of the `assign` command:
 
 .Assign Sequence Diagram
-image::TeamAssignSequenceDiagram.png[width="800"]
+image::TeamAssignSequenceDiagram.png[width="100%"]
 
 ====== `remove`: Removes the given `Team`.
 The final step in completing the CRUD design is the removal of team. It will delete the `Team` from `teams` list in `AddressBook.java` and will update all affected players in the team to be unassigned from the team by having their `TeamName` field updated with an unspecifed field.
@@ -988,10 +988,10 @@ The final step in completing the CRUD design is the removal of team. It will del
 The sequence diagram below illustrates the operation of the `remove` command:
 
 .Logic Component: Remove Sequence Diagram
-image::TeamRemoveSequenceDiagram1.png[width="800"]
+image::TeamRemoveSequenceDiagram1.png[width="100%"]
 
 .Model Component: Remove Sequence Diagram
-image::TeamRemoveSequenceDiagram2.png[width="500"]
+image::TeamRemoveSequenceDiagram2.png[width="70%"]
 
 ===== Design Consideration
 ====== Aspect: Implementation of Team Functions
