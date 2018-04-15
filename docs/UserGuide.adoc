@@ -30,8 +30,8 @@ Head to <<Quick Start>> to get started with My Team Manager!
 Welcome! If you want to learn more about using My Team Manager, you've come to the right place. My Team Manager is the easiest
 way for you to manage your team efficiently, and this quick start section will help you learn the basics so you can get going.
 
-Your team, its players, and relevant information are organized clearly in My Team Manager. Teams can be created and
-players can be assign to teams.
+Your teams, their players, and all the relevant information is organized clearly in My Team Manager. Teams can be created and
+players can be assigned to teams.
 
 === Before we begin
 
