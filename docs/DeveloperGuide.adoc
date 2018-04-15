@@ -564,7 +564,7 @@ public void setFilePath(String player) throws IOException {
     }
 ----
 
-// tag::end[]
+// end::player[]
 
 // tag::remark[]
 ==== Remark a Player `[since v1.1]`
