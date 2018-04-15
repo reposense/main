@@ -42,7 +42,7 @@ public class CreateCommandTest {
     @Test
     public void execute_createTeam_success() throws Exception {
         Team teamToAdd = new Team(new TeamName(VALID_TEAM_ARSENAL));
-        String expectedMessage = String.format(CreateCommand.MESSAGE_SUCCESS, teamToAdd);
+        String expectedMessage = String.format(CreateCommand.MESSAGE_SUCCESS, teamToAdd.getTeamName().toString());
 
         CreateCommand createCommand = prepareCommand(VALID_TEAM_ARSENAL);
 
