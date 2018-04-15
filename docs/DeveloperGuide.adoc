@@ -427,6 +427,131 @@ image::UndoRedoActivityDiagram.png[width="650"]
 
 === Player-Related Enhancements
 
+// tag::player[]
+==== Player Component `[Since v1.3]`
+
+`Player` is one of the core components of MTM. To implement it, we used the same `Person` object and added additional attributes to it. Shown below is the
+new constructor for the Person object followed by the class diagram.
+
+[source, java]
+----
+public Person(Name name, Phone phone, Email email, Address address, Remark remark, TeamName teamName,
+                  Set<Tag> tags, Rating rating, Position position, JerseyNumber jerseyNumber, Avatar avatar) {
+        ...
+        this.remark = remark;
+        this.teamName = teamName;
+        this.rating = rating;
+        this.position = position;
+        this.jerseyNumber = jerseyNumber;
+        this.avatar = avatar;
+    }
+----
+.Person Class Diagram
+image::PlayerClassDiagram.png[width="300"]
+
+The additional attributes are: <<team,teamName>>, <<remark,Remark>>, <<rating,Rating>>, <<position,Position>>, <<jersey,Jersey Number>> and <<avatar,Avatar>>.
+
+The add and edit command has also been updated to include <<team,teamName>>,<<rating,Rating>>, <<position,Position>>, <<jersey,Jersey Number>> and <<avatar,Avatar>>.
+One thing to note is that in `executeUndoableCommand()`
+in both add and edit commands now does two additional things, setting the file path for players avatar, and assigning a player to a team
+and adding person to current filtered list. Shown below is the code snippet of the new `executeUndoableCommand()` and sequence diagram
+of the new add command as an example.
+
+[[AddSequence]]
+[source, java]
+----
+ @Override
+    public CommandResult executeUndoableCommand() throws CommandException {
+        requireNonNull(model);
+        try {
+            if (!toAdd.getAvatar().toString().equals(UNSPECIFIED_FIELD)) {
+                toAdd.getAvatar().setFilePath(toAdd.getName().fullName);
+            }
+            model.addPerson(toAdd);
+            if (!toAdd.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+                model.assignPersonToTeam(toAdd, toAdd.getTeamName());
+                model.updateFilteredPersonList(toAdd.getTeamName());
+                EventsCenter.getInstance().post(new HighlightSelectedTeamEvent(toAdd.getTeamName().toString()));
+            } else { ...
+----
+.Add Sequence Diagram
+image::AddSequenceDiagram.png[width="800"]
+
+
+[[rating]]
+===== Rating Class
+
+The `Rating` class contains a `String value`. `value` holds the players rating, an integer from 0 to 5. It uses a validation regex `[0-5]`
+to ensure valid input.
+
+The prefix for `Rating` is `ra/`
+
+[[position]]
+===== Position Class
+
+The`Position` class contains a `String value`. `value` here holds the players position, an integer from 1 to 4. It uses a validation regex `[1-4]` to ensure valid input.
+
+The prefix for `Position` is `po/`.
+
+
+A static hashmap is used to store and retrieve the corresponding position names of the position values. The position name can be called using the method `getPositionName()` which returns `myMap.get(value)`.
+The code snippet for the `hashmap` and `getPositionName()` is shown below.
+
+[source, java]
+----
+private static final Map<String, String> myMap;
+static {
+    Map<String, String> aMap = new HashMap<>();
+    aMap.put("1", "Striker");
+    aMap.put("2", "Midfielder");
+    aMap.put("3", "Defender");
+    aMap.put("4", "Goalkeeper");
+    myMap = Collections.unmodifiableMap(aMap);
+}
+
+public String getPositionName() {
+    return myMap.get(value);
+}
+
+----
+
+[[jersey]]
+===== JerseyNumber Class
+
+The`JerseyNumber` class contains a `String value`. `value` here holds the players jersey number, an integer from 0 to 99. It uses a validation regex `[0-9]|[1-8][0-9]|9[0-9]` to ensure valid input.
+
+The prefix for `Position` is `j/`.
+
+[[avatar]]
+===== Avatar Class
+
+The`Avatar` class contains a `String value`. `value` here holds the absolute filepath to the players avatar image file, a png of jpeg file. It uses a validation regex `([^\s]+(\.(?i)(jpg|png))$)` to ensure valid input.
+
+The prefix for `Avatar` is `av/`.
+
+When the class is created, the `value` stores the original location of the players avatar image file eg. `C:\image.png` or if not specified, stores "<UNSPECIFIED>".
+Thereafter, if the avatar is specified when <<AddSequence,adding>> or editing a player, `setFilePath()` is called which will attempt to copy the image file to a `/image` folder that is in the same directory as the `MTM.jar` file.
+`value` is then updated to the new file path.
+
+The code snippet for setFilePath() is shown below.
+
+[source, java]
+----
+public void setFilePath(String player) throws IOException {
+        if (value.equals("<UNSPECIFIED>")) {
+            return;
+        }
+        final File file = new File(value);
+
+        Path dest = new File("images/" + player.replaceAll("\\s+", "") + ".png").toPath();
+        Files.createDirectories(Paths.get("images")); // Creates missing directories if any
+        Files.copy(file.toPath(), dest, StandardCopyOption.REPLACE_EXISTING);
+        this.value = dest.toString();
+    }
+----
+
+// tag::end[]
+
 // tag::remark[]
 ==== Remark a Player `[since v1.1]`
 
@@ -763,6 +888,7 @@ If address book is empty, a `NoPlayerException` will be thrown by `sortBy` metho
 === Team-Related Enhancements
 
 // tag::team[]
+[[team]]
 ==== Team Component `[since v1.2]`
 
 One of the core components to MTM is `Team`, and it is the base to creating more commands for the user to access capability on team management. The `Team` component provides user with better organizational methods for organizing their players and interact with multiple teams to manage them effectively.
