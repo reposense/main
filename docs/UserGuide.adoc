@@ -522,7 +522,7 @@ This will sort MTM by names, in reverse alphabetical order.
 [[find]]
 ==== Locating players by name: `find`
 
-You can find a player whose name contain any of the given keywords with this command.
+You can find a player whose name contain any of the given keywords with this command within the full player listing of MTM.
 
 Format: `find KEYWORD [KEYWORD]...` +
 Alias: `f`

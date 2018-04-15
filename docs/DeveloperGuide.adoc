@@ -897,7 +897,7 @@ One of the core components to MTM is `Team`, and it is the base to creating more
 
 We achieved the implementation of `Team` component by introducing a `UniqueTeamList` into the application which consists of a list of `Team` objects. `UniqueTeamList` is similar in context to `UniquePersonList` in which it keeps a unique list of all the `Team` objects. `Team` objects consist of `TeamName` object, which is used to uniquely identify the team. `Team` inherits `UniquePersonList` object which stores the a list of unique `Person` objects, containing information of the player.
 
-The class diagrams below shoes the relationship between the related classes.
+The class diagrams below shoes the relationship between the related classes. The Team Class Diagrams are an extension to the current existing Designs of <<Design-Model, `Model`>>, <<Design-Storage, `Storage`>>, and <<Design-Ui, `UI`>>.
 
 .Model Component: Team Class Diagram
 image::TeamModelClassDiagram.png[width="800"]
@@ -1391,7 +1391,13 @@ the current team that has been selected in the Command Line Interface by the use
 
 It calls the `Team` model and displays the `Person` cards associated with that `Team`.
 It contains event handler methods such as handleShowNewTeamEvent(), handleHighlightSelectedTeamEvent(),
-and handleDeselectTeamEvent(), which update the display accordingly
+and handleDeselectTeamEvent(), which update the UI accordingly. +
+
+The component interactions can be seen in the higher level sequence diagram for `TeamDisplay` below, using the example of a `create` command:
+
+.Component interactions for `create Team` command
+image::ShowNewTeamDiagram.png[width="800"]
+
 
 Code snippet from 'TeamDisplay' to show initialisation of UI component and event handlers:
 
@@ -1444,6 +1450,13 @@ public class TeamDisplay extends UiPart<Region> {
 The `Player Details` pane is implemented as `PlayerDetails` in the UI Component.
 It is called from `PlayerListPanel`. It renders `PlayerDetails.fxml` and displays the selected `PersonCard`.
 It calls the `Person` model and displays the fields in the `Person` model that are not displayed in the left panel.
+It contains the event handler method handlePersonDetailsChangedEvent(), which updates the UI component when the `edit `
+or `remark` commands are entered. +
+
+The component interactions can be seen in the higher level sequence diagram for `PlayerDetails` below, using the example of a `remark` command:
+
+.Component interactions for `remark 1 r/test` command
+image::PlayerDetailsDiagram.png[width="800"]
 
 Code snippet from 'PlayerDetails' to show initialisation of UI component:
 
@@ -1458,6 +1471,11 @@ public class PlayerDetails extends UiPart<Region> {
         super(FXML);
         this.person = person;
         //....player details code...
+    }
+
+    @Subscribe
+    private void handlePersonDetailsChangedEvent(PersonDetailsChangedEvent event) {
+        ...handlePersonDetailsChangedEvent code...
     }
 
 }
@@ -1486,10 +1504,11 @@ which is a method in `UserPrefs`. +
 
 Below is the sequence diagram for how the `ChangeThemeCommand` works:
 
-image::ChangeThemeCommandDiagram.png[width="800"]
+.Interactions of the Logic Component with the UI and Model Components for the `changeTheme` Command
+image::ChangeThemeDiagram.png[width="800"]
 
 
-Code snippet from 'ChangThemeCommand':
+Code snippet from 'ChangeThemeCommand':
 
 [source, java]
 ----
@@ -1595,7 +1614,8 @@ public class SetCommand extends Command {
 
 The following sequence diagram shows how the set command operation works:
 
-image::SetTagCommandSequence.png[width="800"]
+.Interactions of the Logic Component with the UI and Model Components for the `setTagColour` Command
+image::SetTagCommandDiagram.png[width="800"]
 
 ===== Design Considerations
 ====== Aspect: Implementation of `Command` vs  `UndoableCommand`
@@ -2161,3 +2181,21 @@ Expected: Team is removed and Team Display Panel is updated to reflect that the 
 Expected: Similar to above, will be displaying full list of players before and after `remove` command.
 .. Test case: `remove SUNTeam` +
 Expected: Error details shown in the status message. Team does not exist in MTM.
+
+=== Appearance Related Functions
+
+==== Changing a Theme
+
+. Changing the theme that MTM is currently on
+.. Test case: `cte Dark` (if current theme is Light) or `cte Light` (if current theme is Dark) +
+Expected: MTM colour scheme will change to the respective themes as shown below:
+
+image::DarkTheme.png[width="300"]
+image::LightTheme.png[width="300"]
+
+
+==== Setting Tag Colours
+. Setting the tags to colour of choice
+.. Prerequisites: Player has tags
+.. Test case:  `setTagColour t/redCard tc/blue`
+Expected: All tags with the name `redCard` would become blue

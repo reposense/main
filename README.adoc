@@ -39,10 +39,9 @@ Say goodbye to manual tracking of information on excel sheet after excel sheet!
 
 * Set up Teams
 * Add Players to Teams
-* Add Player's personal details, position, season statistics, demerits, etc.
+* Add Player's personal details, position, rating, avatar etc.
 * View, Edit and Delete Players
 * Sort players by field of choice
-* Manage Schedule of Teams
 
 Come and take a look at our <<UserGuide#, User Guide>> to get started with MTM now.
 
@@ -55,6 +54,7 @@ Come and take a look at our <<UserGuide#, User Guide>> to get started with MTM n
 
 == Acknowledgements
 
+* My Team Manager is morphed from https://github.com/se-edu/addressbook-level4[AddressBook-Level4] application, a project created by SE-EDU initiative.
 * Some parts of this sample application were inspired by the excellent http://code.makery.ch/library/javafx-8-tutorial/[Java FX tutorial] by
 _Marco Jakob_.
 * Libraries used: https://github.com/TomasMikula/EasyBind[EasyBind], https://github.com/TestFX/TestFX[TextFX], https://bitbucket.org/controlsfx/controlsfx/[ControlsFX], https://github.com/FasterXML/jackson[Jackson], https://github.com/google/guava[Guava], https://github.com/junit-team/junit4[JUnit4]
