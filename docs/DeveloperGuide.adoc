@@ -442,9 +442,8 @@ The field `remark` is found in `Person`, and it is not modified via `add` or `ed
 
 The sequence diagram below illustrates the operation of the `remark` command:
 
-//TODO <insert sequence diagram for remark command>
-
-//_Figure : Sequence Diagram of `remark` Command_
+.Remark Activity Diagram
+image::RemarkActivityDiagram.png[width="100%"]
 
 The `remark` field is not required when adding or editing a `Person`, and it will be initialized to an empty string or retrieved to fit the implementation of the other fields.
 
@@ -772,10 +771,16 @@ One of the core components to MTM is `Team`, and it is the base to creating more
 
 We achieved the implementation of `Team` component by introducing a `UniqueTeamList` into the application which consists of a list of `Team` objects. `UniqueTeamList` is similar in context to `UniquePersonList` in which it keeps a unique list of all the `Team` objects. `Team` objects consist of `TeamName` object, which is used to uniquely identify the team. `Team` inherits `UniquePersonList` object which stores the a list of unique `Person` objects, containing information of the player.
 
-The class diagram below shoes the relationship between the related classes.
+The class diagrams below shoes the relationship between the related classes.
 
-//TODO-jordan: include class diagram of UniqueTeamList -> Team -> UniquePersonList
-//_Figure <>: Class Diagram of Team Components
+.Model Component: Team Class Diagram
+image::TeamModelClassDiagram.png[width="800"]
+
+.Storage Component: Team Class Diagram
+image::TeamStorageClassDiagram.png[width="400"]
+
+.UI Component: Team Class Diagram
+image::TeamUiClassDiagram.png[width="400"]
 
 Code snippet from `Team.java` that shows the constructor for `Team`.
 
@@ -937,13 +942,20 @@ For each feature, new functions are created in `AddressBook.java` and `ModelMana
 After the creation of a new team, the user will then be able to perform a new set of commands that performs team management functionality. Moreover, the `add` command can be used with the prefix `tm/` to immediately add the user into MTM and into the team specified.
 
 The sequence diagram below illustrates the operation of the `create` command:
-//TODO-jordan: create sequence diagram for create
+
+.Logic Component: Create Sequence Diagram
+image::TeamCreateSequenceDiagram1.png[width="100%"]
+
+.Model Component: Create Sequence Diagram
+image::TeamCreateSequenceDiagram2.png[width="70%"]
 
 ====== `view`: Views a `Team`, which shows all players in the team.
 The command uses the `filteredPersons` list, and an overloaded `updateFilteredPersonList` method that sets a predicate that filters the list based on a `TeamName`, in `ModelManager.java` so that it can be displayed via the UI.
 
 The sequence diagram below illustrates the operation of the `view` command:
-//TODO-jordan: view sequence diagram for view
+
+.View Sequence Diagram
+image::TeamViewSequenceDiagram.png[width="100%"]
 
 ====== `rename`: Renames a given `Team`.
 The user can rename a specified team to a new team name only if the current team name does not existing in MTM. On a side note, it prevents the user from renaming the team to the same name that it currently have.
@@ -951,7 +963,12 @@ The user can rename a specified team to a new team name only if the current team
 This command will update the name of the teams that are in `teams` in `AddressBook.java` and will update all the players `TeamName` field in `persons` and `Team` with the new team name.
 
 The sequence diagram below illustrates the operation of the `rename` command:
-//TODO-jordan: rename sequence diagram for rename
+
+.Logic Component: Rename Sequence Diagram
+image::TeamRenameSequenceDiagram1.png[width="100%"]
+
+.Model Component: Rename Sequence Diagram
+image::TeamRenameSequenceDiagram2.png[width="70%"]
 
 ====== `assign`: Assign a set of `Person` to a specified `Team`.
 The core feature that organizes the player into teams so that the user can easily view the desired team players quickly. The command have 2 functions, firstly it is able to assign an individual or a set of players to a specified team, and secondly, it is able to unassign an individual or a set of players from any team.
@@ -972,13 +989,20 @@ Typical issues that the command handles are,
 This command will update and synchronise all affected players in `persons` and in the specified `Team` object, such that their `TeamName` field in `Person` are updated with the new assigned or unassigned team. At the same time, the list of players in `Team` gets update if new player are assigned or unassigned.
 
 The sequence diagram below illustrates the operation of the `assign` command:
-//TODO-jordan: assign sequence diagram for assign
+
+.Assign Sequence Diagram
+image::TeamAssignSequenceDiagram.png[width="100%"]
 
 ====== `remove`: Removes the given `Team`.
 The final step in completing the CRUD design is the removal of team. It will delete the `Team` from `teams` list in `AddressBook.java` and will update all affected players in the team to be unassigned from the team by having their `TeamName` field updated with an unspecifed field.
 
 The sequence diagram below illustrates the operation of the `remove` command:
-//TODO-jordan: remove sequence diagram for remove
+
+.Logic Component: Remove Sequence Diagram
+image::TeamRemoveSequenceDiagram1.png[width="100%"]
+
+.Model Component: Remove Sequence Diagram
+image::TeamRemoveSequenceDiagram2.png[width="70%"]
 
 ===== Design Consideration
 ====== Aspect: Implementation of Team Functions
@@ -1164,12 +1188,6 @@ Having the option to only entering the mandatory fields and leaving the optional
 This mechanism enhances the original implementation of the `add` command.
 The required fields that are mandatory to be filled by the user are `n/NAME` and `e/EMAIL`.
 This implementation of making fields optional for `AddCommand` allows user to add players without their full information, and can be updated accordingly when the user retrieves their full information.
-
-The sequence diagram below illustrates the operation after the enhancement made to `add` command:
-
-//TODO-jordan <insert sequence diagram for Optional Fields>
-
-//_Figure : Sequence Diagram of Enhanced `add` Command_
 
 Code snippet from `ParserUtil.java` that shows the implementation of when a field is left empty.
 "<UNSPECIFIED>" string will be return when the value passed in is empty.
@@ -1595,32 +1613,28 @@ Exclusive application for management of footballers and football teams that prov
 
 === Feature Contribution
 * Codee +
- ** Major - Revamp MTM’s whole GUI for ease of viewing teams and players’ details +
- e.g. remove browser panel, add player details panel, change person card +
- ** Minor - Command to set the colour of tags to colour of choice
+** Major - Revamp MTM’s whole GUI for ease of viewing teams and players’ details.
+*** e.g. remove browser panel, add player details panel, change person card.
+** Minor - Command to set the colour of tags to colour of choice.
 
 * Jordan
- ** Major - Creation of Team and related functions. +
-        e.g. assignment of players,
-        viewing of teams,
-        removal of team.
-
- ** Minor
-    *** Introduce `remark` command and `remark` field.
-    *** Enhanced add functionality to allow optional fields.
+** Major - Implementation of Team Component and Related Functions.
+*** e.g. creation of team, assignment of players, viewing of teams, removal of team, renaming of team.
+** Minor
+*** Introduce `remark` command and `remark` field.
+*** Enhanced add functionality to allow optional fields.
 
 * Syafiq
- ** Major
-    *** Create a new player class that contains more information about the players +
- e.g. Position, Rating (0 - 5 Star),  Remarks +
-    *** Update add, edit ,list, sort to include these fields accordingly. +
- ** Minor - Autocomplete command
+** Major - Create a new player class that contains more information about the players.
+*** e.g. Position, Rating (0 - 5 Star),  Remarks
+*** Update add, edit ,list, sort to include these fields accordingly.
+** Minor - Autocomplete command
 
 * Tianwei
- ** Major - privacy
-    *** Set private field and passwords
-    *** Make accounts
- ** Minor - Sorting players by different fields
+** Major - privacy
+*** Set private field and passwords
+*** Make accounts
+** Minor - Sorting players by different fields
 
 [appendix]
 == User Stories
@@ -1858,23 +1872,6 @@ A list of players that are playing for a match, with their positions specified
 [[user-guide]] User Guide::
 A documentation on the functionality and usability of MTM
 
-//[appendix]
-//== Product Survey
-//
-//*Product Name*
-//
-//Author: ...
-//
-//Pros:
-//
-//* ...
-//* ...
-//
-//Cons:
-//
-//* ...
-//* ...
-
 [appendix]
 == Instructions for Manual Testing
 
@@ -1920,3 +1917,15 @@ _{ more test cases ... }_
 .. _{explain how to simulate a missing/corrupted file and the expected behavior}_
 
 _{ more test cases ... }_
+
+=== Team-Related Functions
+
+==== Creating a Team
+
+==== Removing a Team
+
+==== Assigning Players to Team
+
+==== Renaming a Team
+
+==== Viewing a Team
