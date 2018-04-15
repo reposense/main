@@ -26,7 +26,7 @@ confidentiality of certain information
 * *Minor enhancement*:
 ** Added a sort function that allows the list to be sorted by fields for quick viewing of relevant information
 
-* *Code contributed*: [https://github.com/CS2103JAN2018-F14-B1/main/collated/functional/lohtianwei.md[Functional code]] [https://github.com/CS2103JAN2018-F14-B1/main/collated/test/lohtianwei.md[Test code]]
+* *Code contributed*: [https://github.com/CS2103JAN2018-F14-B1/main/blob/master/collated/functional/lohtianwei.md[Functional code]] [https://github.com/CS2103JAN2018-F14-B1/main/blob/master/collated/test/lohtianwei.md[Test code]]
 
 * *Other contributions*:
 
@@ -54,8 +54,6 @@ https://github.com/CS2103JAN2018-W09-B2/main/issues/174[4])
 
 include::../UserGuide.adoc[tag=togglePrivacy]
 
-include::../UserGuide.adoc[tag=sort]
-
 include::../UserGuide.adoc[tag=key]
 
 
@@ -67,7 +65,5 @@ include::../UserGuide.adoc[tag=key]
 |===
 
 include::../DeveloperGuide.adoc[tag=sort]
-
-include::../DeveloperGuide.adoc[tag=privatefield]
 
 include::../DeveloperGuide.adoc[tag=key]

@@ -27,4 +27,9 @@ public class AutocompleteTest {
         assert commandTrie.attemptAutoComplete("H").equals("H");
 
     }
+
+    @Test
+    public void autocomplete_mix_case() {
+        assert commandTrie.attemptAutoComplete("setT").equals("setTagColour");
+    }
 }
