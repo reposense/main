@@ -21,7 +21,7 @@ It is accompanied with improved GUI to increase usability. Eg. the user can see 
 the forget.
 ** Credits: To make the search optimal, I used Tries as suggested on geek-for-geeks.
 
-* *Code contributed*: [https://github.com/CS2103JAN2018-F14-B1/main/collated/functional/lithiumlkid.md[Functional code]] [https://github.com/CS2103JAN2018-F14-B1/main/collated/test/lithiumlkid.md[Test code]]
+* *Code contributed*: [https://github.com/CS2103JAN2018-F14-B1/main/blob/master/collated/functional/lithiumlkid.md[Functional code]] [https://github.com/CS2103JAN2018-F14-B1/main/blob/master/collated/test/lithiumlkid.md[Test code]]
 
 * *Other contributions*:
 
