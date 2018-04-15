@@ -442,7 +442,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 === Player-Related Enhancements
 
 // tag::player[]
-==== Player Component `[Since v1.3]`
+==== Player Component `[since v1.3]`
 
 `Player` is one of the core components of MTM. To implement it, we used the same `Person` object and added additional attributes to it. Shown below is the
 new constructor for the Person object followed by the class diagram.
@@ -637,7 +637,7 @@ private static Person createEditedPerson(Person personToEdit,
 // end::remark[]
 
 // tag::privatefield[]
-==== Setting various player fields to private
+==== Setting various player fields to private `[since v1.4]`
 ===== Current Implementation
 
 `Phone`, `Email`, `Remark`, `Rating` and `Address` of a player has an additional boolean attribute
@@ -760,7 +760,7 @@ model.updatePerson(personToEdit, editedPerson);
 // end::privatefield[]
 
 // tag::sort[]
-==== Sorting players by fields
+==== Sorting players by fields `[since v1.2]`
 ===== Current Implementation
 
 The `sort` command is currently able to sort players by name, email, address, rating, jersey and postition in either ascending or descending order. Support for more fields will be added in subsequent updates.
@@ -1119,7 +1119,7 @@ The `showBest` command is able to show the current team's best 11 players. There
 === Usability Enhancements
 
 // tag::key[]
-==== Toggle lock on MTM
+==== Toggle lock on MTM `[since v1.5]`
 ===== Current Implementation
 Locking mechanism of MTM can be toggled on and off using the `Key` command. It utilises the Model to access
 user preferences of MTM. Current lock state and password is stored in `UserPrefs` in the Storage component.
