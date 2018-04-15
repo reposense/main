@@ -61,14 +61,15 @@
 </li>
 <li><a href="#player-related-enhancements">4.2. Player-Related Enhancements</a>
 <ul class="sectlevel3">
-<li><a href="#remark-a-player-code-since-v1-1-code">4.2.1. Remark a Player <code>[since v1.1]</code></a></li>
-<li><a href="#setting-various-player-fields-to-private">4.2.2. Setting various player fields to private</a></li>
-<li><a href="#sorting-players-by-fields">4.2.3. Sorting players by fields</a></li>
+<li><a href="#player-component-code-since-v1-3-code">4.2.1. Player Component <code>[Since v1.3]</code></a></li>
+<li><a href="#remark-a-player-code-since-v1-1-code">4.2.2. Remark a Player <code>[since v1.1]</code></a></li>
+<li><a href="#setting-various-player-fields-to-private">4.2.3. Setting various player fields to private</a></li>
+<li><a href="#sorting-players-by-fields">4.2.4. Sorting players by fields</a></li>
 </ul>
 </li>
 <li><a href="#team-related-enhancements">4.3. Team-Related Enhancements</a>
 <ul class="sectlevel3">
-<li><a href="#team-component-code-since-v1-2-code">4.3.1. Team Component <code>[since v1.2]</code></a></li>
+<li><a href="#team">4.3.1. Team Component <code>[since v1.2]</code></a></li>
 <li><a href="#team-functions-code-since-v1-4-code">4.3.2. Team Functions <code>[since v1.4]</code></a></li>
 <li><a href="#show-best-xi-code-coming-in-v2-0-code">4.3.3. Show Best XI <code>[coming in v2.0]</code></a></li>
 </ul>
@@ -1049,7 +1050,148 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 <div class="sect2">
 <h3 id="player-related-enhancements"><a class="link" href="#player-related-enhancements">4.2. Player-Related Enhancements</a></h3>
 <div class="sect3">
-<h4 id="remark-a-player-code-since-v1-1-code"><a class="link" href="#remark-a-player-code-since-v1-1-code">4.2.1. Remark a Player <code>[since v1.1]</code></a></h4>
+<h4 id="player-component-code-since-v1-3-code"><a class="link" href="#player-component-code-since-v1-3-code">4.2.1. Player Component <code>[Since v1.3]</code></a></h4>
+<div class="paragraph">
+<p><code>Player</code> is one of the core components of MTM. To implement it, we used the same <code>Person</code> object and added additional attributes to it. Shown below is the
+new constructor for the Person object followed by the class diagram.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> Person(<span class="predefined-type">Name</span> name, Phone phone, Email email, Address address, Remark remark, TeamName teamName,
+                  <span class="predefined-type">Set</span>&lt;Tag&gt; tags, Rating rating, <span class="predefined-type">Position</span> position, JerseyNumber jerseyNumber, Avatar avatar) {
+        ...
+        this.remark = remark;
+        <span class="local-variable">this</span>.teamName = teamName;
+        <span class="local-variable">this</span>.rating = rating;
+        <span class="local-variable">this</span>.position = position;
+        <span class="local-variable">this</span>.jerseyNumber = jerseyNumber;
+        <span class="local-variable">this</span>.avatar = avatar;
+    }</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/PlayerClassDiagram.png" alt="PlayerClassDiagram" width="300">
+</div>
+<div class="title">Figure 19. Person Class Diagram</div>
+</div>
+<div class="paragraph">
+<p>The additional attributes are: <a href="#team">teamName</a>, <a href="#remark">Remark</a>, <a href="#rating">Rating</a>, <a href="#position">Position</a>, <a href="#jersey">Jersey Number</a> and <a href="#avatar">Avatar</a>.</p>
+</div>
+<div class="paragraph">
+<p>The add and edit command has also been updated to include <a href="#team">teamName</a>,<a href="#rating">Rating</a>, <a href="#position">Position</a>, <a href="#jersey">Jersey Number</a> and <a href="#avatar">Avatar</a>.
+One thing to note is that in <code>executeUndoableCommand()</code>
+in both add and edit commands now does two additional things, setting the file path for players avatar, and assigning a player to a team
+and adding person to current filtered list. Shown below is the code snippet of the new <code>executeUndoableCommand()</code> and sequence diagram
+of the new add command as an example.</p>
+</div>
+<div id="AddSequence" class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"> <span class="annotation">@Override</span>
+    <span class="directive">public</span> CommandResult executeUndoableCommand() <span class="directive">throws</span> CommandException {
+        requireNonNull(model);
+        <span class="keyword">try</span> {
+            <span class="keyword">if</span> (!toAdd.getAvatar().toString().equals(UNSPECIFIED_FIELD)) {
+                toAdd.getAvatar().setFilePath(toAdd.getName().fullName);
+            }
+            model.addPerson(toAdd);
+            <span class="keyword">if</span> (!toAdd.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+                model.assignPersonToTeam(toAdd, toAdd.getTeamName());
+                model.updateFilteredPersonList(toAdd.getTeamName());
+                EventsCenter.getInstance().post(<span class="keyword">new</span> HighlightSelectedTeamEvent(toAdd.getTeamName().toString()));
+            } <span class="keyword">else</span> { ...</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/AddSequenceDiagram.png" alt="AddSequenceDiagram" width="800">
+</div>
+<div class="title">Figure 20. Add Sequence Diagram</div>
+</div>
+<div class="sect4">
+<h5 id="rating"><a class="link" href="#rating">Rating Class</a></h5>
+<div class="paragraph">
+<p>The <code>Rating</code> class contains a <code>String value</code>. <code>value</code> holds the players rating, an integer from 0 to 5. It uses a validation regex <code>[0-5]</code>
+to ensure valid input.</p>
+</div>
+<div class="paragraph">
+<p>The prefix for <code>Rating</code> is <code>ra/</code></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="position"><a class="link" href="#position">Position Class</a></h5>
+<div class="paragraph">
+<p>The`Position` class contains a <code>String value</code>. <code>value</code> here holds the players position, an integer from 1 to 4. It uses a validation regex <code>[1-4]</code> to ensure valid input.</p>
+</div>
+<div class="paragraph">
+<p>The prefix for <code>Position</code> is <code>po/</code>.</p>
+</div>
+<div class="paragraph">
+<p>A static hashmap is used to store and retrieve the corresponding position names of the position values. The position name can be called using the method <code>getPositionName()</code> which returns <code>myMap.get(value)</code>.
+The code snippet for the <code>hashmap</code> and <code>getPositionName()</code> is shown below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">String</span>&gt; myMap;
+<span class="directive">static</span> {
+    <span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">String</span>&gt; aMap = <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;&gt;();
+    aMap.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Striker</span><span class="delimiter">&quot;</span></span>);
+    aMap.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Midfielder</span><span class="delimiter">&quot;</span></span>);
+    aMap.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">3</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Defender</span><span class="delimiter">&quot;</span></span>);
+    aMap.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">4</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Goalkeeper</span><span class="delimiter">&quot;</span></span>);
+    myMap = <span class="predefined-type">Collections</span>.unmodifiableMap(aMap);
+}
+
+<span class="directive">public</span> <span class="predefined-type">String</span> getPositionName() {
+    <span class="keyword">return</span> myMap.get(value);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="jersey"><a class="link" href="#jersey">JerseyNumber Class</a></h5>
+<div class="paragraph">
+<p>The`JerseyNumber` class contains a <code>String value</code>. <code>value</code> here holds the players jersey number, an integer from 0 to 99. It uses a validation regex <code>[0-9]|[1-8][0-9]|9[0-9]</code> to ensure valid input.</p>
+</div>
+<div class="paragraph">
+<p>The prefix for <code>Position</code> is <code>j/</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="avatar"><a class="link" href="#avatar">Avatar Class</a></h5>
+<div class="paragraph">
+<p>The`Avatar` class contains a <code>String value</code>. <code>value</code> here holds the absolute filepath to the players avatar image file, a png of jpeg file. It uses a validation regex <code>([^\s]+(\.(?i)(jpg|png))$)</code> to ensure valid input.</p>
+</div>
+<div class="paragraph">
+<p>The prefix for <code>Avatar</code> is <code>av/</code>.</p>
+</div>
+<div class="paragraph">
+<p>When the class is created, the <code>value</code> stores the original location of the players avatar image file eg. <code>C:\image.png</code> or if not specified, stores "&lt;UNSPECIFIED&gt;".
+Thereafter, if the avatar is specified when <a href="#AddSequence">adding</a> or editing a player, <code>setFilePath()</code> is called which will attempt to copy the image file to a <code>/image</code> folder that is in the same directory as the <code>MTM.jar</code> file.
+<code>value</code> is then updated to the new file path.</p>
+</div>
+<div class="paragraph">
+<p>The code snippet for setFilePath() is shown below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">void</span> setFilePath(<span class="predefined-type">String</span> player) <span class="directive">throws</span> <span class="exception">IOException</span> {
+        <span class="keyword">if</span> (value.equals(<span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;UNSPECIFIED&gt;</span><span class="delimiter">&quot;</span></span>)) {
+            <span class="keyword">return</span>;
+        }
+        <span class="directive">final</span> <span class="predefined-type">File</span> file = <span class="keyword">new</span> <span class="predefined-type">File</span>(value);
+
+        Path dest = <span class="keyword">new</span> <span class="predefined-type">File</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">images/</span><span class="delimiter">&quot;</span></span> + player.replaceAll(<span class="string"><span class="delimiter">&quot;</span><span class="char">\\</span><span class="content">s+</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>) + <span class="string"><span class="delimiter">&quot;</span><span class="content">.png</span><span class="delimiter">&quot;</span></span>).toPath();
+        Files.createDirectories(Paths.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">images</span><span class="delimiter">&quot;</span></span>)); <span class="comment">// Creates missing directories if any</span>
+        Files.copy(file.toPath(), dest, StandardCopyOption.REPLACE_EXISTING);
+        <span class="local-variable">this</span>.value = dest.toString();
+    }</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="remark-a-player-code-since-v1-1-code"><a class="link" href="#remark-a-player-code-since-v1-1-code">4.2.2. Remark a Player <code>[since v1.1]</code></a></h4>
 <div class="paragraph">
 <p>Leaving a remark would be ideal for the user to note down any important detail of a player that is useful in the future.
 Remarks given can be in any format and therefore would not look good if it was done using tags instead, as tags are used with minimal words.</p>
@@ -1072,7 +1214,7 @@ Remarks given can be in any format and therefore would not look good if it was d
 <div class="content">
 <img src="images/RemarkActivityDiagram.png" alt="RemarkActivityDiagram" width="100%">
 </div>
-<div class="title">Figure 19. Remark Activity Diagram</div>
+<div class="title">Figure 21. Remark Activity Diagram</div>
 </div>
 <div class="paragraph">
 <p>The <code>remark</code> field is not required when adding or editing a <code>Person</code>, and it will be initialized to an empty string or retrieved to fit the implementation of the other fields.</p>
@@ -1181,7 +1323,7 @@ Remarks given can be in any format and therefore would not look good if it was d
 </div>
 </div>
 <div class="sect3">
-<h4 id="setting-various-player-fields-to-private"><a class="link" href="#setting-various-player-fields-to-private">4.2.2. Setting various player fields to private</a></h4>
+<h4 id="setting-various-player-fields-to-private"><a class="link" href="#setting-various-player-fields-to-private">4.2.3. Setting various player fields to private</a></h4>
 <div class="sect4">
 <h5 id="current-implementation-3"><a class="link" href="#current-implementation-3">Current Implementation</a></h5>
 <div class="paragraph">
@@ -1374,7 +1516,7 @@ setting was not toggled and thus is set to the same as it was before. Else, it w
 </div>
 </div>
 <div class="sect3">
-<h4 id="sorting-players-by-fields"><a class="link" href="#sorting-players-by-fields">4.2.3. Sorting players by fields</a></h4>
+<h4 id="sorting-players-by-fields"><a class="link" href="#sorting-players-by-fields">4.2.4. Sorting players by fields</a></h4>
 <div class="sect4">
 <h5 id="current-implementation-4"><a class="link" href="#current-implementation-4">Current Implementation</a></h5>
 <div class="paragraph">
@@ -1494,7 +1636,7 @@ setting was not toggled and thus is set to the same as it was before. Else, it w
 <div class="content">
 <img src="images/sortSeq.png" alt="sortSeq" width="900">
 </div>
-<div class="title">Figure 20. Sort Sequence Diagram</div>
+<div class="title">Figure 22. Sort Sequence Diagram</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1616,7 +1758,7 @@ If address book is empty, a <code>NoPlayerException</code> will be thrown by <co
 <div class="sect2">
 <h3 id="team-related-enhancements"><a class="link" href="#team-related-enhancements">4.3. Team-Related Enhancements</a></h3>
 <div class="sect3">
-<h4 id="team-component-code-since-v1-2-code"><a class="link" href="#team-component-code-since-v1-2-code">4.3.1. Team Component <code>[since v1.2]</code></a></h4>
+<h4 id="team"><a class="link" href="#team">4.3.1. Team Component <code>[since v1.2]</code></a></h4>
 <div class="paragraph">
 <p>One of the core components to MTM is <code>Team</code>, and it is the base to creating more commands for the user to access capability on team management. The <code>Team</code> component provides user with better organizational methods for organizing their players and interact with multiple teams to manage them effectively.</p>
 </div>
@@ -1632,19 +1774,19 @@ If address book is empty, a <code>NoPlayerException</code> will be thrown by <co
 <div class="content">
 <img src="images/TeamModelClassDiagram.png" alt="TeamModelClassDiagram" width="800">
 </div>
-<div class="title">Figure 21. Model Component: Team Class Diagram</div>
+<div class="title">Figure 23. Model Component: Team Class Diagram</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/TeamStorageClassDiagram.png" alt="TeamStorageClassDiagram" width="400">
 </div>
-<div class="title">Figure 22. Storage Component: Team Class Diagram</div>
+<div class="title">Figure 24. Storage Component: Team Class Diagram</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/TeamUiClassDiagram.png" alt="TeamUiClassDiagram" width="400">
 </div>
-<div class="title">Figure 23. UI Component: Team Class Diagram</div>
+<div class="title">Figure 25. UI Component: Team Class Diagram</div>
 </div>
 <div class="paragraph">
 <p>Code snippet from <code>Team.java</code> that shows the constructor for <code>Team</code>.</p>
@@ -1855,13 +1997,13 @@ With these commands, the application is ready to support the features that the a
 <div class="content">
 <img src="images/TeamCreateSequenceDiagram1.png" alt="TeamCreateSequenceDiagram1" width="100%">
 </div>
-<div class="title">Figure 24. Logic Component: Create Sequence Diagram</div>
+<div class="title">Figure 26. Logic Component: Create Sequence Diagram</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/TeamCreateSequenceDiagram2.png" alt="TeamCreateSequenceDiagram2" width="70%">
 </div>
-<div class="title">Figure 25. Model Component: Create Sequence Diagram</div>
+<div class="title">Figure 27. Model Component: Create Sequence Diagram</div>
 </div>
 </div>
 <div class="sect5">
@@ -1876,7 +2018,7 @@ With these commands, the application is ready to support the features that the a
 <div class="content">
 <img src="images/TeamViewSequenceDiagram.png" alt="TeamViewSequenceDiagram" width="100%">
 </div>
-<div class="title">Figure 26. View Sequence Diagram</div>
+<div class="title">Figure 28. View Sequence Diagram</div>
 </div>
 </div>
 <div class="sect5">
@@ -1894,13 +2036,13 @@ With these commands, the application is ready to support the features that the a
 <div class="content">
 <img src="images/TeamRenameSequenceDiagram1.png" alt="TeamRenameSequenceDiagram1" width="100%">
 </div>
-<div class="title">Figure 27. Logic Component: Rename Sequence Diagram</div>
+<div class="title">Figure 29. Logic Component: Rename Sequence Diagram</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/TeamRenameSequenceDiagram2.png" alt="TeamRenameSequenceDiagram2" width="70%">
 </div>
-<div class="title">Figure 28. Model Component: Rename Sequence Diagram</div>
+<div class="title">Figure 30. Model Component: Rename Sequence Diagram</div>
 </div>
 </div>
 <div class="sect5">
@@ -1954,7 +2096,7 @@ With these commands, the application is ready to support the features that the a
 <div class="content">
 <img src="images/TeamAssignSequenceDiagram.png" alt="TeamAssignSequenceDiagram" width="100%">
 </div>
-<div class="title">Figure 29. Assign Sequence Diagram</div>
+<div class="title">Figure 31. Assign Sequence Diagram</div>
 </div>
 </div>
 <div class="sect5">
@@ -1969,13 +2111,13 @@ With these commands, the application is ready to support the features that the a
 <div class="content">
 <img src="images/TeamRemoveSequenceDiagram1.png" alt="TeamRemoveSequenceDiagram1" width="100%">
 </div>
-<div class="title">Figure 30. Logic Component: Remove Sequence Diagram</div>
+<div class="title">Figure 32. Logic Component: Remove Sequence Diagram</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/TeamRemoveSequenceDiagram2.png" alt="TeamRemoveSequenceDiagram2" width="70%">
 </div>
-<div class="title">Figure 31. Model Component: Remove Sequence Diagram</div>
+<div class="title">Figure 33. Model Component: Remove Sequence Diagram</div>
 </div>
 </div>
 </div>
@@ -2076,7 +2218,7 @@ user preferences of MTM. Current lock state and password is stored in <code>User
 <div class="content">
 <img src="images/Keyactdiag.png" alt="Keyactdiag" width="900">
 </div>
-<div class="title">Figure 32. Key Activity Diagram</div>
+<div class="title">Figure 34. Key Activity Diagram</div>
 </div>
 <div class="paragraph">
 <p>Password checking done in <code>Key</code> command:</p>
@@ -2392,7 +2534,7 @@ and handleDeselectTeamEvent(), which update the UI accordingly.<br></p>
 <div class="content">
 <img src="images/ShowNewTeamDiagram.png" alt="ShowNewTeamDiagram" width="800">
 </div>
-<div class="title">Figure 33. Component interactions for <code>create Team</code> command</div>
+<div class="title">Figure 35. Component interactions for <code>create Team</code> command</div>
 </div>
 <div class="paragraph">
 <p>Code snippet from 'TeamDisplay' to show initialisation of UI component and event handlers:</p>
@@ -2482,7 +2624,7 @@ or `remark</code> commands are entered.<br></p>
 <div class="content">
 <img src="images/PlayerDetailsDiagram.png" alt="PlayerDetailsDiagram" width="800">
 </div>
-<div class="title">Figure 34. Component interactions for <code>remark 1 r/test</code> command</div>
+<div class="title">Figure 36. Component interactions for <code>remark 1 r/test</code> command</div>
 </div>
 <div class="paragraph">
 <p>Code snippet from 'PlayerDetails' to show initialisation of UI component:</p>
@@ -2563,7 +2705,7 @@ which is a method in <code>UserPrefs</code>.<br></p>
 <div class="content">
 <img src="images/ChangeThemeDiagram.png" alt="ChangeThemeDiagram" width="800">
 </div>
-<div class="title">Figure 35. Interactions of the Logic Component with the UI and Model Components for the <code>changeTheme</code> Command</div>
+<div class="title">Figure 37. Interactions of the Logic Component with the UI and Model Components for the <code>changeTheme</code> Command</div>
 </div>
 <div class="paragraph">
 <p>Code snippet from 'ChangeThemeCommand':</p>
@@ -2720,7 +2862,7 @@ its handler in <code>PersonCard</code> responds and performs the UI update.<br><
 <div class="content">
 <img src="images/SetTagCommandDiagram.png" alt="SetTagCommandDiagram" width="800">
 </div>
-<div class="title">Figure 36. Interactions of the Logic Component with the UI and Model Components for the <code>setTagColour</code> Command</div>
+<div class="title">Figure 38. Interactions of the Logic Component with the UI and Model Components for the <code>setTagColour</code> Command</div>
 </div>
 </div>
 <div class="sect4">
@@ -2824,7 +2966,7 @@ Alternatively, you can download the AsciiDoc plugin for IntelliJ, which allows y
 <div class="content">
 <img src="images/chrome_save_as_pdf.png" alt="chrome save as pdf" width="300">
 </div>
-<div class="title">Figure 37. Saving documentation as PDF files in Chrome</div>
+<div class="title">Figure 39. Saving documentation as PDF files in Chrome</div>
 </div>
 </div>
 </div>
@@ -4156,7 +4298,7 @@ Expected: All tags with the name <code>redCard</code> would become blue</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-15 14:33:56 UTC
+Last updated 2018-04-15 14:37:55 UTC
 </div>
 </div>
 </body>
