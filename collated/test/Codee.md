@@ -158,7 +158,7 @@ public class ChangeThemeCommandTest {
 
     @Test
     public void execute_validTheme_success() {
-        assertExecutionSuccess(listThemes[1]);
+        assertExecutionSuccess(listThemes[0]);
     }
 
     @Test
