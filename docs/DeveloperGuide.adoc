@@ -2072,4 +2072,4 @@ image::LightTheme.png[width="300"]
 . Setting the tags to colour of choice
 .. Prerequisites: Player has tags
 .. Test case:  `setTagColour t/redCard tc/blue`
-Expected: All tags with the name `redCard` would become
+Expected: All tags with the name `redCard` would become blue
