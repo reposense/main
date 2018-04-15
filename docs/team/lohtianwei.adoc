@@ -54,8 +54,6 @@ https://github.com/CS2103JAN2018-W09-B2/main/issues/174[4])
 
 include::../UserGuide.adoc[tag=togglePrivacy]
 
-include::../UserGuide.adoc[tag=sort]
-
 include::../UserGuide.adoc[tag=key]
 
 
@@ -67,7 +65,5 @@ include::../UserGuide.adoc[tag=key]
 |===
 
 include::../DeveloperGuide.adoc[tag=sort]
-
-include::../DeveloperGuide.adoc[tag=privatefield]
 
 include::../DeveloperGuide.adoc[tag=key]
