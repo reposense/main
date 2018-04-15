@@ -771,8 +771,7 @@ One of the core components to MTM is `Team`, and it is the base to creating more
 
 We achieved the implementation of `Team` component by introducing a `UniqueTeamList` into the application which consists of a list of `Team` objects. `UniqueTeamList` is similar in context to `UniquePersonList` in which it keeps a unique list of all the `Team` objects. `Team` objects consist of `TeamName` object, which is used to uniquely identify the team. `Team` inherits `UniquePersonList` object which stores the a list of unique `Person` objects, containing information of the player.
 
-The class diagrams below shoes the relationship between the related classes.
-
+The class diagrams below shoes the relationship between the related classes:
 .Model Component: Team Class Diagram
 image::TeamModelClassDiagram.png[width="800"]
 
@@ -2055,3 +2054,21 @@ Expected: Team is removed and Team Display Panel is updated to reflect that the 
 Expected: Similar to above, will be displaying full list of players before and after `remove` command.
 .. Test case: `remove SUNTeam` +
 Expected: Error details shown in the status message. Team does not exist in MTM.
+
+=== Appearance Related Functions
+
+==== Changing a Theme
+
+. Changing the theme that MTM is currently on
+.. Test case: `cte Dark` (if current theme is Light) or `cte Light` (if current theme is Dark) +
+Expected: MTM colour scheme will change to the respective themes as shown below:
+
+image::DarkTheme.png[width="300"]
+image::LightTheme.png[width="300"]
+
+
+==== Setting Tag Colours
+. Setting the tags to colour of choice
+.. Prerequisites: Player has tags
+.. Test case:  `setTagColour t/redCard tc/blue`
+Expected: All tags with the name `redCard` would become 
