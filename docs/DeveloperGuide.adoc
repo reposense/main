@@ -1318,6 +1318,13 @@ public class TeamDisplay extends UiPart<Region> {
 The `Player Details` pane is implemented as `PlayerDetails` in the UI Component.
 It is called from `PlayerListPanel`. It renders `PlayerDetails.fxml` and displays the selected `PersonCard`.
 It calls the `Person` model and displays the fields in the `Person` model that are not displayed in the left panel.
+It contains the event handler method handlePersonDetailsChangedEvent(), which updates the UI component when the `edit `
+or `remark` commands are entered. +
+
+The component interactions can be seen in the higher level sequence diagram for `PlayerDetails` below, using the example of a `remark` command:
+
+.Component interactions for `remark 1 r/test` command
+image::PlayerDetailsDiagram.png[width="800"]
 
 Code snippet from 'PlayerDetails' to show initialisation of UI component:
 
@@ -1364,7 +1371,7 @@ Below is the sequence diagram for how the `ChangeThemeCommand` works:
 image::ChangeThemeDiagram.png[width="800"]
 
 
-Code snippet from 'ChangThemeCommand':
+Code snippet from 'ChangeThemeCommand':
 
 [source, java]
 ----
