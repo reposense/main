@@ -72,7 +72,7 @@ and <strong>changeTheme</strong> command.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Generated release file (.jar) in <code>v1.4</code> (1 release) and contributed release description on GitHub.</p>
+<p>Generated release files (.jar) in <code>v1.4</code> and <code>v1.5rc</code> (2 releases), and contributed release descriptions on GitHub.</p>
 </li>
 </ul>
 </div>
@@ -133,12 +133,12 @@ and <strong>changeTheme</strong> command.</p>
 <div class="sect3">
 <h4 id="changeTheme"><a class="link" href="#changeTheme">Changing theme : <code>changeTheme</code> <code>[Since v1.5]</code></a></h4>
 <div class="paragraph">
-<p>If you feel that the light theme is not for you, and you prefer to work on a darker interface,
-you can change the theme from the default LightTheme to DarkTheme with the 'changeTheme' command.</p>
+<p>If you feel that the dark theme is not for you, and you prefer to work on a brighter interface,
+you can change the theme from the default Dark Theme to Light Theme with the 'changeTheme' command.</p>
 </div>
 <div class="paragraph">
 <p>Format: <code>changeTheme THEME</code><br>
-Alias: <code>ct</code></p>
+Alias: <code>cte</code></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -177,6 +177,19 @@ Alias: <code>ct</code></p>
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>Here is a valid example on how you can use the <code>changeTheme</code> command:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>cte Light</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You will see the whole interface change from a dark-coloured theme to become light-coloured.</p>
 </div>
 </div>
 <div class="sect3">
@@ -228,6 +241,34 @@ Alias: <code>stc</code></p>
 </td>
 </tr>
 </table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="title"><strong>What to expect</strong></div>
+<div class="paragraph">
+<p>You will see the specified tags in the left panel change to the colour of your choice.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Here is a valid example on how you can use the <code>setTagColour</code> command:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>stc t/redCard t/red</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All the tags that say "redCard" in the left panel will now turn red.</p>
 </div>
 </div>
 <div class="sect3">
@@ -393,16 +434,16 @@ out the colour they would like to change their tag to; it is a short command, es
 <h5 id="current-implementation-2"><a class="link" href="#current-implementation-2">Current Implementation</a></h5>
 <div class="paragraph">
 <p>The Team Display Bar is implemented as <code>TeamDisplay</code> in the UI Component and renders <code>TeamDisplay.fxml</code>.
-It is called from <code>MainWindow</code> and will be highlighting
+It is called from <code>MainWindow</code> and highlights
 the current team that has been selected in the Command Line Interface by the user.<br></p>
 </div>
 <div class="paragraph">
-<p>It calls the <code>Team</code> model and displays the <code>Person</code> cards associated with that <code>Team</code>.
+<p>It calls the <code>Team</code> model and displays the <code>Player</code> cards associated with that <code>Team</code>.
 It contains event handler methods such as handleShowNewTeamEvent(), handleHighlightSelectedTeamEvent(),
 and handleDeselectTeamEvent(), which update the UI accordingly.<br></p>
 </div>
 <div class="paragraph">
-<p>The component interactions can be seen in the higher level sequence diagram for <code>TeamDisplay</code> below, using the example of a <code>create</code> command:</p>
+<p>The component interactions can be seen in the high level sequence diagram for <code>TeamDisplay</code> below, using the example of a <code>create</code> command:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -421,25 +462,23 @@ and handleDeselectTeamEvent(), which update the UI accordingly.<br></p>
 
     <span class="directive">public</span> TeamDisplay() {
         <span class="local-variable">super</span>(FXML);
-            <span class="local-variable">this</span>.teamList = teamList;
-            initTeams();
-            getTeams();
-            registerAsAnEventHandler(<span class="local-variable">this</span>);
+        <span class="comment">//...initialise Teams code...</span>
+        registerAsAnEventHandler(<span class="local-variable">this</span>);
     }
 
     <span class="annotation">@Subscribe</span>
     <span class="directive">private</span> <span class="type">void</span> handleShowNewTeamEvent(ShowNewTeamNameEvent event) {
-        ...handleShowNewTeamEvent code...
+        <span class="comment">//...handleShowNewTeamEvent code...</span>
     }
 
     <span class="annotation">@Subscribe</span>
     <span class="directive">private</span> <span class="type">void</span> handleHighlightSelectedTeamEvent(HighlightSelectedTeamEvent event) {
-        ...handleHighlightSelectedTeamEvent code...
+        <span class="comment">//...handleHighlightSelectedTeamEvent code...</span>
     }
 
     <span class="annotation">@Subscribe</span>
     <span class="directive">private</span> <span class="type">void</span> handleDeselectTeamEvent(DeselectTeamEvent event) {
-        ...handleDeselectTeamEvent code...
+        <span class="comment">//...handleDeselectTeamEvent code...</span>
     }
 }</code></pre>
 </div>
@@ -494,7 +533,7 @@ It contains the event handler method handlePersonDetailsChangedEvent(), which up
 or `remark</code> commands are entered.<br></p>
 </div>
 <div class="paragraph">
-<p>The component interactions can be seen in the higher level sequence diagram for <code>PlayerDetails</code> below, using the example of a <code>remark</code> command:</p>
+<p>The component interactions can be seen in the high level sequence diagram for <code>PlayerDetails</code> below, using the example of a <code>remark</code> command:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -596,20 +635,10 @@ which is a method in <code>UserPrefs</code>.<br></p>
 
    <span class="annotation">@Override</span>
     <span class="directive">public</span> CommandResult execute() <span class="directive">throws</span> CommandException {
-        <span class="keyword">if</span> (!isValidTheme(<span class="local-variable">this</span>.theme)) {
-            <span class="keyword">throw</span> <span class="keyword">new</span> CommandException(Messages.MESSAGE_INVALID_THEME);
-        }
-        <span class="keyword">if</span> ((MainWindow.getCurrentTheme()).contains(<span class="local-variable">this</span>.theme)) {
-            <span class="keyword">throw</span> <span class="keyword">new</span> CommandException(<span class="string"><span class="delimiter">&quot;</span><span class="content">Theme is already set to </span><span class="delimiter">&quot;</span></span> + <span class="local-variable">this</span>.theme + <span class="string"><span class="delimiter">&quot;</span><span class="content">!</span><span class="delimiter">&quot;</span></span>);
-        }
+        <span class="comment">//...check for valid theme code...</span>
         EventsCenter.getInstance().post(<span class="keyword">new</span> ChangeThemeEvent(<span class="local-variable">this</span>.theme));
         <span class="keyword">return</span> <span class="keyword">new</span> CommandResult(<span class="predefined-type">String</span>.format(MESSAGE_THEME_SUCCESS, <span class="local-variable">this</span>.theme));
     }
-
-    <span class="directive">private</span> <span class="type">boolean</span> isValidTheme(<span class="predefined-type">String</span> theme) {
-        <span class="keyword">return</span> theme.equals(<span class="string"><span class="delimiter">&quot;</span><span class="content">Light</span><span class="delimiter">&quot;</span></span>) || theme.equals(<span class="string"><span class="delimiter">&quot;</span><span class="content">Dark</span><span class="delimiter">&quot;</span></span>);
-    }
-
 }</code></pre>
 </div>
 </div>
@@ -691,7 +720,7 @@ changed quite drastically to become a command for selecting a theme out of multi
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-15 14:03:46 UTC
+Last updated 2018-04-15 14:08:09 UTC
 </div>
 </div>
 </body>

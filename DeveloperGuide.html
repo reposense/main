@@ -2377,16 +2377,16 @@ This implementation of making fields optional for <code>AddCommand</code> allows
 <h5 id="current-implementation-12"><a class="link" href="#current-implementation-12">Current Implementation</a></h5>
 <div class="paragraph">
 <p>The Team Display Bar is implemented as <code>TeamDisplay</code> in the UI Component and renders <code>TeamDisplay.fxml</code>.
-It is called from <code>MainWindow</code> and will be highlighting
+It is called from <code>MainWindow</code> and highlights
 the current team that has been selected in the Command Line Interface by the user.<br></p>
 </div>
 <div class="paragraph">
-<p>It calls the <code>Team</code> model and displays the <code>Person</code> cards associated with that <code>Team</code>.
+<p>It calls the <code>Team</code> model and displays the <code>Player</code> cards associated with that <code>Team</code>.
 It contains event handler methods such as handleShowNewTeamEvent(), handleHighlightSelectedTeamEvent(),
 and handleDeselectTeamEvent(), which update the UI accordingly.<br></p>
 </div>
 <div class="paragraph">
-<p>The component interactions can be seen in the higher level sequence diagram for <code>TeamDisplay</code> below, using the example of a <code>create</code> command:</p>
+<p>The component interactions can be seen in the high level sequence diagram for <code>TeamDisplay</code> below, using the example of a <code>create</code> command:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -2405,25 +2405,23 @@ and handleDeselectTeamEvent(), which update the UI accordingly.<br></p>
 
     <span class="directive">public</span> TeamDisplay() {
         <span class="local-variable">super</span>(FXML);
-            <span class="local-variable">this</span>.teamList = teamList;
-            initTeams();
-            getTeams();
-            registerAsAnEventHandler(<span class="local-variable">this</span>);
+        <span class="comment">//...initialise Teams code...</span>
+        registerAsAnEventHandler(<span class="local-variable">this</span>);
     }
 
     <span class="annotation">@Subscribe</span>
     <span class="directive">private</span> <span class="type">void</span> handleShowNewTeamEvent(ShowNewTeamNameEvent event) {
-        ...handleShowNewTeamEvent code...
+        <span class="comment">//...handleShowNewTeamEvent code...</span>
     }
 
     <span class="annotation">@Subscribe</span>
     <span class="directive">private</span> <span class="type">void</span> handleHighlightSelectedTeamEvent(HighlightSelectedTeamEvent event) {
-        ...handleHighlightSelectedTeamEvent code...
+        <span class="comment">//...handleHighlightSelectedTeamEvent code...</span>
     }
 
     <span class="annotation">@Subscribe</span>
     <span class="directive">private</span> <span class="type">void</span> handleDeselectTeamEvent(DeselectTeamEvent event) {
-        ...handleDeselectTeamEvent code...
+        <span class="comment">//...handleDeselectTeamEvent code...</span>
     }
 }</code></pre>
 </div>
@@ -2478,7 +2476,7 @@ It contains the event handler method handlePersonDetailsChangedEvent(), which up
 or `remark</code> commands are entered.<br></p>
 </div>
 <div class="paragraph">
-<p>The component interactions can be seen in the higher level sequence diagram for <code>PlayerDetails</code> below, using the example of a <code>remark</code> command:</p>
+<p>The component interactions can be seen in the high level sequence diagram for <code>PlayerDetails</code> below, using the example of a <code>remark</code> command:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -2580,20 +2578,10 @@ which is a method in <code>UserPrefs</code>.<br></p>
 
    <span class="annotation">@Override</span>
     <span class="directive">public</span> CommandResult execute() <span class="directive">throws</span> CommandException {
-        <span class="keyword">if</span> (!isValidTheme(<span class="local-variable">this</span>.theme)) {
-            <span class="keyword">throw</span> <span class="keyword">new</span> CommandException(Messages.MESSAGE_INVALID_THEME);
-        }
-        <span class="keyword">if</span> ((MainWindow.getCurrentTheme()).contains(<span class="local-variable">this</span>.theme)) {
-            <span class="keyword">throw</span> <span class="keyword">new</span> CommandException(<span class="string"><span class="delimiter">&quot;</span><span class="content">Theme is already set to </span><span class="delimiter">&quot;</span></span> + <span class="local-variable">this</span>.theme + <span class="string"><span class="delimiter">&quot;</span><span class="content">!</span><span class="delimiter">&quot;</span></span>);
-        }
+        <span class="comment">//...check for valid theme code...</span>
         EventsCenter.getInstance().post(<span class="keyword">new</span> ChangeThemeEvent(<span class="local-variable">this</span>.theme));
         <span class="keyword">return</span> <span class="keyword">new</span> CommandResult(<span class="predefined-type">String</span>.format(MESSAGE_THEME_SUCCESS, <span class="local-variable">this</span>.theme));
     }
-
-    <span class="directive">private</span> <span class="type">boolean</span> isValidTheme(<span class="predefined-type">String</span> theme) {
-        <span class="keyword">return</span> theme.equals(<span class="string"><span class="delimiter">&quot;</span><span class="content">Light</span><span class="delimiter">&quot;</span></span>) || theme.equals(<span class="string"><span class="delimiter">&quot;</span><span class="content">Dark</span><span class="delimiter">&quot;</span></span>);
-    }
-
 }</code></pre>
 </div>
 </div>
@@ -2844,6 +2832,9 @@ Alternatively, you can download the AsciiDoc plugin for IntelliJ, which allows y
 <div class="sect1">
 <h2 id="Testing"><a class="link" href="#Testing">6. Testing</a></h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>If you are intending to develop our software further, it is highly recommended that you run tests in the ways listed below.</p>
+</div>
 <div class="sect2">
 <h3 id="running-tests"><a class="link" href="#running-tests">6.1. Running Tests</a></h3>
 <div class="paragraph">
@@ -2969,6 +2960,9 @@ e.g. <code>seedu.address.logic.LogicManagerTest</code></p>
 <div class="sect1">
 <h2 id="dev-ops"><a class="link" href="#dev-ops">7. Dev Ops</a></h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>This section covers resources for you to develop this software with good practices and prepare it for release.</p>
+</div>
 <div class="sect2">
 <h3 id="build-automation"><a class="link" href="#build-automation">7.1. Build Automation</a></h3>
 <div class="paragraph">
@@ -3028,6 +3022,9 @@ b. Require developers to download those libraries manually (this creates extra w
 <div class="sect1">
 <h2 id="product-scope"><a class="link" href="#product-scope">Appendix A: Product Scope</a></h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>This section tells you more details of our software, our target users, the user stories, and gives you a sneak peak into our development process.</p>
+</div>
 <div class="sect2">
 <h3 id="target-user-profile"><a class="link" href="#target-user-profile">A.1. Target user profile:</a></h3>
 <div class="ulist">
@@ -4159,7 +4156,7 @@ Expected: All tags with the name <code>redCard</code> would become blue</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-15 14:03:46 UTC
+Last updated 2018-04-15 14:08:09 UTC
 </div>
 </div>
 </body>
