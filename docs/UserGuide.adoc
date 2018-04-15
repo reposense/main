@@ -168,6 +168,10 @@ If you are not familiar on how to use commands yet, you can refer to <<Using_Com
 
 MTM provides tools that gives you the power to use MTM more efficiently and teach you how to navigate through MTM with ease.
 
+Enter commands more quickly with <<autocomplete,kbd:[tab] autocomplete>>, get <<help,help>> or find out how to <<undo,undo>> and <<redo,redo>> commands.
+
+You can also find information to secure your information in My Team Manger by <<togglePrivacy, toggling privacy>> or <<key,set a key to prevent tampering>>
+
 ==== Saving the data
 
 There is no need to save anything manually as My Team Manager will save
@@ -755,9 +759,7 @@ image::TeamRemoveExampleAfter.png[width="700"]
 
 === Appearance Commands
 
-Here you can find useful commands to change the look of My Team Manager
-such as <<setTagColour, setting the colour of your tags>>, <<changeTeam,changing the theme>>
-and also privacy commands to hide sensitive information.
+Here you can find useful commands to change the look of My Team Manager to <<setTagColour, set the colour of your tags>> and <<changeTeam,change the theme>>.
 
 // tag::setTagColour[]
 [[setTagColour]]
