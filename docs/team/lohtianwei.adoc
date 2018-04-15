@@ -26,7 +26,7 @@ confidentiality of certain information
 * *Minor enhancement*:
 ** Added a sort function that allows the list to be sorted by fields for quick viewing of relevant information
 
-* *Code contributed*: [https://github.com/CS2103JAN2018-F14-B1/main/collated/functional/lohtianwei.md[Functional code]] [https://github.com/CS2103JAN2018-F14-B1/main/collated/test/lohtianwei.md[Test code]]
+* *Code contributed*: [https://github.com/CS2103JAN2018-F14-B1/main/blob/master/collated/functional/lohtianwei.md[Functional code]] [https://github.com/CS2103JAN2018-F14-B1/main/blob/master/collated/test/lohtianwei.md[Test code]]
 
 * *Other contributions*:
 
