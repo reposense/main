@@ -561,14 +561,14 @@ public class CommandTrie {
                 output.append(commandMap.get(input));
             }
         } else {
-            char[] inputArray = input.toLowerCase().toCharArray();
+            char[] inputArray = input.toCharArray();
             TrieNode temp = root;
             int i = 0;
 
             while (!isEndOfWord(temp)) {
                 if (i < inputArray.length) {
-                    if (temp.getKey() == inputArray[i]) {
-                        output.append(inputArray[i]);
+                    if (Character.toLowerCase(temp.getKey()) == Character.toLowerCase(inputArray[i])) {
+                        output.append(temp.getKey());
                         temp = temp.getChild();
                         i++;
                     } else {
@@ -597,17 +597,19 @@ public class CommandTrie {
         char[] inputArray = input.toLowerCase().toCharArray();
         TrieNode start = root;
         int i = 0;
+        StringBuilder stub = new StringBuilder();
 
         while (!isEndOfWord(start) && i < inputArray.length) {
             if (start.getKey() == inputArray[i]) {
                 i++;
+                stub.append(start.getKey());
                 start = start.getChild();
             } else {
                 start = start.getSibling();
             }
         }
 
-        return findOptions(start, input);
+        return findOptions(start, stub.toString());
     }
 
     /**

@@ -1260,14 +1260,14 @@ public class Address {
 ===== Current Implementation
 
 The Team Display Bar is implemented as `TeamDisplay` in the UI Component and renders `TeamDisplay.fxml`.
-It is called from `MainWindow` and will be highlighting
+It is called from `MainWindow` and highlights
 the current team that has been selected in the Command Line Interface by the user. +
 
-It calls the `Team` model and displays the `Person` cards associated with that `Team`.
+It calls the `Team` model and displays the `Player` cards associated with that `Team`.
 It contains event handler methods such as handleShowNewTeamEvent(), handleHighlightSelectedTeamEvent(),
 and handleDeselectTeamEvent(), which update the UI accordingly. +
 
-The component interactions can be seen in the higher level sequence diagram for `TeamDisplay` below, using the example of a `create` command:
+The component interactions can be seen in the high level sequence diagram for `TeamDisplay` below, using the example of a `create` command:
 
 .Component interactions for `create Team` command
 image::ShowNewTeamDiagram.png[width="800"]
@@ -1283,25 +1283,23 @@ public class TeamDisplay extends UiPart<Region> {
 
     public TeamDisplay() {
         super(FXML);
-            this.teamList = teamList;
-            initTeams();
-            getTeams();
-            registerAsAnEventHandler(this);
+        //...initialise Teams code...
+        registerAsAnEventHandler(this);
     }
 
     @Subscribe
     private void handleShowNewTeamEvent(ShowNewTeamNameEvent event) {
-        ...handleShowNewTeamEvent code...
+        //...handleShowNewTeamEvent code...
     }
 
     @Subscribe
     private void handleHighlightSelectedTeamEvent(HighlightSelectedTeamEvent event) {
-        ...handleHighlightSelectedTeamEvent code...
+        //...handleHighlightSelectedTeamEvent code...
     }
 
     @Subscribe
     private void handleDeselectTeamEvent(DeselectTeamEvent event) {
-        ...handleDeselectTeamEvent code...
+        //...handleDeselectTeamEvent code...
     }
 }
 ----
@@ -1327,7 +1325,7 @@ It calls the `Person` model and displays the fields in the `Person` model that a
 It contains the event handler method handlePersonDetailsChangedEvent(), which updates the UI component when the `edit `
 or `remark` commands are entered. +
 
-The component interactions can be seen in the higher level sequence diagram for `PlayerDetails` below, using the example of a `remark` command:
+The component interactions can be seen in the high level sequence diagram for `PlayerDetails` below, using the example of a `remark` command:
 
 .Component interactions for `remark 1 r/test` command
 image::PlayerDetailsDiagram.png[width="800"]
@@ -1394,20 +1392,10 @@ public class ChangeThemeCommand extends Command {
 
    @Override
     public CommandResult execute() throws CommandException {
-        if (!isValidTheme(this.theme)) {
-            throw new CommandException(Messages.MESSAGE_INVALID_THEME);
-        }
-        if ((MainWindow.getCurrentTheme()).contains(this.theme)) {
-            throw new CommandException("Theme is already set to " + this.theme + "!");
-        }
+        //...check for valid theme code...
         EventsCenter.getInstance().post(new ChangeThemeEvent(this.theme));
         return new CommandResult(String.format(MESSAGE_THEME_SUCCESS, this.theme));
     }
-
-    private boolean isValidTheme(String theme) {
-        return theme.equals("Light") || theme.equals("Dark");
-    }
-
 }
 ----
 
@@ -1536,6 +1524,7 @@ image::chrome_save_as_pdf.png[width="300"]
 
 [[Testing]]
 == Testing
+If you are intending to develop our software further, it is highly recommended that you run tests in the ways listed below.
 
 === Running Tests
 
@@ -1585,6 +1574,7 @@ e.g. `seedu.address.logic.LogicManagerTest`
 * Solution: Execute Gradle task `processResources`.
 
 == Dev Ops
+This section covers resources for you to develop this software with good practices and prepare it for release.
 
 === Build Automation
 
@@ -1618,6 +1608,8 @@ b. Require developers to download those libraries manually (this creates extra w
 
 [appendix]
 == Product Scope
+
+This section tells you more details of our software, our target users, the user stories, and gives you a sneak peak into our development process.
 
 === Target user profile:
 
@@ -1753,7 +1745,6 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |=======================================================================
 
-// TODO: fix and add more use cases
 [appendix]
 == Use Cases
 

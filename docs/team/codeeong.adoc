@@ -32,7 +32,7 @@ and *changeTheme* command.
 * *Other contributions*:
 
 ** Project management:
-*** Generated release file (.jar) in `v1.4` (1 release) and contributed release description on GitHub.
+*** Generated release files (.jar) in `v1.4` and `v1.5rc` (2 releases), and contributed release descriptions on GitHub.
 ** Enhancements to existing features:
 *** changed the original GUI colour scheme [https://github.com/CS2103JAN2018-F14-B1/main/pull/89[PR #89]]
 

@@ -33,7 +33,7 @@ import seedu.address.model.UserPrefs;
 public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
-    private static String currentTheme = "view/LightTheme.css";
+    private static String currentTheme = "view/DarkTheme.css";
 
     private final Logger logger = LogsCenter.getLogger(this.getClass());
 

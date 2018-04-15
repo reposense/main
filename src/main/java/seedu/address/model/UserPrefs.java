@@ -16,7 +16,7 @@ public class UserPrefs {
 
     private String addressBookFilePath = "data/myteammanager.xml";
     private String addressBookName = "MyTeamManager";
-    private String addressBookTheme = "LightTheme.css";
+    private String addressBookTheme = "DarkTheme.css";
     private boolean addressBookLockState = false;
     private String addressBookHashedPass = Hashing.sha256()
             .hashString("ilikesports", StandardCharsets.UTF_8).toString();
