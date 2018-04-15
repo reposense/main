@@ -1563,25 +1563,7 @@ setting was not toggled and thus is set to the same as it was before. Else, it w
                     comparator = nameComparator;
                     <span class="keyword">break</span>;
 
-                <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">jersey</span><span class="delimiter">&quot;</span></span>:
-                    comparator = jerseyComparator;
-                    <span class="keyword">break</span>;
-
-                <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">pos</span><span class="delimiter">&quot;</span></span>:
-                    comparator = posComparator;
-                    <span class="keyword">break</span>;
-
-                <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">rating</span><span class="delimiter">&quot;</span></span>:
-                    comparator = ratingComparator;
-                    <span class="keyword">break</span>;
-
-                <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">email</span><span class="delimiter">&quot;</span></span>:
-                    comparator = emailComparator;
-                    <span class="keyword">break</span>;
-
-                <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">address</span><span class="delimiter">&quot;</span></span>:
-                    comparator = addressComparator;
-                    <span class="keyword">break</span>;
+                <span class="comment">//... code for other switch cases...</span>
 
                 <span class="keyword">default</span>:
                     <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">AssertionError</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Invalid field parameter entered...</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>);
@@ -1603,7 +1585,7 @@ setting was not toggled and thus is set to the same as it was before. Else, it w
 </div>
 </div>
 <div class="paragraph">
-<p>The code above utilises a custom <code>Comparator</code> defined in the code below:</p>
+<p>The code above utilises a custom <code>Comparator</code> defined in the sample code below:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1611,41 +1593,6 @@ setting was not toggled and thus is set to the same as it was before. Else, it w
                     <span class="annotation">@Override</span>
                     <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
                         <span class="keyword">return</span> p1.getName().fullName.compareTo(p2.getName().fullName);
-                    }
-                };
-
-                <span class="predefined-type">Comparator</span>&lt;Person&gt; jerseyComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
-                    <span class="annotation">@Override</span>
-                    <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
-                        <span class="keyword">return</span> p1.getJerseyNumber().value.compareTo(p2.getJerseyNumber().value);
-                    }
-                };
-
-                <span class="predefined-type">Comparator</span>&lt;Person&gt; ratingComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
-                    <span class="annotation">@Override</span>
-                    <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
-                        <span class="keyword">return</span> p1.getRating().toString().compareTo(p2.getRating().toString());
-                    }
-                };
-
-                <span class="predefined-type">Comparator</span>&lt;Person&gt; posComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
-                    <span class="annotation">@Override</span>
-                    <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
-                        <span class="keyword">return</span> p1.getPosition().value.compareTo(p2.getPosition().value);
-                    }
-                };
-
-                <span class="predefined-type">Comparator</span>&lt;Person&gt; emailComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
-                    <span class="annotation">@Override</span>
-                    <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
-                        <span class="keyword">return</span> p1.getEmail().toString().compareTo(p2.getEmail().toString());
-                    }
-                };
-
-                <span class="predefined-type">Comparator</span>&lt;Person&gt; addressComparator = <span class="keyword">new</span> <span class="predefined-type">Comparator</span>&lt;Person&gt;() {
-                    <span class="annotation">@Override</span>
-                    <span class="directive">public</span> <span class="type">int</span> compare(Person p1, Person p2) {
-                        <span class="keyword">return</span> p1.getAddress().toString().compareTo(p2.getAddress().toString());
                     }
                 };</code></pre>
 </div>
@@ -4319,7 +4266,7 @@ Expected: All tags with the name <code>redCard</code> would become blue</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-15 15:14:10 UTC
+Last updated 2018-04-15 15:20:38 UTC
 </div>
 </div>
 </body>
