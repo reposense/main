@@ -48,7 +48,7 @@ public class CreateCommand extends UndoableCommand {
             throw new CommandException(MESSAGE_DUPLICATE_TEAM);
         }
         EventsCenter.getInstance().post(new ShowNewTeamNameEvent(toCreate.getTeamName().toString()));
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toCreate));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toCreate.getTeamName().toString()));
     }
 
     @Override
