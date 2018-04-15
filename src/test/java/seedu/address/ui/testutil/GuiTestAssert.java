@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import guitests.guihandles.PersonCardHandle;
 import guitests.guihandles.PersonListPanelHandle;
+import guitests.guihandles.PlayerDetailsHandle;
 import guitests.guihandles.ResultDisplayHandle;
 import guitests.guihandles.TeamDisplayHandle;
 import seedu.address.model.person.Person;
@@ -39,10 +40,12 @@ public class GuiTestAssert {
     /**
      * Asserts that {@code actualTeamDisplay} displays the details of {@code expectedTeamDisplay}.
      */
+    //@@author Codee
     public static void assertTeamDisplayEquals(TeamDisplay expectedTeamDisplay, TeamDisplayHandle actualTeamDisplay) {
         expectedTeamDisplay.getTeams().forEach(team ->
                 assertEquals(expectedTeamDisplay.getTeams().toString(), actualTeamDisplay.getTeams().toString()));
     }
+    //@@author
 
     /**
      * Asserts that {@code actualCard} displays the details of {@code expectedPerson}.
@@ -55,6 +58,20 @@ public class GuiTestAssert {
 
         assertTagsEqual(expectedPerson, actualCard);
     }
+
+    /**
+     * Asserts that {@code actualPlayerDetails} displays the details of {@code expectedPerson}.
+     */
+    //@@author Codee
+    public static void assertPlayerDetailsDisplaysPerson(Person expectedPerson, PlayerDetailsHandle actualPlayerPanel) {
+        assertEquals(expectedPerson.getName().fullName, actualPlayerPanel.getName());
+        assertEquals(expectedPerson.getAddress().toString(), actualPlayerPanel.getAddress());
+        assertEquals(expectedPerson.getEmail().value, actualPlayerPanel.getEmail());
+        assertEquals(expectedPerson.getJerseyNumber().value, actualPlayerPanel.getJerseyNumber());
+        assertEquals(expectedPerson.getPhone().value, actualPlayerPanel.getPhone());
+        assertEquals(expectedPerson.getRemark().toString(), actualPlayerPanel.getRemarks());
+    }
+    //@@author
 
     /**
      * Returns the color style for {@code tagName}'s label. The tag's color is determined by looking up the color

@@ -1220,7 +1220,6 @@ public class XmlAdaptedTeam {
             }
         }
     }
-
 ```
 ###### /java/seedu/address/model/ModelManager.java
 ``` java
@@ -1241,7 +1240,6 @@ public class XmlAdaptedTeam {
         indicateAddressBookChanged();
         return isTagValid;
     }
-
 ```
 ###### /java/seedu/address/model/tag/Tag.java
 ``` java
@@ -1255,8 +1253,7 @@ public class XmlAdaptedTeam {
     public void changeTagColour(String colour) {
         this.tagColour = colour;
     }
-
-
+    
     /**
      * Returns true if a given string is a valid tag colour.
      */

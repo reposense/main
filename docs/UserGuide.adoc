@@ -1,6 +1,6 @@
 = My Team Manager - User Guide
 :toc:
-:toc-title:
+:toc-title: Table Of Contents
 :toclevels: 2
 :toc-placement: preamble
 :sectnums:
@@ -46,13 +46,14 @@ This app will not work with earlier versions of Java 8.
 .  Copy the file to the folder you want to use as the home folder for your MTM.
 .  Double-click the file to start the app. The software interface should appear in a few seconds as shown below.
 +
-image::Ui New.png[width="790"]
+
+image::UiNew.png[width="790"]
 
 === Navigating the interface
 
 The figure below shows the different components in My Team Manager and the list below explains their purpose.
 
-image::Ui Guide.png[width="790"]
+image::UIGuide.png[width="790"]
 
 . Command Box : This is where you key in the commands to use My Team Manager.
 . Display Box : The display box displays results to any command you input.
@@ -64,9 +65,6 @@ image::Ui Guide.png[width="790"]
 
 [[Using_Commands]]
 === Using Commands
-
-[[Features]]
-== Features
 
 .*Getting started with Commands*
 ****
@@ -121,16 +119,13 @@ image::add.png[width="400"]
 TIP: The `Add` command has additional optional parameters for you to include more information. For the full list,
 refer to <<add, Adding a player>>.
 
-
-=== Basic Commands and Features
-
 === Create your first team
 Now that you have a player, let's explore teams. Teams allow you to manage and group your players together according to
 the teams they belong to.
 
 . Create your first team, `NUS` by typing the command `create NUS` in the command box and pressing kbd:[Enter] to execute it.
 +
-image::create.png[width="300"]
+image::create.PNG[width="300"]
 +
 . Your new team, `NUS` should appear in the team list.
 . You can now assign `Ronaldo` to `NUS` by typing the command `assign tm/NUS i/1` in the command box and pressing kbd:[Enter] to execute it.
@@ -154,8 +149,13 @@ There are also many ways you can customize and add to My Team Manager. Here are 
 .. <<toggleprivacy, Setting privacy>>
 .. <<sort, Sorting players in the list>>
 
-// end::IntroQuickStart[]
-== Fundamentals
+== Commands in My Team Manager
+
+Here you can find useful information regarding all the commands in My Team Manager.
+
+If you are not familiar on how to use commands yet, you can refer to <<Using_Commands>>
+
+=== Fundamentals
 
 MTM provides tools that gives you the power to use MTM more efficiently and teach you how to navigate through MTM with ease.
 
@@ -320,6 +320,10 @@ Format: `exit`
 
 === Player-Related Commands
 
+Here you can find commands to change your players and their information in My Team Manager +
+such as <<add,adding a player>>, <<edit,editing a player>> or <<remark,adding a remark>>.
+You can also find useful tools to <<find,find>> a player or <<sort,sort>> players in your list.
+
 // tag::addplayer[]
 [[add]]
 ==== Adding a player: `add`
@@ -374,6 +378,8 @@ Alias: `e`
 
 ****
 * Edits the player at the specified `INDEX`. The index refers to the index number shown in the last player listing. The index *must be a positive integer* 1, 2, 3, ...
+* Please only edit the player that is currently being selected. If you were to edit a player who is not selected, the player's
+details will be updated, but the selection will remain at the currently selected player.
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When you edit tags, the existing tags of the player will be removed i.e adding of tags is not cumulative.
@@ -424,7 +430,9 @@ Alias: `rm`
 [NOTE]
 ====
 By leaving out `r/REMARK`, the command acts as a remark removal. +
-Only use the `remark` command when you want to leave a remark, `add` or `edit` does not allow you to create a remark for the player.
+Only use the `remark` command when you want to leave a remark, `add` or `edit` does not allow you to create a remark for the player. +
+Please only add remarks to the player that is currently being selected. If you were to add remarks to a player who is not selected, the player's
+remarks will be updated, but the selection will remain at the currently selected player.
 ====
 
 [IMPORTANT]
@@ -532,6 +540,10 @@ Finds a player named Betsy and selects the 1st player in the results of the `fin
 
 // tag::team[]
 === Team-Related Commands
+
+Here you can find commands to change your teams and their players in My Team Manager +
+such as <<create,creating a team>>, <<assign,assigning players to a team>> or <<rename,renaming a team>>.
+You can also find useful tools like <<view,viewing a team>>.
 
 [[create]]
 ==== Creating a team: `create` `[Since v1.2]`
@@ -658,7 +670,11 @@ List all players in the team "Arsenal".
 List all players in the team "Liverpool".
 // end::team[]
 
-=== User Experience Commands
+=== Appearance and Privacy Commands
+
+Here you can find useful commands to change the look of My Team Manager
+such as <<setTagColour, setting the colour of your tags>>, <<changeTeam,changing the theme>>
+and also privacy commands to hide sensitive information.
 
 // tag::setTagColour[]
 [[setTagColour]]
@@ -692,24 +708,8 @@ Instead, just enter `cte <your desired theme>` to change the colour back!
 ====
 // end::changeTheme[]
 
-[[changeTheme]]
-// tag::changeTheme[]
-=== Changing theme : `changeTheme` `[Since v1.5]`
-If you feel that the light theme is not for you, and you prefer to work on a darker interface,
-you can change the theme from the default LightTheme to DarkTheme with the 'changeTheme' command.
 
-
-Format: `changeTheme` +
-Alias: `ct`
-
-[NOTE]
-====
-The current version of `changTheme` is NOT an UndoableCommand. i.e. You cannot `undo` a `changeTheme` command.
-Instead, just enter `cte <your desired theme>` to change the colour back!
-====
-// end::changeTheme[]
-
-== Coming Soon
+=== Coming Soon
 
 There is more to come with the next upcoming update! Keep a lookout for these newly implemented features soon!
 
@@ -769,7 +769,7 @@ Here are a few valid examples on how you can use the `create` command:
 * `setmatch Arsenal Liverpool 14/03/2018` +
 Display the list of players in team "Arsenal" and set an upcoming match for Arsenal with Liverpool on 14/03/2018.
 
-=== Viewing the team's next upcoming match: `nextmatch` `[Coming in v2.0]`
+==== Viewing the team's next upcoming match: `nextmatch` `[Coming in v2.0]`
 
 You can easily determine the up and coming match with the team so that you never miss an important date.
 
@@ -790,7 +790,7 @@ Displays the list of players in team "Arsenal" and view the next upcoming match 
 // end::team2.0[]
 
 // tag::showlineup[]
-=== Displaying lineup for next match: `showLineup` `[Coming in v2.0]`
+==== Displaying lineup for next match: `showLineup` `[Coming in v2.0]`
 
 You can view the lineup for the current best 11 players.
 
@@ -809,13 +809,13 @@ Here is an valid example on how you can use the `showLineup` command:
 Displays the 11 main players that will be playing for the next match.
 // end::showlineup[]
 
-=== Scheduling trainings for team `schedule` `[Coming in v2.0]`
+==== Scheduling trainings for team `schedule` `[Coming in v2.0]`
 
-=== Sending reminder emails to players: `send` `[Coming in v2.0]`
+==== Sending reminder emails to players: `send` `[Coming in v2.0]`
 
-=== Giving feedback to developers: `feedback` `[Coming in v2.0]`
+==== Giving feedback to developers: `feedback` `[Coming in v2.0]`
 
-=== Giving demerit to players based on performance: `demerit` `[Coming in v2.0]`
+==== Giving demerit to players based on performance: `demerit` `[Coming in v2.0]`
 
 == FAQ
 
@@ -826,7 +826,7 @@ Displays the 11 main players that will be playing for the next match.
 
 == Glossary
 
-[[Index]] *Index* - The index refers to the index number shown in the last player listing. The index must be a positive integer 1, 2, 3, …​
+[[Index]] *Index* - The index refers to the index number shown in the last player listing. The index must be a positive integer 1, 2, 3, …
 
 == Command Summary
 

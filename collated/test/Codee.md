@@ -50,6 +50,71 @@ public class TeamDisplayTest extends GuiUnitTest {
     }
 }
 ```
+###### /java/seedu/address/ui/PlayerDetailsTest.java
+``` java
+public class PlayerDetailsTest extends GuiUnitTest {
+
+    @Test
+    public void display() {
+        // no tags
+        Person personWithNoTags = new PersonBuilder().withTags(new String[0]).build();
+        PlayerDetails playerDetails = new PlayerDetails(personWithNoTags);
+        uiPartRule.setUiPart(playerDetails);
+        assertCardDisplay(playerDetails, personWithNoTags);
+
+    }
+
+    @Test
+    public void equals() {
+        Person person = new PersonBuilder().build();
+        PlayerDetails playerDetails = new PlayerDetails(person);
+
+        // same object -> returns true
+        assertTrue(playerDetails.equals(playerDetails));
+
+        // null -> returns false
+        assertFalse(playerDetails.equals(null));
+
+        // different types -> returns false
+        assertFalse(playerDetails.equals(0));
+
+        // different person, same index -> returns false
+        Person differentPerson = new PersonBuilder().withName("differentName").build();
+        assertFalse(playerDetails.equals(new PlayerDetails(differentPerson)));
+    }
+
+    /**
+     * Asserts that {@code playerDetails} displays the details of {@code expectedPerson} correctly
+     */
+    private void assertCardDisplay(PlayerDetails playerDetails, Person expectedPerson) {
+        guiRobot.pauseForHuman();
+
+        PlayerDetailsHandle playerDetailsHandle = new PlayerDetailsHandle(playerDetails.getRoot());
+
+        // verify player details are displayed correctly
+        assertPlayerDetailsDisplaysPerson(expectedPerson, playerDetailsHandle);
+    }
+}
+```
+###### /java/seedu/address/ui/testutil/GuiTestAssert.java
+``` java
+    public static void assertTeamDisplayEquals(TeamDisplay expectedTeamDisplay, TeamDisplayHandle actualTeamDisplay) {
+        expectedTeamDisplay.getTeams().forEach(team ->
+                assertEquals(expectedTeamDisplay.getTeams().toString(), actualTeamDisplay.getTeams().toString()));
+    }
+```
+###### /java/seedu/address/ui/testutil/GuiTestAssert.java
+``` java
+    public static void assertPlayerDetailsDisplaysPerson(Person expectedPerson, PlayerDetailsHandle actualPlayerPanel) {
+        assertEquals(expectedPerson.getName().fullName, actualPlayerPanel.getName());
+        assertEquals(expectedPerson.getAddress().toString(), actualPlayerPanel.getAddress());
+        assertEquals(expectedPerson.getEmail().value, actualPlayerPanel.getEmail());
+        assertEquals(expectedPerson.getJerseyNumber().value, actualPlayerPanel.getJerseyNumber());
+        assertEquals(expectedPerson.getPhone().value, actualPlayerPanel.getPhone());
+        assertEquals(expectedPerson.getRemark().toString(), actualPlayerPanel.getRemarks());
+    }
+```
+
 ###### /java/seedu/address/logic/parser/ChangeThemeCommandParserTest.java
 ``` java
 public class ChangeThemeCommandParserTest {
@@ -306,8 +371,65 @@ public class TeamBuilder {
     }
 }
 ```
+###### /java/guitests/guihandles/PlayerDetailsHandle.java
+``` java
+public class PlayerDetailsHandle extends NodeHandle<Node> {
+
+    private static final String NAME_FIELD_ID = "#name";
+    private static final String JERSEY_FIELD_ID = "#jerseyNumber";
+    private static final String PHONE_FIELD_ID = "#phone";
+    private static final String EMAIL_FIELD_ID = "#email";
+    private static final String ADDRESS_FIELD_ID = "#address";
+    private static final String REMARK_FIELD_ID = "#remark";
+
+    private final Label nameLabel;
+    private final Label jerseyLabel;
+    private final Label addressLabel;
+    private final Label phoneLabel;
+    private final Label emailLabel;
+    private final Label remarkLabel;
+
+    public PlayerDetailsHandle(Node cardNode) {
+        super(cardNode);
+
+        this.nameLabel = getChildNode(NAME_FIELD_ID);
+        this.phoneLabel = getChildNode(PHONE_FIELD_ID);
+        this.addressLabel = getChildNode(ADDRESS_FIELD_ID);
+        this.emailLabel = getChildNode(EMAIL_FIELD_ID);
+        this.remarkLabel = getChildNode(REMARK_FIELD_ID);
+        this.jerseyLabel = getChildNode(JERSEY_FIELD_ID);
+
+    }
+
+    public String getPhone() {
+        return phoneLabel.getText();
+    }
+
+    public String getName() {
+        return nameLabel.getText();
+    }
+
+    public String getAddress() {
+        return addressLabel.getText();
+    }
+
+    public String getJerseyNumber() {
+        return jerseyLabel.getText().substring(15);
+    }
+
+    public String getRemarks() {
+        return remarkLabel.getText().substring(9);
+    }
+
+    public String getEmail() {
+        return emailLabel.getText();
+    }
+
+}
+```
 ###### /java/guitests/guihandles/TeamDisplayHandle.java
 ``` java
+
 public class TeamDisplayHandle extends NodeHandle<Node> {
     public static final String TEAM_DISPLAY_ID = "#teams";
 

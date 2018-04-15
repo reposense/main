@@ -56,6 +56,13 @@ public class TogglePrivacyCommand extends UndoableCommand {
     public static final String MESSAGE_SUCCESS = "Changed the Privacy of the Person: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
+    public static final String MESSAGE_PARAMETERS = "INDEX "
+            + "[" + PREFIX_PHONE + "PHONE]"
+            + " [" + PREFIX_EMAIL + "EMAIL]"
+            + " [" + PREFIX_REMARK + "REMARK]"
+            + " [" + PREFIX_RATING + "RATING]"
+            + " [" + PREFIX_ADDRESS + "ADDRESS]";
+
     private final Index index;
     private final EditPersonPrivacy epp;
 
@@ -96,7 +103,7 @@ public class TogglePrivacyCommand extends UndoableCommand {
             throw new AssertionError("The target person cannot be missing");
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        EventsCenter.getInstance().post(new PersonDetailsChangedEvent(editedPerson));
+        EventsCenter.getInstance().post(new PersonDetailsChangedEvent(editedPerson, index));
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, editedPerson));
     }

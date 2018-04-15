@@ -262,10 +262,12 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void assignPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
         teams.assignPersonToTeam(person, teams.getTeam(teamName));
 
-        try {
-            removePersonFromTeam(person, person.getTeamName());
-        } catch (PersonNotFoundException pnfe) {
-            throw new AssertionError("Impossible: Team should contain of this person");
+        if (!person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+            try {
+                removePersonFromTeam(person, person.getTeamName());
+            } catch (PersonNotFoundException pnfe) {
+                throw new AssertionError("Impossible: Team should contain of this person");
+            }
         }
 
         Person newPersonWithTeam =
@@ -273,12 +275,14 @@ public class AddressBook implements ReadOnlyAddressBook {
                         person.getRemark(), teamName, person.getTags(), person.getRating(), person.getPosition(),
                         person.getJerseyNumber(), person.getAvatar());
 
-        try {
-            updatePerson(person, newPersonWithTeam);
-        } catch (DuplicatePersonException dpe) {
-            throw new AssertionError("AddressBook should not have duplicate person after assigning team");
-        } catch (PersonNotFoundException pnfe) {
-            throw new AssertionError("Impossible: AddressBook should contain this person");
+        if (!person.getTeamName().equals(newPersonWithTeam.getTeamName())) {
+            try {
+                updatePerson(person, newPersonWithTeam);
+            } catch (DuplicatePersonException dpe) {
+                throw new AssertionError("AddressBook should not have duplicate person after assigning team");
+            } catch (PersonNotFoundException pnfe) {
+                throw new AssertionError("Impossible: AddressBook should contain this person");
+            }
         }
     }
 
@@ -323,12 +327,10 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Removes a {@code person} from a {@code team}.
      */
     private void removePersonFromTeam(Person person, TeamName teamName) throws PersonNotFoundException {
-        if (!person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
-            try {
-                teams.removePersonFromTeam(person, teams.getTeam(teamName));
-            } catch (PersonNotFoundException pnfe) {
-                throw new PersonNotFoundException();
-            }
+        try {
+            teams.removePersonFromTeam(person, teams.getTeam(teamName));
+        } catch (PersonNotFoundException pnfe) {
+            throw new PersonNotFoundException();
         }
     }
 
@@ -377,12 +379,11 @@ public class AddressBook implements ReadOnlyAddressBook {
 
             for (Person person : persons) {
                 if (person.getTeamName().equals(targetTeam.getTeamName())) {
-                    renameTeamInPerson(person, updatedTeamName, targetTeam);
-                    renameTeamPersonList.add(person);
+                    renameTeamPersonList.add(renameTeamInPerson(person, updatedTeamName, targetTeam));
                 }
             }
 
-            Team updatedTeam = new Team(updatedTeamName, targetTeam.getTeamPlayers());
+            Team updatedTeam = new Team(updatedTeamName, renameTeamPersonList);
 
             teams.setTeam(targetTeam, updatedTeam);
         } catch (DuplicateTeamException dte) {
@@ -395,16 +396,15 @@ public class AddressBook implements ReadOnlyAddressBook {
     /**
      * Renames {@code teamName} in {@code person} with {@code teamName}.
      */
-    private void renameTeamInPerson(Person person, TeamName teamName, Team targetTeam) {
-        Person toRename = person;
+    private Person renameTeamInPerson(Person person, TeamName teamName, Team targetTeam) {
         Person personWithRenameTeam =
                 new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
                         person.getRemark(), teamName, person.getTags(), person.getRating(),
                         person.getPosition(), person.getJerseyNumber(), person.getAvatar());
 
         try {
-            targetTeam.setPerson(toRename, personWithRenameTeam);
-            persons.setPerson(toRename, personWithRenameTeam);
+            persons.setPerson(person, personWithRenameTeam);
+            return personWithRenameTeam;
         } catch (DuplicatePersonException dpe) {
             throw new AssertionError("AddressBook should not have duplicate person after assigning team");
         } catch (PersonNotFoundException pnfe) {

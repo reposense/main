@@ -27,6 +27,8 @@ public class KeyCommand extends Command {
     public static final String MESSAGE_SUCCESS = "MTM lock toggled!";
     public static final String MESSAGE_WRONG_PASS = "Password entered is incorrect. Please try again.";
 
+    public static final String MESSAGE_PARAMETERS = "[PASSWORD]";
+
     private String password;
 
     private final Logger logger = LogsCenter.getLogger(KeyCommand.class);
