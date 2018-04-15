@@ -146,6 +146,12 @@
 <li><a href="#removing-a-team">F.6.5. Removing a Team</a></li>
 </ul>
 </li>
+<li><a href="#appearance-related-functions">F.7. Appearance Related Functions</a>
+<ul class="sectlevel3">
+<li><a href="#changing-a-theme">F.7.1. Changing a Theme</a></li>
+<li><a href="#setting-tag-colours">F.7.2. Setting Tag Colours</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1620,7 +1626,7 @@ If address book is empty, a <code>NoPlayerException</code> will be thrown by <co
 <p>We achieved the implementation of <code>Team</code> component by introducing a <code>UniqueTeamList</code> into the application which consists of a list of <code>Team</code> objects. <code>UniqueTeamList</code> is similar in context to <code>UniquePersonList</code> in which it keeps a unique list of all the <code>Team</code> objects. <code>Team</code> objects consist of <code>TeamName</code> object, which is used to uniquely identify the team. <code>Team</code> inherits <code>UniquePersonList</code> object which stores the a list of unique <code>Person</code> objects, containing information of the player.</p>
 </div>
 <div class="paragraph">
-<p>The class diagrams below shoes the relationship between the related classes.</p>
+<p>The class diagrams below shoes the relationship between the related classes. The Team Class Diagrams are an extension to the current existing Designs of <a href="#Design-Model"><code>Model</code></a>, <a href="#Design-Storage"><code>Storage</code></a>, and <a href="#Design-Ui"><code>UI</code></a>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -2377,7 +2383,16 @@ the current team that has been selected in the Command Line Interface by the use
 <div class="paragraph">
 <p>It calls the <code>Team</code> model and displays the <code>Person</code> cards associated with that <code>Team</code>.
 It contains event handler methods such as handleShowNewTeamEvent(), handleHighlightSelectedTeamEvent(),
-and handleDeselectTeamEvent(), which update the display accordingly</p>
+and handleDeselectTeamEvent(), which update the UI accordingly.<br></p>
+</div>
+<div class="paragraph">
+<p>The component interactions can be seen in the higher level sequence diagram for <code>TeamDisplay</code> below, using the example of a <code>create</code> command:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ShowNewTeamDiagram.png" alt="ShowNewTeamDiagram" width="800">
+</div>
+<div class="title">Figure 33. Component interactions for <code>create Team</code> command</div>
 </div>
 <div class="paragraph">
 <p>Code snippet from 'TeamDisplay' to show initialisation of UI component and event handlers:</p>
@@ -2458,7 +2473,18 @@ and handleDeselectTeamEvent(), which update the display accordingly</p>
 <div class="paragraph">
 <p>The <code>Player Details</code> pane is implemented as <code>PlayerDetails</code> in the UI Component.
 It is called from <code>PlayerListPanel</code>. It renders <code>PlayerDetails.fxml</code> and displays the selected <code>PersonCard</code>.
-It calls the <code>Person</code> model and displays the fields in the <code>Person</code> model that are not displayed in the left panel.</p>
+It calls the <code>Person</code> model and displays the fields in the <code>Person</code> model that are not displayed in the left panel.
+It contains the event handler method handlePersonDetailsChangedEvent(), which updates the UI component when the <code>edit `
+or `remark</code> commands are entered.<br></p>
+</div>
+<div class="paragraph">
+<p>The component interactions can be seen in the higher level sequence diagram for <code>PlayerDetails</code> below, using the example of a <code>remark</code> command:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/PlayerDetailsDiagram.png" alt="PlayerDetailsDiagram" width="800">
+</div>
+<div class="title">Figure 34. Component interactions for <code>remark 1 r/test</code> command</div>
 </div>
 <div class="paragraph">
 <p>Code snippet from 'PlayerDetails' to show initialisation of UI component:</p>
@@ -2474,6 +2500,11 @@ It calls the <code>Person</code> model and displays the fields in the <code>Pers
         <span class="local-variable">super</span>(FXML);
         <span class="local-variable">this</span>.person = person;
         <span class="comment">//....player details code...</span>
+    }
+
+    <span class="annotation">@Subscribe</span>
+    <span class="directive">private</span> <span class="type">void</span> handlePersonDetailsChangedEvent(PersonDetailsChangedEvent event) {
+        ...handlePersonDetailsChangedEvent code...
     }
 
 }</code></pre>
@@ -2532,11 +2563,12 @@ which is a method in <code>UserPrefs</code>.<br></p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/ChangeThemeCommandDiagram.png" alt="ChangeThemeCommandDiagram" width="800">
+<img src="images/ChangeThemeDiagram.png" alt="ChangeThemeDiagram" width="800">
 </div>
+<div class="title">Figure 35. Interactions of the Logic Component with the UI and Model Components for the <code>changeTheme</code> Command</div>
 </div>
 <div class="paragraph">
-<p>Code snippet from 'ChangThemeCommand':</p>
+<p>Code snippet from 'ChangeThemeCommand':</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2698,8 +2730,9 @@ its handler in <code>PersonCard</code> responds and performs the UI update.<br><
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/SetTagCommandSequence.png" alt="SetTagCommandSequence" width="800">
+<img src="images/SetTagCommandDiagram.png" alt="SetTagCommandDiagram" width="800">
 </div>
+<div class="title">Figure 36. Interactions of the Logic Component with the UI and Model Components for the <code>setTagColour</code> Command</div>
 </div>
 </div>
 <div class="sect4">
@@ -2803,7 +2836,7 @@ Alternatively, you can download the AsciiDoc plugin for IntelliJ, which allows y
 <div class="content">
 <img src="images/chrome_save_as_pdf.png" alt="chrome save as pdf" width="300">
 </div>
-<div class="title">Figure 33. Saving documentation as PDF files in Chrome</div>
+<div class="title">Figure 37. Saving documentation as PDF files in Chrome</div>
 </div>
 </div>
 </div>
@@ -4069,12 +4102,64 @@ Expected: Error details shown in the status message. Team does not exist in MTM.
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="appearance-related-functions"><a class="link" href="#appearance-related-functions">F.7. Appearance Related Functions</a></h3>
+<div class="sect3">
+<h4 id="changing-a-theme"><a class="link" href="#changing-a-theme">F.7.1. Changing a Theme</a></h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Changing the theme that MTM is currently on</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Test case: <code>cte Dark</code> (if current theme is Light) or <code>cte Light</code> (if current theme is Dark)<br>
+Expected: MTM colour scheme will change to the respective themes as shown below:</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/DarkTheme.png" alt="DarkTheme" width="300">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/LightTheme.png" alt="LightTheme" width="300">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="setting-tag-colours"><a class="link" href="#setting-tag-colours">F.7.2. Setting Tag Colours</a></h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Setting the tags to colour of choice</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Player has tags</p>
+</li>
+<li>
+<p>Test case:  <code>setTagColour t/redCard tc/blue</code>
+Expected: All tags with the name <code>redCard</code> would become blue</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-15 08:06:47 UTC
+Last updated 2018-04-15 11:42:29 UTC
 </div>
 </div>
 </body>
