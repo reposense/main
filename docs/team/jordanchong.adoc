@@ -28,26 +28,27 @@ MTM is further enhanced with usability implementations that make MTM efficient a
 
 ** Project management:
 *** Published releases `v1.3` ~ `v1.4` (2 release) on GitHub.
-*** Documented issues of project using GitHub's Issue Tracker and address the issues accordingly.
+*** Documented issues of project using GitHub's _Issue Tracker_ and address the issues accordingly.
 ** Enhancements to existing features:
-*** Enhanced functionality of add command that allows certain field to be optional. [https://github.com/CS2103JAN2018-F14-B1/main/pull/54[PR#54]]
+*** Enhanced functionality of `add` command that allows certain field to be optional. [https://github.com/CS2103JAN2018-F14-B1/main/pull/54[PR#54]]
 *** Made changes based on suggestions from feedback. [https://github.com/CS2103JAN2018-F14-B1/main/pull/167[PR#167]]
 ** Documentation:
-*** Update AboutUs segment with team member's pictures and contributions. [https://github.com/CS2103JAN2018-F14-B1/main/pull/68[PR#68]][https://github.com/CS2103JAN2018-F14-B1/main/pull/49[PR#49]]
-*** Re-arrange features in User Guide into appropriate categories. [https://github.com/CS2103JAN2018-F14-B1/main/pull/110[PR#110]]
-*** Update User Guide on all Team-Related Commands, `setmatch`, `nextmatch`, `remark`, `help`, `undo`, `redo`, and `select`.
-*** Wrote the preface for the Features segment, "Getting started with Commands", "The Use Of Alias", and "Lookout for Tips, Notes, and Expected Outcomes".
-*** Create Command Summary Table in User Guide for ease of viewing and quick access to commands.
-*** Introduce the "Overview" segment into the development guide.
-*** Wrote the sections on "Remark a Player", "Team-Related Enhancements", and "Optional Field Add Command".
+*** Update _About Us_ with team member's pictures and contributions. [https://github.com/CS2103JAN2018-F14-B1/main/pull/68[PR#68]][https://github.com/CS2103JAN2018-F14-B1/main/pull/49[PR#49]]
+*** Re-arrange features in _User Guide_ into appropriate categories. [https://github.com/CS2103JAN2018-F14-B1/main/pull/110[PR#110]]
+*** Update _User Guide_ on all *Team-Related* commands, and the following commands: +
+`setmatch`, `nextmatch`, `remark`, `help`, `undo`, `redo`, and `select`.
+*** Wrote the preface for the _Features_ segment in _User Guide_, *Getting started with Commands*, *The Use Of Alias*, and *Lookout for Tips, Notes, and Expected Outcomes*.
+*** Create *Command Summary Table* in _User Guide_ for ease of viewing and quick access to commands.
+*** Introduce the *Overview* segment into the _Developer Guide_.
+*** Wrote the sections on *Remark a Player*, *Team-Related Enhancements*, and *Optional Field Add Command* in _Developer Guide_.
 ** Community:
 *** PRs reviewed (with non-trivial review comments) [https://github.com/CS2103JAN2018-F14-B1/main/pull/57[PR#57]][https://github.com/CS2103JAN2018-F14-B1/main/pull/94[PR#94]][https://github.com/CS2103JAN2018-F14-B1/main/pull/171[PR#171]]
-*** Reported bugs and suggestions for other teams in the class (https://github.com/CS2103JAN2018-F11-B4/main/issues/99[1],
+*** Reported bugs and suggestions for other teams in the class [https://github.com/CS2103JAN2018-F11-B4/main/issues/99[1],
 https://github.com/CS2103JAN2018-F11-B4/main/issues/105[2],
 https://github.com/CS2103JAN2018-F11-B4/main/issues/108[3],
 https://github.com/CS2103JAN2018-F11-B4/main/issues/111[4],
 https://github.com/CS2103JAN2018-F11-B4/main/issues/112[5],
-https://github.com/CS2103JAN2018-F11-B4/main/issues/113[6])
+https://github.com/CS2103JAN2018-F11-B4/main/issues/113[6]]
 
 
 == Contributions to the User Guide
