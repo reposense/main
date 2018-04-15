@@ -25,7 +25,7 @@
 <h2 id="overview"><a class="link" href="#overview">Overview</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>My Team Manager (MTM) is a dekstop command-line interface (CLI) based address book application for football team managers.
+<p>My Team Manager (MTM) is a desktop command-line interface (CLI) based address book application for football team managers.
 It is a one-stop solution to help you manage your player’s contact details and team information in an efficient and convenient manner.
 MTM is further enhanced with usability implementations that make MTM efficient and easy to use with JavaFX GUI display.</p>
 </div>
@@ -53,17 +53,7 @@ MTM is further enhanced with usability implementations that make MTM efficient a
 </div>
 </li>
 <li>
-<p><strong>Minor enhancement</strong>:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>added a remark command that allows the user to leave a remark to a specific player. [<a href="https://github.com/CS2103JAN2018-F14-B1/main/pull/58">PR#58</a>]</p>
-</li>
-<li>
-<p>enhanced functionality of add command that allows certain field to be optional. [<a href="https://github.com/CS2103JAN2018-F14-B1/main/pull/54">PR#54</a>]</p>
-</li>
-</ul>
-</div>
+<p><strong>Minor enhancement</strong>: added a remark command that allows the user to leave a remark to a specific player. [<a href="https://github.com/CS2103JAN2018-F14-B1/main/pull/58">PR#58</a>]</p>
 </li>
 <li>
 <p><strong>Code contributed</strong>: [<a href="https://github.com/CS2103JAN2018-F14-B1/main/collated/functional/jordancjq.md">Functional code</a>] [<a href="https://github.com/CS2103JAN2018-F14-B1/main/collated/test/jordancjq.md">Test code</a>]</p>
@@ -90,7 +80,7 @@ MTM is further enhanced with usability implementations that make MTM efficient a
 <div class="ulist">
 <ul>
 <li>
-<p>Changes are mentioned in <a href="#Minor Enhancement">Minor enhancement</a>.</p>
+<p>Enhanced functionality of add command that allows certain field to be optional. [<a href="https://github.com/CS2103JAN2018-F14-B1/main/pull/54">PR#54</a>]</p>
 </li>
 <li>
 <p>Made changes based on suggestions from feedback. [<a href="https://github.com/CS2103JAN2018-F14-B1/main/pull/167">PR#167</a>]</p>
@@ -103,13 +93,25 @@ MTM is further enhanced with usability implementations that make MTM efficient a
 <div class="ulist">
 <ul>
 <li>
-<p>Re-arrange features in UserGuide into appropriate categories (Basic, Player, Team, Others). [<a href="https://github.com/CS2103JAN2018-F14-B1/main/pull/110">PR#110</a>]</p>
-</li>
-<li>
-<p>Create command summary table for ease of viewing and quick access</p>
-</li>
-<li>
 <p>Update AboutUs segment with team member&#8217;s pictures and contributions. [<a href="https://github.com/CS2103JAN2018-F14-B1/main/pull/68">PR#68</a>][<a href="https://github.com/CS2103JAN2018-F14-B1/main/pull/49">#PR49</a>]</p>
+</li>
+<li>
+<p>Re-arrange features in UserGuide into appropriate categories (Fundamentals, Player, Team, User Experience, Coming Soon). [<a href="https://github.com/CS2103JAN2018-F14-B1/main/pull/110">PR#110</a>]</p>
+</li>
+<li>
+<p>Update User Guide on all Team-Related Commands, <code>setmatch</code>, <code>nextmatch</code>, <code>remark</code>, <code>help</code>, <code>undo</code>, <code>redo</code>, and <code>select</code>.</p>
+</li>
+<li>
+<p>Wrote the preface for the Features segment, "Getting started with Commands", "The Use Of Alias", and "Lookout for Tips, Notes, and Expected Outcomes".</p>
+</li>
+<li>
+<p>Create Command Summary Table in User Guide for ease of viewing and quick access to commands.</p>
+</li>
+<li>
+<p>Introduce the "Overview" segment into the development guide.</p>
+</li>
+<li>
+<p>Wrote the sections on "Remark a Player", "Team-Related Enhancements", and "Optional Field Add Command".</p>
 </li>
 </ul>
 </div>
@@ -152,8 +154,6 @@ MTM is further enhanced with usability implementations that make MTM efficient a
 </tr>
 </tbody>
 </table>
-<div class="sect2">
-<h3 id="team-related-commands"><a class="link" href="#team-related-commands">Team-Related Commands</a></h3>
 <div class="sect3">
 <h4 id="create"><a class="link" href="#create">Creating a team: <code>create</code> <code>[Since v1.2]</code></a></h4>
 <div class="paragraph">
@@ -220,61 +220,6 @@ Alias: <code>ct</code></p>
 <div class="imageblock">
 <div class="content">
 <img src="../images/TeamCreateExampleAfter.png" alt="TeamCreateExampleAfter" width="350">
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="view"><a class="link" href="#view">Viewing a team: <code>view</code> <code>[Since v1.3]</code></a></h4>
-<div class="paragraph">
-<p>With the ability to manage different teams, you will be able to identify all players in a team easily with the <code>view</code> command.</p>
-</div>
-<div class="paragraph">
-<p><code>Coming in v2.0</code><br>
-Details of your team will be displayed on the right panel when <code>view</code> command is executed.</p>
-</div>
-<div class="paragraph">
-<p>Format: <code>view TEAM_NAME</code><br>
-Alias: <code>vt</code></p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-<div class="title"><strong>What to expect</strong></div>
-<div class="paragraph">
-<p>Displays the list of players on the left panel that are in the team specified.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Here are a few valid examples on how you can use the <code>view</code> command:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>view Arsenal</code></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>You can use the command above to easily view all the players that exist in "Arsenal".</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/TeamViewExampleBefore.png" alt="TeamViewExampleBefore" width="350">
-</div>
-</div>
-<div class="paragraph">
-<p>The Player List will be updated with all players in the specified team, "Arsenal".</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/TeamViewExampleAfter.png" alt="TeamViewExampleAfter" width="700">
 </div>
 </div>
 </div>
@@ -385,137 +330,6 @@ Alias: <code>at</code></p>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="rename"><a class="link" href="#rename">Rename a team: <code>rename</code> <code>[Since v1.4]</code></a></h4>
-<div class="paragraph">
-<p>Entered your team name wrongly or you need to update it to accordingly, you can use the <code>rename</code> command to help you make that change.</p>
-</div>
-<div class="paragraph">
-<p>Format: <code>rename TEAM_NAME tm/RENAME_TEAM_NAME</code><br>
-Alias: <code>rnt</code></p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-<div class="title"><strong>What to expect</strong></div>
-<div class="paragraph">
-<p>Your specified team will be updated with the new team name along with the affected players in the existing team.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Here are a few valid examples on how you can use the <code>rename</code> command:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>rename Liverpool tm/Tello Mello</code></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>You can rename a <code>Team</code> easily by entering a similar command above, which will rename "Liverpool" into "Tello Mello".</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/TeamRenameExampleBefore.png" alt="TeamRenameExampleBefore" width="700">
-</div>
-</div>
-<div class="paragraph">
-<p>After renaming, the team name will be updated in the Team List and will be update for each individual player.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/TeamRenameExampleAfter.png" alt="TeamRenameExampleAfter" width="700">
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="remove"><a class="link" href="#remove">Removing a team: <code>remove</code> <code>[Since v1.4]</code></a></h4>
-<div class="paragraph">
-<p>No longer managing the team or the team has been disbanded, you can easily remove the team from MTM.</p>
-</div>
-<div class="paragraph">
-<p>Format: <code>remove TEAM_NAME</code><br>
-Alias: <code>rt</code></p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>Removing a team will automatically update all affected players' <code>Team</code> field.</p>
-</li>
-<li>
-<p>Players without a team will need to be re-assigned.</p>
-</li>
-</ul>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-<div class="title"><strong>What to expect</strong></div>
-<div class="paragraph">
-<p>Remove the specified team and update all affected players.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Here are a few valid examples of how you can use the <code>remove</code> command:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>view Arsenal</code></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Here we show you what it would be like before the removal of "Arsenal".</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/TeamRemoveExampleBefore.png" alt="TeamRemoveExampleBefore" width="700">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>remove Arsenal</code></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>After typing the command, you will remove the the team from MTM and will be taken off the Team Display as well as updating each individual player affected to be without a team.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/TeamRemoveExampleAfter.png" alt="TeamRemoveExampleAfter" width="700">
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -531,42 +345,6 @@ Alias: <code>rt</code></p>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="sect1">
-<h2 id="overview-2"><a class="link" href="#overview-2">Overview</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>My Team Manager (MTM) is a team managing application for football coaches. MTM is designed to be quick and easy for you to manage a team of players without the need of a mouse.</p>
-</div>
-<div class="paragraph">
-<p>This developer&#8217;s guide provides information that will not only show the design principles of the project, but allow you to understand the different implementations, and give you the opportunity to get started with being a contributor or as a reference for experienced developer.</p>
-</div>
-<div class="paragraph">
-<p>This developer&#8217;s guide consist of the following sections:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="#Setting up">Setting up</a></p>
-</li>
-<li>
-<p><a href="#Design">Design</a></p>
-</li>
-<li>
-<p><a href="#Implementation">Implementation</a></p>
-</li>
-<li>
-<p><a href="#Documentation">Documentation</a></p>
-</li>
-<li>
-<p><a href="#Testing">Testing</a></p>
-</li>
-<li>
-<p><a href="#Dev Ops">Dev Ops</a></p>
-</li>
-</ul>
-</div>
 <div class="sect3">
 <h4 id="team-component-code-since-v1-2-code"><a class="link" href="#team-component-code-since-v1-2-code">Team Component <code>[since v1.2]</code></a></h4>
 <div class="paragraph">
@@ -782,7 +560,7 @@ Alias: <code>rt</code></p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-15 00:32:15 UTC
+Last updated 2018-04-15 01:02:07 UTC
 </div>
 </div>
 </body>
