@@ -785,6 +785,13 @@ Alias: `stc`
 ====
 You will see the specified tags in the left panel change to the colour of your choice.
 ====
+
+Here is a valid example on how you can use the `setTagColour` command:
+
+* `stc t/redCard t/red`
+
+All the tags that say "redCard" in the left panel will now turn red.
+
 // end::setTagColour[]
 
 // tag::changeTheme[]
@@ -795,7 +802,7 @@ you can change the theme from the default LightTheme to DarkTheme with the 'chan
 
 
 Format: `changeTheme THEME` +
-Alias: `ct`
+Alias: `cte`
 
 [NOTE]
 ====
@@ -805,6 +812,12 @@ Alias: `ct`
 ** i.e. You cannot `undo` a `changeTheme` command.
 * Instead, just enter `cte THEME` to change the colour back!
 ====
+
+Here is a valid example on how you can use the `changeTheme` command:
+
+* `cte Dark`
+
+You will see the whole interface change from a light-coloured theme to become dark-coloured.
 // end::changeTheme[]
 
 === Coming Soon
