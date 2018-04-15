@@ -560,6 +560,8 @@ public class RemarkCommandTest {
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.updatePerson(personInFilteredList, remarkedPerson);
 
+        model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
+
         assertCommandSuccess(remarkCommand, model, expectedMessage, expectedModel);
     }
 
