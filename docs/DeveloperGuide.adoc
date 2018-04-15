@@ -127,13 +127,17 @@ When you are ready to start coding,
 
 == Design
 
+After you have successfully configured MTM, you are encouraged to read through the following section to understand the design of the software. The design section covers a high level overview the architecture and components of the software, as well as how common classes, configuration and logging throughout development are being used.
+
 [[Design-Architecture]]
-=== Architecture
+=== Software Architecture
+
+The *_Architecture Diagram_* given below (Figure 1) explains the high-level design of the App.
 
 .Architecture Diagram
 image::Architecture.png[width="600"]
 
-The *_Architecture Diagram_* given above explains the high-level design of the App. Given below is a quick overview of each component.
+Given below is a quick overview of each component.
 
 [TIP]
 The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder. To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as picture`.
@@ -189,6 +193,10 @@ The sections below give more details of each component.
 [[Design-Ui]]
 === UI component
 
+The UI Component contains a MainWindow that consists of various parts e.g. CommandBox, ResultDisplayer, TeamDetails, PersonListPanel, PlayerDetails etc. The UI classes are all child classes of the abstract UiPart class.
+
+The structure of the UI component is shown in the figure below:
+
 .Structure of the UI Component
 image::UiClassDiagram.png[width="800"]
 
@@ -206,6 +214,8 @@ The `UI` component,
 
 [[Design-Logic]]
 === Logic component
+
+The Logic Component handles how each command would be parsed and executed. The class diagrams below illustrates the structure of the Logic Component and the structure of each individual commands.
 
 [[fig-LogicClassDiagram]]
 .Structure of the Logic Component
@@ -230,6 +240,8 @@ image::DeletePersonSdForLogic.png[width="800"]
 [[Design-Model]]
 === Model component
 
+The Model Component handles the players and teams data structures in My Team Manager.  These structures also provide APIs to create, read, update and delete the details of these objects. The class diagram below shows the structure of the Model Component.
+
 .Structure of the Model Component
 image::ModelClassDiagram.png[width="800"]
 
@@ -245,6 +257,8 @@ The `Model`,
 [[Design-Storage]]
 === Storage component
 
+Any changes made to the data is retained and handled by the Storage Component. The structure of this component is shown in Figure 10 below.
+
 .Structure of the Storage Component
 image::StorageClassDiagram.png[width="800"]
 
@@ -258,7 +272,7 @@ The `Storage` component,
 [[Design-Commons]]
 === Common classes
 
-Classes used by multiple components are in the `seedu.addressbook.commons` package.
+All classes used by the different components can be found in the `seedu.addressbook.commons` package.
 
 === Configuration
 
@@ -269,7 +283,7 @@ Certain properties of the application can be controlled (e.g App name, logging l
 
 We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
 
-* The logging level can be controlled using the `logLevel` setting in the configuration file (See <<Implementation-Configuration>>)
+* The logging level can be controlled using the `logLevel` setting in the configuration file (See <<Configuration,Configuration>>)
 * The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level
 * Currently log messages are output through: `Console` and to a `.log` file.
 
