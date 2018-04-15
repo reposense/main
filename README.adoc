@@ -42,7 +42,6 @@ Say goodbye to manual tracking of information on excel sheet after excel sheet!
 * Add Player's personal details, position, rating, avatar etc.
 * View, Edit and Delete Players
 * Sort players by field of choice
-* Manage Schedule of Teams
 
 Come and take a look at our <<UserGuide#, User Guide>> to get started with MTM now.
 
