@@ -771,7 +771,7 @@ One of the core components to MTM is `Team`, and it is the base to creating more
 
 We achieved the implementation of `Team` component by introducing a `UniqueTeamList` into the application which consists of a list of `Team` objects. `UniqueTeamList` is similar in context to `UniquePersonList` in which it keeps a unique list of all the `Team` objects. `Team` objects consist of `TeamName` object, which is used to uniquely identify the team. `Team` inherits `UniquePersonList` object which stores the a list of unique `Person` objects, containing information of the player.
 
-The class diagrams below shoes the relationship between the related classes. The Team Class Diagrams are an extension to the current existing Designs of <<Design-Model, `Model`>>, <<Design-Storage, `Storage`>>, and <<Design-Ui, `UI`>>. 
+The class diagrams below shoes the relationship between the related classes. The Team Class Diagrams are an extension to the current existing Designs of <<Design-Model, `Model`>>, <<Design-Storage, `Storage`>>, and <<Design-Ui, `UI`>>.
 
 .Model Component: Team Class Diagram
 image::TeamModelClassDiagram.png[width="800"]
