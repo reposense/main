@@ -29,7 +29,7 @@ public class AutocompleteTest {
     }
 
     @Test
-    public void autocomplete_mix_case(){
+    public void autocomplete_mix_case() {
         assert commandTrie.attemptAutoComplete("setT").equals("setTagColour");
     }
 }
