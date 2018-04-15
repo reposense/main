@@ -1,5 +1,5 @@
 # jordancjq
-###### /java/seedu/address/commons/events/ui/RemoveSelectedTeamEvent.java
+###### \java\seedu\address\commons\events\ui\RemoveSelectedTeamEvent.java
 ``` java
 /**
  * Indicates a request to remove the selected team name.
@@ -18,384 +18,7 @@ public class RemoveSelectedTeamEvent extends BaseEvent {
     }
 }
 ```
-###### /java/seedu/address/logic/parser/RemoveCommandParser.java
-``` java
-/**
- * Parses input arguments and creates a new RemoveCommand object
- */
-public class RemoveCommandParser implements Parser<RemoveCommand> {
-
-    /**
-     * Parses the given {@code String} of arguments in the context of the RemoveComand
-     * and returns a RemoveCommand object for execution.
-     * @throws ParseException if the user input des not conform to the expected format
-     */
-    public RemoveCommand parse(String args) throws ParseException {
-        String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemoveCommand.MESSAGE_USAGE));
-        }
-
-        try {
-            TeamName teamToRemove = ParserUtil.parseTeamName(trimmedArgs);
-            return new RemoveCommand(teamToRemove);
-        } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
-        }
-    }
-}
-```
-###### /java/seedu/address/logic/parser/RemarkCommandParser.java
-``` java
-/**
- * Parses input arguments and creates a new RemarkCommand object
- */
-public class RemarkCommandParser implements Parser<RemarkCommand> {
-
-    /**
-     * Parses the given {@code String} of arguments in the context of the RemarkCommand
-     * and returns an RemarkCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public RemarkCommand parse(String args) throws ParseException {
-        requireNonNull(args);
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
-
-        Index index;
-
-        try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (IllegalValueException ive) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemarkCommand.MESSAGE_USAGE));
-        }
-
-        String remark = argMultimap.getValue(PREFIX_REMARK).orElse("");
-
-        return new RemarkCommand(index, new Remark(remark));
-    }
-}
-```
-###### /java/seedu/address/logic/parser/RenameCommandParser.java
-``` java
-/**
- * Parses the input arguments and creates a new RenameCommand object
- */
-public class RenameCommandParser implements Parser<RenameCommand> {
-
-    /**
-     * Parses the given {@code String} of arguments in the context of the RenameCommand
-     * and returns an RenameCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public RenameCommand parse(String args) throws ParseException {
-        requireNonNull(args);
-        ArgumentMultimap argMultiMap = ArgumentTokenizer.tokenize(args, PREFIX_TEAM_NAME);
-
-        if (!argMultiMap.getValue(PREFIX_TEAM_NAME).isPresent() || argMultiMap.getPreamble().isEmpty()
-                || argMultiMap.getAllValues(PREFIX_TEAM_NAME).size() > 1) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RenameCommand.MESSAGE_USAGE));
-        }
-
-        TeamName target;
-        TeamName toRename;
-
-        try {
-            target = ParserUtil.parseTeamName(argMultiMap.getPreamble());
-            toRename = ParserUtil.parseTeamName(ParserUtil.parseValue(argMultiMap.getValue(PREFIX_TEAM_NAME),
-                    TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS)).get();
-        } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
-        }
-
-        if (target.equals(toRename)) {
-            throw new ParseException(RenameCommand.MESSAGE_NO_CHANGE);
-        }
-
-        return new RenameCommand(target, toRename);
-    }
-}
-```
-###### /java/seedu/address/logic/parser/ParserUtil.java
-``` java
-    /**
-     * Parses {@code String oneBasedIndexes} into a {@code List<Index>} and returns it. Leading and trailing
-     * whitespaces will be trimmed.
-     */
-    public static List<Index> parseIndexes(String oneBasedIndexes) throws IllegalValueException {
-        String trimmedIndexes = oneBasedIndexes.trim();
-
-        String[] splitOneBasedIndexes = trimmedIndexes.split("\\s+");
-
-        Set<String> uniqueIndexes = new HashSet<>(Arrays.asList(splitOneBasedIndexes));
-
-        List<Index> indexList = new ArrayList<>();
-
-        for (String index : uniqueIndexes) {
-            indexList.add(parseIndex(index));
-        }
-
-        return indexList;
-    }
-
-```
-###### /java/seedu/address/logic/parser/ParserUtil.java
-``` java
-    /**
-     * Parses a {@code Optional<String> value} into the specified value or {@code UNSPECIFIED_FIELD} if is empty
-     */
-    public static Optional<String> parseValue(Optional<String> value, String messageConstraints)
-            throws IllegalValueException {
-        if (value.isPresent() && value.get().equals(UNSPECIFIED_FIELD)) {
-            throw new IllegalValueException(messageConstraints);
-        } else {
-            return Optional.of(value.orElse(UNSPECIFIED_FIELD));
-        }
-    }
-
-```
-###### /java/seedu/address/logic/parser/AssignCommandParser.java
-``` java
-/**
- * Parses input arguments and creates a new AssignCommand object
- */
-public class AssignCommandParser implements Parser<AssignCommand> {
-
-    /**
-     * Parses the given {@code String} of arguments in the context of the AssignCommand
-     * and returns an AssignCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public AssignCommand parse(String args) throws ParseException {
-        requireNonNull(args);
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_INDEX);
-
-        if (!argMultimap.getValue(PREFIX_INDEX).isPresent() || argMultimap.getAllValues(PREFIX_INDEX).size() > 1) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AssignCommand.MESSAGE_USAGE));
-        }
-
-        TeamName teamName;
-        try {
-            if (!argMultimap.getPreamble().isEmpty()) {
-                teamName = ParserUtil.parseTeamName(argMultimap.getPreamble());
-            } else {
-                teamName = new TeamName(UNSPECIFIED_FIELD);
-            }
-            List<Index> indexList = ParserUtil.parseIndexes(argMultimap.getValue(PREFIX_INDEX).get());
-
-            return new AssignCommand(teamName, indexList);
-        } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
-        }
-    }
-}
-```
-###### /java/seedu/address/logic/parser/ViewCommandParser.java
-``` java
-/**
- * Parses input arguments and creates a new ViewCommandObject
- */
-public class ViewCommandParser implements Parser<ViewCommand> {
-
-    /**
-     * Parses the given {@code String} of arguments in the context of the ViewCommand
-     * and returns a ViewCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    @Override
-    public ViewCommand parse(String args) throws ParseException {
-        String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewCommand.MESSAGE_USAGE));
-        }
-
-        TeamName targetTeam;
-        try {
-            targetTeam = ParserUtil.parseTeamName(trimmedArgs);
-        } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
-        }
-
-        return new ViewCommand(targetTeam);
-    }
-}
-```
-###### /java/seedu/address/logic/parser/CreateCommandParser.java
-``` java
-/**
- * Parses input arguments and creates a new CreateCommand object
- */
-public class CreateCommandParser implements Parser<CreateCommand> {
-
-    /**
-     * Parses the given {@code String} of arguments in the context of the CreateCommand
-     * and returns an CreateCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public CreateCommand parse(String args) throws ParseException {
-        String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, CreateCommand.MESSAGE_USAGE));
-        }
-
-        TeamName teamName;
-        try {
-            teamName = ParserUtil.parseTeamName(ParserUtil.parseValue(Optional.of(trimmedArgs),
-                    MESSAGE_TEAM_NAME_CONSTRAINTS)).get();
-        } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
-        }
-
-        return new CreateCommand(new Team(teamName));
-    }
-}
-```
-###### /java/seedu/address/logic/commands/CreateCommand.java
-``` java
-/**
- * Creates a team to the application
- */
-public class CreateCommand extends UndoableCommand {
-
-    public static final String COMMAND_WORD = "create";
-    public static final String COMMAND_ALIAS = "ct";
-
-    public static final String MESSAGE_USAGE = COMMAND_WORD + "Creates a team in MTM. "
-            + "Parameters: "
-            + "TEAM_NAME\n"
-            + "Example: " + COMMAND_WORD + " "
-            + "Arsenal";
-
-    public static final String MESSAGE_PARAMETERS = "TEAM_NAME";
-
-    public static final String MESSAGE_SUCCESS = "New team created: %1$s";
-    public static final String MESSAGE_DUPLICATE_TEAM = "This team already exist in the manager";
-
-    private final Team toCreate;
-
-    /**
-     * Creates a CreateCommand to add the specified (@code Team)
-     *
-     */
-    public CreateCommand(Team team) {
-        requireNonNull(team);
-        this.toCreate = team;
-    }
-
-    @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
-        requireNonNull(model);
-        try {
-            model.createTeam(toCreate);
-        } catch (DuplicateTeamException e) {
-            throw new CommandException(MESSAGE_DUPLICATE_TEAM);
-        }
-        EventsCenter.getInstance().post(new ShowNewTeamNameEvent(toCreate.getTeamName().toString()));
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toCreate));
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof CreateCommand // instanceof handles nulls
-                && toCreate.equals(((CreateCommand) other).toCreate));
-    }
-}
-```
-###### /java/seedu/address/logic/commands/ViewCommand.java
-``` java
-/**
- * View a team identified using it's team name from the address book.
- */
-public class ViewCommand extends Command {
-
-    public static final String COMMAND_WORD = "view";
-    public static final String COMMAND_ALIAS = "vt";
-
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Views the team identified by the team name.\n"
-            + "Parameters: TEAM_NAME\n"
-            + "Example: " + COMMAND_WORD + " Arsenal";
-
-    public static final String MESSAGE_PARAMETERS = "TEAM_NAME";
-    public static final String MESSAGE_VIEW_TEAM_SUCCESS = "Viewing Team: %1$s";
-
-    private final TeamName targetTeam;
-
-    public ViewCommand(TeamName targetTeam) {
-        requireNonNull(targetTeam);
-        this.targetTeam = targetTeam;
-    }
-
-    @Override
-    public CommandResult execute() throws CommandException {
-        try {
-            EventsCenter.getInstance().post(new HighlightSelectedTeamEvent(targetTeam.toString()));
-            model.updateFilteredPersonList(targetTeam);
-        } catch (TeamNotFoundException tnfe) {
-            throw new CommandException(Messages.MESSAGE_TEAM_NOT_FOUND);
-        }
-        return new CommandResult(String.format(MESSAGE_VIEW_TEAM_SUCCESS, targetTeam.toString()));
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof ViewCommand // instanceof handles nulls
-                && this.targetTeam.equals(((ViewCommand) other).targetTeam)); // state check
-    }
-}
-```
-###### /java/seedu/address/logic/commands/RemoveCommand.java
-``` java
-/**
- * Removes a team identified using the team name
- */
-public class RemoveCommand extends UndoableCommand {
-
-    public static final String COMMAND_WORD = "remove";
-    public static final String COMMAND_ALIAS = "rt";
-
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Removes the team specified by the team name.\n"
-            + "Parameters: TEAM_NAME\n"
-            + "Example: " + COMMAND_WORD + " Arsenal";
-
-    public static final String MESSAGE_PARAMETERS = "TEAM_NAME";
-
-    public static final String MESSAGE_REMOVE_TEAM_SUCCESS = "Removed Team: %1$s";
-
-    private TeamName targetTeamName;
-
-    public RemoveCommand(TeamName targetTeamName) {
-        requireNonNull(targetTeamName);
-        this.targetTeamName = targetTeamName;
-    }
-
-    @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
-        requireNonNull(model);
-        try {
-            model.removeTeam(targetTeamName);
-            model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
-            EventsCenter.getInstance().post(new DeselectTeamEvent());
-        } catch (TeamNotFoundException tnfe) {
-            throw new CommandException(Messages.MESSAGE_TEAM_NOT_FOUND);
-        }
-        return new CommandResult(String.format(MESSAGE_REMOVE_TEAM_SUCCESS, targetTeamName));
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof RemoveCommand // instanceof handles nulls
-                && this.targetTeamName.equals(((RemoveCommand) other).targetTeamName)); // state check
-    }
-}
-```
-###### /java/seedu/address/logic/commands/AssignCommand.java
+###### \java\seedu\address\logic\commands\AssignCommand.java
 ``` java
 /**
  * Assigns a person to a team.
@@ -522,7 +145,59 @@ public class AssignCommand extends UndoableCommand {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/RemarkCommand.java
+###### \java\seedu\address\logic\commands\CreateCommand.java
+``` java
+/**
+ * Creates a team to the application
+ */
+public class CreateCommand extends UndoableCommand {
+
+    public static final String COMMAND_WORD = "create";
+    public static final String COMMAND_ALIAS = "ct";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + "Creates a team in MTM. "
+            + "Parameters: "
+            + "TEAM_NAME\n"
+            + "Example: " + COMMAND_WORD + " "
+            + "Arsenal";
+
+    public static final String MESSAGE_PARAMETERS = "TEAM_NAME";
+
+    public static final String MESSAGE_SUCCESS = "New team created: %1$s";
+    public static final String MESSAGE_DUPLICATE_TEAM = "This team already exist in the manager";
+
+    private final Team toCreate;
+
+    /**
+     * Creates a CreateCommand to add the specified (@code Team)
+     *
+     */
+    public CreateCommand(Team team) {
+        requireNonNull(team);
+        this.toCreate = team;
+    }
+
+    @Override
+    public CommandResult executeUndoableCommand() throws CommandException {
+        requireNonNull(model);
+        try {
+            model.createTeam(toCreate);
+        } catch (DuplicateTeamException e) {
+            throw new CommandException(MESSAGE_DUPLICATE_TEAM);
+        }
+        EventsCenter.getInstance().post(new ShowNewTeamNameEvent(toCreate.getTeamName().toString()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toCreate.getTeamName().toString()));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof CreateCommand // instanceof handles nulls
+                && toCreate.equals(((CreateCommand) other).toCreate));
+    }
+}
+```
+###### \java\seedu\address\logic\commands\RemarkCommand.java
 ``` java
 /**
  * Updates the remark of an existing player in the address book.
@@ -618,7 +293,54 @@ public class RemarkCommand extends UndoableCommand {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/RenameCommand.java
+###### \java\seedu\address\logic\commands\RemoveCommand.java
+``` java
+/**
+ * Removes a team identified using the team name
+ */
+public class RemoveCommand extends UndoableCommand {
+
+    public static final String COMMAND_WORD = "remove";
+    public static final String COMMAND_ALIAS = "rt";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Removes the team specified by the team name.\n"
+            + "Parameters: TEAM_NAME\n"
+            + "Example: " + COMMAND_WORD + " Arsenal";
+
+    public static final String MESSAGE_PARAMETERS = "TEAM_NAME";
+
+    public static final String MESSAGE_REMOVE_TEAM_SUCCESS = "Removed Team: %1$s";
+
+    private TeamName targetTeamName;
+
+    public RemoveCommand(TeamName targetTeamName) {
+        requireNonNull(targetTeamName);
+        this.targetTeamName = targetTeamName;
+    }
+
+    @Override
+    public CommandResult executeUndoableCommand() throws CommandException {
+        requireNonNull(model);
+        try {
+            model.removeTeam(targetTeamName);
+            model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
+            EventsCenter.getInstance().post(new DeselectTeamEvent());
+        } catch (TeamNotFoundException tnfe) {
+            throw new CommandException(Messages.MESSAGE_TEAM_NOT_FOUND);
+        }
+        return new CommandResult(String.format(MESSAGE_REMOVE_TEAM_SUCCESS, targetTeamName));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof RemoveCommand // instanceof handles nulls
+                && this.targetTeamName.equals(((RemoveCommand) other).targetTeamName)); // state check
+    }
+}
+```
+###### \java\seedu\address\logic\commands\RenameCommand.java
 ``` java
 /**
  * Renames the existing team in the address book.
@@ -705,82 +427,285 @@ public class RenameCommand extends UndoableCommand {
     }
 }
 ```
-###### /java/seedu/address/model/person/exceptions/DuplicatePersonException.java
-``` java
-public class DuplicatePersonException extends DuplicateDataException {
-    public DuplicatePersonException() {
-        super("Operation would result in duplicate persons");
-    }
-
-    public DuplicatePersonException(String message) {
-        super(message);
-    }
-}
-```
-###### /java/seedu/address/model/person/Remark.java
+###### \java\seedu\address\logic\commands\ViewCommand.java
 ``` java
 /**
- * Represents a Person's remark in the address book.
- * Guarantees: immutable; is always valid}
+ * View a team identified using it's team name from the address book.
  */
-public class Remark {
+public class ViewCommand extends Command {
 
-    public static final String MESSAGE_REMARK_CONSTRAINTS =
-            "Remark can contain any values, can even be blank";
+    public static final String COMMAND_WORD = "view";
+    public static final String COMMAND_ALIAS = "vt";
 
-    public final String value;
-    private boolean isPrivate;
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Views the team identified by the team name.\n"
+            + "Parameters: TEAM_NAME\n"
+            + "Example: " + COMMAND_WORD + " Arsenal";
 
-    /**
-     * Constructs a {@code Remark}
-     *
-     * @param remark Any remark
-     */
-    public Remark(String remark) {
-        requireNonNull(remark);
-        this.value = remark;
-        this.isPrivate = false;
-    }
+    public static final String MESSAGE_PARAMETERS = "TEAM_NAME";
+    public static final String MESSAGE_VIEW_TEAM_SUCCESS = "Viewing Team: %1$s";
 
-    public Remark(String remark, boolean isPrivate) {
-        this(remark);
-        this.setPrivate(isPrivate);
+    private final TeamName targetTeam;
+
+    public ViewCommand(TeamName targetTeam) {
+        requireNonNull(targetTeam);
+        this.targetTeam = targetTeam;
     }
 
     @Override
-    public String toString() {
-        if (isPrivate) {
-            return "<Private Remarks>";
+    public CommandResult execute() throws CommandException {
+        try {
+            EventsCenter.getInstance().post(new HighlightSelectedTeamEvent(targetTeam.toString()));
+            model.updateFilteredPersonList(targetTeam);
+        } catch (TeamNotFoundException tnfe) {
+            throw new CommandException(Messages.MESSAGE_TEAM_NOT_FOUND);
         }
-        return value;
-    }
-
-    public boolean isPrivate() {
-        return isPrivate;
-    }
-
-    public void togglePrivacy() {
-        this.isPrivate = isPrivate ? false : true;
-    }
-
-    public void setPrivate(boolean isPrivate) {
-        this.isPrivate = isPrivate;
+        return new CommandResult(String.format(MESSAGE_VIEW_TEAM_SUCCESS, targetTeam.toString()));
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof Remark // instanceof handles nulls
-                && this.value.equals(((Remark) other).value)); // state check
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
+                || (other instanceof ViewCommand // instanceof handles nulls
+                && this.targetTeam.equals(((ViewCommand) other).targetTeam)); // state check
     }
 }
 ```
-###### /java/seedu/address/model/AddressBook.java
+###### \java\seedu\address\logic\parser\AssignCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new AssignCommand object
+ */
+public class AssignCommandParser implements Parser<AssignCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the AssignCommand
+     * and returns an AssignCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public AssignCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_INDEX);
+
+        if (!argMultimap.getValue(PREFIX_INDEX).isPresent() || argMultimap.getAllValues(PREFIX_INDEX).size() > 1) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AssignCommand.MESSAGE_USAGE));
+        }
+
+        TeamName teamName;
+        try {
+            if (!argMultimap.getPreamble().isEmpty()) {
+                teamName = ParserUtil.parseTeamName(argMultimap.getPreamble());
+            } else {
+                teamName = new TeamName(UNSPECIFIED_FIELD);
+            }
+            List<Index> indexList = ParserUtil.parseIndexes(argMultimap.getValue(PREFIX_INDEX).get());
+
+            return new AssignCommand(teamName, indexList);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
+    }
+}
+```
+###### \java\seedu\address\logic\parser\CreateCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new CreateCommand object
+ */
+public class CreateCommandParser implements Parser<CreateCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the CreateCommand
+     * and returns an CreateCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public CreateCommand parse(String args) throws ParseException {
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, CreateCommand.MESSAGE_USAGE));
+        }
+
+        TeamName teamName;
+        try {
+            teamName = ParserUtil.parseTeamName(ParserUtil.parseValue(Optional.of(trimmedArgs),
+                    MESSAGE_TEAM_NAME_CONSTRAINTS)).get();
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
+
+        return new CreateCommand(new Team(teamName));
+    }
+}
+```
+###### \java\seedu\address\logic\parser\ParserUtil.java
+``` java
+    /**
+     * Parses {@code String oneBasedIndexes} into a {@code List<Index>} and returns it. Leading and trailing
+     * whitespaces will be trimmed.
+     */
+    public static List<Index> parseIndexes(String oneBasedIndexes) throws IllegalValueException {
+        String trimmedIndexes = oneBasedIndexes.trim();
+
+        String[] splitOneBasedIndexes = trimmedIndexes.split("\\s+");
+
+        Set<String> uniqueIndexes = new HashSet<>(Arrays.asList(splitOneBasedIndexes));
+
+        List<Index> indexList = new ArrayList<>();
+
+        for (String index : uniqueIndexes) {
+            indexList.add(parseIndex(index));
+        }
+
+        return indexList;
+    }
+
+```
+###### \java\seedu\address\logic\parser\ParserUtil.java
+``` java
+    /**
+     * Parses a {@code Optional<String> value} into the specified value or {@code UNSPECIFIED_FIELD} if is empty
+     */
+    public static Optional<String> parseValue(Optional<String> value, String messageConstraints)
+            throws IllegalValueException {
+        if (value.isPresent() && value.get().equals(UNSPECIFIED_FIELD)) {
+            throw new IllegalValueException(messageConstraints);
+        } else {
+            return Optional.of(value.orElse(UNSPECIFIED_FIELD));
+        }
+    }
+
+```
+###### \java\seedu\address\logic\parser\RemarkCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new RemarkCommand object
+ */
+public class RemarkCommandParser implements Parser<RemarkCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the RemarkCommand
+     * and returns an RemarkCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public RemarkCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_REMARK);
+
+        Index index;
+
+        try {
+            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+        } catch (IllegalValueException ive) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemarkCommand.MESSAGE_USAGE));
+        }
+
+        String remark = argMultimap.getValue(PREFIX_REMARK).orElse("");
+
+        return new RemarkCommand(index, new Remark(remark));
+    }
+}
+```
+###### \java\seedu\address\logic\parser\RemoveCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new RemoveCommand object
+ */
+public class RemoveCommandParser implements Parser<RemoveCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the RemoveComand
+     * and returns a RemoveCommand object for execution.
+     * @throws ParseException if the user input des not conform to the expected format
+     */
+    public RemoveCommand parse(String args) throws ParseException {
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemoveCommand.MESSAGE_USAGE));
+        }
+
+        try {
+            TeamName teamToRemove = ParserUtil.parseTeamName(trimmedArgs);
+            return new RemoveCommand(teamToRemove);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
+    }
+}
+```
+###### \java\seedu\address\logic\parser\RenameCommandParser.java
+``` java
+/**
+ * Parses the input arguments and creates a new RenameCommand object
+ */
+public class RenameCommandParser implements Parser<RenameCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the RenameCommand
+     * and returns an RenameCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public RenameCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+        ArgumentMultimap argMultiMap = ArgumentTokenizer.tokenize(args, PREFIX_TEAM_NAME);
+
+        if (!argMultiMap.getValue(PREFIX_TEAM_NAME).isPresent() || argMultiMap.getPreamble().isEmpty()
+                || argMultiMap.getAllValues(PREFIX_TEAM_NAME).size() > 1) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RenameCommand.MESSAGE_USAGE));
+        }
+
+        TeamName target;
+        TeamName toRename;
+
+        try {
+            target = ParserUtil.parseTeamName(argMultiMap.getPreamble());
+            toRename = ParserUtil.parseTeamName(ParserUtil.parseValue(argMultiMap.getValue(PREFIX_TEAM_NAME),
+                    TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS)).get();
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
+
+        if (target.equals(toRename)) {
+            throw new ParseException(RenameCommand.MESSAGE_NO_CHANGE);
+        }
+
+        return new RenameCommand(target, toRename);
+    }
+}
+```
+###### \java\seedu\address\logic\parser\ViewCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new ViewCommandObject
+ */
+public class ViewCommandParser implements Parser<ViewCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the ViewCommand
+     * and returns a ViewCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    @Override
+    public ViewCommand parse(String args) throws ParseException {
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewCommand.MESSAGE_USAGE));
+        }
+
+        TeamName targetTeam;
+        try {
+            targetTeam = ParserUtil.parseTeamName(trimmedArgs);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
+
+        return new ViewCommand(targetTeam);
+    }
+}
+```
+###### \java\seedu\address\model\AddressBook.java
 ``` java
     /**
      * Creates a team in the manager.
@@ -947,7 +872,159 @@ public class Remark {
         }
     }
 ```
-###### /java/seedu/address/model/team/Team.java
+###### \java\seedu\address\model\ModelManager.java
+``` java
+    @Override
+    public synchronized void createTeam(Team team) throws DuplicateTeamException {
+        addressBook.createTeam(team);
+        indicateAddressBookChanged();
+    }
+
+    @Override
+    public synchronized void assignPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
+        addressBook.assignPersonToTeam(person, teamName);
+        indicateAddressBookChanged();
+    }
+
+    @Override
+    public synchronized void unassignPersonFromTeam(Person person) throws TeamNotFoundException {
+        addressBook.unassignPersonFromTeam(person);
+        indicateAddressBookChanged();
+    }
+
+    @Override
+    public synchronized void removeTeam(TeamName teamName) throws TeamNotFoundException {
+        requireNonNull(teamName);
+        raise(new RemoveSelectedTeamEvent(teamName));
+        addressBook.removeTeam(teamName);
+        indicateAddressBookChanged();
+    }
+
+    @Override
+    public synchronized void renameTeam(Team targetTeam, TeamName updatedTeamName) {
+        requireAllNonNull(targetTeam, updatedTeamName);
+        addressBook.renameTeam(targetTeam, updatedTeamName);
+        indicateAddressBookChanged();
+    }
+
+```
+###### \java\seedu\address\model\ModelManager.java
+``` java
+    @Override
+    public void updateFilteredPersonList(TeamName targetTeam) throws TeamNotFoundException {
+        requireNonNull(targetTeam);
+
+        List<Team> teamList = addressBook.getTeamList();
+
+        if (teamList.stream().anyMatch(target -> target.getTeamName().equals(targetTeam))) {
+            filteredPersons.setPredicate(t -> t.getTeamName().equals(targetTeam));
+        } else {
+            throw new TeamNotFoundException();
+        }
+    }
+
+```
+###### \java\seedu\address\model\person\exceptions\DuplicatePersonException.java
+``` java
+public class DuplicatePersonException extends DuplicateDataException {
+    public DuplicatePersonException() {
+        super("Operation would result in duplicate persons");
+    }
+
+    public DuplicatePersonException(String message) {
+        super(message);
+    }
+}
+```
+###### \java\seedu\address\model\person\Remark.java
+``` java
+/**
+ * Represents a Person's remark in the address book.
+ * Guarantees: immutable; is always valid}
+ */
+public class Remark {
+
+    public static final String MESSAGE_REMARK_CONSTRAINTS =
+            "Remark can contain any values, can even be blank";
+
+    public final String value;
+    private boolean isPrivate;
+
+    /**
+     * Constructs a {@code Remark}
+     *
+     * @param remark Any remark
+     */
+    public Remark(String remark) {
+        requireNonNull(remark);
+        this.value = remark;
+        this.isPrivate = false;
+    }
+
+    public Remark(String remark, boolean isPrivate) {
+        this(remark);
+        this.setPrivate(isPrivate);
+    }
+
+    @Override
+    public String toString() {
+        if (isPrivate) {
+            return "<Private Remarks>";
+        }
+        return value;
+    }
+
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
+    public void togglePrivacy() {
+        this.isPrivate = isPrivate ? false : true;
+    }
+
+    public void setPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Remark // instanceof handles nulls
+                && this.value.equals(((Remark) other).value)); // state check
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+}
+```
+###### \java\seedu\address\model\team\exceptions\DuplicateTeamException.java
+``` java
+/**
+ * Signals that the operation will result in duplicate Team objects.
+ */
+public class DuplicateTeamException extends DuplicateDataException {
+    public DuplicateTeamException() {
+        super("Operation would result in duplicate teams");
+    }
+}
+```
+###### \java\seedu\address\model\team\exceptions\TeamNotFoundException.java
+``` java
+/**
+ * Signals that the operation is unable to find the specified team.
+ */
+public class TeamNotFoundException extends Exception {
+
+    public TeamNotFoundException() {};
+
+    public TeamNotFoundException(String message) {
+        super(message);
+    }
+}
+```
+###### \java\seedu\address\model\team\Team.java
 ``` java
 /**
  * Represents a Team in the application.
@@ -1012,7 +1089,62 @@ public class Team extends UniquePersonList {
     }
 }
 ```
-###### /java/seedu/address/model/team/UniqueTeamList.java
+###### \java\seedu\address\model\team\TeamName.java
+``` java
+/**
+ * Represents a Team's name in the application.
+ * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
+ */
+public class TeamName {
+
+    public static final String MESSAGE_TEAM_NAME_CONSTRAINTS =
+            "Team name should only contain alphanumeric characters and spaces, and it should not be blank";
+
+    /*
+     * The first character of the team name must not be a whitespace,
+     * otherwise " " (a blank string) becomes a valid input.
+     */
+    public static final String NAME_VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*";
+
+    public final String fullName;
+
+    /**
+     * Constructs a {@code TeamName}.
+     *
+     * @param teamName A valid team name.
+     */
+    public TeamName(String teamName) {
+        requireNonNull(teamName);
+        checkArgument(isValidName(teamName), MESSAGE_TEAM_NAME_CONSTRAINTS);
+        this.fullName = teamName;
+    }
+
+    /**
+     * Returns true if a given string is a valid team name.
+     */
+    public static boolean isValidName(String test) {
+        return test.matches(NAME_VALIDATION_REGEX) || test.equals(UNSPECIFIED_FIELD);
+    }
+
+    @Override
+    public String toString() {
+        return fullName;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof TeamName // instanceof handles nulls
+                && this.fullName.equals(((TeamName) other).fullName)); // state check
+    }
+
+    @Override
+    public int hashCode() {
+        return fullName.hashCode();
+    }
+}
+```
+###### \java\seedu\address\model\team\UniqueTeamList.java
 ``` java
 /**
  * A list of teams that enforces uniqueness between its elements and does not allow nulls.
@@ -1162,136 +1294,4 @@ public class UniqueTeamList implements Iterable<Team> {
         return internalList.hashCode();
     }
 }
-```
-###### /java/seedu/address/model/team/TeamName.java
-``` java
-/**
- * Represents a Team's name in the application.
- * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
- */
-public class TeamName {
-
-    public static final String MESSAGE_TEAM_NAME_CONSTRAINTS =
-            "Team name should only contain alphanumeric characters and spaces, and it should not be blank";
-
-    /*
-     * The first character of the team name must not be a whitespace,
-     * otherwise " " (a blank string) becomes a valid input.
-     */
-    public static final String NAME_VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*";
-
-    public final String fullName;
-
-    /**
-     * Constructs a {@code TeamName}.
-     *
-     * @param teamName A valid team name.
-     */
-    public TeamName(String teamName) {
-        requireNonNull(teamName);
-        checkArgument(isValidName(teamName), MESSAGE_TEAM_NAME_CONSTRAINTS);
-        this.fullName = teamName;
-    }
-
-    /**
-     * Returns true if a given string is a valid team name.
-     */
-    public static boolean isValidName(String test) {
-        return test.matches(NAME_VALIDATION_REGEX) || test.equals(UNSPECIFIED_FIELD);
-    }
-
-    @Override
-    public String toString() {
-        return fullName;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof TeamName // instanceof handles nulls
-                && this.fullName.equals(((TeamName) other).fullName)); // state check
-    }
-
-    @Override
-    public int hashCode() {
-        return fullName.hashCode();
-    }
-}
-```
-###### /java/seedu/address/model/team/exceptions/TeamNotFoundException.java
-``` java
-/**
- * Signals that the operation is unable to find the specified team.
- */
-public class TeamNotFoundException extends Exception {
-
-    public TeamNotFoundException() {};
-
-    public TeamNotFoundException(String message) {
-        super(message);
-    }
-}
-```
-###### /java/seedu/address/model/team/exceptions/DuplicateTeamException.java
-``` java
-/**
- * Signals that the operation will result in duplicate Team objects.
- */
-public class DuplicateTeamException extends DuplicateDataException {
-    public DuplicateTeamException() {
-        super("Operation would result in duplicate teams");
-    }
-}
-```
-###### /java/seedu/address/model/ModelManager.java
-``` java
-    @Override
-    public synchronized void createTeam(Team team) throws DuplicateTeamException {
-        addressBook.createTeam(team);
-        indicateAddressBookChanged();
-    }
-
-    @Override
-    public synchronized void assignPersonToTeam(Person person, TeamName teamName) throws DuplicatePersonException {
-        addressBook.assignPersonToTeam(person, teamName);
-        indicateAddressBookChanged();
-    }
-
-    @Override
-    public synchronized void unassignPersonFromTeam(Person person) throws TeamNotFoundException {
-        addressBook.unassignPersonFromTeam(person);
-        indicateAddressBookChanged();
-    }
-
-    @Override
-    public synchronized void removeTeam(TeamName teamName) throws TeamNotFoundException {
-        requireNonNull(teamName);
-        raise(new RemoveSelectedTeamEvent(teamName));
-        addressBook.removeTeam(teamName);
-        indicateAddressBookChanged();
-    }
-
-    @Override
-    public synchronized void renameTeam(Team targetTeam, TeamName updatedTeamName) {
-        requireAllNonNull(targetTeam, updatedTeamName);
-        addressBook.renameTeam(targetTeam, updatedTeamName);
-        indicateAddressBookChanged();
-    }
-
-```
-###### /java/seedu/address/model/ModelManager.java
-``` java
-    @Override
-    public void updateFilteredPersonList(TeamName targetTeam) throws TeamNotFoundException {
-        requireNonNull(targetTeam);
-
-        List<Team> teamList = addressBook.getTeamList();
-
-        if (teamList.stream().anyMatch(target -> target.getTeamName().equals(targetTeam))) {
-            filteredPersons.setPredicate(t -> t.getTeamName().equals(targetTeam));
-        } else {
-            throw new TeamNotFoundException();
-        }
-    }
-
 ```

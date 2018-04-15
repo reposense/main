@@ -1,278 +1,191 @@
 # jordancjq
-###### /java/seedu/address/logic/parser/RemoveCommandParserTest.java
+###### \java\seedu\address\logic\commands\AssignCommandTest.java
 ``` java
-public class RemoveCommandParserTest {
+public class AssignCommandTest {
 
-    private static final String MESSAGE_INVALID_FORMAT = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-            RemoveCommand.MESSAGE_USAGE);
+    @Rule
+    public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
 
-    private RemoveCommandParser parser = new RemoveCommandParser();
+    private Model model;
 
-    @Test
-    public void parse_missingField_failure() {
-        // no team name specified
-        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
+    @Before
+    public void setUp() {
+        model = new ModelManager(getTypicalAddressBookWithPersonsAndTeams(), new UserPrefs());
     }
 
     @Test
-    public void parse_invalidTeamName_failure() {
-        // invalid team name
-        assertParseFailure(parser, "&-Team", TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+    public void execute_validTeamAndIndexUnfilteredList_success() {
+        // single index
+        Index lastPersonIndex = Index.fromOneBased(model.getFilteredPersonList().size());
+        Team firstTeam = model.getAddressBook().getTeamList().get(0);
+        assertExecutionSuccess(firstTeam, Collections.singletonList(lastPersonIndex));
+
+        // multiple indexes
+        model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
+        assertExecutionSuccess(firstTeam, Arrays.asList(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON));
     }
 
     @Test
-    public void parse_validTeam_success() {
-        String userInput = VALID_TEAM_ARSENAL;
-        RemoveCommand expectedCommand = new RemoveCommand(new TeamName(userInput));
-        assertParseSuccess(parser, userInput, expectedCommand);
+    public void execute_validTeamAndIndexFilteredList_success() {
+        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+        Team firstTeam = model.getAddressBook().getTeamList().get(0);
 
-        // with space in name
-        userInput = VALID_TEAM_ARSENAL + " " + VALID_TEAM_BARCELONA;
-        expectedCommand = new RemoveCommand(new TeamName(userInput));
-        assertParseSuccess(parser, userInput, expectedCommand);
+        assertExecutionSuccess(firstTeam, Collections.singletonList(INDEX_FIRST_PERSON));
+    }
+
+    @Test
+    public void execute_assignAndUnassignValidTeamValidIndex_success() throws Exception {
+        Team firstTeam = model.getAddressBook().getTeamList().get(0);
+
+        AssignCommand assignCommand = prepareCommand(firstTeam.getTeamName(),
+                Collections.singletonList(INDEX_FIRST_PERSON));
+        assignCommand.execute();
+        eventsCollectorRule.eventsCollector.reset();
+
+        Team unspecifiedTeam = new Team(new TeamName(UNSPECIFIED_FIELD));
+
+        assertExecutionSuccess(unspecifiedTeam, Collections.singletonList(INDEX_FIRST_PERSON));
+    }
+
+    @Test
+    public void execute_validTeamAndInvalidIndexUnfilteredList_fail() {
+        Index outOfBoundsIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
+        Team firstTeam = model.getAddressBook().getTeamList().get(0);
+
+        assertExecutionFailure(firstTeam, Collections.singletonList(outOfBoundsIndex),
+                Messages.MESSAGE_INVALID_ALL_INDEX);
+    }
+
+    @Test
+    public void execute_invalidTeamAndValidIndexUnfilteredList_fail() {
+        Index outOfBoundsIndex = Index.fromOneBased(model.getFilteredPersonList().size());
+        Team invalidTeam = ARSENAL;
+
+        assertExecutionFailure(invalidTeam, Collections.singletonList(outOfBoundsIndex),
+                Messages.MESSAGE_TEAM_NOT_FOUND);
+    }
+
+    @Test
+    public void execute_validTeamAndValidIndexUnfilteredListPersonExistInTeam_fail() throws Exception {
+        Team firstTeam = model.getAddressBook().getTeamList().get(0);
+
+        AssignCommand assignCommand = prepareCommand(firstTeam.getTeamName(),
+                Collections.singletonList(INDEX_FIRST_PERSON));
+
+        String personName = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()).getName().toString();
+
+        String expectedMessage = AssignCommand.MESSAGE_FAILURE
+                + String.format(AssignCommand.MESSAGE_DUPLICATE_PERSON, personName);
+
+        assignCommand.execute();
+        eventsCollectorRule.eventsCollector.reset();
+
+        assertExecutionFailure(firstTeam, Collections.singletonList(INDEX_FIRST_PERSON),
+               expectedMessage);
+    }
+
+    @Test
+    public void equals() {
+        final AssignCommand standardCommand = prepareCommand(CHELSEA.getTeamName(),
+                Collections.singletonList(INDEX_FIRST_PERSON));
+        final AssignCommand secondCommand = prepareCommand(LIVERPOOL.getTeamName(),
+                Collections.singletonList(INDEX_SECOND_PERSON));
+
+        // same values -> returns true
+        AssignCommand commandWithSameValues = prepareCommand(CHELSEA.getTeamName(),
+                Collections.singletonList(INDEX_FIRST_PERSON));
+        assertTrue(standardCommand.equals(commandWithSameValues));
+
+        // same object -> returns true
+        assertTrue(standardCommand.equals(standardCommand));
+
+        // null -> returns false
+        assertFalse(standardCommand.equals(null));
+
+        // different type -> returns false
+        assertFalse(standardCommand.equals(new ClearCommand()));
+
+        // different team name and index -> returns false
+        assertFalse(standardCommand.equals(secondCommand));
+    }
+
+    /**
+     * Returns an {@code AssignCommand} with parameters {@code team}.
+     */
+    private AssignCommand prepareCommand(TeamName team, List<Index> indexes) {
+        AssignCommand assignCommand = new AssignCommand(team, indexes);
+        assignCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        return assignCommand;
+    }
+
+    /**
+     * Executes a {@code AssignCommand} with the given {@code team} and {@code indexes},
+     * and checks that {@code HighlightSelectedTeamEvent} is raised with the correct team name.
+     */
+    private void assertExecutionSuccess(Team team, List<Index> indexes) {
+        AssignCommand assignCommand = prepareCommand(team.getTeamName(), indexes);
+        String expectedAssignResultMessage;
+
+        expectedAssignResultMessage = getMultiplePlayerAssignResultMessage(team, indexes);
+
+        try {
+            CommandResult commandResult = assignCommand.execute();
+            assertEquals(String.format(AssignCommand.MESSAGE_SUCCESS + expectedAssignResultMessage),
+                    commandResult.feedbackToUser);
+        } catch (CommandException ce) {
+            throw new IllegalArgumentException("Execution of command should not fail.", ce);
+        }
+
+        if (!team.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+            HighlightSelectedTeamEvent lastEvent =
+                    (HighlightSelectedTeamEvent) eventsCollectorRule.eventsCollector.getMostRecent();
+            assertEquals(team.getTeamName().toString(), lastEvent.teamName);
+        }
+
+        team.setPersons(new UniquePersonList());
+    }
+
+    /**
+     * Executes a {@code AssignCommand} with the given {@code team} and {@code indexes},
+     * and checks that a {@code CommandException} is thrown with the {@code expectedMessage}.
+     */
+    private void assertExecutionFailure(Team team, List<Index> indexes, String expectedMessage) {
+        AssignCommand assignCommand = prepareCommand(team.getTeamName(), indexes);
+
+        try {
+            assignCommand.execute();
+            System.out.println(model.getAddressBook().getTeamList());
+            fail("The expected CommandException was not thrown.");
+        } catch (CommandException ce) {
+            assertEquals(expectedMessage, ce.getMessage());
+            assertTrue(eventsCollectorRule.eventsCollector.isEmpty());
+            team.setPersons(new UniquePersonList());
+        }
+    }
+
+    private String getMultiplePlayerAssignResultMessage(Team team, List<Index> indexes) {
+        String expectedAssignResultMessage = "";
+        for (Index index : indexes) {
+            Person person = model.getFilteredPersonList().get(index.getZeroBased());
+            if (team.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+                expectedAssignResultMessage += String.format(MESSAGE_UNASSIGN_TEAM_SUCCESS,
+                        person.getName().toString(), person.getTeamName().toString());
+            } else {
+                if (person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
+                    expectedAssignResultMessage += String.format(AssignCommand.MESSAGE_UNSPECIFIED_TEAM_SUCCESS,
+                            person.getName().toString(), team.getTeamName().toString());
+                } else {
+                    expectedAssignResultMessage += String.format(AssignCommand.MESSAGE_TEAM_TO_TEAM_SUCCESS,
+                            person.getName().toString(), person.getTeamName().toString(),
+                            team.getTeamName().toString());
+                }
+            }
+        }
+        return expectedAssignResultMessage;
     }
 }
 ```
-###### /java/seedu/address/logic/parser/CreateCommandParserTest.java
-``` java
-public class CreateCommandParserTest {
-
-    private static final String TEAM_NAME_EMPTY = "";
-
-    private CreateCommandParser parser = new CreateCommandParser();
-
-    @Test
-    public void parse_fieldPresent_success() {
-        // with team name
-        CreateCommand expectedCommand = new CreateCommand(new Team(new TeamName(VALID_TEAM_ARSENAL)));
-        String userInput = VALID_TEAM_ARSENAL;
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
-
-    @Test
-    public void parse_compulsoryFieldMissing_failure() {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, CreateCommand.MESSAGE_USAGE);
-
-        // missing team name
-        assertParseFailure(parser, TEAM_NAME_EMPTY, expectedMessage);
-    }
-
-    @Test
-    public void parse_invalidTeamName_failure() {
-        // invalid team name
-        assertParseFailure(parser, INVALID_TEAM_NAME_DESC, TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
-    }
-}
-```
-###### /java/seedu/address/logic/parser/AssignCommandParserTest.java
-``` java
-public class AssignCommandParserTest {
-
-    private static final String MESSAGE_INVALID_FORMAT = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-            AssignCommand.MESSAGE_USAGE);
-
-    private AssignCommandParser parser = new AssignCommandParser();
-
-    @Test
-    public void parse_missingParts_failure() {
-        // no field specified
-        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
-
-        // no index specified
-        assertParseFailure(parser, TEAM_DESC_ARSENAL, MESSAGE_INVALID_FORMAT);
-    }
-
-    @Test
-    public void parse_invalidValue_failure() {
-        // invalid team name
-        assertParseFailure(parser, INVALID_TEAM_NAME + INDEX_DESC_1, TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
-
-        // invalid index
-        assertParseFailure(parser, VALID_TEAM_ARSENAL + INVALID_INDEX, ParserUtil.MESSAGE_INVALID_INDEX);
-
-        // multiple index, with 1 invalid
-        assertParseFailure(parser, VALID_TEAM_ARSENAL + INDEX_DESC_1 + " -1", ParserUtil.MESSAGE_INVALID_INDEX);
-
-        // multiple invalid values, first invalid value captured
-        assertParseFailure(parser, INVALID_TEAM_NAME + INVALID_INDEX, TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
-    }
-
-    @Test
-    public void parse_allFieldsSpecified_success() {
-        // valid team name and 1 index
-        TeamName targetTeam = new TeamName(VALID_TEAM_ARSENAL);
-        List<Index> targetIndex = Collections.singletonList(INDEX_FIRST_PERSON);
-        String userInput = VALID_TEAM_ARSENAL + INDEX_DESC_1;
-        AssignCommand expectedCommand = new AssignCommand(targetTeam, targetIndex);
-        assertParseSuccess(parser, userInput, expectedCommand);
-
-        // valid team name and multiple valid indexes
-        targetIndex = Arrays.asList(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON, INDEX_THIRD_PERSON);
-        userInput = VALID_TEAM_ARSENAL + INDEX_DESC_1 + " 2 3";
-        expectedCommand = new AssignCommand(targetTeam, targetIndex);
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
-}
-```
-###### /java/seedu/address/logic/parser/ParserUtilTest.java
-``` java
-    @Test
-    public void parseIndexes_outOfRangeInput_throwsIllegalValueException() throws Exception {
-        thrown.expect(IllegalValueException.class);
-        thrown.expectMessage(MESSAGE_INVALID_INDEX);
-        ParserUtil.parseIndexes(Long.toString(Integer.MAX_VALUE + 1) + "2");
-    }
-
-```
-###### /java/seedu/address/logic/parser/ParserUtilTest.java
-``` java
-    @Test
-    public void parseIndexes_validInput_success() throws Exception {
-        List<Index> expectedIndexes = Arrays.asList(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON, INDEX_THIRD_PERSON);
-        assertEquals(expectedIndexes, ParserUtil.parseIndexes("1 2 3"));
-    }
-
-```
-###### /java/seedu/address/logic/parser/ParserUtilTest.java
-``` java
-    @Test
-    public void parseValue_emptyValue_returnsUnspecifiedField() throws Exception {
-        assertEquals(Optional.of(UNSPECIFIED_FIELD),
-                ParserUtil.parseValue(Optional.empty(), Phone.MESSAGE_PHONE_CONSTRAINTS));
-    }
-
-    @Test
-    public void parseValue_unspecifiedValue_throwsIllegalValueException() throws Exception {
-        thrown.expect(IllegalValueException.class);
-        thrown.expectMessage(Phone.MESSAGE_PHONE_CONSTRAINTS);
-        ParserUtil.parseValue(Optional.of(UNSPECIFIED_FIELD), Phone.MESSAGE_PHONE_CONSTRAINTS);
-    }
-}
-```
-###### /java/seedu/address/logic/parser/ViewCommandParserTest.java
-``` java
-public class ViewCommandParserTest {
-
-    private static final String MESSAGE_INVALID_FORMAT = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-            ViewCommand.MESSAGE_USAGE);
-
-    private ViewCommandParser parser = new ViewCommandParser();
-
-    @Test
-    public void parse_missingField_failure() {
-        // no team name specified
-        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
-    }
-
-    @Test
-    public void parse_invalidTeamName_failure() {
-        // invalid team name
-        assertParseFailure(parser, INVALID_TEAM_NAME_DESC, TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
-    }
-
-    @Test
-    public void parse_validTeam_success() {
-        String userInput = VALID_TEAM_ARSENAL;
-        ViewCommand expectedCommand = new ViewCommand(new TeamName(userInput));
-        assertParseSuccess(parser, userInput, expectedCommand);
-
-        // with space in name
-        userInput = VALID_TEAM_ARSENAL + " " + VALID_TEAM_BARCELONA;
-        expectedCommand = new ViewCommand(new TeamName(userInput));
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
-}
-```
-###### /java/seedu/address/logic/parser/RenameCommandParserTest.java
-``` java
-public class RenameCommandParserTest {
-
-    private static final String MESSAGE_INVALID_FORMAT = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-            RenameCommand.MESSAGE_USAGE);
-
-    private RenameCommandParser parser = new RenameCommandParser();
-
-    @Test
-    public void parse_missingField_failure() {
-        // no field
-        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
-
-        // no new team name specified
-        assertParseFailure(parser, VALID_TEAM_ARSENAL, MESSAGE_INVALID_FORMAT);
-
-        // no specified team to rename
-        assertParseFailure(parser, TEAM_DESC_ARSENAL, MESSAGE_INVALID_FORMAT);
-    }
-
-    @Test
-    public void parse_extraNewTeamName_failure() {
-        // two new team name specified
-        assertParseFailure(parser, VALID_TEAM_ARSENAL + TEAM_DESC_CHELSEA + TEAM_DESC_CHELSEA,
-                MESSAGE_INVALID_FORMAT);
-    }
-
-    @Test
-    public void parse_sameNameAsSpecified_failure() {
-        // new team name is same as specified team team
-        assertParseFailure(parser, VALID_TEAM_ARSENAL + TEAM_DESC_ARSENAL, RenameCommand.MESSAGE_NO_CHANGE);
-    }
-
-    @Test
-    public void parse_invalidTeamName_failure() {
-        // invalid new team name
-        assertParseFailure(parser, VALID_TEAM_ARSENAL + INVALID_TEAM_NAME_DESC,
-                TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
-
-        // invalid given team name
-        assertParseFailure(parser, "&-team" + TEAM_DESC_ARSENAL,
-                TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
-    }
-
-    @Test
-    public void parse_validTeamName_success() {
-        String userInput = VALID_TEAM_ARSENAL + TEAM_DESC_CHELSEA;
-        RenameCommand expectedCommand =
-                new RenameCommand(new TeamName(VALID_TEAM_ARSENAL), new TeamName(VALID_TEAM_CHELSEA));
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
-}
-```
-###### /java/seedu/address/logic/parser/RemarkCommandParserTest.java
-``` java
-public class RemarkCommandParserTest {
-
-    private static final String REMARK_EMPTY = "";
-    private static final String REMARK_NONEMPTY = "Some remark to test.";
-
-    private RemarkCommandParser parser = new RemarkCommandParser();
-
-    @Test
-    public void parse_indexSpecified_success() throws Exception {
-        // with remark
-        RemarkCommand expectedCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(REMARK_NONEMPTY));
-        String userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_REMARK + " " + REMARK_NONEMPTY;
-        assertParseSuccess(parser, userInput, expectedCommand);
-
-        // without remark
-        expectedCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(REMARK_EMPTY));
-        userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_REMARK + REMARK_EMPTY;
-        assertParseSuccess(parser, userInput, expectedCommand);
-    }
-
-    @Test
-    public void parse_compulsoryFieldMissing_failure() throws Exception {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemarkCommand.MESSAGE_USAGE);
-
-        // missing parameters
-        assertParseFailure(parser, RemarkCommand.COMMAND_WORD, expectedMessage);
-
-        // missing index
-        assertParseFailure(parser, RemarkCommand.COMMAND_WORD + " " + REMARK_NONEMPTY, expectedMessage);
-    }
-
-}
-```
-###### /java/seedu/address/logic/commands/CreateCommandTest.java
+###### \java\seedu\address\logic\commands\CreateCommandTest.java
 ``` java
 public class CreateCommandTest {
 
@@ -290,7 +203,7 @@ public class CreateCommandTest {
     @Test
     public void execute_createTeam_success() throws Exception {
         Team teamToAdd = new Team(new TeamName(VALID_TEAM_ARSENAL));
-        String expectedMessage = String.format(CreateCommand.MESSAGE_SUCCESS, teamToAdd);
+        String expectedMessage = String.format(CreateCommand.MESSAGE_SUCCESS, teamToAdd.getTeamName().toString());
 
         CreateCommand createCommand = prepareCommand(VALID_TEAM_ARSENAL);
 
@@ -359,149 +272,7 @@ public class CreateCommandTest {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/RemoveCommandTest.java
-``` java
-public class RemoveCommandTest {
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    private Model model = new ModelManager(getTypicalAddressBookWithTeams(), new UserPrefs());
-
-    @Test
-    public void constructor_nullTeam_throwsNullPointerException() {
-        thrown.expect(NullPointerException.class);
-        new RemoveCommand(null);
-    }
-
-    @Test
-    public void execute_removeTeam_success() throws Exception {
-        Team teamToRemove = TypicalTeams.LIVERPOOL;
-        String expectedMessage = String.format(RemoveCommand.MESSAGE_REMOVE_TEAM_SUCCESS,
-                teamToRemove.getTeamName().toString());
-
-        RemoveCommand removeCommand = prepareCommand(teamToRemove);
-
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.removeTeam(teamToRemove.getTeamName());
-
-        assertCommandSuccess(removeCommand, model, expectedMessage, expectedModel);
-    }
-
-    @Test
-    public void execute_removeNonExistingTeam_throwsTeamNotFoundException() throws Exception {
-        Team teamToRemove = TypicalTeams.ARSENAL;
-        RemoveCommand removeCommand = prepareCommand(teamToRemove);
-
-        assertCommandFailure(removeCommand, model, Messages.MESSAGE_TEAM_NOT_FOUND);
-    }
-
-    @Test
-    public void equals() {
-        TeamName chelsea = TypicalTeams.CHELSEA.getTeamName();
-        TeamName liverpool = TypicalTeams.LIVERPOOL.getTeamName();
-        RemoveCommand removeChelseaCommand = new RemoveCommand(chelsea);
-        RemoveCommand removeLiverpoolCommand = new RemoveCommand(liverpool);
-
-        // same object -> returns true
-        assertTrue(removeChelseaCommand.equals(removeChelseaCommand));
-
-        // same values -> returns true
-        RemoveCommand removeChelseaCommandCopy = new RemoveCommand(chelsea);
-        assertTrue(removeChelseaCommand.equals(removeChelseaCommandCopy));
-
-        // different types -> returns false
-        assertFalse(removeChelseaCommand.equals(1));
-
-        // null -> returns false
-        assertFalse(removeChelseaCommand.equals(null));
-
-        // different person -> returns false
-        assertFalse(removeChelseaCommand.equals(removeLiverpoolCommand));
-    }
-
-    /**
-     * Returns an {@code RemoveCommand} with parameters {@code team}.
-     */
-    private RemoveCommand prepareCommand(Team team) {
-        RemoveCommand removeCommand = new RemoveCommand(team.getTeamName());
-        removeCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-        return removeCommand;
-    }
-}
-```
-###### /java/seedu/address/logic/commands/ViewCommandTest.java
-``` java
-public class ViewCommandTest {
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-    @Rule
-    public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
-
-    private Model model = new ModelManager(getTypicalAddressBookWithPersonsAndTeams(), new UserPrefs());
-
-    @Test
-    public void constructor_nullTeam_throwsNullPointerException() {
-        thrown.expect(NullPointerException.class);
-        new ViewCommand(null);
-    }
-
-    @Test
-    public void execute_viewTeam_success() throws Exception {
-        String expectedMessage = String.format(ViewCommand.MESSAGE_VIEW_TEAM_SUCCESS, VALID_TEAM_CHELSEA);
-
-        ViewCommand viewCommand = prepareCommand(VALID_TEAM_CHELSEA);
-
-        assertEquals(expectedMessage, viewCommand.execute().feedbackToUser);
-
-        HighlightSelectedTeamEvent lastEvent =
-                (HighlightSelectedTeamEvent) eventsCollectorRule.eventsCollector.getMostRecent();
-        assertEquals(VALID_TEAM_CHELSEA, lastEvent.teamName);
-    }
-
-    @Test
-    public void execute_viewTeamNonExist_fail() throws Exception {
-        ViewCommand viewCommand = prepareCommand(VALID_TEAM_ARSENAL);
-
-        thrown.expect(CommandException.class);
-        thrown.expectMessage(Messages.MESSAGE_TEAM_NOT_FOUND);
-
-        viewCommand.execute();
-    }
-
-    @Test
-    public void equals() {
-        final ViewCommand standardCommand = prepareCommand(VALID_TEAM_CHELSEA);
-
-        // same values -> returns true
-        ViewCommand commandWithSameValues = prepareCommand(VALID_TEAM_CHELSEA);
-        assertTrue(standardCommand.equals(commandWithSameValues));
-
-        // same object -> returns true
-        assertTrue(standardCommand.equals(standardCommand));
-
-        // null -> returns false
-        assertFalse(standardCommand.equals(null));
-
-        // different type -> returns false
-        assertFalse(standardCommand.equals(new ClearCommand()));
-
-        // different team name -> returns false
-        assertFalse(standardCommand.equals(new ViewCommand(new TeamName(VALID_TEAM_ARSENAL))));
-    }
-
-    /**
-     * Returns an {@code ViewCommand} with parameters {@code team}.
-     */
-    private ViewCommand prepareCommand(String team) {
-        ViewCommand viewCommand = new ViewCommand(new TeamName(team));
-        viewCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-        return viewCommand;
-    }
-}
-```
-###### /java/seedu/address/logic/commands/RemarkCommandTest.java
+###### \java\seedu\address\logic\commands\RemarkCommandTest.java
 ``` java
 /**
  * Contains integration tests (interaction with the Model) and unit tests for RemarkCommand.
@@ -692,193 +463,78 @@ public class RemarkCommandTest {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/AssignCommandTest.java
+###### \java\seedu\address\logic\commands\RemoveCommandTest.java
 ``` java
-public class AssignCommandTest {
+public class RemoveCommandTest {
 
     @Rule
-    public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
+    public ExpectedException thrown = ExpectedException.none();
 
-    private Model model;
+    private Model model = new ModelManager(getTypicalAddressBookWithTeams(), new UserPrefs());
 
-    @Before
-    public void setUp() {
-        model = new ModelManager(getTypicalAddressBookWithPersonsAndTeams(), new UserPrefs());
+    @Test
+    public void constructor_nullTeam_throwsNullPointerException() {
+        thrown.expect(NullPointerException.class);
+        new RemoveCommand(null);
     }
 
     @Test
-    public void execute_validTeamAndIndexUnfilteredList_success() {
-        // single index
-        Index lastPersonIndex = Index.fromOneBased(model.getFilteredPersonList().size());
-        Team firstTeam = model.getAddressBook().getTeamList().get(0);
-        assertExecutionSuccess(firstTeam, Collections.singletonList(lastPersonIndex));
+    public void execute_removeTeam_success() throws Exception {
+        Team teamToRemove = TypicalTeams.LIVERPOOL;
+        String expectedMessage = String.format(RemoveCommand.MESSAGE_REMOVE_TEAM_SUCCESS,
+                teamToRemove.getTeamName().toString());
 
-        // multiple indexes
-        model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
-        assertExecutionSuccess(firstTeam, Arrays.asList(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON));
+        RemoveCommand removeCommand = prepareCommand(teamToRemove);
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.removeTeam(teamToRemove.getTeamName());
+
+        assertCommandSuccess(removeCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
-    public void execute_validTeamAndIndexFilteredList_success() {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
-        Team firstTeam = model.getAddressBook().getTeamList().get(0);
+    public void execute_removeNonExistingTeam_throwsTeamNotFoundException() throws Exception {
+        Team teamToRemove = TypicalTeams.ARSENAL;
+        RemoveCommand removeCommand = prepareCommand(teamToRemove);
 
-        assertExecutionSuccess(firstTeam, Collections.singletonList(INDEX_FIRST_PERSON));
-    }
-
-    @Test
-    public void execute_assignAndUnassignValidTeamValidIndex_success() throws Exception {
-        Team firstTeam = model.getAddressBook().getTeamList().get(0);
-
-        AssignCommand assignCommand = prepareCommand(firstTeam.getTeamName(),
-                Collections.singletonList(INDEX_FIRST_PERSON));
-        assignCommand.execute();
-        eventsCollectorRule.eventsCollector.reset();
-
-        Team unspecifiedTeam = new Team(new TeamName(UNSPECIFIED_FIELD));
-
-        assertExecutionSuccess(unspecifiedTeam, Collections.singletonList(INDEX_FIRST_PERSON));
-    }
-
-    @Test
-    public void execute_validTeamAndInvalidIndexUnfilteredList_fail() {
-        Index outOfBoundsIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-        Team firstTeam = model.getAddressBook().getTeamList().get(0);
-
-        assertExecutionFailure(firstTeam, Collections.singletonList(outOfBoundsIndex),
-                Messages.MESSAGE_INVALID_ALL_INDEX);
-    }
-
-    @Test
-    public void execute_invalidTeamAndValidIndexUnfilteredList_fail() {
-        Index outOfBoundsIndex = Index.fromOneBased(model.getFilteredPersonList().size());
-        Team invalidTeam = ARSENAL;
-
-        assertExecutionFailure(invalidTeam, Collections.singletonList(outOfBoundsIndex),
-                Messages.MESSAGE_TEAM_NOT_FOUND);
-    }
-
-    @Test
-    public void execute_validTeamAndValidIndexUnfilteredListPersonExistInTeam_fail() throws Exception {
-        Team firstTeam = model.getAddressBook().getTeamList().get(0);
-
-        AssignCommand assignCommand = prepareCommand(firstTeam.getTeamName(),
-                Collections.singletonList(INDEX_FIRST_PERSON));
-
-        String personName = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()).getName().toString();
-
-        String expectedMessage = AssignCommand.MESSAGE_FAILURE
-                + String.format(AssignCommand.MESSAGE_DUPLICATE_PERSON, personName);
-
-        assignCommand.execute();
-        eventsCollectorRule.eventsCollector.reset();
-
-        assertExecutionFailure(firstTeam, Collections.singletonList(INDEX_FIRST_PERSON),
-               expectedMessage);
+        assertCommandFailure(removeCommand, model, Messages.MESSAGE_TEAM_NOT_FOUND);
     }
 
     @Test
     public void equals() {
-        final AssignCommand standardCommand = prepareCommand(CHELSEA.getTeamName(),
-                Collections.singletonList(INDEX_FIRST_PERSON));
-        final AssignCommand secondCommand = prepareCommand(LIVERPOOL.getTeamName(),
-                Collections.singletonList(INDEX_SECOND_PERSON));
-
-        // same values -> returns true
-        AssignCommand commandWithSameValues = prepareCommand(CHELSEA.getTeamName(),
-                Collections.singletonList(INDEX_FIRST_PERSON));
-        assertTrue(standardCommand.equals(commandWithSameValues));
+        TeamName chelsea = TypicalTeams.CHELSEA.getTeamName();
+        TeamName liverpool = TypicalTeams.LIVERPOOL.getTeamName();
+        RemoveCommand removeChelseaCommand = new RemoveCommand(chelsea);
+        RemoveCommand removeLiverpoolCommand = new RemoveCommand(liverpool);
 
         // same object -> returns true
-        assertTrue(standardCommand.equals(standardCommand));
+        assertTrue(removeChelseaCommand.equals(removeChelseaCommand));
+
+        // same values -> returns true
+        RemoveCommand removeChelseaCommandCopy = new RemoveCommand(chelsea);
+        assertTrue(removeChelseaCommand.equals(removeChelseaCommandCopy));
+
+        // different types -> returns false
+        assertFalse(removeChelseaCommand.equals(1));
 
         // null -> returns false
-        assertFalse(standardCommand.equals(null));
+        assertFalse(removeChelseaCommand.equals(null));
 
-        // different type -> returns false
-        assertFalse(standardCommand.equals(new ClearCommand()));
-
-        // different team name and index -> returns false
-        assertFalse(standardCommand.equals(secondCommand));
+        // different person -> returns false
+        assertFalse(removeChelseaCommand.equals(removeLiverpoolCommand));
     }
 
     /**
-     * Returns an {@code AssignCommand} with parameters {@code team}.
+     * Returns an {@code RemoveCommand} with parameters {@code team}.
      */
-    private AssignCommand prepareCommand(TeamName team, List<Index> indexes) {
-        AssignCommand assignCommand = new AssignCommand(team, indexes);
-        assignCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-        return assignCommand;
-    }
-
-    /**
-     * Executes a {@code AssignCommand} with the given {@code team} and {@code indexes},
-     * and checks that {@code HighlightSelectedTeamEvent} is raised with the correct team name.
-     */
-    private void assertExecutionSuccess(Team team, List<Index> indexes) {
-        AssignCommand assignCommand = prepareCommand(team.getTeamName(), indexes);
-        String expectedAssignResultMessage;
-
-        expectedAssignResultMessage = getMultiplePlayerAssignResultMessage(team, indexes);
-
-        try {
-            CommandResult commandResult = assignCommand.execute();
-            assertEquals(String.format(AssignCommand.MESSAGE_SUCCESS + expectedAssignResultMessage),
-                    commandResult.feedbackToUser);
-        } catch (CommandException ce) {
-            throw new IllegalArgumentException("Execution of command should not fail.", ce);
-        }
-
-        if (!team.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
-            HighlightSelectedTeamEvent lastEvent =
-                    (HighlightSelectedTeamEvent) eventsCollectorRule.eventsCollector.getMostRecent();
-            assertEquals(team.getTeamName().toString(), lastEvent.teamName);
-        }
-
-        team.setPersons(new UniquePersonList());
-    }
-
-    /**
-     * Executes a {@code AssignCommand} with the given {@code team} and {@code indexes},
-     * and checks that a {@code CommandException} is thrown with the {@code expectedMessage}.
-     */
-    private void assertExecutionFailure(Team team, List<Index> indexes, String expectedMessage) {
-        AssignCommand assignCommand = prepareCommand(team.getTeamName(), indexes);
-
-        try {
-            assignCommand.execute();
-            System.out.println(model.getAddressBook().getTeamList());
-            fail("The expected CommandException was not thrown.");
-        } catch (CommandException ce) {
-            assertEquals(expectedMessage, ce.getMessage());
-            assertTrue(eventsCollectorRule.eventsCollector.isEmpty());
-            team.setPersons(new UniquePersonList());
-        }
-    }
-
-    private String getMultiplePlayerAssignResultMessage(Team team, List<Index> indexes) {
-        String expectedAssignResultMessage = "";
-        for (Index index : indexes) {
-            Person person = model.getFilteredPersonList().get(index.getZeroBased());
-            if (team.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
-                expectedAssignResultMessage += String.format(MESSAGE_UNASSIGN_TEAM_SUCCESS,
-                        person.getName().toString(), person.getTeamName().toString());
-            } else {
-                if (person.getTeamName().toString().equals(UNSPECIFIED_FIELD)) {
-                    expectedAssignResultMessage += String.format(AssignCommand.MESSAGE_UNSPECIFIED_TEAM_SUCCESS,
-                            person.getName().toString(), team.getTeamName().toString());
-                } else {
-                    expectedAssignResultMessage += String.format(AssignCommand.MESSAGE_TEAM_TO_TEAM_SUCCESS,
-                            person.getName().toString(), person.getTeamName().toString(),
-                            team.getTeamName().toString());
-                }
-            }
-        }
-        return expectedAssignResultMessage;
+    private RemoveCommand prepareCommand(Team team) {
+        RemoveCommand removeCommand = new RemoveCommand(team.getTeamName());
+        removeCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        return removeCommand;
     }
 }
 ```
-###### /java/seedu/address/logic/commands/RenameCommandTest.java
+###### \java\seedu\address\logic\commands\RenameCommandTest.java
 ``` java
 public class RenameCommandTest {
 
@@ -976,7 +632,351 @@ public class RenameCommandTest {
 
 }
 ```
-###### /java/seedu/address/model/person/RemarkTest.java
+###### \java\seedu\address\logic\commands\ViewCommandTest.java
+``` java
+public class ViewCommandTest {
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+    @Rule
+    public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
+
+    private Model model = new ModelManager(getTypicalAddressBookWithPersonsAndTeams(), new UserPrefs());
+
+    @Test
+    public void constructor_nullTeam_throwsNullPointerException() {
+        thrown.expect(NullPointerException.class);
+        new ViewCommand(null);
+    }
+
+    @Test
+    public void execute_viewTeam_success() throws Exception {
+        String expectedMessage = String.format(ViewCommand.MESSAGE_VIEW_TEAM_SUCCESS, VALID_TEAM_CHELSEA);
+
+        ViewCommand viewCommand = prepareCommand(VALID_TEAM_CHELSEA);
+
+        assertEquals(expectedMessage, viewCommand.execute().feedbackToUser);
+
+        HighlightSelectedTeamEvent lastEvent =
+                (HighlightSelectedTeamEvent) eventsCollectorRule.eventsCollector.getMostRecent();
+        assertEquals(VALID_TEAM_CHELSEA, lastEvent.teamName);
+    }
+
+    @Test
+    public void execute_viewTeamNonExist_fail() throws Exception {
+        ViewCommand viewCommand = prepareCommand(VALID_TEAM_ARSENAL);
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(Messages.MESSAGE_TEAM_NOT_FOUND);
+
+        viewCommand.execute();
+    }
+
+    @Test
+    public void equals() {
+        final ViewCommand standardCommand = prepareCommand(VALID_TEAM_CHELSEA);
+
+        // same values -> returns true
+        ViewCommand commandWithSameValues = prepareCommand(VALID_TEAM_CHELSEA);
+        assertTrue(standardCommand.equals(commandWithSameValues));
+
+        // same object -> returns true
+        assertTrue(standardCommand.equals(standardCommand));
+
+        // null -> returns false
+        assertFalse(standardCommand.equals(null));
+
+        // different type -> returns false
+        assertFalse(standardCommand.equals(new ClearCommand()));
+
+        // different team name -> returns false
+        assertFalse(standardCommand.equals(new ViewCommand(new TeamName(VALID_TEAM_ARSENAL))));
+    }
+
+    /**
+     * Returns an {@code ViewCommand} with parameters {@code team}.
+     */
+    private ViewCommand prepareCommand(String team) {
+        ViewCommand viewCommand = new ViewCommand(new TeamName(team));
+        viewCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        return viewCommand;
+    }
+}
+```
+###### \java\seedu\address\logic\parser\AssignCommandParserTest.java
+``` java
+public class AssignCommandParserTest {
+
+    private static final String MESSAGE_INVALID_FORMAT = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            AssignCommand.MESSAGE_USAGE);
+
+    private AssignCommandParser parser = new AssignCommandParser();
+
+    @Test
+    public void parse_missingParts_failure() {
+        // no field specified
+        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
+
+        // no index specified
+        assertParseFailure(parser, TEAM_DESC_ARSENAL, MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parse_invalidValue_failure() {
+        // invalid team name
+        assertParseFailure(parser, INVALID_TEAM_NAME + INDEX_DESC_1, TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+
+        // invalid index
+        assertParseFailure(parser, VALID_TEAM_ARSENAL + INVALID_INDEX, ParserUtil.MESSAGE_INVALID_INDEX);
+
+        // multiple index, with 1 invalid
+        assertParseFailure(parser, VALID_TEAM_ARSENAL + INDEX_DESC_1 + " -1", ParserUtil.MESSAGE_INVALID_INDEX);
+
+        // multiple invalid values, first invalid value captured
+        assertParseFailure(parser, INVALID_TEAM_NAME + INVALID_INDEX, TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_allFieldsSpecified_success() {
+        // valid team name and 1 index
+        TeamName targetTeam = new TeamName(VALID_TEAM_ARSENAL);
+        List<Index> targetIndex = Collections.singletonList(INDEX_FIRST_PERSON);
+        String userInput = VALID_TEAM_ARSENAL + INDEX_DESC_1;
+        AssignCommand expectedCommand = new AssignCommand(targetTeam, targetIndex);
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // valid team name and multiple valid indexes
+        targetIndex = Arrays.asList(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON, INDEX_THIRD_PERSON);
+        userInput = VALID_TEAM_ARSENAL + INDEX_DESC_1 + " 2 3";
+        expectedCommand = new AssignCommand(targetTeam, targetIndex);
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+}
+```
+###### \java\seedu\address\logic\parser\CreateCommandParserTest.java
+``` java
+public class CreateCommandParserTest {
+
+    private static final String TEAM_NAME_EMPTY = "";
+
+    private CreateCommandParser parser = new CreateCommandParser();
+
+    @Test
+    public void parse_fieldPresent_success() {
+        // with team name
+        CreateCommand expectedCommand = new CreateCommand(new Team(new TeamName(VALID_TEAM_ARSENAL)));
+        String userInput = VALID_TEAM_ARSENAL;
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_compulsoryFieldMissing_failure() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, CreateCommand.MESSAGE_USAGE);
+
+        // missing team name
+        assertParseFailure(parser, TEAM_NAME_EMPTY, expectedMessage);
+    }
+
+    @Test
+    public void parse_invalidTeamName_failure() {
+        // invalid team name
+        assertParseFailure(parser, INVALID_TEAM_NAME_DESC, TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+    }
+}
+```
+###### \java\seedu\address\logic\parser\ParserUtilTest.java
+``` java
+    @Test
+    public void parseIndexes_outOfRangeInput_throwsIllegalValueException() throws Exception {
+        thrown.expect(IllegalValueException.class);
+        thrown.expectMessage(MESSAGE_INVALID_INDEX);
+        ParserUtil.parseIndexes(Long.toString(Integer.MAX_VALUE + 1) + "2");
+    }
+
+```
+###### \java\seedu\address\logic\parser\ParserUtilTest.java
+``` java
+    @Test
+    public void parseIndexes_validInput_success() throws Exception {
+        List<Index> expectedIndexes = Arrays.asList(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON, INDEX_THIRD_PERSON);
+        assertEquals(expectedIndexes, ParserUtil.parseIndexes("1 2 3"));
+    }
+
+```
+###### \java\seedu\address\logic\parser\ParserUtilTest.java
+``` java
+    @Test
+    public void parseValue_emptyValue_returnsUnspecifiedField() throws Exception {
+        assertEquals(Optional.of(UNSPECIFIED_FIELD),
+                ParserUtil.parseValue(Optional.empty(), Phone.MESSAGE_PHONE_CONSTRAINTS));
+    }
+
+    @Test
+    public void parseValue_unspecifiedValue_throwsIllegalValueException() throws Exception {
+        thrown.expect(IllegalValueException.class);
+        thrown.expectMessage(Phone.MESSAGE_PHONE_CONSTRAINTS);
+        ParserUtil.parseValue(Optional.of(UNSPECIFIED_FIELD), Phone.MESSAGE_PHONE_CONSTRAINTS);
+    }
+}
+```
+###### \java\seedu\address\logic\parser\RemarkCommandParserTest.java
+``` java
+public class RemarkCommandParserTest {
+
+    private static final String REMARK_EMPTY = "";
+    private static final String REMARK_NONEMPTY = "Some remark to test.";
+
+    private RemarkCommandParser parser = new RemarkCommandParser();
+
+    @Test
+    public void parse_indexSpecified_success() throws Exception {
+        // with remark
+        RemarkCommand expectedCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(REMARK_NONEMPTY));
+        String userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_REMARK + " " + REMARK_NONEMPTY;
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // without remark
+        expectedCommand = new RemarkCommand(INDEX_FIRST_PERSON, new Remark(REMARK_EMPTY));
+        userInput = INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_REMARK + REMARK_EMPTY;
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_compulsoryFieldMissing_failure() throws Exception {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemarkCommand.MESSAGE_USAGE);
+
+        // missing parameters
+        assertParseFailure(parser, RemarkCommand.COMMAND_WORD, expectedMessage);
+
+        // missing index
+        assertParseFailure(parser, RemarkCommand.COMMAND_WORD + " " + REMARK_NONEMPTY, expectedMessage);
+    }
+
+}
+```
+###### \java\seedu\address\logic\parser\RemoveCommandParserTest.java
+``` java
+public class RemoveCommandParserTest {
+
+    private static final String MESSAGE_INVALID_FORMAT = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            RemoveCommand.MESSAGE_USAGE);
+
+    private RemoveCommandParser parser = new RemoveCommandParser();
+
+    @Test
+    public void parse_missingField_failure() {
+        // no team name specified
+        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parse_invalidTeamName_failure() {
+        // invalid team name
+        assertParseFailure(parser, "&-Team", TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_validTeam_success() {
+        String userInput = VALID_TEAM_ARSENAL;
+        RemoveCommand expectedCommand = new RemoveCommand(new TeamName(userInput));
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // with space in name
+        userInput = VALID_TEAM_ARSENAL + " " + VALID_TEAM_BARCELONA;
+        expectedCommand = new RemoveCommand(new TeamName(userInput));
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+}
+```
+###### \java\seedu\address\logic\parser\RenameCommandParserTest.java
+``` java
+public class RenameCommandParserTest {
+
+    private static final String MESSAGE_INVALID_FORMAT = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            RenameCommand.MESSAGE_USAGE);
+
+    private RenameCommandParser parser = new RenameCommandParser();
+
+    @Test
+    public void parse_missingField_failure() {
+        // no field
+        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
+
+        // no new team name specified
+        assertParseFailure(parser, VALID_TEAM_ARSENAL, MESSAGE_INVALID_FORMAT);
+
+        // no specified team to rename
+        assertParseFailure(parser, TEAM_DESC_ARSENAL, MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parse_extraNewTeamName_failure() {
+        // two new team name specified
+        assertParseFailure(parser, VALID_TEAM_ARSENAL + TEAM_DESC_CHELSEA + TEAM_DESC_CHELSEA,
+                MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parse_sameNameAsSpecified_failure() {
+        // new team name is same as specified team team
+        assertParseFailure(parser, VALID_TEAM_ARSENAL + TEAM_DESC_ARSENAL, RenameCommand.MESSAGE_NO_CHANGE);
+    }
+
+    @Test
+    public void parse_invalidTeamName_failure() {
+        // invalid new team name
+        assertParseFailure(parser, VALID_TEAM_ARSENAL + INVALID_TEAM_NAME_DESC,
+                TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+
+        // invalid given team name
+        assertParseFailure(parser, "&-team" + TEAM_DESC_ARSENAL,
+                TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_validTeamName_success() {
+        String userInput = VALID_TEAM_ARSENAL + TEAM_DESC_CHELSEA;
+        RenameCommand expectedCommand =
+                new RenameCommand(new TeamName(VALID_TEAM_ARSENAL), new TeamName(VALID_TEAM_CHELSEA));
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+}
+```
+###### \java\seedu\address\logic\parser\ViewCommandParserTest.java
+``` java
+public class ViewCommandParserTest {
+
+    private static final String MESSAGE_INVALID_FORMAT = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            ViewCommand.MESSAGE_USAGE);
+
+    private ViewCommandParser parser = new ViewCommandParser();
+
+    @Test
+    public void parse_missingField_failure() {
+        // no team name specified
+        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parse_invalidTeamName_failure() {
+        // invalid team name
+        assertParseFailure(parser, INVALID_TEAM_NAME_DESC, TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_validTeam_success() {
+        String userInput = VALID_TEAM_ARSENAL;
+        ViewCommand expectedCommand = new ViewCommand(new TeamName(userInput));
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // with space in name
+        userInput = VALID_TEAM_ARSENAL + " " + VALID_TEAM_BARCELONA;
+        expectedCommand = new ViewCommand(new TeamName(userInput));
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+}
+```
+###### \java\seedu\address\model\person\RemarkTest.java
 ``` java
 public class RemarkTest {
 
@@ -1012,21 +1012,7 @@ public class RemarkTest {
     }
 }
 ```
-###### /java/seedu/address/model/UniqueTeamListTest.java
-``` java
-public class UniqueTeamListTest {
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    @Test
-    public void asObservableList_modifyList_throwsUnsupportedOperationException() {
-        UniqueTeamList uniqueTagList = new UniqueTeamList();
-        thrown.expect(UnsupportedOperationException.class);
-        uniqueTagList.asObservableList().remove(0);
-    }
-}
-```
-###### /java/seedu/address/model/team/TeamNameTest.java
+###### \java\seedu\address\model\team\TeamNameTest.java
 ``` java
 public class TeamNameTest {
 
@@ -1061,7 +1047,21 @@ public class TeamNameTest {
     }
 }
 ```
-###### /java/seedu/address/testutil/TypicalTeams.java
+###### \java\seedu\address\model\UniqueTeamListTest.java
+``` java
+public class UniqueTeamListTest {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Test
+    public void asObservableList_modifyList_throwsUnsupportedOperationException() {
+        UniqueTeamList uniqueTagList = new UniqueTeamList();
+        thrown.expect(UnsupportedOperationException.class);
+        uniqueTagList.asObservableList().remove(0);
+    }
+}
+```
+###### \java\seedu\address\testutil\TypicalTeams.java
 ``` java
 /**
  * A utility class containing a list of {@code Team} objects to be used in tests.

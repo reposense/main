@@ -1,182 +1,49 @@
 # lohtianwei
-###### /java/seedu/address/logic/parser/TogglePrivacyCommandParserTest.java
+###### \java\seedu\address\logic\commands\KeyCommandTest.java
 ``` java
-import static org.junit.Assert.assertEquals;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.TogglePrivacyCommand;
-import seedu.address.logic.commands.TogglePrivacyCommand.EditPersonPrivacy;
-import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.testutil.EditPersonPrivacyBuilder;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
 
-public class TogglePrivacyCommandParserTest {
+public class KeyCommandTest {
 
-    private static final String MESSAGE_INVALID_FORMAT = String.format
-            (MESSAGE_INVALID_COMMAND_FORMAT, TogglePrivacyCommand.MESSAGE_USAGE);
+    private Model model;
 
-    private static final String MESSAGE_NO_FIELDS = String.format(TogglePrivacyCommand.MESSAGE_NO_FIELDS);
-
-    private TogglePrivacyCommandParser parser = new TogglePrivacyCommandParser();
-
-    @Test
-    public void parseInvalidIndex() {
-        // zero index
-        assertParseFailure(parser, "0" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
-        //negative index
-        assertParseFailure(parser, "-5" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
-        //invalid index
-        assertParseFailure(parser, "1 random", MESSAGE_INVALID_FORMAT);
+    @Before
+    public void start() {
+        model = new ModelManager();
     }
 
     @Test
-    public void parseMissingField_fail() {
-        // no prefix specified
-        assertParseFailure(parser, "1", MESSAGE_NO_FIELDS);
-        //no index specified
-        assertParseFailure(parser, VALID_NAME_AMY, MESSAGE_INVALID_FORMAT);
-        //nothing specified after command word
-        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
-    }
+    public void checkKey() throws Exception {
+        //checks that default lock state is false
+        assertFalse(model.getLockState());
 
-    @Test
-    public void parseInvalidPrefix_fail() {
-        assertParseFailure(parser, "1" + " " + PREFIX_NAME,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, TogglePrivacyCommand.MESSAGE_USAGE));
-    }
+        //checks that key can lock MTM
+        model.lockAddressBookModel();
+        assertTrue(model.getLockState());
 
-    @Test
-    public void parseOneField_success() throws ParseException {
-        Index target = INDEX_FIRST_PERSON;
-        String input = target.getOneBased() + " " + PREFIX_PHONE;
+        //checks that key can unlock MTM
+        model.unlockAddressBookModel();
+        assertFalse(model.getLockState());
 
-        EditPersonPrivacy epp = new EditPersonPrivacyBuilder().setPhonePrivate("false").build();
-        TogglePrivacyCommand expected = new TogglePrivacyCommand(target, epp);
+        //checks that toggling works
+        model.lockAddressBookModel();
+        model.unlockAddressBookModel();
+        assertFalse(model.getLockState());
 
-        TogglePrivacyCommand actual = parser.parse(input);
-
-        compareTpCommand(expected, actual);
-    }
-
-    @Test
-    public void parseValidFollowedbyInvalid_success() throws ParseException {
-        Index target = INDEX_FIRST_PERSON;
-        String input = target.getOneBased() + " " + PREFIX_PHONE + " " + PREFIX_NAME;
-
-        EditPersonPrivacy epp = new EditPersonPrivacyBuilder().setPhonePrivate("false").build();
-        TogglePrivacyCommand expected = new TogglePrivacyCommand(target, epp);
-
-        TogglePrivacyCommand actual = parser.parse(input);
-
-        compareTpCommand(expected, actual);
-    }
-
-    /**
-     * Checks if two TP commands are equal
-     * @param expected
-     * @param actual
-     */
-    private void compareTpCommand(TogglePrivacyCommand expected, TogglePrivacyCommand actual) {
-        assertEquals(expected.getIndex(), actual.getIndex());
-        assertEquals(expected.getEpp().getPrivateRemark(), actual.getEpp().getPrivateRemark());
-        assertEquals(expected.getEpp().getPrivateAddress(), actual.getEpp().getPrivateAddress());
-        assertEquals(expected.getEpp().getPrivateRating(), actual.getEpp().getPrivateRating());
-        assertEquals(expected.getEpp().getPrivatePhone(), actual.getEpp().getPrivatePhone());
-        assertEquals(expected.getEpp().getPrivateEmail(), actual.getEpp().getPrivateEmail());
+        model.unlockAddressBookModel();
+        model.lockAddressBookModel();
+        assertTrue(model.getLockState());
     }
 }
 ```
-###### /java/seedu/address/logic/parser/SortCommandParserTest.java
-``` java
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-//import static seedu.address.logic.commands.SortCommand.BY_ASCENDING;
-//import static seedu.address.logic.commands.SortCommand.BY_DESCENDING;
-import static seedu.address.logic.commands.SortCommand.MESSAGE_USAGE;
-import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
-//import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-
-import org.junit.Test;
-
-//import seedu.address.logic.commands.SortCommand;
-
-public class SortCommandParserTest {
-
-    private SortCommandParser parser = new SortCommandParser();
-
-    @Test
-    public void noArguments_throwsParseException() {
-        assertParseFailure(parser, "     ", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
-    }
-
-    @Test
-    public void parse_invalidArguments_failure() {
-        //more than 1 field entered
-        assertParseFailure(parser, "name" + " " + "address" + " " + "asc",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
-
-        //invalid field entered
-        assertParseFailure(parser, "invalid" + "asc",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
-
-        //invalid sort order entered
-        assertParseFailure(parser, "name" + " " + "invalid",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
-
-        //no field entered
-        assertParseFailure(parser, "asc",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
-
-        //no order entered
-        assertParseFailure(parser, "name",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
-    }
-    /*
-    @Test
-    public void parse_validArguments_success() {
-        //valid input for sort by name in asc order
-        assertParseSuccess(parser, "name" + " " + BY_ASCENDING,
-                new SortCommand("name", BY_ASCENDING));
-
-        //valid input for sort by name in desc order
-        assertParseSuccess(parser, "name" + " " + BY_DESCENDING,
-                new SortCommand("name", BY_DESCENDING));
-
-        //valid input for sort by address in asc order
-        assertParseSuccess(parser, "address" + " " + BY_ASCENDING,
-                new SortCommand("address", BY_ASCENDING));
-
-        //valid input for sort by address in desc order
-        assertParseSuccess(parser, "address" + " " + BY_DESCENDING,
-                new SortCommand("address", BY_DESCENDING));
-
-        //valid input for sort by phone in asc order
-        assertParseSuccess(parser, "phone" + " " + BY_ASCENDING,
-                new SortCommand("phone", BY_ASCENDING));
-
-        //valid input for sort by phone in desc order
-        assertParseSuccess(parser, "phone" + " " + BY_DESCENDING,
-                new SortCommand("phone", BY_DESCENDING));
-
-        //valid input for sort by email in asc order
-        assertParseSuccess(parser, "email" + " " + BY_ASCENDING,
-                new SortCommand("email", BY_ASCENDING));
-
-        //valid input for sort by email in desc order
-        assertParseSuccess(parser, "email" + " " + BY_DESCENDING,
-                new SortCommand("email", BY_DESCENDING));
-    }
-    */
-}
-```
-###### /java/seedu/address/logic/commands/SortCommandTest.java
+###### \java\seedu\address\logic\commands\SortCommandTest.java
 ``` java
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.SortCommand.MESSAGE_SUCCESS;
@@ -284,51 +151,7 @@ public class SortCommandTest {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/KeyCommandTest.java
-``` java
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-
-public class KeyCommandTest {
-
-    private Model model;
-
-    @Before
-    public void start() {
-        model = new ModelManager();
-    }
-
-    @Test
-    public void checkKey() throws Exception {
-        //checks that default lock state is false
-        assertFalse(model.getLockState());
-
-        //checks that key can lock MTM
-        model.lockAddressBookModel();
-        assertTrue(model.getLockState());
-
-        //checks that key can unlock MTM
-        model.unlockAddressBookModel();
-        assertFalse(model.getLockState());
-
-        //checks that toggling works
-        model.lockAddressBookModel();
-        model.unlockAddressBookModel();
-        assertFalse(model.getLockState());
-
-        model.unlockAddressBookModel();
-        model.lockAddressBookModel();
-        assertTrue(model.getLockState());
-    }
-}
-```
-###### /java/seedu/address/logic/commands/TogglePrivacyCommandTest.java
+###### \java\seedu\address\logic\commands\TogglePrivacyCommandTest.java
 ``` java
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
@@ -395,7 +218,184 @@ public class TogglePrivacyCommandTest {
     }
 }
 ```
-###### /java/seedu/address/testutil/EditPersonPrivacyBuilder.java
+###### \java\seedu\address\logic\parser\SortCommandParserTest.java
+``` java
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+//import static seedu.address.logic.commands.SortCommand.BY_ASCENDING;
+//import static seedu.address.logic.commands.SortCommand.BY_DESCENDING;
+import static seedu.address.logic.commands.SortCommand.MESSAGE_USAGE;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
+//import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+
+import org.junit.Test;
+
+//import seedu.address.logic.commands.SortCommand;
+
+public class SortCommandParserTest {
+
+    private SortCommandParser parser = new SortCommandParser();
+
+    @Test
+    public void noArguments_throwsParseException() {
+        assertParseFailure(parser, "     ", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidArguments_failure() {
+        //more than 1 field entered
+        assertParseFailure(parser, "name" + " " + "address" + " " + "asc",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+
+        //invalid field entered
+        assertParseFailure(parser, "invalid" + "asc",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+
+        //invalid sort order entered
+        assertParseFailure(parser, "name" + " " + "invalid",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+
+        //no field entered
+        assertParseFailure(parser, "asc",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+
+        //no order entered
+        assertParseFailure(parser, "name",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+    }
+    /*
+    @Test
+    public void parse_validArguments_success() {
+        //valid input for sort by name in asc order
+        assertParseSuccess(parser, "name" + " " + BY_ASCENDING,
+                new SortCommand("name", BY_ASCENDING));
+
+        //valid input for sort by name in desc order
+        assertParseSuccess(parser, "name" + " " + BY_DESCENDING,
+                new SortCommand("name", BY_DESCENDING));
+
+        //valid input for sort by address in asc order
+        assertParseSuccess(parser, "address" + " " + BY_ASCENDING,
+                new SortCommand("address", BY_ASCENDING));
+
+        //valid input for sort by address in desc order
+        assertParseSuccess(parser, "address" + " " + BY_DESCENDING,
+                new SortCommand("address", BY_DESCENDING));
+
+        //valid input for sort by phone in asc order
+        assertParseSuccess(parser, "phone" + " " + BY_ASCENDING,
+                new SortCommand("phone", BY_ASCENDING));
+
+        //valid input for sort by phone in desc order
+        assertParseSuccess(parser, "phone" + " " + BY_DESCENDING,
+                new SortCommand("phone", BY_DESCENDING));
+
+        //valid input for sort by email in asc order
+        assertParseSuccess(parser, "email" + " " + BY_ASCENDING,
+                new SortCommand("email", BY_ASCENDING));
+
+        //valid input for sort by email in desc order
+        assertParseSuccess(parser, "email" + " " + BY_DESCENDING,
+                new SortCommand("email", BY_DESCENDING));
+    }
+    */
+}
+```
+###### \java\seedu\address\logic\parser\TogglePrivacyCommandParserTest.java
+``` java
+import static org.junit.Assert.assertEquals;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+
+import org.junit.Test;
+
+import seedu.address.commons.core.index.Index;
+import seedu.address.logic.commands.TogglePrivacyCommand;
+import seedu.address.logic.commands.TogglePrivacyCommand.EditPersonPrivacy;
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.testutil.EditPersonPrivacyBuilder;
+
+public class TogglePrivacyCommandParserTest {
+
+    private static final String MESSAGE_INVALID_FORMAT = String.format
+            (MESSAGE_INVALID_COMMAND_FORMAT, TogglePrivacyCommand.MESSAGE_USAGE);
+
+    private static final String MESSAGE_NO_FIELDS = String.format(TogglePrivacyCommand.MESSAGE_NO_FIELDS);
+
+    private TogglePrivacyCommandParser parser = new TogglePrivacyCommandParser();
+
+    @Test
+    public void parseInvalidIndex() {
+        // zero index
+        assertParseFailure(parser, "0" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
+        //negative index
+        assertParseFailure(parser, "-5" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
+        //invalid index
+        assertParseFailure(parser, "1 random", MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parseMissingField_fail() {
+        // no prefix specified
+        assertParseFailure(parser, "1", MESSAGE_NO_FIELDS);
+        //no index specified
+        assertParseFailure(parser, VALID_NAME_AMY, MESSAGE_INVALID_FORMAT);
+        //nothing specified after command word
+        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parseInvalidPrefix_fail() {
+        assertParseFailure(parser, "1" + " " + PREFIX_NAME,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, TogglePrivacyCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parseOneField_success() throws ParseException {
+        Index target = INDEX_FIRST_PERSON;
+        String input = target.getOneBased() + " " + PREFIX_PHONE;
+
+        EditPersonPrivacy epp = new EditPersonPrivacyBuilder().setPhonePrivate("false").build();
+        TogglePrivacyCommand expected = new TogglePrivacyCommand(target, epp);
+
+        TogglePrivacyCommand actual = parser.parse(input);
+
+        compareTpCommand(expected, actual);
+    }
+
+    @Test
+    public void parseValidFollowedbyInvalid_success() throws ParseException {
+        Index target = INDEX_FIRST_PERSON;
+        String input = target.getOneBased() + " " + PREFIX_PHONE + " " + PREFIX_NAME;
+
+        EditPersonPrivacy epp = new EditPersonPrivacyBuilder().setPhonePrivate("false").build();
+        TogglePrivacyCommand expected = new TogglePrivacyCommand(target, epp);
+
+        TogglePrivacyCommand actual = parser.parse(input);
+
+        compareTpCommand(expected, actual);
+    }
+
+    /**
+     * Checks if two TP commands are equal
+     * @param expected
+     * @param actual
+     */
+    private void compareTpCommand(TogglePrivacyCommand expected, TogglePrivacyCommand actual) {
+        assertEquals(expected.getIndex(), actual.getIndex());
+        assertEquals(expected.getEpp().getPrivateRemark(), actual.getEpp().getPrivateRemark());
+        assertEquals(expected.getEpp().getPrivateAddress(), actual.getEpp().getPrivateAddress());
+        assertEquals(expected.getEpp().getPrivateRating(), actual.getEpp().getPrivateRating());
+        assertEquals(expected.getEpp().getPrivatePhone(), actual.getEpp().getPrivatePhone());
+        assertEquals(expected.getEpp().getPrivateEmail(), actual.getEpp().getPrivateEmail());
+    }
+}
+```
+###### \java\seedu\address\testutil\EditPersonPrivacyBuilder.java
 ``` java
 import seedu.address.logic.commands.TogglePrivacyCommand.EditPersonPrivacy;
 import seedu.address.model.person.Person;
@@ -486,7 +486,7 @@ public class EditPersonPrivacyBuilder {
     }
 }
 ```
-###### /java/seedu/address/testutil/TypicalPersons.java
+###### \java\seedu\address\testutil\TypicalPersons.java
 ``` java
     public static List<Person> getTypicalPersons() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));

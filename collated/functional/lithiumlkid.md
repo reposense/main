@@ -1,361 +1,5 @@
 # lithiumlkid
-###### /resources/view/PersonListCard.fxml
-``` fxml
-    </VBox>
-      <Circle fx:id="avatar" radius="80.0" stroke="WHITE" strokeType="INSIDE" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-      <rowConstraints>
-         <RowConstraints />
-      </rowConstraints>
-  </GridPane>
-</HBox>
-```
-###### /java/seedu/address/ui/CommandBox.java
-``` java
-    CommandBox(Logic logic) {
-        super(FXML);
-        this.logic = logic;
-        commandTrie = logic.getCommandTrie();
-        commandSet = commandTrie.getCommandSet();
-        // calls #setStyleToDefault() whenever there is a change to the text of the command box.
-        commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
-        historySnapshot = logic.getHistorySnapshot();
-        suggestions = new ContextMenu();
-        commandTextField.setContextMenu(suggestions);
-    }
-
-    /**
-     *
-     * Handles the key press event, {@code keyEvent}.
-     */
-    @FXML
-    private void handleKeyPress(KeyEvent keyEvent) {
-        switch (keyEvent.getCode()) {
-        case UP:
-            // As up and down buttons will alter the position of the caret,
-            // consuming it causes the caret's position to remain unchanged
-            keyEvent.consume();
-
-            navigateToPreviousInput();
-            break;
-        case DOWN:
-            keyEvent.consume();
-            navigateToNextInput();
-            break;
-        case TAB:
-            keyEvent.consume();
-            handleAutoComplete();
-            break;
-        default:
-            if (suggestions.isShowing()) {
-                suggestions.hide();
-            }
-            // let JavaFx handle the keypress
-        }
-    }
-
-    /**
-     * Updates the text field with the previous input in {@code historySnapshot},
-     * if there exists a previous input in {@code historySnapshot}
-     */
-    private void navigateToPreviousInput() {
-        assert historySnapshot != null;
-        if (!historySnapshot.hasPrevious()) {
-            return;
-        }
-
-        replaceText(historySnapshot.previous());
-    }
-
-    /**
-     * Updates the text field with the next input in {@code historySnapshot},
-     * if there exists a next input in {@code historySnapshot}
-     */
-    private void navigateToNextInput() {
-        assert historySnapshot != null;
-        if (!historySnapshot.hasNext()) {
-            return;
-        }
-
-        replaceText(historySnapshot.next());
-    }
-
-    /**
-     * Sets {@code CommandBox}'s text field with {@code text} and
-     * positions the caret to the end of the {@code text}.
-     */
-    private void replaceText(String text) {
-        commandTextField.setText(text);
-        commandTextField.positionCaret(commandTextField.getText().length());
-    }
-
-    /**
-     * Handles the Enter button pressed event.
-     */
-    @FXML
-    private void handleCommandInputChanged() {
-        try {
-            CommandResult commandResult = logic.execute(commandTextField.getText());
-            initHistory();
-            historySnapshot.next();
-            // process result of the command
-            commandTextField.setText("");
-            logger.info("Result: " + commandResult.feedbackToUser);
-            raise(new NewResultAvailableEvent(commandResult.feedbackToUser));
-
-        } catch (CommandException | ParseException e) {
-            initHistory();
-            // handle command failure
-            setStyleToIndicateCommandFailure();
-            logger.info("Invalid command: " + commandTextField.getText());
-            raise(new NewResultAvailableEvent(e.getMessage()));
-        }
-    }
-
-    /**
-     * Initializes the history snapshot.
-     */
-    private void initHistory() {
-        historySnapshot = logic.getHistorySnapshot();
-        // add an empty string to represent the most-recent end of historySnapshot, to be shown to
-        // the user if she tries to navigate past the most-recent end of the historySnapshot.
-        historySnapshot.add("");
-    }
-
-    /**
-     * Sets the command box style to use the default style.
-     */
-    private void setStyleToDefault() {
-        commandTextField.getStyleClass().remove(ERROR_STYLE_CLASS);
-    }
-
-    /**
-     * Sets the command box style to indicate a failed command.
-     */
-    private void setStyleToIndicateCommandFailure() {
-        ObservableList<String> styleClass = commandTextField.getStyleClass();
-
-        if (styleClass.contains(ERROR_STYLE_CLASS)) {
-            return;
-        }
-
-        styleClass.add(ERROR_STYLE_CLASS);
-    }
-
-```
-###### /java/seedu/address/ui/CommandBox.java
-``` java
-    /**
-     * Handles the Tab button pressed event. Attempts to autocomplete current input.
-     */
-    private void handleAutoComplete() {
-        String input = commandTextField.getText();
-        try {
-            String command = commandTrie.attemptAutoComplete(input);
-            if (input.equals(command)) {
-                setStyleToIndicateCommandFailure();
-                showSuggestions(commandTrie.getOptions(input));
-            } else if (commandSet.contains(command)) {
-                this.replaceText(command);
-            } else if (commandSet.contains(input)) {
-                setStyleToIndicateCommandFailure();
-                this.replaceText(input + command);
-            }
-        } catch (NullPointerException e) {
-            setStyleToIndicateCommandFailure();
-        }
-    }
-
-    /**
-     * Populates ContextMenu and shows it to user
-     * @param options the options with matching prefix found in Command Trie
-     */
-    private void showSuggestions(List<String> options) {
-        suggestions.getItems().clear();
-        for (String option : options) {
-            MenuItem item = new MenuItem(option);
-            item.setOnAction(event -> replaceText(item.getText()));
-            suggestions.getItems().add(item);
-        }
-        suggestions.show(commandTextField, Side.BOTTOM, 0.0, 0.0);
-    }
-}
-```
-###### /java/seedu/address/logic/parser/AddCommandParser.java
-``` java
-/**
- * Parses input arguments and creates a new AddCommand object
- */
-public class AddCommandParser implements Parser<AddCommand> {
-
-    /**
-     * Parses the given {@code String} of arguments in the context of the AddCommand
-     * and returns an AddCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public AddCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                        PREFIX_TEAM_NAME, PREFIX_TAG, PREFIX_JERSEY_NUMBER, PREFIX_POSITION, PREFIX_RATING,
-                        PREFIX_AVATAR);
-
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_EMAIL)
-                || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
-        }
-
-        try {
-            Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).get();
-            Phone phone = ParserUtil.parsePhone(ParserUtil.parseValue(argMultimap.getValue(PREFIX_PHONE),
-                    Phone.MESSAGE_PHONE_CONSTRAINTS)).get();
-            Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL)).get();
-            Address address = ParserUtil.parseAddress(ParserUtil.parseValue(argMultimap
-                    .getValue(PREFIX_ADDRESS), Address.MESSAGE_ADDRESS_CONSTRAINTS)).get();
-            Remark remark = new Remark("");
-            TeamName teamName = ParserUtil.parseTeamName(ParserUtil.parseValue(argMultimap.getValue(PREFIX_TEAM_NAME),
-                    TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS)).get();
-            Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-            Rating rating = ParserUtil.parseRating(ParserUtil.parseValue(argMultimap.getValue(PREFIX_RATING),
-                    Rating.MESSAGE_RATING_CONSTRAINTS)).get();
-            Position position = ParserUtil.parsePosition(ParserUtil.parseValue(argMultimap
-                    .getValue(PREFIX_POSITION), Position.MESSAGE_POSITION_CONSTRAINTS)).get();
-            JerseyNumber jerseyNumber = ParserUtil.parseJerseyNumber(ParserUtil.parseValue(argMultimap
-                    .getValue(PREFIX_JERSEY_NUMBER), JerseyNumber.MESSAGE_JERSEY_NUMBER_CONSTRAINTS)).get();
-            Avatar avatar = ParserUtil.parseAvatar(ParserUtil.parseValue(argMultimap
-                    .getValue(PREFIX_AVATAR), Avatar.MESSAGE_AVATAR_CONSTRAINTS)).get();
-            Person person = new Person(name, phone, email, address, remark, teamName, tagList, rating, position,
-                    jerseyNumber, avatar);
-
-            return new AddCommand(person);
-        } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
-        }
-    }
-
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
-    }
-
-}
-```
-###### /java/seedu/address/logic/parser/EditCommandParser.java
-``` java
-/**
- * Parses input arguments and creates a new EditCommand object
- */
-public class EditCommandParser implements Parser<EditCommand> {
-
-    /**
-     * Parses the given {@code String} of arguments in the context of the EditCommand
-     * and returns an EditCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public EditCommand parse(String args) throws ParseException {
-        requireNonNull(args);
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
-                        PREFIX_ADDRESS, PREFIX_TAG, PREFIX_RATING, PREFIX_POSITION, PREFIX_JERSEY_NUMBER,
-                        PREFIX_AVATAR);
-
-        Index index;
-
-        try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (IllegalValueException ive) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
-        }
-
-        EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
-        try {
-            ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).ifPresent(editPersonDescriptor::setName);
-            ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).ifPresent(editPersonDescriptor::setPhone);
-            ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL)).ifPresent(editPersonDescriptor::setEmail);
-            ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS)).ifPresent(editPersonDescriptor::setAddress);
-            parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
-            ParserUtil.parseRating(argMultimap.getValue(PREFIX_RATING)).ifPresent(editPersonDescriptor::setRating);
-            ParserUtil.parsePosition(argMultimap.getValue(PREFIX_POSITION))
-                    .ifPresent(editPersonDescriptor::setPosition);
-            ParserUtil.parseJerseyNumber(argMultimap.getValue(PREFIX_JERSEY_NUMBER))
-                    .ifPresent(editPersonDescriptor::setJerseyNumber);
-            ParserUtil.parseAvatar(argMultimap.getValue(PREFIX_AVATAR)).ifPresent(editPersonDescriptor::setAvatar);
-        } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
-        }
-
-        if (!editPersonDescriptor.isAnyFieldEdited()) {
-            throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
-        }
-
-        return new EditCommand(index, editPersonDescriptor);
-    }
-
-    /**
-     * Parses {@code Collection<String> tags} into a {@code Set<Tag>} if {@code tags} is non-empty.
-     * If {@code tags} contain only one element which is an empty string, it will be parsed into a
-     * {@code Set<Tag>} containing zero tags.
-     */
-    private Optional<Set<Tag>> parseTagsForEdit(Collection<String> tags) throws IllegalValueException {
-        assert tags != null;
-
-        if (tags.isEmpty()) {
-            return Optional.empty();
-        }
-        Collection<String> tagSet = tags.size() == 1 && tags.contains("") ? Collections.emptySet() : tags;
-        return Optional.of(ParserUtil.parseTags(tagSet));
-    }
-
-}
-```
-###### /java/seedu/address/logic/commands/TrieNode.java
-``` java
-/**
- * Represents a Trie Node object. Contains a character, a reference to sibling Trie Node and child Trie Node .
- */
-public class TrieNode {
-    private TrieNode sibling;
-    private TrieNode child;
-
-    private char key;
-
-    TrieNode(char key, TrieNode sibling, TrieNode child) {
-        this.key = key;
-        this.sibling = sibling;
-        this.child = child;
-    }
-
-    public char getKey() {
-        return key;
-    }
-
-    public boolean hasSibling() {
-        return sibling != null;
-    }
-
-    public TrieNode getSibling() {
-        return sibling;
-    }
-
-    public void setSibling(TrieNode sibling) {
-        this.sibling = sibling;
-    }
-
-    public boolean hasChild() {
-        return child != null;
-    }
-
-    public TrieNode getChild() {
-        return child;
-    }
-
-    public void setChild(TrieNode child) {
-        this.child = child;
-    }
-}
-```
-###### /java/seedu/address/logic/commands/AddCommand.java
+###### \java\seedu\address\logic\commands\AddCommand.java
 ``` java
 /**
  * Adds a player to the address book.
@@ -454,7 +98,7 @@ public class AddCommand extends UndoableCommand {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/CommandTrie.java
+###### \java\seedu\address\logic\commands\CommandTrie.java
 ``` java
 /**
  * Trie of possible commands. Stores all possible commands for the addressbook.
@@ -636,7 +280,7 @@ public class CommandTrie {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/EditCommand.java
+###### \java\seedu\address\logic\commands\EditCommand.java
 ``` java
 /**
  * Edits the details of an existing player in the address book.
@@ -712,7 +356,182 @@ public class EditCommand extends UndoableCommand {
             throw new CommandException(MESSAGE_FILE_NOT_FOUND);
         }
 ```
-###### /java/seedu/address/model/person/Avatar.java
+###### \java\seedu\address\logic\commands\TrieNode.java
+``` java
+/**
+ * Represents a Trie Node object. Contains a character, a reference to sibling Trie Node and child Trie Node .
+ */
+public class TrieNode {
+    private TrieNode sibling;
+    private TrieNode child;
+
+    private char key;
+
+    TrieNode(char key, TrieNode sibling, TrieNode child) {
+        this.key = key;
+        this.sibling = sibling;
+        this.child = child;
+    }
+
+    public char getKey() {
+        return key;
+    }
+
+    public boolean hasSibling() {
+        return sibling != null;
+    }
+
+    public TrieNode getSibling() {
+        return sibling;
+    }
+
+    public void setSibling(TrieNode sibling) {
+        this.sibling = sibling;
+    }
+
+    public boolean hasChild() {
+        return child != null;
+    }
+
+    public TrieNode getChild() {
+        return child;
+    }
+
+    public void setChild(TrieNode child) {
+        this.child = child;
+    }
+}
+```
+###### \java\seedu\address\logic\parser\AddCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new AddCommand object
+ */
+public class AddCommandParser implements Parser<AddCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the AddCommand
+     * and returns an AddCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public AddCommand parse(String args) throws ParseException {
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
+                        PREFIX_TEAM_NAME, PREFIX_TAG, PREFIX_JERSEY_NUMBER, PREFIX_POSITION, PREFIX_RATING,
+                        PREFIX_AVATAR);
+
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_EMAIL)
+                || !argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+        }
+
+        try {
+            Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).get();
+            Phone phone = ParserUtil.parsePhone(ParserUtil.parseValue(argMultimap.getValue(PREFIX_PHONE),
+                    Phone.MESSAGE_PHONE_CONSTRAINTS)).get();
+            Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL)).get();
+            Address address = ParserUtil.parseAddress(ParserUtil.parseValue(argMultimap
+                    .getValue(PREFIX_ADDRESS), Address.MESSAGE_ADDRESS_CONSTRAINTS)).get();
+            Remark remark = new Remark("");
+            TeamName teamName = ParserUtil.parseTeamName(ParserUtil.parseValue(argMultimap.getValue(PREFIX_TEAM_NAME),
+                    TeamName.MESSAGE_TEAM_NAME_CONSTRAINTS)).get();
+            Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+            Rating rating = ParserUtil.parseRating(ParserUtil.parseValue(argMultimap.getValue(PREFIX_RATING),
+                    Rating.MESSAGE_RATING_CONSTRAINTS)).get();
+            Position position = ParserUtil.parsePosition(ParserUtil.parseValue(argMultimap
+                    .getValue(PREFIX_POSITION), Position.MESSAGE_POSITION_CONSTRAINTS)).get();
+            JerseyNumber jerseyNumber = ParserUtil.parseJerseyNumber(ParserUtil.parseValue(argMultimap
+                    .getValue(PREFIX_JERSEY_NUMBER), JerseyNumber.MESSAGE_JERSEY_NUMBER_CONSTRAINTS)).get();
+            Avatar avatar = ParserUtil.parseAvatar(ParserUtil.parseValue(argMultimap
+                    .getValue(PREFIX_AVATAR), Avatar.MESSAGE_AVATAR_CONSTRAINTS)).get();
+            Person person = new Person(name, phone, email, address, remark, teamName, tagList, rating, position,
+                    jerseyNumber, avatar);
+
+            return new AddCommand(person);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
+    }
+
+    /**
+     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
+     * {@code ArgumentMultimap}.
+     */
+    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
+
+}
+```
+###### \java\seedu\address\logic\parser\EditCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new EditCommand object
+ */
+public class EditCommandParser implements Parser<EditCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the EditCommand
+     * and returns an EditCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public EditCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
+                        PREFIX_ADDRESS, PREFIX_TAG, PREFIX_RATING, PREFIX_POSITION, PREFIX_JERSEY_NUMBER,
+                        PREFIX_AVATAR);
+
+        Index index;
+
+        try {
+            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+        } catch (IllegalValueException ive) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }
+
+        EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
+        try {
+            ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).ifPresent(editPersonDescriptor::setName);
+            ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).ifPresent(editPersonDescriptor::setPhone);
+            ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL)).ifPresent(editPersonDescriptor::setEmail);
+            ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS)).ifPresent(editPersonDescriptor::setAddress);
+            parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
+            ParserUtil.parseRating(argMultimap.getValue(PREFIX_RATING)).ifPresent(editPersonDescriptor::setRating);
+            ParserUtil.parsePosition(argMultimap.getValue(PREFIX_POSITION))
+                    .ifPresent(editPersonDescriptor::setPosition);
+            ParserUtil.parseJerseyNumber(argMultimap.getValue(PREFIX_JERSEY_NUMBER))
+                    .ifPresent(editPersonDescriptor::setJerseyNumber);
+            ParserUtil.parseAvatar(argMultimap.getValue(PREFIX_AVATAR)).ifPresent(editPersonDescriptor::setAvatar);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
+
+        if (!editPersonDescriptor.isAnyFieldEdited()) {
+            throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
+        }
+
+        return new EditCommand(index, editPersonDescriptor);
+    }
+
+    /**
+     * Parses {@code Collection<String> tags} into a {@code Set<Tag>} if {@code tags} is non-empty.
+     * If {@code tags} contain only one element which is an empty string, it will be parsed into a
+     * {@code Set<Tag>} containing zero tags.
+     */
+    private Optional<Set<Tag>> parseTagsForEdit(Collection<String> tags) throws IllegalValueException {
+        assert tags != null;
+
+        if (tags.isEmpty()) {
+            return Optional.empty();
+        }
+        Collection<String> tagSet = tags.size() == 1 && tags.contains("") ? Collections.emptySet() : tags;
+        return Optional.of(ParserUtil.parseTags(tagSet));
+    }
+
+}
+```
+###### \java\seedu\address\model\person\Avatar.java
 ``` java
 /**
  * Represents a Player's avatar in the address book. Contains filepath to avatar image file.
@@ -807,7 +626,7 @@ public class Avatar {
     }
 }
 ```
-###### /java/seedu/address/model/person/JerseyNumber.java
+###### \java\seedu\address\model\person\JerseyNumber.java
 ``` java
 /**
  * Represents a Player's jersey number in the address book.
@@ -860,7 +679,7 @@ public class JerseyNumber {
 
 }
 ```
-###### /java/seedu/address/model/person/Position.java
+###### \java\seedu\address\model\person\Position.java
 ``` java
 /**
  * Represents a Player's position in the address book.
@@ -928,7 +747,7 @@ public class Position {
 
 }
 ```
-###### /java/seedu/address/model/person/Rating.java
+###### \java\seedu\address\model\person\Rating.java
 ``` java
 /**
  * Represents a Player's rating in the address book.
@@ -1000,4 +819,185 @@ public class Rating {
     }
 
 }
+```
+###### \java\seedu\address\ui\CommandBox.java
+``` java
+    CommandBox(Logic logic) {
+        super(FXML);
+        this.logic = logic;
+        commandTrie = logic.getCommandTrie();
+        commandSet = commandTrie.getCommandSet();
+        // calls #setStyleToDefault() whenever there is a change to the text of the command box.
+        commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
+        historySnapshot = logic.getHistorySnapshot();
+        suggestions = new ContextMenu();
+        commandTextField.setContextMenu(suggestions);
+    }
+
+    /**
+     *
+     * Handles the key press event, {@code keyEvent}.
+     */
+    @FXML
+    private void handleKeyPress(KeyEvent keyEvent) {
+        switch (keyEvent.getCode()) {
+        case UP:
+            // As up and down buttons will alter the position of the caret,
+            // consuming it causes the caret's position to remain unchanged
+            keyEvent.consume();
+
+            navigateToPreviousInput();
+            break;
+        case DOWN:
+            keyEvent.consume();
+            navigateToNextInput();
+            break;
+        case TAB:
+            keyEvent.consume();
+            handleAutoComplete();
+            break;
+        default:
+            if (suggestions.isShowing()) {
+                suggestions.hide();
+            }
+            // let JavaFx handle the keypress
+        }
+    }
+
+    /**
+     * Updates the text field with the previous input in {@code historySnapshot},
+     * if there exists a previous input in {@code historySnapshot}
+     */
+    private void navigateToPreviousInput() {
+        assert historySnapshot != null;
+        if (!historySnapshot.hasPrevious()) {
+            return;
+        }
+
+        replaceText(historySnapshot.previous());
+    }
+
+    /**
+     * Updates the text field with the next input in {@code historySnapshot},
+     * if there exists a next input in {@code historySnapshot}
+     */
+    private void navigateToNextInput() {
+        assert historySnapshot != null;
+        if (!historySnapshot.hasNext()) {
+            return;
+        }
+
+        replaceText(historySnapshot.next());
+    }
+
+    /**
+     * Sets {@code CommandBox}'s text field with {@code text} and
+     * positions the caret to the end of the {@code text}.
+     */
+    private void replaceText(String text) {
+        commandTextField.setText(text);
+        commandTextField.positionCaret(commandTextField.getText().length());
+    }
+
+    /**
+     * Handles the Enter button pressed event.
+     */
+    @FXML
+    private void handleCommandInputChanged() {
+        try {
+            CommandResult commandResult = logic.execute(commandTextField.getText());
+            initHistory();
+            historySnapshot.next();
+            // process result of the command
+            commandTextField.setText("");
+            logger.info("Result: " + commandResult.feedbackToUser);
+            raise(new NewResultAvailableEvent(commandResult.feedbackToUser));
+
+        } catch (CommandException | ParseException e) {
+            initHistory();
+            // handle command failure
+            setStyleToIndicateCommandFailure();
+            logger.info("Invalid command: " + commandTextField.getText());
+            raise(new NewResultAvailableEvent(e.getMessage()));
+        }
+    }
+
+    /**
+     * Initializes the history snapshot.
+     */
+    private void initHistory() {
+        historySnapshot = logic.getHistorySnapshot();
+        // add an empty string to represent the most-recent end of historySnapshot, to be shown to
+        // the user if she tries to navigate past the most-recent end of the historySnapshot.
+        historySnapshot.add("");
+    }
+
+    /**
+     * Sets the command box style to use the default style.
+     */
+    private void setStyleToDefault() {
+        commandTextField.getStyleClass().remove(ERROR_STYLE_CLASS);
+    }
+
+    /**
+     * Sets the command box style to indicate a failed command.
+     */
+    private void setStyleToIndicateCommandFailure() {
+        ObservableList<String> styleClass = commandTextField.getStyleClass();
+
+        if (styleClass.contains(ERROR_STYLE_CLASS)) {
+            return;
+        }
+
+        styleClass.add(ERROR_STYLE_CLASS);
+    }
+
+```
+###### \java\seedu\address\ui\CommandBox.java
+``` java
+    /**
+     * Handles the Tab button pressed event. Attempts to autocomplete current input.
+     */
+    private void handleAutoComplete() {
+        String input = commandTextField.getText();
+        try {
+            String command = commandTrie.attemptAutoComplete(input);
+            if (input.equals(command)) {
+                setStyleToIndicateCommandFailure();
+                showSuggestions(commandTrie.getOptions(input));
+            } else if (commandSet.contains(command)) {
+                this.replaceText(command);
+            } else if (commandSet.contains(input)) {
+                setStyleToIndicateCommandFailure();
+                this.replaceText(input + command);
+            }
+        } catch (NullPointerException e) {
+            setStyleToIndicateCommandFailure();
+        }
+    }
+
+    /**
+     * Populates ContextMenu and shows it to user
+     * @param options the options with matching prefix found in Command Trie
+     */
+    private void showSuggestions(List<String> options) {
+        suggestions.getItems().clear();
+        for (String option : options) {
+            MenuItem item = new MenuItem(option);
+            item.setOnAction(event -> replaceText(item.getText()));
+            suggestions.getItems().add(item);
+        }
+        suggestions.show(commandTextField, Side.BOTTOM, 0.0, 0.0);
+    }
+}
+```
+###### \resources\view\PersonListCard.fxml
+``` fxml
+    </VBox>
+      <Circle fx:id="avatar" radius="80.0" stroke="WHITE" strokeType="INSIDE" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+      <rowConstraints>
+         <RowConstraints />
+      </rowConstraints>
+  </GridPane>
+</HBox>
 ```

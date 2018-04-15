@@ -1,239 +1,79 @@
 # lohtianwei
-###### /java/seedu/address/ui/PlayerDetails.java
+###### \java\seedu\address\logic\commands\KeyCommand.java
 ``` java
-    public PlayerDetails(Person person) {
-        super(FXML);
-        registerAsAnEventHandler(this);
-        this.person = person;
-        name.setText(person.getName().fullName);
-        jerseyNumber.setText("Jersey Number: " + person.getJerseyNumber().value);
+import java.nio.charset.StandardCharsets;
+import java.util.logging.Logger;
 
-        if (person.getPhone().isPrivate()) {
-            phone.setText(person.getPhone().toString());
-        } else {
-            phone.setText(person.getPhone().value);
-        }
+import com.google.common.hash.Hashing;
 
-        if (person.getAddress().isPrivate()) {
-            address.setText(person.getAddress().toString());
-        } else {
-            address.setText(person.getAddress().value);
-        }
-
-        if (person.getEmail().isPrivate()) {
-            email.setText(person.getEmail().toString());
-        } else {
-            email.setText(person.getEmail().value);
-        }
-
-        if (person.getRemark().isPrivate()) {
-            remark.setText("Remarks: " + person.getRemark().toString());
-        } else {
-            remark.setText("Remarks: " + person.getRemark().value);
-        }
-        personBeforeChange = this.person;
-    }
-
-```
-###### /java/seedu/address/logic/parser/AddressBookParser.java
-``` java
-    /**
-     * Checks for low level command words or aliases that do not violate restriction of a locked MTM.
-     * Else, control is returned back to original parseCommand method.
-     * @param commandWord
-     * @param arguments
-     */
-    private Command lowLevelCommand(String commandWord, String arguments) throws ParseException {
-        switch(commandWord) {
-        case ChangeThemeCommand.COMMAND_WORD:
-        case ChangeThemeCommand.COMMAND_ALIAS:
-            return new ChangeThemeCommandParser().parse(arguments);
-
-        case FindCommand.COMMAND_WORD:
-        case FindCommand.COMMAND_ALIAS:
-            return new FindCommandParser().parse(arguments);
-
-        case ListCommand.COMMAND_WORD:
-        case ListCommand.COMMAND_ALIAS:
-            return new ListCommand();
-
-        case KeyCommand.COMMAND_WORD:
-        case KeyCommand.COMMAND_ALIAS:
-            return new KeyCommandParser().parse(arguments);
-
-        case ViewCommand.COMMAND_WORD:
-        case ViewCommand.COMMAND_ALIAS:
-            return new ViewCommandParser().parse(arguments);
-
-        case ExitCommand.COMMAND_WORD:
-            return new ExitCommand();
-
-        case HelpCommand.COMMAND_WORD:
-            return new HelpCommand();
-
-        case SortCommand.COMMAND_WORD:
-        case SortCommand.COMMAND_ALIAS:
-            return new SortCommandParser().parse(arguments);
-
-        default:
-            return null;
-        }
-    }
-
-}
-```
-###### /java/seedu/address/logic/parser/TogglePrivacyCommandParser.java
-``` java
-import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_RATING;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
-
-import seedu.address.commons.core.index.Index;
-import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.logic.commands.TogglePrivacyCommand;
-import seedu.address.logic.commands.TogglePrivacyCommand.EditPersonPrivacy;
-import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.UserPrefs;
 
 /**
- * Parses input arguments and creates a new TogglePrivacyCommand object
+ * Sets lock in model to true/false depending on current state
  */
-public class TogglePrivacyCommandParser implements Parser<TogglePrivacyCommand> {
+public class KeyCommand extends Command {
+    public static final String COMMAND_WORD = "key";
+    public static final String COMMAND_ALIAS = "k";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Toggles the lock on MTM. "
+            + "Functionality of MTM reduced\n"
+            + "Input empty password to see current lock state\n"
+            + "Parameters: [PASSWORD]\n"
+            + "Example: " + COMMAND_WORD
+            + " myPassword";
+
+    public static final String MESSAGE_SUCCESS = "MTM lock toggled!";
+    public static final String MESSAGE_WRONG_PASS = "Password entered is incorrect. Please try again.";
+
+    public static final String MESSAGE_PARAMETERS = "[PASSWORD]";
+
+    private String password;
+
+    private final Logger logger = LogsCenter.getLogger(KeyCommand.class);
+
+    public KeyCommand(String password) {
+        this.password = password;
+    }
 
     /**
-     * Parses the given {@code String} of arguments in the context of the TogglePrivacyCommand
-     * and returns an TogglePrivacyCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
+     * Checks if input password is correct.
      */
-    public TogglePrivacyCommand parse(String args) throws ParseException {
-        requireNonNull(args);
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args,
-                        PREFIX_REMARK, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_RATING);
-
-        Index index;
-
-        try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (IllegalValueException ive) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, TogglePrivacyCommand.MESSAGE_USAGE));
-        }
-
-        EditPersonPrivacy epp = new EditPersonPrivacy();
-        if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            epp.setPrivatePhone(false);
-        }
-
-        if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            epp.setPrivateAddress(false);
-        }
-
-        if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            epp.setPrivateEmail(false);
-        }
-
-        if (argMultimap.getValue(PREFIX_REMARK).isPresent()) {
-            epp.setPrivateRemark(false);
-        }
-
-        if (argMultimap.getValue(PREFIX_RATING).isPresent()) {
-            epp.setPrivateRating(false);
-        }
-
-        if (!epp.anyNonNullField()) {
-            throw new ParseException(TogglePrivacyCommand.MESSAGE_NO_FIELDS);
-        }
-
-        return new TogglePrivacyCommand(index, epp);
+    private boolean correctPassword() {
+        UserPrefs up = model.getUserPrefs();
+        String hash = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+        return hash.equals(up.getAddressBookHashedPass());
     }
-}
-```
-###### /java/seedu/address/logic/parser/KeyCommandParser.java
-``` java
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import seedu.address.logic.commands.KeyCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
-
-/**
- * Parses input and creates KeyCommand object with password provided
- */
-public class KeyCommandParser implements Parser<KeyCommand> {
-    /**
-     * Parses the given {@code String} of arguments in the context of the KeyCommand
-     * and returns a KeyCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public KeyCommand parse(String args) throws ParseException {
-        String trimmedArgs = args.trim();
-        /*if (trimmedArgs.isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, KeyCommand.MESSAGE_USAGE));
-        }*/
-
-        String[] argKeywords = trimmedArgs.split("\\s+");
-        if (argKeywords.length > 1) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, KeyCommand.MESSAGE_USAGE));
-        }
-
-        return new KeyCommand(argKeywords[0]);
+    private boolean emptyPass() {
+        return password.isEmpty();
     }
-}
-```
-###### /java/seedu/address/logic/parser/SortCommandParser.java
-``` java
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import seedu.address.logic.commands.SortCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
-
-/**
- * Parses input arguments and creates a new SortCommand object with field and order parameters provided
- */
-public class SortCommandParser implements Parser<SortCommand> {
-    public static final List<String> ACCEPTED_FIELDS = new ArrayList<>(Arrays.asList(
-            "name", "email", "address", "rating", "jersey", "pos"));
-    public static final List<String> ACCEPTED_ORDERS = new ArrayList<>(Arrays.asList(
-            "asc", "desc"));
 
     @Override
-    public SortCommand parse(String args) throws ParseException {
-        String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+    public CommandResult execute() throws CommandException {
+        if (emptyPass()) {
+            return new CommandResult(MESSAGE_USAGE + "\nLock state is now: "
+                    + Boolean.toString(model.getLockState()));
         }
 
-        //eliminates spaces
-        String[] argKeywords = trimmedArgs.split("\\s+");
+        if (correctPassword()) {
+            if (model.getLockState()) {
+                model.unlockAddressBookModel();
+            } else {
+                model.lockAddressBookModel();
+            }
 
-        //accounts for caps entries
-        for (int i = 0; i < argKeywords.length; i++) {
-            argKeywords[i] = argKeywords[i].toLowerCase();
+            logger.info("Lock state is now: " + Boolean.toString(model.getLockState()));
+            return new CommandResult(MESSAGE_SUCCESS + "\nLock state is now: "
+                    + Boolean.toString(model.getLockState()));
+        } else {
+            throw new CommandException(MESSAGE_WRONG_PASS);
         }
-
-        if (argKeywords.length != 2) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
-        }
-
-        if (!ACCEPTED_FIELDS.contains(argKeywords[0])) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
-        }
-
-        if (!ACCEPTED_ORDERS.contains(argKeywords[1])) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
-        }
-
-        return new SortCommand(argKeywords[0], argKeywords[1]);
     }
 }
 ```
-###### /java/seedu/address/logic/commands/SortCommand.java
+###### \java\seedu\address\logic\commands\SortCommand.java
 ``` java
 import static java.util.Objects.requireNonNull;
 
@@ -295,7 +135,7 @@ public class SortCommand extends UndoableCommand {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/TogglePrivacyCommand.java
+###### \java\seedu\address\logic\commands\TogglePrivacyCommand.java
 ``` java
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
@@ -691,81 +531,236 @@ public class TogglePrivacyCommand extends UndoableCommand {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/KeyCommand.java
+###### \java\seedu\address\logic\parser\AddressBookParser.java
 ``` java
-import java.nio.charset.StandardCharsets;
-import java.util.logging.Logger;
+    /**
+     * Checks for low level command words or aliases that do not violate restriction of a locked MTM.
+     * Else, control is returned back to original parseCommand method.
+     * @param commandWord
+     * @param arguments
+     */
+    private Command lowLevelCommand(String commandWord, String arguments) throws ParseException {
+        switch(commandWord) {
+        case ChangeThemeCommand.COMMAND_WORD:
+        case ChangeThemeCommand.COMMAND_ALIAS:
+            return new ChangeThemeCommandParser().parse(arguments);
 
-import com.google.common.hash.Hashing;
+        case FindCommand.COMMAND_WORD:
+        case FindCommand.COMMAND_ALIAS:
+            return new FindCommandParser().parse(arguments);
 
-import seedu.address.commons.core.LogsCenter;
-import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.UserPrefs;
+        case ListCommand.COMMAND_WORD:
+        case ListCommand.COMMAND_ALIAS:
+            return new ListCommand();
+
+        case KeyCommand.COMMAND_WORD:
+        case KeyCommand.COMMAND_ALIAS:
+            return new KeyCommandParser().parse(arguments);
+
+        case ViewCommand.COMMAND_WORD:
+        case ViewCommand.COMMAND_ALIAS:
+            return new ViewCommandParser().parse(arguments);
+
+        case ExitCommand.COMMAND_WORD:
+            return new ExitCommand();
+
+        case HelpCommand.COMMAND_WORD:
+            return new HelpCommand();
+
+        case SortCommand.COMMAND_WORD:
+        case SortCommand.COMMAND_ALIAS:
+            return new SortCommandParser().parse(arguments);
+
+        default:
+            return null;
+        }
+    }
+
+}
+```
+###### \java\seedu\address\logic\parser\KeyCommandParser.java
+``` java
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+
+import seedu.address.logic.commands.KeyCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
- * Sets lock in model to true/false depending on current state
+ * Parses input and creates KeyCommand object with password provided
  */
-public class KeyCommand extends Command {
-    public static final String COMMAND_WORD = "key";
-    public static final String COMMAND_ALIAS = "k";
-
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Toggles the lock on MTM. "
-            + "Functionality of MTM reduced\n"
-            + "Input empty password to see current lock state\n"
-            + "Parameters: [PASSWORD]\n"
-            + "Example: " + COMMAND_WORD
-            + " myPassword";
-
-    public static final String MESSAGE_SUCCESS = "MTM lock toggled!";
-    public static final String MESSAGE_WRONG_PASS = "Password entered is incorrect. Please try again.";
-
-    public static final String MESSAGE_PARAMETERS = "[PASSWORD]";
-
-    private String password;
-
-    private final Logger logger = LogsCenter.getLogger(KeyCommand.class);
-
-    public KeyCommand(String password) {
-        this.password = password;
-    }
-
+public class KeyCommandParser implements Parser<KeyCommand> {
     /**
-     * Checks if input password is correct.
+     * Parses the given {@code String} of arguments in the context of the KeyCommand
+     * and returns a KeyCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
      */
-    private boolean correctPassword() {
-        UserPrefs up = model.getUserPrefs();
-        String hash = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
-        return hash.equals(up.getAddressBookHashedPass());
-    }
+    public KeyCommand parse(String args) throws ParseException {
+        String trimmedArgs = args.trim();
+        /*if (trimmedArgs.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, KeyCommand.MESSAGE_USAGE));
+        }*/
 
-    private boolean emptyPass() {
-        return password.isEmpty();
-    }
-
-    @Override
-    public CommandResult execute() throws CommandException {
-        if (emptyPass()) {
-            return new CommandResult(MESSAGE_USAGE + "\nLock state is now: "
-                    + Boolean.toString(model.getLockState()));
+        String[] argKeywords = trimmedArgs.split("\\s+");
+        if (argKeywords.length > 1) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, KeyCommand.MESSAGE_USAGE));
         }
 
-        if (correctPassword()) {
-            if (model.getLockState()) {
-                model.unlockAddressBookModel();
-            } else {
-                model.lockAddressBookModel();
-            }
-
-            logger.info("Lock state is now: " + Boolean.toString(model.getLockState()));
-            return new CommandResult(MESSAGE_SUCCESS + "\nLock state is now: "
-                    + Boolean.toString(model.getLockState()));
-        } else {
-            throw new CommandException(MESSAGE_WRONG_PASS);
-        }
+        return new KeyCommand(argKeywords[0]);
     }
 }
 ```
-###### /java/seedu/address/model/person/UniquePersonList.java
+###### \java\seedu\address\logic\parser\SortCommandParser.java
+``` java
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import seedu.address.logic.commands.SortCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
+
+/**
+ * Parses input arguments and creates a new SortCommand object with field and order parameters provided
+ */
+public class SortCommandParser implements Parser<SortCommand> {
+    public static final List<String> ACCEPTED_FIELDS = new ArrayList<>(Arrays.asList(
+            "name", "email", "address", "rating", "jersey", "pos"));
+    public static final List<String> ACCEPTED_ORDERS = new ArrayList<>(Arrays.asList(
+            "asc", "desc"));
+
+    @Override
+    public SortCommand parse(String args) throws ParseException {
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
+        //eliminates spaces
+        String[] argKeywords = trimmedArgs.split("\\s+");
+
+        //accounts for caps entries
+        for (int i = 0; i < argKeywords.length; i++) {
+            argKeywords[i] = argKeywords[i].toLowerCase();
+        }
+
+        if (argKeywords.length != 2) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
+        if (!ACCEPTED_FIELDS.contains(argKeywords[0])) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
+        if (!ACCEPTED_ORDERS.contains(argKeywords[1])) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+        }
+
+        return new SortCommand(argKeywords[0], argKeywords[1]);
+    }
+}
+```
+###### \java\seedu\address\logic\parser\TogglePrivacyCommandParser.java
+``` java
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RATING;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
+
+import seedu.address.commons.core.index.Index;
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.commands.TogglePrivacyCommand;
+import seedu.address.logic.commands.TogglePrivacyCommand.EditPersonPrivacy;
+import seedu.address.logic.parser.exceptions.ParseException;
+
+/**
+ * Parses input arguments and creates a new TogglePrivacyCommand object
+ */
+public class TogglePrivacyCommandParser implements Parser<TogglePrivacyCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the TogglePrivacyCommand
+     * and returns an TogglePrivacyCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public TogglePrivacyCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args,
+                        PREFIX_REMARK, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_RATING);
+
+        Index index;
+
+        try {
+            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+        } catch (IllegalValueException ive) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, TogglePrivacyCommand.MESSAGE_USAGE));
+        }
+
+        EditPersonPrivacy epp = new EditPersonPrivacy();
+        if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
+            epp.setPrivatePhone(false);
+        }
+
+        if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
+            epp.setPrivateAddress(false);
+        }
+
+        if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
+            epp.setPrivateEmail(false);
+        }
+
+        if (argMultimap.getValue(PREFIX_REMARK).isPresent()) {
+            epp.setPrivateRemark(false);
+        }
+
+        if (argMultimap.getValue(PREFIX_RATING).isPresent()) {
+            epp.setPrivateRating(false);
+        }
+
+        if (!epp.anyNonNullField()) {
+            throw new ParseException(TogglePrivacyCommand.MESSAGE_NO_FIELDS);
+        }
+
+        return new TogglePrivacyCommand(index, epp);
+    }
+}
+```
+###### \java\seedu\address\model\AddressBook.java
+``` java
+    public void sortPlayersBy(String field, String order) throws NoPlayerException {
+        persons.sortBy(field, order);
+    }
+
+```
+###### \java\seedu\address\model\ModelManager.java
+``` java
+    @Override
+    public void sortPlayers(String field, String order) throws NoPlayerException {
+        addressBook.sortPlayersBy(field, order);
+        indicateAddressBookChanged();
+    }
+
+    public UserPrefs getUserPrefs() {
+        return userPrefs;
+    }
+
+    public void lockAddressBookModel() {
+        getUserPrefs().lockAddressBook();
+    }
+
+    public void unlockAddressBookModel() {
+        getUserPrefs().unlockAddressBook();
+    }
+
+    public boolean getLockState() {
+        return getUserPrefs().getAddressBookLockState();
+    }
+```
+###### \java\seedu\address\model\person\UniquePersonList.java
 ``` java
     /**
      * Sorts players by selected field in asc or desc order.
@@ -863,7 +858,7 @@ public class KeyCommand extends Command {
         }
     }
 ```
-###### /java/seedu/address/model/UserPrefs.java
+###### \java\seedu\address\model\UserPrefs.java
 ``` java
     public void lockAddressBook() {
         this.addressBookLockState = true;
@@ -882,34 +877,39 @@ public class KeyCommand extends Command {
     }
 
 ```
-###### /java/seedu/address/model/AddressBook.java
+###### \java\seedu\address\ui\PlayerDetails.java
 ``` java
-    public void sortPlayersBy(String field, String order) throws NoPlayerException {
-        persons.sortBy(field, order);
+    public PlayerDetails(Person person) {
+        super(FXML);
+        registerAsAnEventHandler(this);
+        this.person = person;
+        name.setText(person.getName().fullName);
+        jerseyNumber.setText("Jersey Number: " + person.getJerseyNumber().value);
+
+        if (person.getPhone().isPrivate()) {
+            phone.setText(person.getPhone().toString());
+        } else {
+            phone.setText(person.getPhone().value);
+        }
+
+        if (person.getAddress().isPrivate()) {
+            address.setText(person.getAddress().toString());
+        } else {
+            address.setText(person.getAddress().value);
+        }
+
+        if (person.getEmail().isPrivate()) {
+            email.setText(person.getEmail().toString());
+        } else {
+            email.setText(person.getEmail().value);
+        }
+
+        if (person.getRemark().isPrivate()) {
+            remark.setText("Remarks: " + person.getRemark().toString());
+        } else {
+            remark.setText("Remarks: " + person.getRemark().value);
+        }
+        personBeforeChange = this.person;
     }
 
-```
-###### /java/seedu/address/model/ModelManager.java
-``` java
-    @Override
-    public void sortPlayers(String field, String order) throws NoPlayerException {
-        addressBook.sortPlayersBy(field, order);
-        indicateAddressBookChanged();
-    }
-
-    public UserPrefs getUserPrefs() {
-        return userPrefs;
-    }
-
-    public void lockAddressBookModel() {
-        getUserPrefs().lockAddressBook();
-    }
-
-    public void unlockAddressBookModel() {
-        getUserPrefs().unlockAddressBook();
-    }
-
-    public boolean getLockState() {
-        return getUserPrefs().getAddressBookLockState();
-    }
 ```
