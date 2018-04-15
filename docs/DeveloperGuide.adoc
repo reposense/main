@@ -260,18 +260,12 @@ The `Storage` component,
 
 Classes used by multiple components are in the `seedu.addressbook.commons` package.
 
-== Implementation
-
-This section describes some noteworthy details on how certain features are implemented.
-
-=== Pre-existing
-
-==== Configuration
+=== Configuration
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
 // tag::logging[]
-==== Logging
+=== Logging
 
 We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
 
@@ -288,6 +282,12 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 [[Implementation-Configuration]]
 // end::logging[]
+
+== Implementation
+
+This section describes some noteworthy details on how certain features are implemented.
+
+=== Pre-existing
 
 // tag::undoredo[]
 ==== Undo/Redo feature
@@ -1918,14 +1918,120 @@ _{ more test cases ... }_
 
 _{ more test cases ... }_
 
+=== Remarking a player
+
+. Remarking a player while all players are listed
+
+.. Prerequisites: List all players using the `list` command. Multiple players in the list.
+.. Test case: `remark 1 r/This is my remark to you.` +
+Expected: First player is remarked from the list. Details of the remarked player shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `remark 0` +
+Expected: No person is remarked. Error details shown in the status message. Status bar remains the same.
+.. Other incorrect delete commands to try: `remark`, `remark x` (where x is larger than the list size), `remark -1`, `remark 2 x/` (where x is not the prefix for remark) +
+Expected: Similar to previous.
+.. Test case: `remark 1` +
+Expected: First player has its remark removed. Details of the remarked player shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `remark 1 r/I want to delete this.` -> `remark 1 r/` +
+Expected: Similar to previous.
+
+=== Adding a player without all fields
+
+. Adding a player where player is unique
+
+.. Prerequisites: Newly added player must not exist in MTM.
+.. Test case: `add n/Tumeric Turner e/tt@tuner.com` +
+Expected: Player added into MTM and will be on the list. Details of the newly added player shown in the status message. Fields that are not input during addition are replaced with `<UNSPECIFIED>` Timestamp in the status bar is updated.
+.. Test case: `add n/Guavi Hollae` +
+Expected: Player is not added into MTM. Errors details shown in status message. Name and email are compulsory fields that need to be entered for `add` to work.
+
 === Team-Related Functions
 
 ==== Creating a Team
 
-==== Removing a Team
+. Creating a Team with current existing data in MTM
+
+.. Prerequisites: Team currently does not exist in MTM.
+.. Test case: `create NUSTeam` +
+Expected: Team is created and displayed in Team Display Panel. Team name will be shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `create NUSTeam` +
+Expected: Team is not created due to team already existing in MTM. Team Display Panel remains the same. Error details shown in the status message. Status bar remains the same.
+.. Test case: `create &-Team-&` +
+Expected: Team does not allow names with special characters, only alphanumeric, can consist of all numbers and can contain space in name. Team Display Panel remains the same. Error details shown in the status message. Status bar remains the same.
+
+==== Viewing a Team
+
+. Viewing a Team with current existing data in MTM
+
+.. Prerequisites: Team currently exist in MTM.
+... Test case: `view Arsenal` +
+Expected: Team in Team Display Panel will be selected. Player list will be updated with list of players that are in the Team. Team name will be shown in the status message.
+... Test case: `view NonExistingTeam` +
+Expected: Team is not viewed as it does not exist in MTM. Error details shown in the status message.
+... Test case: `view chelsea` +
+Expected: Team is not viewed as it does not exist in MTM, as team names are case sensitive. Error details shown in the status message.
+.. Prerequisites: The command `create NUSTeam` was executed right before executing this test case.
+... Test case: `view NUSTeam` +
+Expected: Team in Team Display Panel will be selected. Player list will be empty as no players are in the team yet. Team name will be shown in the status message.
 
 ==== Assigning Players to Team
 
+. Assigning players to a Team after executing `create NUSTeam`
+
+.. Test case: `list` -> `assign NUSTeam i/1 3 5` +
+Expected: Team in Team Display panel will be selected. Player list will be updated with list of players that are in the Team with the newly assigned players. Each individual player assign will be shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `list` -> `assign NUSTeam i/3` +
+Expected: No player is assigned as player already exist in the team. Error details shown in the status message. Status bar remains the same.
+.. Test case: `list` -> `assign NUSTeam i/2 3 4` +
+Expected: Only the player at index 2 is assigned. Assign command will stop once it detects that a player cannot be assigned. Team Display Panel will not be updated. Person Card of index 2 will be updated with assigned team. Timestamp in the status bar is updated.
+.. Test case: `list` -> `assign NUSTeam i/9 6 4` +
+Expected: All players will be assigned by ascending index order. Team in Team Display panel will be selected. Player list will be updated with list of players that are in the Team with the newly assigned players. Each individual player assign will be shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `list` -> `assign NUSTeam i/7 40` +
+Expected: Index exceeding the number of players listed in the Player List Panel will be ignored. Team in Team Display panel will be selected. Player list will be updated with list of players that are in the Team with the newly assigned players. Each individual player assign will be shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `list` -> `assign NUSTeam i/-1` +
+Expected: Invalid index will have error details shown in the status message. Team is not viewed.
+.. Test case: `list` -> `assign NUSTeam` +
+Expected: Error details shown in the status message. Invalid command format as no index is given. Team is not viewed.
+.. Test case: `assign NoTeam` +
+Expected: Error deatils shown in the status message. No such team found in MTM. Team is not viewed, player list not updated.
+.. Test case: `add n/Barry Putter e/bp@hotwot.com tm/NUSTeam` +
+Expected: New person is added into MTM. Team in Team Display Panel will be selected. Player list will be updated with the new added person. Timestamp in the status bar is updated.
+.. Test case: `add n/Himonie Branger e/hb@notwot.com tm/MissingTeam` +
+Expected: Person is not added into MTM. Team does not exist in MTM. Error details shown in the status message.
+
+. Unassigning players from a Team
+
+.. Prerequisites: Players are already existing in the team
+.. Test case: `view NUSTeam` -> `assign i/1 2 3` +
+Expected: Player list will be updated as the specified players to be unassigned will be removed from the team. Each individual player unassign will be shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `list` -> `assign i/10 11` +
+Expected: Player list will be updated with the specified players to be unassigned will have their team name updated to `<UNSPECIFIED>`. Each individual player unassign will be shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `assign i/NUS` +
+Expected: Invalid index will have error details shown in the status message.
+.. Test case: `list` -> `assign i/1` +
+Expected: Error details shown in the status message. Player already has no team and can't be unassigned.
+
 ==== Renaming a Team
 
-==== Viewing a Team
+. Renaming a Team after assigning players above
+
+.. Prerequisites: Ensure that the team to be renamed into does not exist
+.. Test case: `rename NUSTeam tm/SUNTeam` +
+Expected: Team in Team Display Panel will be renamed to the new team name. New team name will be selected in the Team Display Panel. Player list of all the players in the new team name will be displayed. All players in the team will have their team name updated to the new team name. Team rename will be shown in the result status message. Timestamp in the status bar is updated.
+.. Test case: `rename NewTeam tm/MooTeam` +
+Expected: Error details shown in the status message. Team to be rename does not exist in MTM.
+.. Test case: `rename SUNTeam tm/&-Team` +
+Expected: Error details shown in the status message. Team to be rename into is invalid and should only contains alphanumeric characters.
+.. Test case: `rename tm/SmoovTeam` +
+Expected: Error details shown in the status message. Did not specify which team to rename and will indicate invalid command format.
+
+==== Removing a Team
+
+. Removing a Team after renaming the team above
+
+.. Prerequisites: Team currently exist in MTM.
+.. Test case: `view SUNTeam` -> `remove SUNTeam` +
+Expected: Team is removed and Team Display Panel is updated to reflect that the team has been removed. Team name that is being removed will be shown in the status message. All players in the team will have their team name updated in the Player List Panel. Player List Panel will show the full list of players in MTM. Timestamp in the status bar is updated.
+.. Test case: `list` -> `remove Arsenal` +
+Expected: Similar to above, will be displaying full list of players before and after `remove` command.
+.. Test case: `remove SUNTeam` +
+Expected: Error details shown in the status message. Team does not exist in MTM.
