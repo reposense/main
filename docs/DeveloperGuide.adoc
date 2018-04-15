@@ -1360,7 +1360,8 @@ which is a method in `UserPrefs`. +
 
 Below is the sequence diagram for how the `ChangeThemeCommand` works:
 
-image::ChangeThemeCommandDiagram.png[width="800"]
+.Interactions of the Logic Component with the UI and Model Components for the `changeTheme` Command
+image::ChangeThemeDiagram.png[width="800"]
 
 
 Code snippet from 'ChangThemeCommand':
@@ -1469,7 +1470,8 @@ public class SetCommand extends Command {
 
 The following sequence diagram shows how the set command operation works:
 
-image::SetTagCommandSequence.png[width="800"]
+.Interactions of the Logic Component with the UI and Model Components for the `setTagColour` Command
+image::SetTagCommandDiagram.png[width="800"]
 
 ===== Design Considerations
 ====== Aspect: Implementation of `Command` vs  `UndoableCommand`
