@@ -22,7 +22,7 @@ MTM is further enhanced with usability implementations that make MTM efficient a
 
 * *Minor enhancement*: added a remark command that allows the user to leave a remark to a specific player. [https://github.com/CS2103JAN2018-F14-B1/main/pull/58[PR#58]]
 
-* *Code contributed*: [https://github.com/CS2103JAN2018-F14-B1/main/collated/functional/jordancjq.md[Functional code]] [https://github.com/CS2103JAN2018-F14-B1/main/collated/test/jordancjq.md[Test code]]
+* *Code contributed*: [https://github.com/CS2103JAN2018-F14-B1/main/blob/master/collated/functional/jordancjq.md[Functional code]] [https://github.com/CS2103JAN2018-F14-B1/main/blob/master/collated/test/jordancjq.md[Test code]]
 
 * *Other contributions*:
 
@@ -33,7 +33,7 @@ MTM is further enhanced with usability implementations that make MTM efficient a
 *** Enhanced functionality of add command that allows certain field to be optional. [https://github.com/CS2103JAN2018-F14-B1/main/pull/54[PR#54]]
 *** Made changes based on suggestions from feedback. [https://github.com/CS2103JAN2018-F14-B1/main/pull/167[PR#167]]
 ** Documentation:
-*** Update AboutUs segment with team member's pictures and contributions. [https://github.com/CS2103JAN2018-F14-B1/main/pull/68[PR#68]][https://github.com/CS2103JAN2018-F14-B1/main/pull/49[#PR49]]
+*** Update AboutUs segment with team member's pictures and contributions. [https://github.com/CS2103JAN2018-F14-B1/main/pull/68[PR#68]][https://github.com/CS2103JAN2018-F14-B1/main/pull/49[PR#49]]
 *** Re-arrange features in UserGuide into appropriate categories (Fundamentals, Player, Team, User Experience, Coming Soon). [https://github.com/CS2103JAN2018-F14-B1/main/pull/110[PR#110]]
 *** Update User Guide on all Team-Related Commands, `setmatch`, `nextmatch`, `remark`, `help`, `undo`, `redo`, and `select`.
 *** Wrote the preface for the Features segment, "Getting started with Commands", "The Use Of Alias", and "Lookout for Tips, Notes, and Expected Outcomes".
