@@ -38,8 +38,6 @@ the forget.
 ** Tools:
 *** Integrated a new Github plugin (CircleCI) to the team repo
 
-_{you can add/remove categories in the list above}_
-
 == Contributions to the User Guide
 
 
