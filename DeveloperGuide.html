@@ -135,6 +135,15 @@
 <li><a href="#launch-and-shutdown">F.1. Launch and Shutdown</a></li>
 <li><a href="#deleting-a-player">F.2. Deleting a player</a></li>
 <li><a href="#saving-data">F.3. Saving data</a></li>
+<li><a href="#team-related-functions">F.4. Team-Related Functions</a>
+<ul class="sectlevel3">
+<li><a href="#creating-a-team">F.4.1. Creating a Team</a></li>
+<li><a href="#removing-a-team">F.4.2. Removing a Team</a></li>
+<li><a href="#assigning-players-to-team">F.4.3. Assigning Players to Team</a></li>
+<li><a href="#renaming-a-team">F.4.4. Renaming a Team</a></li>
+<li><a href="#viewing-a-team">F.4.5. Viewing a Team</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1051,6 +1060,12 @@ Remarks given can be in any format and therefore would not look good if it was d
 <div class="paragraph">
 <p>The sequence diagram below illustrates the operation of the <code>remark</code> command:</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="images/RemarkActivityDiagram.png" alt="RemarkActivityDiagram" width="100%">
+</div>
+<div class="title">Figure 19. Remark Activity Diagram</div>
+</div>
 <div class="paragraph">
 <p>The <code>remark</code> field is not required when adding or editing a <code>Person</code>, and it will be initialized to an empty string or retrieved to fit the implementation of the other fields.</p>
 </div>
@@ -1471,7 +1486,7 @@ setting was not toggled and thus is set to the same as it was before. Else, it w
 <div class="content">
 <img src="images/sortSeq.png" alt="sortSeq" width="900">
 </div>
-<div class="title">Figure 19. Sort Sequence Diagram</div>
+<div class="title">Figure 20. Sort Sequence Diagram</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1603,7 +1618,25 @@ If address book is empty, a <code>NoPlayerException</code> will be thrown by <co
 <p>We achieved the implementation of <code>Team</code> component by introducing a <code>UniqueTeamList</code> into the application which consists of a list of <code>Team</code> objects. <code>UniqueTeamList</code> is similar in context to <code>UniquePersonList</code> in which it keeps a unique list of all the <code>Team</code> objects. <code>Team</code> objects consist of <code>TeamName</code> object, which is used to uniquely identify the team. <code>Team</code> inherits <code>UniquePersonList</code> object which stores the a list of unique <code>Person</code> objects, containing information of the player.</p>
 </div>
 <div class="paragraph">
-<p>The class diagram below shoes the relationship between the related classes.</p>
+<p>The class diagrams below shoes the relationship between the related classes.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/TeamModelClassDiagram.png" alt="TeamModelClassDiagram" width="800">
+</div>
+<div class="title">Figure 21. Model Component: Team Class Diagram</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/TeamStorageClassDiagram.png" alt="TeamStorageClassDiagram" width="400">
+</div>
+<div class="title">Figure 22. Storage Component: Team Class Diagram</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/TeamUiClassDiagram.png" alt="TeamUiClassDiagram" width="400">
+</div>
+<div class="title">Figure 23. UI Component: Team Class Diagram</div>
 </div>
 <div class="paragraph">
 <p>Code snippet from <code>Team.java</code> that shows the constructor for <code>Team</code>.</p>
@@ -1810,6 +1843,18 @@ With these commands, the application is ready to support the features that the a
 <div class="paragraph">
 <p>The sequence diagram below illustrates the operation of the <code>create</code> command:</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="images/TeamCreateSequenceDiagram1.png" alt="TeamCreateSequenceDiagram1" width="100%">
+</div>
+<div class="title">Figure 24. Logic Component: Create Sequence Diagram</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/TeamCreateSequenceDiagram2.png" alt="TeamCreateSequenceDiagram2" width="70%">
+</div>
+<div class="title">Figure 25. Model Component: Create Sequence Diagram</div>
+</div>
 </div>
 <div class="sect5">
 <h6 id="code-view-code-views-a-code-team-code-which-shows-all-players-in-the-team"><a class="link" href="#code-view-code-views-a-code-team-code-which-shows-all-players-in-the-team"><code>view</code>: Views a <code>Team</code>, which shows all players in the team.</a></h6>
@@ -1818,6 +1863,12 @@ With these commands, the application is ready to support the features that the a
 </div>
 <div class="paragraph">
 <p>The sequence diagram below illustrates the operation of the <code>view</code> command:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/TeamViewSequenceDiagram.png" alt="TeamViewSequenceDiagram" width="100%">
+</div>
+<div class="title">Figure 26. View Sequence Diagram</div>
 </div>
 </div>
 <div class="sect5">
@@ -1830,6 +1881,18 @@ With these commands, the application is ready to support the features that the a
 </div>
 <div class="paragraph">
 <p>The sequence diagram below illustrates the operation of the <code>rename</code> command:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/TeamRenameSequenceDiagram1.png" alt="TeamRenameSequenceDiagram1" width="100%">
+</div>
+<div class="title">Figure 27. Logic Component: Rename Sequence Diagram</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/TeamRenameSequenceDiagram2.png" alt="TeamRenameSequenceDiagram2" width="70%">
+</div>
+<div class="title">Figure 28. Model Component: Rename Sequence Diagram</div>
 </div>
 </div>
 <div class="sect5">
@@ -1879,6 +1942,12 @@ With these commands, the application is ready to support the features that the a
 <div class="paragraph">
 <p>The sequence diagram below illustrates the operation of the <code>assign</code> command:</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="images/TeamAssignSequenceDiagram.png" alt="TeamAssignSequenceDiagram" width="100%">
+</div>
+<div class="title">Figure 29. Assign Sequence Diagram</div>
+</div>
 </div>
 <div class="sect5">
 <h6 id="code-remove-code-removes-the-given-code-team-code"><a class="link" href="#code-remove-code-removes-the-given-code-team-code"><code>remove</code>: Removes the given <code>Team</code>.</a></h6>
@@ -1887,6 +1956,18 @@ With these commands, the application is ready to support the features that the a
 </div>
 <div class="paragraph">
 <p>The sequence diagram below illustrates the operation of the <code>remove</code> command:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/TeamRemoveSequenceDiagram1.png" alt="TeamRemoveSequenceDiagram1" width="100%">
+</div>
+<div class="title">Figure 30. Logic Component: Remove Sequence Diagram</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/TeamRemoveSequenceDiagram2.png" alt="TeamRemoveSequenceDiagram2" width="70%">
+</div>
+<div class="title">Figure 31. Model Component: Remove Sequence Diagram</div>
 </div>
 </div>
 </div>
@@ -1987,7 +2068,7 @@ user preferences of MTM. Current lock state and password is stored in <code>User
 <div class="content">
 <img src="images/Keyactdiag.png" alt="Keyactdiag" width="900">
 </div>
-<div class="title">Figure 20. Key Activity Diagram</div>
+<div class="title">Figure 32. Key Activity Diagram</div>
 </div>
 <div class="paragraph">
 <p>Password checking done in <code>Key</code> command:</p>
@@ -2184,9 +2265,6 @@ Having the option to only entering the mandatory fields and leaving the optional
 <p>This mechanism enhances the original implementation of the <code>add</code> command.
 The required fields that are mandatory to be filled by the user are <code>n/NAME</code> and <code>e/EMAIL</code>.
 This implementation of making fields optional for <code>AddCommand</code> allows user to add players without their full information, and can be updated accordingly when the user retrieves their full information.</p>
-</div>
-<div class="paragraph">
-<p>The sequence diagram below illustrates the operation after the enhancement made to <code>add</code> command:</p>
 </div>
 <div class="paragraph">
 <p>Code snippet from <code>ParserUtil.java</code> that shows the implementation of when a field is left empty.
@@ -2723,7 +2801,7 @@ Alternatively, you can download the AsciiDoc plugin for IntelliJ, which allows y
 <div class="content">
 <img src="images/chrome_save_as_pdf.png" alt="chrome save as pdf" width="300">
 </div>
-<div class="title">Figure 21. Saving documentation as PDF files in Chrome</div>
+<div class="title">Figure 33. Saving documentation as PDF files in Chrome</div>
 </div>
 </div>
 </div>
@@ -2955,11 +3033,17 @@ b. Require developers to download those libraries manually (this creates extra w
 <div class="ulist">
 <ul>
 <li>
-<p>Major - Revamp MTM’s whole GUI for ease of viewing teams and players’ details<br>
-e.g. remove browser panel, add player details panel, change person card<br></p>
+<p>Major - Revamp MTM’s whole GUI for ease of viewing teams and players’ details.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>e.g. remove browser panel, add player details panel, change person card.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>Minor - Command to set the colour of tags to colour of choice</p>
+<p>Minor - Command to set the colour of tags to colour of choice.</p>
 </li>
 </ul>
 </div>
@@ -2969,10 +3053,14 @@ e.g. remove browser panel, add player details panel, change person card<br></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Major - Creation of Team and related functions.<br>
-e.g. assignment of players,
-viewing of teams,
-removal of team.</p>
+<p>Major - Implementation of Team Component and Related Functions.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>e.g. creation of team, assignment of players, viewing of teams, removal of team, renaming of team.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p>Minor</p>
@@ -2995,15 +3083,14 @@ removal of team.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Major</p>
+<p>Major - Create a new player class that contains more information about the players.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Create a new player class that contains more information about the players<br>
-e.g. Position, Rating (0 - 5 Star),  Remarks<br></p>
+<p>e.g. Position, Rating (0 - 5 Star),  Remarks</p>
 </li>
 <li>
-<p>Update add, edit ,list, sort to include these fields accordingly.<br></p>
+<p>Update add, edit ,list, sort to include these fields accordingly.</p>
 </li>
 </ul>
 </div>
@@ -3700,12 +3787,35 @@ Expected: Similar to previous.</p>
 <p><em>{ more test cases &#8230;&#8203; }</em></p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="team-related-functions"><a class="link" href="#team-related-functions">F.4. Team-Related Functions</a></h3>
+<div class="sect3">
+<h4 id="creating-a-team"><a class="link" href="#creating-a-team">F.4.1. Creating a Team</a></h4>
+
+</div>
+<div class="sect3">
+<h4 id="removing-a-team"><a class="link" href="#removing-a-team">F.4.2. Removing a Team</a></h4>
+
+</div>
+<div class="sect3">
+<h4 id="assigning-players-to-team"><a class="link" href="#assigning-players-to-team">F.4.3. Assigning Players to Team</a></h4>
+
+</div>
+<div class="sect3">
+<h4 id="renaming-a-team"><a class="link" href="#renaming-a-team">F.4.4. Renaming a Team</a></h4>
+
+</div>
+<div class="sect3">
+<h4 id="viewing-a-team"><a class="link" href="#viewing-a-team">F.4.5. Viewing a Team</a></h4>
+
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-14 23:01:19 UTC
+Last updated 2018-04-15 00:28:16 UTC
 </div>
 </div>
 </body>
