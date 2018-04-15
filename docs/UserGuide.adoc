@@ -779,6 +779,12 @@ Alias: `stc`
 ** i.e. You cannot `undo` a setTagCommand.
 * Instead, just enter `stc t/TAG tc/COLOUR` to change the colour back!
 ====
+
+[IMPORTANT]
+.*What to expect*
+====
+You will see the specified tags in the left panel change to the colour of your choice.
+====
 // end::setTagColour[]
 
 // tag::changeTheme[]
