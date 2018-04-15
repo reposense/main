@@ -1,6 +1,6 @@
 = My Team Manager - User Guide
 :toc:
-:toc-title:
+:toc-title: Table Of Contents
 :toclevels: 3
 :toc-placement: preamble
 :sectnums:
@@ -69,13 +69,9 @@ image::UIGuide.png[width="790"]
 . *Player List*: This is the list of player cards. In each player card, +
 * The player's _name_, _tags_, _team_, _rating_, followed by _position_ is displayed.
 * The player's _avatar_ is also shown on the right column.
-// end::introduction[]
 
 [[Using_Commands]]
 === Using Commands
-
-[[Features]]
-== Features
 
 .*Getting started with Commands*
 ****
@@ -115,9 +111,9 @@ IMPORTANT: This box will let you know the _outcome_ and what MTM should be *expe
 
 Now that you are familiar with the interface and using commands, you are now ready to begin using My Team Manager!
 
-=== Three steps to get started
+== Three steps to get started
 
-==== Add your first player
+=== Add your first player
 
 .  Add your first player, `Ronaldo` by typing the command `add n/Ronaldo e/Ronaldo@arsenal.com` in the command box and pressing kbd:[Enter] to execute it.
 
@@ -130,7 +126,7 @@ image::add.png[width="400"]
 TIP: The `Add` command has additional optional parameters for you to include more information. For the full list,
 refer to <<add, Adding a player>>.
 
-==== Create your first team
+=== Create your first team
 Now that you have a player, let's explore teams. Teams allow you to manage and group your players together according to
 the teams they belong to.
 
@@ -144,7 +140,7 @@ image::create.PNG[width="300"]
 - `Ronaldo` 's player card should now show NUS in the team field as shown in the white box labeled 2 above.
 - The player list shows only players assigned to the team `NUS`
 
-==== Viewing more details
+=== Viewing more details
 
 . View more details about a player, by entering `select` followed by the <<Index, `INDEX`>> of the player. For example, to view
 `Ronaldo` 's details, enter `select 1`.
@@ -160,9 +156,21 @@ There are also many ways you can customize and add to My Team Manager. Here are 
 .. <<toggleprivacy, Setting privacy>>
 .. <<sort, Sorting players in the list>>
 
+// end::introduction[]
+
+== Commands in My Team Manager
+
+Here you can find useful information regarding all the commands in My Team Manager.
+
+If you are not familiar on how to use commands yet, you can refer to <<Using_Commands>>
+
 === Fundamentals
 
 MTM provides tools that gives you the power to use MTM more efficiently and teach you how to navigate through MTM with ease.
+
+Enter commands more quickly with <<autocomplete,kbd:[tab] autocomplete>>, get <<help,help>> or find out how to <<undo,undo>> and <<redo,redo>> commands.
+
+You can also find information to secure your information in My Team Manger by <<togglePrivacy, toggling privacy>> or <<key,set a key to prevent tampering>>
 
 ==== Saving the data
 
@@ -331,6 +339,10 @@ You can exit the program by entering the 'exit' command.
 Format: `exit`
 
 === Player-Related Commands
+
+Here you can find commands to change your players and their information in My Team Manager +
+such as <<add,adding a player>>, <<edit,editing a player>> or <<remark,adding a remark>>.
+You can also find useful tools to <<find,find>> a player or <<sort,sort>> players in your list.
 
 // tag::addplayer[]
 [[add]]
@@ -566,6 +578,10 @@ Finds a player named `betsy` and selects the 1st player in the results of the `f
 
 === Team-Related Commands
 
+Here you can find commands to change your teams and their players in My Team Manager +
+such as <<create,creating a team>>, <<assign,assigning players to a team>> or <<rename,renaming a team>>.
+You can also find useful tools like <<view,viewing a team>>.
+
 // tag::create[]
 [[create]]
 ==== Creating a team: `create` `[Since v1.2]`
@@ -741,7 +757,9 @@ After typing the command, you will remove the the team from MTM and will be take
 image::TeamRemoveExampleAfter.png[width="700"]
 // end::remove[]
 
-=== User Experience Commands
+=== Appearance Commands
+
+Here you can find useful commands to change the look of My Team Manager to <<setTagColour, set the colour of your tags>> and <<changeTeam,change the theme>>.
 
 // tag::setTagColour[]
 [[setTagColour]]
@@ -1053,7 +1071,7 @@ d|List all the players
 
 |===
 
-=== User Experience Commands
+=== Appearance Commands
 
 [width="100%", cols="^1s, ^1s, <2m, <2m", options="header"]
 |===

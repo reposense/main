@@ -39,7 +39,7 @@ Say goodbye to manual tracking of information on excel sheet after excel sheet!
 
 * Set up Teams
 * Add Players to Teams
-* Add Player's personal details, position, season statistics, demerits, etc.
+* Add Player's personal details, position, rating, avatar etc.
 * View, Edit and Delete Players
 * Sort players by field of choice
 * Manage Schedule of Teams
