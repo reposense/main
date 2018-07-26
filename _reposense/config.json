@@ -4,22 +4,26 @@
 		{
 			"githubId": "lithiumlkid",
 			"displayName": "Ahm",
-			"authorNames": []
+			"authorNames": [],
+			"ignoreGlobList": []
 		},
 		{
 			"githubId": "codeeong",
 			"displayName": "Cod",
-			"authorNames": []
+			"authorNames": [],
+			"ignoreGlobList": []
 		},
 		{
 			"githubId": "jordancjq",
 			"displayName": "Jor",
-			"authorNames": []
+			"authorNames": [],
+			"ignoreGlobList": []
 		},
 		{
 			"githubId": "lohtianwei",
 			"displayName": "Loh",
-			"authorNames": []
+			"authorNames": [],
+			"ignoreGlobList": []
 		}
 	]
 }
