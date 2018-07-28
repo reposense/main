@@ -6,13 +6,13 @@
 			"githubId": "lithiumlkid",
 			"displayName": "Ahm",
 			"authorNames": ["Ahmad Syafiq"],
-			"ignoreGlobList": []
+			"ignoreGlobList": ["*.aa1", "*.aa2"]
 		},
 		{
 			"githubId": "codeeong",
 			"displayName": "Cod",
 			"authorNames": ["Codee"],
-			"ignoreGlobList": []
+			"ignoreGlobList": ["*.bb1"]
 		},
 		{
 			"githubId": "jordancjq",
@@ -23,8 +23,7 @@
 		{
 			"githubId": "lohtianwei",
 			"displayName": "Loh",
-			"authorNames": ["Tianwei"],
-			"ignoreGlobList": []
+			"authorNames": ["Tianwei"]
 		}
 	]
 }
