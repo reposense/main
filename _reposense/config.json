@@ -6,13 +6,13 @@
 			"githubId": "lithiumlkid",
 			"displayName": "Ahm",
 			"authorNames": ["Ahmad Syafiq"],
-			"ignoreGlobList": ["*.aa1", "*.aa2"]
+			"ignoreGlobList": ["*.aa1", "**.aa2"]
 		},
 		{
 			"githubId": "codeeong",
 			"displayName": "Cod",
 			"authorNames": ["Codee"],
-			"ignoreGlobList": [".bb1"]
+			"ignoreGlobList": [""]
 		},
 		{
 			"githubId": "jordancjq",
