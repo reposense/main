@@ -1,18 +1,18 @@
 {
-	"ignoreGlobList": ["collated**"],
+	"ignoreGlobList": ["**collated**"],
 	"authors":
 	[
 		{
 			"githubId": "lithiumlkid",
 			"displayName": "Ahm",
 			"authorNames": ["Ahmad Syafiq"],
-			"ignoreGlobList": ["**.java", "**.aa2"]
+			"ignoreGlobList": ["**.aa1", "**.aa2"]
 		},
 		{
 			"githubId": "codeeong",
 			"displayName": "Cod",
 			"authorNames": ["Codee"],
-			"ignoreGlobList": ["[!**.md]"]
+			"ignoreGlobList": ["**.[!md]"]
 		},
 		{
 			"githubId": "jordancjq",
