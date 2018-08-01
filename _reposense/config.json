@@ -12,20 +12,18 @@
 			"githubId": "codeeong",
 			"displayName": "Cod",
 			"authorNames": ["Codee"],
-			"ignoreGlobList": []
+			"ignoreGlobList": ["!**.md"]
 		},
 		{
 			"githubId": "jordancjq",
 			"displayName": "Jor",
 			"authorNames": ["Jordan Chong"],
-			"ignoreGlobList": []
+			"ignoreGlobList": [""]
 		},
 		{
 			"githubId": "lohtianwei",
 			"displayName": "Loh",
 			"authorNames": ["Tianwei"],
-			"ignoreGlobList": []
 		}
 	]
 }
-pyc
