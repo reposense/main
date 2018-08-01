@@ -1,5 +1,5 @@
 {
-	"ignoreGlobList": ["*.pyc"],
+	"ignoreGlobList": ["collated"],
 	"authors":
 	[
 		{
@@ -28,3 +28,4 @@
 		}
 	]
 }
+pyc
