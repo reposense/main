@@ -1,5 +1,6 @@
 {
 	"ignoreGlobList": ["collated**"],
+	"formats": ["java", "adoc", "md"],
 	"authors":
 	[
 		{
