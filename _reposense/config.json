@@ -7,9 +7,9 @@
 	"authors":
 	[
 		{
-			"githubId": "a-syafiq",
+			"githubId": "lithiumlkid",
 			"displayName": "Ahm",
-			"authorNames": ["lithiumlkid", "Ahmad Syafiq"],
+			"authorNames": ["Ahmad Syafiq"],
 			"ignoreGlobList": ["*.aa1", "**.aa2", "**.java"]
 		},
 		{
