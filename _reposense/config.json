@@ -14,15 +14,14 @@
 		},
 		{
 			"githubId": "codeeong",
-			"displayName": "Cod",
-			"authorNames": ["Codee"],
-			"ignoreGlobList": ["**[!(.md)]"]
+			"emails": ["codeeong@gmail.com", "33129797+codeeong@users.noreply.github.com"],
+			"displayName": "Cod"
 		},
 		{
 			"githubId": "jordancjq",
 			"displayName": "Jor",
 			"authorNames": ["Jordan Chong"],
-			"ignoreGlobList": [""]
+			"ignoreGlobList": ["**[!(.md)]"]
 		},
 		{
 			"githubId": "lohtianwei",
