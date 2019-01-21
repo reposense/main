@@ -15,6 +15,7 @@
 		{
 			"githubId": "codeeong",
 			"emails": ["codeeong@gmail.com", "33129797+codeeong@users.noreply.github.com"],
+			"ignoreGlobList": [""],
 			"displayName": "Cod"
 		},
 		{
