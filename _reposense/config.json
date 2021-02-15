@@ -5,29 +5,6 @@
 			    "626e998d89bc5ab158b35b00c1f86a1190c8e90d"],
 	"authors":
 	[
-		{
-			"githubId": "lithiumlkid",
-			"displayName": "Ahm",
-			"authorNames": ["Ahmad Syafiq"],
-			"ignoreGlobList": ["*.aa1", "**.aa2", "**.java"]
-		},
-		{
-			"githubId": "codeeong",
-			"emails": ["codeeong@gmail.com", "33129797+codeeong@users.noreply.github.com"],
-			"ignoreGlobList": [""],
-			"displayName": "Cod"
-		},
-		{
-			"githubId": "jordancjq",
-			"displayName": "Jor",
-			"authorNames": ["Jordan Chong"],
-			"ignoreGlobList": ["**[!(.md)]"]
-		},
-		{
-			"githubId": "lohtianwei",
-			"displayName": "Loh",
-			"authorNames": ["Tianwei"]
-		}
         {
             "githubId": "HCY123902",
             "displayName": "hcy"
