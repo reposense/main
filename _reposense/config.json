@@ -3,7 +3,6 @@
 	"ignoreCommitList":["15f4d36a4ed8e9fa2e40e13165c387bd94afeb02",
 			    "385ad8a8a7f7e29c3605005f4727105421fb54e2",
 			    "626e998d89bc5ab158b35b00c1f86a1190c8e90d"],
-	"formats": ["java", "adoc", "md"],
 	"authors":
 	[
 		{
@@ -29,5 +28,9 @@
 			"displayName": "Loh",
 			"authorNames": ["Tianwei"]
 		}
+        {
+            "githubId": "HCY123902",
+            "displayName": "hcy"
+        }
 	]
 }
