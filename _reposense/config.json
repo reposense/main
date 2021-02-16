@@ -21,7 +21,7 @@
 			"githubId": "jordancjq",
 			"displayName": "Jor",
 			"authorNames": ["Jordan Chong"],
-			"ignoreGlobList": ["**[!(.md)]"]
+			"ignoreGlobList": ["**.java"]
 		},
 		{
 			"githubId": "lohtianwei",
